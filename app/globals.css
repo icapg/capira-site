@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --capira-brand: #224bd6;
+  --capira-brand-hover: #1f3fae;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+::selection {
+  background: rgba(24, 24, 27, 0.12);
+}
