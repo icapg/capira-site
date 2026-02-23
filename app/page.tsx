@@ -7,36 +7,36 @@ const solutionPaths = [
     href: "/residencial",
     title: "Residencial y comunidades",
     emoji: "\u{1F3E0}",
-    description: "Viviendas, garajes y edificios con soluciones de carga a medida.",
+    description: "Viviendas, garajes y edificios: soluciones de carga a medida.",
   },
   {
     href: "/comercios",
     title: "Comercios",
     emoji: "\u{1F3EC}",
     description:
-      "Carga para clientes y empleados con integracion operativa y modelo de ingresos.",
+      "Carga para tus clientes y empleados con integración operativa y nuevos modelos de ingresos.",
   },
   {
     href: "/flotas",
     title: "Flotas",
     emoji: "\u{1F690}",
     description:
-      "Dimensionamiento energia vs potencia, disponibilidad, optimizacion de TCO y opciones de financiación.",
+      "Diseño a medida, optimizando TCO para actualizar la flota de forma sostenible con diversas opciones de financiación.",
   },
   {
     href: "/cpo",
     title: "CPO / Operadores",
     emoji: "\u{1F50C}",
-    description: "Ubicaciones, ingenieria, instalacion, operacion, SLA e integraciones.",
+    description: "Ubicaciones, ingeniería, instalación, operación, SLA e integraciones.",
   },
 ];
 
 const capabilities = [
-  { title: "Diseno tecnico-economico", icon: "📐" },
-  { title: "Instalacion", icon: "🛠️" },
-  { title: "Financiamiento", icon: "💳" },
+  { title: "Diseño técnico-económico", icon: "📐" },
+  { title: "Instalación", icon: "🛠️" },
+  { title: "Financiación", icon: "💳" },
   { title: "Mantenimiento", icon: "🔧" },
-  { title: "Operacion 24/7", icon: "🕒" },
+  { title: "Operación 24/7", icon: "🕒" },
   { title: "Rentabilidad", icon: "📈" },
 ];
 
@@ -48,7 +48,7 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
             <div>
               <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
-                Movilidad elétrica con criterio técnico y de negocio
+                Movilidad eléctrica con criterio técnico y de negocio
               </h1>
 
               <p className="mt-6 max-w-2xl text-base text-zinc-600 sm:text-lg">
@@ -56,7 +56,7 @@ export default function Home() {
                 <span className="font-semibold text-zinc-900">
                   hogares, comercios, flotas y operadores (CPOs)
                 </span>
-                , alineando decisiones tecnicas, economicas y operativas.
+                , alineando decisiones técnicas, económicas y operativas.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -86,40 +86,37 @@ export default function Home() {
       </section>
 
       <Section className="border-y border-zinc-200 bg-zinc-50 py-10 sm:py-14">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">SEGMENTOS</h2>
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch">
+          <div className="flex h-full flex-col">
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
+              Ecosistema de soluciones
+            </h2>
             
-            <div className="mt-6">
-              <Button href="/soluciones" variant="secondary">
-                Ver mapa completo de soluciones
-              </Button>
-            </div>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="mt-6 flex-1 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
               <Image
                 src="/images/Home%203.png"
-                alt="Auto electrico cargando"
+                alt="Auto eléctrico cargando"
                 width={1200}
                 height={700}
-                className="h-auto w-full"
+                className="h-full w-full object-cover"
               />
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {solutionPaths.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="group block rounded-2xl border border-zinc-200 bg-white p-5 transition duration-200 ease-out will-change-transform hover:scale-[1.02] hover:border-zinc-300 hover:shadow-md focus-visible:scale-[1.02] focus-visible:border-zinc-400 focus-visible:shadow-md focus-visible:outline-none"
+                className="group block rounded-2xl border border-zinc-200 bg-white p-4 transition duration-200 ease-out will-change-transform hover:scale-[1.01] hover:border-zinc-300 hover:shadow-md focus-visible:scale-[1.01] focus-visible:border-zinc-400 focus-visible:shadow-md focus-visible:outline-none"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="flex items-center gap-2 text-base font-semibold text-zinc-900">
-                      <span className="text-lg">{item.emoji}</span>
+                    <h3 className="flex items-center gap-2 text-sm font-semibold text-zinc-900 sm:text-base">
+                      <span className="text-base sm:text-lg">{item.emoji}</span>
                       <span>{item.title}</span>
                     </h3>
-                    <p className="mt-2 text-sm leading-6 text-zinc-600">{item.description}</p>
+                    <p className="mt-1.5 text-sm leading-5 text-zinc-600">{item.description}</p>
                   </div>
                   <span className="mt-0.5 text-sm font-medium text-zinc-800 transition-transform group-hover:translate-x-1">
                     Ver
@@ -136,10 +133,10 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
-                Queres evaluar tu proyecto de carga?
+                ¿Quieres evaluar tu proyecto de carga?
               </h2>
               <p className="mt-3 max-w-2xl text-zinc-600">
-                Te ayudamos a definir por donde empezar y cual es la solucion adecuada para tu
+                Te ayudamos a definir por dónde empezar y cuál es la solución adecuada para tu
                 contexto.
               </p>
             </div>
@@ -158,23 +155,23 @@ export default function Home() {
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-600">
-              Diagnostico
+              Diagnóstico
             </h3>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
-              Relevamiento tecnico, necesidad real de uso vs recursos necesarios.
+              Relevamiento técnico, necesidad real de uso vs. recursos necesarios.
             </p>
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-600">
-              Decision
+              Decisión
             </h3>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
-              Evaluamos CAPEX vs OPEX, financiamiento, retorno y escalabilidad antes de ejecutar.
+              Evaluamos CAPEX vs. OPEX, financiación, retorno y escalabilidad antes de ejecutar.
             </p>
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-600">
-              Operacion
+              Operación
             </h3>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
               Monitoreo, soporte y SLA para sostener calidad de servicio.

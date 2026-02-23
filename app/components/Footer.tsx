@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -6,12 +7,22 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-zinc-900">CAPIRA</p>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Integramos experiencia técnica, operativa y comercial para
-              diseñar e implementar soluciones de movilidad eléctrica asegurando una
-              transición sostenible.
-            </p>
+            <div className="mt-3 grid grid-cols-[84px_1fr] items-start gap-0">
+              <div className="flex flex-col items-start">
+                <Image
+                  src="/images/logo-capira.png"
+                  alt="Logo CAPIRA"
+                  width={112}
+                  height={112}
+                  className="h-28 w-20 shrink-0 object-contain object-left"
+                />
+              </div>
+              <p className="text-justify text-sm leading-6 text-zinc-600">
+                Integramos experiencia técnica, operativa y comercial para
+                diseñar e implementar soluciones de movilidad eléctrica asegurando una
+                transición sostenible.
+              </p>
+            </div>
           </div>
 
           <div>

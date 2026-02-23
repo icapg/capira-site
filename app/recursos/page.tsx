@@ -5,7 +5,7 @@ import ResourceRows from "./ResourceRows";
 export const metadata: Metadata = {
   title: "Recursos",
   description:
-    "Recursos por segmento para evaluar movilidad electrica: general, residencial, comercios y flotas.",
+    "Recursos por segmento para evaluar movilidad eléctrica: general, residencial, comercios y flotas.",
 };
 
 export default function RecursosPage() {

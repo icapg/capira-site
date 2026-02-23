@@ -4,16 +4,17 @@ import { Section } from "../components/ui/Section";
 
 const capabilities = [
   {
+    title: "Ubicaciones",
+    description: "Búsqueda de ubicaciones en territorio elegido para instalar cargadores.",
+  },
+  {
+    title: "Instalación",
+    description:
+      "Planificación, anteproyecto, instalación, legalización y puesta en marcha de la infraestructura.",
+  },
+  {
     title: "Operación & SLA",
     description: "Monitoreo, alarmas y gestión de incidencias para alta disponibilidad.",
-  },
-  {
-    title: "Soporte y trazabilidad",
-    description: "Flujos de soporte, historial y resolución con datos para mejorar calidad.",
-  },
-  {
-    title: "Revenue & conciliación",
-    description: "Estructura tarifaria, reportes y conciliación para control financiero.",
   },
   {
     title: "Integraciones (OCPP/APIs)",

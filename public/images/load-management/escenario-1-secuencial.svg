@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" fill="none">
+  <rect width="1200" height="520" fill="#F8FAFC"/>
+  <text x="40" y="54" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#111827">
+    Escenario 1: Carga secuencial por turnos
+  </text>
+  <text x="40" y="86" font-family="Arial, sans-serif" font-size="18" fill="#475569">
+    Objetivo: repartir la noche en bloques para evitar picos simultaneos.
+  </text>
+
+  <rect x="40" y="120" width="760" height="320" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <line x1="110" y1="390" x2="760" y2="390" stroke="#94A3B8" stroke-width="2"/>
+  <line x1="110" y1="170" x2="110" y2="390" stroke="#94A3B8" stroke-width="2"/>
+  <text x="70" y="170" font-family="Arial, sans-serif" font-size="14" fill="#64748B">kW</text>
+  <text x="742" y="415" font-family="Arial, sans-serif" font-size="14" fill="#64748B">Hora</text>
+
+  <rect x="130" y="280" width="180" height="110" fill="#0EA5E9"/>
+  <text x="154" y="272" font-family="Arial, sans-serif" font-size="14" fill="#0F172A">Turno A</text>
+
+  <rect x="330" y="235" width="180" height="155" fill="#22C55E"/>
+  <text x="354" y="227" font-family="Arial, sans-serif" font-size="14" fill="#0F172A">Turno B</text>
+
+  <rect x="530" y="260" width="180" height="130" fill="#F59E0B"/>
+  <text x="554" y="252" font-family="Arial, sans-serif" font-size="14" fill="#0F172A">Turno C</text>
+
+  <line x1="130" y1="230" x2="710" y2="230" stroke="#EF4444" stroke-dasharray="8 8" stroke-width="3"/>
+  <text x="564" y="220" font-family="Arial, sans-serif" font-size="13" fill="#B91C1C">Límite de potencia del sitio</text>
+
+  <rect x="830" y="120" width="330" height="320" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="854" y="160" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0F172A">
+    Lógica de control
+  </text>
+  <text x="854" y="198" font-family="Arial, sans-serif" font-size="16" fill="#334155">1. Agrupar vehículos por ventana</text>
+  <text x="854" y="226" font-family="Arial, sans-serif" font-size="16" fill="#334155">2. Activar bloque por horario</text>
+  <text x="854" y="254" font-family="Arial, sans-serif" font-size="16" fill="#334155">3. Mantener kW total bajo umbral</text>
+  <text x="854" y="282" font-family="Arial, sans-serif" font-size="16" fill="#334155">4. Confirmar SOC objetivo al cierre</text>
+
+  <rect x="854" y="314" width="282" height="92" rx="10" fill="#F1F5F9"/>
+  <text x="870" y="346" font-family="Arial, sans-serif" font-size="15" fill="#0F172A">
+    Ventaja: implementación simple
+  </text>
+  <text x="870" y="370" font-family="Arial, sans-serif" font-size="15" fill="#0F172A">
+    Riesgo: menos flexible ante cambios
+  </text>
+</svg>

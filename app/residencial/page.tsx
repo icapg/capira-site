@@ -35,7 +35,7 @@ export default function B2CPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/recursos/presupuesto"
+                  href="/contacto"
                   className="rounded-md bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-zinc-800"
                 >
                   Hablar con un especialista

@@ -2,11 +2,11 @@
 
 import { useId, useMemo, useState } from "react";
 
-type CarType = "Hibrido enchufable" | "100% electrico";
+type CarType = "Híbrido enchufable" | "100% eléctrico";
 type KmSemana = "0-50" | "50-150" | "150-300" | ">300";
-type Instalacion = "Monofasica" | "Trifasica" | "No lo se";
-type Potencia = "No lo se" | "7,4 kW" | "11 kW" | "22 kW";
-type Solar = "Si" | "No";
+type Instalacion = "Monofásica" | "Trifásica" | "No lo sé";
+type Potencia = "No lo sé" | "7,4 kW" | "11 kW" | "22 kW";
+type Solar = "Sí" | "No";
 
 type FormState = {
   tipoCoche: CarType | "";
@@ -179,8 +179,8 @@ export default function ElegirCargadorQuickForm() {
         <RadioRow
           number={1}
           emoji="🚗"
-          title="Que tipo de coche tienes o quieres comprar?"
-          options={["Hibrido enchufable", "100% electrico"]}
+          title="¿Qué tipo de coche tienes o quieres comprar?"
+          options={["Híbrido enchufable", "100% eléctrico"]}
           value={form.tipoCoche}
           onChange={(v) => setField("tipoCoche", v as CarType)}
         />
@@ -188,8 +188,8 @@ export default function ElegirCargadorQuickForm() {
         <RadioRow
           number={3}
           emoji="🏠"
-          title="Como es tu instalacion electrica?"
-          options={["Monofasica", "Trifasica", "No lo se"]}
+          title="¿Cómo es tu instalación eléctrica?"
+          options={["Monofásica", "Trifásica", "No lo sé"]}
           value={form.instalacion}
           onChange={(v) => setField("instalacion", v as Instalacion)}
         />
@@ -197,8 +197,8 @@ export default function ElegirCargadorQuickForm() {
         <RadioRow
           number={4}
           emoji="⚡"
-          title="Que potencia de carga admite tu coche en corriente alterna?"
-          options={["No lo se", "7,4 kW", "11 kW", "22 kW"]}
+          title="¿Qué potencia de carga admite tu coche en corriente alterna?"
+          options={["No lo sé", "7,4 kW", "11 kW", "22 kW"]}
           value={form.potenciaCoche}
           onChange={(v) => setField("potenciaCoche", v as Potencia)}
         />
@@ -206,8 +206,8 @@ export default function ElegirCargadorQuickForm() {
         <RadioRow
           number={5}
           emoji="☀️"
-          title="Requiere integrarlo con placas solares?"
-          options={["Si", "No"]}
+          title="¿Requiere integrarlo con placas solares?"
+          options={["Sí", "No"]}
           value={form.solar}
           onChange={(v) => setField("solar", v as Solar)}
         />
@@ -216,7 +216,7 @@ export default function ElegirCargadorQuickForm() {
           <KmSlider
             number={2}
             emoji="🛣️"
-            title="Cuantos km realizas por semana aproximadamente?"
+            title="¿Cuántos km realizas por semana aproximadamente?"
             marks={kmMarks}
             valuePos={form.kmSemana === "" ? 0 : kmPosFromLabel[form.kmSemana]}
             onChangePos={handleKmPosChange}
@@ -234,7 +234,7 @@ export default function ElegirCargadorQuickForm() {
                 : "cursor-not-allowed bg-zinc-300 text-zinc-500"
             }`}
           >
-            Calcular recomendacion
+            Calcular recomendación
           </button>
         </div>
       </div>

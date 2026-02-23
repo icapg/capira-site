@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const NAV = [
   { href: "/soluciones", label: "Soluciones" },
-  { href: "/casos", label: "Casos" },
   { href: "/recursos", label: "Recursos" },
   { href: "/sobre-capira", label: "Sobre CAPIRA" },
   { href: "/contacto", label: "Contacto" },
@@ -28,8 +28,18 @@ export function Header() {
   return (
     <header className="border-b border-zinc-200 bg-white/70 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
-        <Link href="/" className="text-lg font-semibold text-zinc-900 hover:opacity-80 active:opacity-60 transition">
-          CAPIRA
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-lg font-semibold text-zinc-900 transition hover:opacity-80 active:opacity-60"
+        >
+          <span>CAPIRA</span>
+          <Image
+            src="/images/logo-capira.png"
+            alt="Logo CAPIRA"
+            width={24}
+            height={24}
+            className="h-[2.5em] w-auto"
+          />
         </Link>
 
         {/* Desktop */}

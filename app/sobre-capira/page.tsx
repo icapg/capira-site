@@ -17,10 +17,11 @@ const values = [
 ];
 
 const highlights = [
-  "Experiencia internacional en Europa y Latinoamérica",
-  "Acompañamiento integral: técnico + comercial",
-  "Decisiones orientadas a evitar errores costosos",
-  "Enfoque en transiciones sostenibles y rentables",
+  "🌍 Experiencia internacional en Europa y Latinoamérica",
+  "🤝 Acompañamiento integral: técnico + comercial",
+  "🧭 Decisiones orientadas a evitar errores costosos",
+  "♻️ Enfoque en transiciones sostenibles y rentables",
+  "💶 Estructuración y búsqueda de financiación",
 ];
 
 export default function SobreCapiraPage() {
@@ -110,12 +111,12 @@ export default function SobreCapiraPage() {
               Impulsar una transición bien hecha
             </h2>
             <p className="mt-3 text-sm leading-7 text-zinc-600">
-              Queremos acelerar la transición hacia una movilidad sostenible en España y LATAM
+              Queremos acelerar la transición hacia una movilidad sostenible en Europa y LATAM
               con proyectos bien diseñados, escalables y preparados para el largo plazo.
             </p>
             <p className="mt-3 text-sm leading-7 text-zinc-600">
-              No se trata solo de instalar cargadores: se trata de construir infraestructura que
-              funcione en operación real.
+              No se trata solo de instalar cargadores: se trata de crear infraestructura
+              sostenible en el tiempo, tanto operativa como económicamente.
             </p>
           </article>
 
@@ -143,8 +144,8 @@ export default function SobreCapiraPage() {
       </Section>
 
       <Section className="border-y border-zinc-200 bg-zinc-50 py-10 sm:py-14">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-start">
-          <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-stretch">
+          <div className="h-full rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
               Nuestro expertise, de lo técnico a lo comercial
             </h2>
@@ -163,7 +164,7 @@ export default function SobreCapiraPage() {
             </p>
           </div>
 
-          <aside className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+          <aside className="h-full rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--capira-brand)]">
               Enfoque CAPIRA
             </p>

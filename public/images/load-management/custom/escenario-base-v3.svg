@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="560" fill="url(#bg)"/>
+  <text x="44" y="56" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0F172A">
+    Escenario Base: alta simultaneidad de carga
+  </text>
+  <text x="44" y="88" font-family="Arial, sans-serif" font-size="18" fill="#334155">
+    Muchos vehículos conectan al mismo tiempo y generan picos cuando la energía es más cara.
+  </text>
+
+  <rect x="40" y="120" width="760" height="380" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <line x1="110" y1="460" x2="760" y2="460" stroke="#94A3B8" stroke-width="2"/>
+  <line x1="110" y1="170" x2="110" y2="460" stroke="#94A3B8" stroke-width="2"/>
+  <text x="72" y="172" font-family="Arial, sans-serif" font-size="14" fill="#64748B">kW</text>
+  <text x="734" y="484" font-family="Arial, sans-serif" font-size="14" fill="#64748B">Tiempo</text>
+
+  <line x1="130" y1="255" x2="736" y2="255" stroke="#DC2626" stroke-width="3" stroke-dasharray="8 8"/>
+  <rect x="544" y="224" width="188" height="22" rx="6" fill="#FEE2E2"/>
+  <text x="638" y="239" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#B91C1C">Límite de conexión</text>
+
+  <path d="M130 430 L170 424 L210 402 L250 322 L290 246 L330 214 L370 224 L410 248 L450 286 L490 338 L530 360 L570 334 L610 292 L650 250 L690 230 L730 242"
+        fill="none" stroke="#2563EB" stroke-width="5" stroke-linecap="round"/>
+
+  <rect x="340" y="184" width="150" height="36" rx="8" fill="#DBEAFE"/>
+  <text x="352" y="208" font-family="Arial, sans-serif" font-size="14" fill="#1E3A8A">Llegada simultánea</text>
+
+  <rect x="520" y="210" width="170" height="36" rx="8" fill="#FEE2E2"/>
+  <text x="534" y="234" font-family="Arial, sans-serif" font-size="14" fill="#991B1B">Pico sobre umbral</text>
+
+  <rect x="840" y="120" width="320" height="380" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="864" y="164" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Impacto económico</text>
+
+  <rect x="864" y="188" width="272" height="100" rx="12" fill="#FEF2F2"/>
+  <text x="882" y="220" font-family="Arial, sans-serif" font-size="15" fill="#7F1D1D">CAPEX ↑</text>
+  <text x="882" y="244" font-family="Arial, sans-serif" font-size="13" fill="#7F1D1D">Mayor potencia de conexión</text>
+  <text x="882" y="264" font-family="Arial, sans-serif" font-size="13" fill="#7F1D1D">y equipamiento</text>
+
+  <rect x="864" y="292" width="272" height="90" rx="12" fill="#FFF7ED"/>
+  <text x="882" y="324" font-family="Arial, sans-serif" font-size="15" fill="#9A3412">OPEX ↑</text>
+  <text x="882" y="350" font-family="Arial, sans-serif" font-size="14" fill="#9A3412">Más consumo en horas de precio alto</text>
+
+  <rect x="864" y="398" width="272" height="92" rx="12" fill="#EFF6FF"/>
+  <text x="882" y="428" font-family="Arial, sans-serif" font-size="15" fill="#1E3A8A">Riesgo operativo</text>
+  <text x="882" y="452" font-family="Arial, sans-serif" font-size="13" fill="#1E3A8A">Sobrecargas y menor margen</text>
+  <text x="882" y="472" font-family="Arial, sans-serif" font-size="13" fill="#1E3A8A">de maniobra</text>
+</svg>

@@ -69,8 +69,8 @@ export default function ComerciosPage() {
             <h2 className="mt-2 text-2xl font-semibold text-zinc-900">Sin inversión: asociación con CPO</h2>
             <p className="mt-3 text-sm leading-6 text-zinc-600">
               Un CPO (Charge Point Operator) es un operador de puntos de recarga que busca
-              asociarse con comercios para instalar cargadores en distintas ubicaciones del país
-              haciendose cargo todo el CAPEX y OPEX. Es la opción con menor dolor de cabeza y sin
+              asociarse con comercios para instalar cargadores en distintas ubicaciones del país,
+              haciéndose cargo de todo el CAPEX y OPEX. Es la opción con menor dolor de cabeza y sin
               inversión inicial, aunque la que menores rendimientos ofrece a lo largo del contrato.
             </p>
 
@@ -215,7 +215,7 @@ export default function ComerciosPage() {
               <tbody className="divide-y divide-zinc-200">
                 <tr>
                   <td className="px-3 py-2">💸 Inversión inicial</td>
-                  <td className="border-l border-zinc-200 px-3 py-2 text-center">Cero</td>
+                  <td className="border-l border-zinc-200 px-3 py-2 text-center">CPO</td>
                   <td className="border-l border-zinc-200 px-3 py-2 text-center">Comercio</td>
                 </tr>
                 <tr>

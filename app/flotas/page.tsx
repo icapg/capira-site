@@ -243,7 +243,7 @@ export default function FlotasPage() {
 
           <div className="mt-6">
             <Link
-              href="/#contacto"
+              href="/contacto"
               className="inline-block rounded-2xl bg-zinc-900 px-7 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800"
             >
               Hablar con CAPIRA

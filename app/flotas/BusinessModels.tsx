@@ -95,7 +95,10 @@ export default function BusinessModels() {
   );
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-zinc-300 bg-zinc-50 shadow-sm">
+    <div
+      id="modelos-inversion"
+      className="relative overflow-hidden rounded-[2rem] border border-zinc-300 bg-zinc-50 shadow-sm"
+    >
       {/* Glow sutil */}
       <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-zinc-200/60 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 right-[-6rem] h-72 w-72 rounded-full bg-zinc-200/40 blur-3xl" />

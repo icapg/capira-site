@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" fill="none">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#ECFEFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="560" fill="url(#bg2)"/>
+  <text x="44" y="56" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0F172A">
+    Solución 1: Load Balancing (balanceo dinámico)
+  </text>
+  <text x="44" y="88" font-family="Arial, sans-serif" font-size="18" fill="#334155">
+    Se reparte potencia entre cargadores para mantener el sitio por debajo del límite contratado.
+  </text>
+
+  <rect x="40" y="120" width="760" height="380" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <line x1="110" y1="460" x2="760" y2="460" stroke="#94A3B8" stroke-width="2"/>
+  <line x1="110" y1="170" x2="110" y2="460" stroke="#94A3B8" stroke-width="2"/>
+  <text x="72" y="172" font-family="Arial, sans-serif" font-size="14" fill="#64748B">kW</text>
+  <text x="734" y="484" font-family="Arial, sans-serif" font-size="14" fill="#64748B">Tiempo</text>
+
+  <line x1="130" y1="255" x2="736" y2="255" stroke="#16A34A" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="530" y="243" font-family="Arial, sans-serif" font-size="13" fill="#166534">Límite de sitio</text>
+
+  <path d="M130 430 L170 422 L210 404 L250 362 L290 318 L330 292 L370 286 L410 292 L450 302 L490 312 L530 324 L570 320 L610 310 L650 300 L690 292 L730 298"
+        fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round"/>
+
+  <rect x="332" y="270" width="212" height="38" rx="8" fill="#DCFCE7"/>
+  <text x="346" y="294" font-family="Arial, sans-serif" font-size="14" fill="#14532D">
+    Picos recortados por controlador
+  </text>
+
+  <rect x="840" y="120" width="320" height="380" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="864" y="164" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Resultados típicos</text>
+
+  <rect x="864" y="188" width="272" height="92" rx="12" fill="#ECFDF5"/>
+  <text x="882" y="220" font-family="Arial, sans-serif" font-size="15" fill="#14532D">Conexión requerida ↓</text>
+  <text x="882" y="246" font-family="Arial, sans-serif" font-size="14" fill="#14532D">Ejemplo del caso: 4,6 MW -> 1,72 MW</text>
+
+  <rect x="864" y="292" width="272" height="92" rx="12" fill="#EFF6FF"/>
+  <text x="882" y="324" font-family="Arial, sans-serif" font-size="15" fill="#1E3A8A">CAPEX optimizado</text>
+  <text x="882" y="350" font-family="Arial, sans-serif" font-size="14" fill="#1E3A8A">Menor refuerzo de red e infraestructura</text>
+
+  <rect x="864" y="396" width="272" height="84" rx="12" fill="#FFFBEB"/>
+  <text x="882" y="428" font-family="Arial, sans-serif" font-size="15" fill="#92400E">Operación estable</text>
+  <text x="882" y="454" font-family="Arial, sans-serif" font-size="14" fill="#92400E">Sin exceder umbrales de sitio</text>
+</svg>
