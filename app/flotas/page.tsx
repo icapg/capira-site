@@ -1,14 +1,32 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { Section } from "../components/ui/Section";
-import BusinessModels from "./BusinessModels";
+
+const BusinessModels = dynamic(() => import("./BusinessModels"), {
+  loading: () => (
+    <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm">
+      Cargando modelos de inversión...
+    </div>
+  ),
+});
 
 
 export const metadata: Metadata = {
   title: "Flotas | Capira",
   description:
     "Electrificación de flotas a escala. Reducimos TCO y riesgo operativo con ingeniería eléctrica, estrategia energética y carga inteligente.",
+  keywords: [
+    "electrificación de flotas",
+    "infraestructura de carga para flotas",
+    "TCO flotas eléctricas",
+    "carga inteligente flotas",
+    "optimización energética flotas",
+  ],
+  alternates: {
+    canonical: "/flotas",
+  },
 };
 
 /* ---------- UI helpers ---------- */
@@ -51,14 +69,14 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-50 text-lg">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm transition hover:shadow-md sm:rounded-3xl sm:p-6">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-base sm:h-10 sm:w-10 sm:rounded-2xl sm:text-lg">
           {icon}
         </div>
-        <h3 className="text-base font-semibold text-zinc-900">{title}</h3>
+        <h3 className="text-base font-semibold leading-5 text-zinc-900">{title}</h3>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-zinc-700">
+      <p className="mt-1.5 text-sm leading-5 text-zinc-700 sm:mt-3 sm:leading-relaxed">
         {description}
       </p>
     </div>
@@ -112,6 +130,7 @@ export default function FlotasPage() {
                   alt="Flota eléctrica y hub de carga"
                   width={1200}
                   height={800}
+                  sizes="(min-width: 1024px) 40vw, 100vw"
                   className="aspect-[16/10] w-full object-cover"
                   priority
                 />
@@ -131,13 +150,13 @@ export default function FlotasPage() {
      
 
       {/* ================= EXPERTISE ================= */}
-      <Section>
+      <Section className="py-8 sm:py-20">
         <p className="text-sm font-medium text-zinc-700">Expertise</p>
         <h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
           Ingeniería, energía y operación pensadas como un sistema
         </h2>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-2 sm:mt-8 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <FeatureCard
             icon="💰"
             title="TCO eléctrico vs combustión"

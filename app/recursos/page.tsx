@@ -1,11 +1,29 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Section } from "../components/ui/Section";
-import ResourceRows from "./ResourceRows";
+
+const ResourceRows = dynamic(() => import("./ResourceRows"), {
+  loading: () => (
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
+      Cargando recursos...
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "Recursos",
   description:
     "Recursos por segmento para evaluar movilidad eléctrica: general, residencial, comercios y flotas.",
+  keywords: [
+    "guías movilidad eléctrica",
+    "recursos carga vehículos eléctricos",
+    "TCO vehículos eléctricos",
+    "potencia cargador",
+    "subvenciones movilidad eléctrica",
+  ],
+  alternates: {
+    canonical: "/recursos",
+  },
 };
 
 export default function RecursosPage() {

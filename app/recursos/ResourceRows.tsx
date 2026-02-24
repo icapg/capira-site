@@ -1678,10 +1678,17 @@ function getVisibleItems(row: ResourceRow) {
               <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{row.label}</h2>
             </div>
 
-            <div className="grid gap-3 md:hidden">
-              {row.items.map((item) => (
-                <ResourceCard key={item.title} item={item} onOpen={setOpenItem} />
-              ))}
+            <div className="md:hidden">
+              <div className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1">
+                {row.items.map((item, idx) => (
+                  <div
+                    key={`${row.key}-mobile-${idx}-${item.title}`}
+                    className="w-[86%] shrink-0 snap-start"
+                  >
+                    <ResourceCard item={item} onOpen={setOpenItem} />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="hidden items-stretch gap-3 md:flex">

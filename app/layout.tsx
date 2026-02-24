@@ -10,45 +10,80 @@ const inter = Inter({
   display: "swap",
 });
 
+const siteUrl = "https://capira.com";
+const defaultTitle = "CAPIRA";
+const defaultDescription =
+  "Infraestructura de carga para movilidad electrica: soluciones para residencial, comercios, flotas y operadores CPO.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "CAPIRA",
+    default: defaultTitle,
     template: "%s | CAPIRA",
+  },
+  description: defaultDescription,
+  applicationName: "CAPIRA",
+  keywords: [
+    "movilidad electrica",
+    "infraestructura de carga",
+    "cargadores para autos electricos",
+    "carga residencial",
+    "carga para comercios",
+    "electrificacion de flotas",
+    "operacion CPO",
+    "gestion de carga inteligente",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
   icons: {
     icon: "/images/logo-capira.png",
     shortcut: "/images/logo-capira.png",
     apple: "/images/logo-capira.png",
   },
-  description:
-    "Infraestructura y software para movilidad y energía. Soluciones para flotas, empresas y operadores, con operación confiable y resultados medibles.",
-  metadataBase: new URL("https://capira.com"), // luego lo cambiamos por tu dominio real
   openGraph: {
     type: "website",
+    url: siteUrl,
     siteName: "CAPIRA",
-    title: "CAPIRA",
-    description:
-      "Infraestructura y software para movilidad y energía. Soluciones para flotas, empresas y operadores.",
+    title: defaultTitle,
+    description: defaultDescription,
+    locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CAPIRA",
-    description:
-      "Infraestructura y software para movilidad y energía. Soluciones para flotas, empresas y operadores.",
+    title: defaultTitle,
+    description: defaultDescription,
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "CAPIRA",
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo-capira.png`,
+    sameAs: [],
+  };
+
   return (
     <html lang="es">
       <body className={inter.className}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+        />
         <Header />
         <div className="min-h-screen bg-white">
-          <main>{children}</main>
+          {children}
           <Footer />
         </div>
       </body>

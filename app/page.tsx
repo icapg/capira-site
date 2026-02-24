@@ -1,38 +1,56 @@
 import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
 import { Section } from "./components/ui/Section";
 import { Button } from "./components/ui/Button";
+
+export const metadata: Metadata = {
+  title: "Movilidad eléctrica e infraestructura de carga",
+  description:
+    "CAPIRA diseña e implementa infraestructura de carga para hogares, comercios, flotas y operadores CPO.",
+  keywords: [
+    "movilidad eléctrica",
+    "infraestructura de carga",
+    "cargadores para autos eléctricos",
+    "electrificación de flotas",
+    "carga residencial",
+    "carga para comercios",
+    "operadores CPO",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const solutionPaths = [
   {
     href: "/residencial",
     title: "Residencial y comunidades",
     emoji: "\u{1F3E0}",
-    description: "Viviendas, garajes y edificios: soluciones de carga a medida.",
+    description: "Viviendas, garajes y edificios: soluciones de carga a medida",
   },
   {
     href: "/comercios",
     title: "Comercios",
     emoji: "\u{1F3EC}",
-    description:
-      "Carga para tus clientes y empleados con integración operativa y nuevos modelos de ingresos.",
+    description: "Convierte la carga eléctrica en una nueva fuente de ingresos",
   },
   {
     href: "/flotas",
     title: "Flotas",
     emoji: "\u{1F690}",
-    description:
-      "Diseño a medida, optimizando TCO para actualizar la flota de forma sostenible con diversas opciones de financiación.",
+    description: "Carga para flotas con TCO optimizado y financiación",
   },
   {
     href: "/cpo",
     title: "CPO / Operadores",
     emoji: "\u{1F50C}",
-    description: "Ubicaciones, ingeniería, instalación, operación, SLA e integraciones.",
+    description: "Operación integral: ubicaciones, instalación y SLA",
   },
 ];
 
 const capabilities = [
-  { title: "Diseño técnico-económico", icon: "📐" },
+  { title: "Diseño técnico-económico", mobileTitle: "Diseño", icon: "📐" },
   { title: "Instalación", icon: "🛠️" },
   { title: "Financiación", icon: "💳" },
   { title: "Mantenimiento", icon: "🔧" },
@@ -56,26 +74,37 @@ export default function Home() {
                 <span className="font-semibold text-zinc-900">
                   hogares, comercios, flotas y operadores (CPOs)
                 </span>
-                , alineando decisiones técnicas, económicas y operativas.
+                , que reducen costos y aceleran tu transición energética.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="/soluciones">Ver soluciones</Button>
-                <Button href="/sobre-capira" variant="secondary">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+                <Button href="/soluciones" className="w-full sm:w-fit">
+                  Ver soluciones
+                </Button>
+                <Button href="/sobre-capira" variant="secondary" className="w-full sm:w-fit">
                   Conocer CAPIRA
                 </Button>
               </div>
             </div>
 
-            <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
-              <div className="grid gap-3 sm:grid-cols-2">
+            <div className="bg-white sm:rounded-3xl sm:border sm:border-zinc-200 sm:p-8 sm:shadow-sm">
+              <div className="grid grid-cols-2 gap-3">
                 {capabilities.map((item) => (
                   <div key={item.title} className="rounded-2xl bg-zinc-100 p-4">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-lg shadow-sm">
                         {item.icon}
                       </span>
-                      <p className="text-sm font-medium leading-5 text-zinc-800">{item.title}</p>
+                      <p className="min-w-0 text-sm font-medium leading-5 text-zinc-800 max-sm:text-[13px] max-sm:leading-4">
+                        {item.mobileTitle ? (
+                          <>
+                            <span className="sm:hidden">{item.mobileTitle}</span>
+                            <span className="hidden sm:inline">{item.title}</span>
+                          </>
+                        ) : (
+                          item.title
+                        )}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -86,29 +115,30 @@ export default function Home() {
       </section>
 
       <Section className="border-y border-zinc-200 bg-zinc-50 py-10 sm:py-14">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
           <div className="flex h-full flex-col">
             <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
               Ecosistema de soluciones
             </h2>
             
-            <div className="mt-6 flex-1 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm sm:flex-1">
               <Image
                 src="/images/Home%203.png"
                 alt="Auto eléctrico cargando"
                 width={1200}
                 height={700}
-                className="h-full w-full object-cover"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="h-[220px] w-full object-cover object-top sm:h-full"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:flex lg:h-full lg:flex-col lg:space-y-3 lg:pt-14">
             {solutionPaths.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
-                className="group block rounded-2xl border border-zinc-200 bg-white p-4 transition duration-200 ease-out will-change-transform hover:scale-[1.01] hover:border-zinc-300 hover:shadow-md focus-visible:scale-[1.01] focus-visible:border-zinc-400 focus-visible:shadow-md focus-visible:outline-none"
+                className="group block rounded-2xl border border-zinc-200 bg-white p-4 transition duration-200 ease-out will-change-transform hover:scale-[1.01] hover:border-zinc-300 hover:shadow-md focus-visible:scale-[1.01] focus-visible:border-zinc-400 focus-visible:shadow-md focus-visible:outline-none lg:flex-1"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -122,7 +152,7 @@ export default function Home() {
                     Ver
                   </span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

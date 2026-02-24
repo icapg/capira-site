@@ -8,15 +8,15 @@ type Distancia = "0-10" | "10-20" | "20-35" | "35+";
 type Red = "monofasica" | "trifasica" | "no-se";
 type Cargador = "7.4" | "11" | "22" | "ninguno";
 type Obra = "baja" | "media" | "alta";
-type Pais = "España" | "Argentina" | "Bolivia" | "Brasil" | "Chile" | "Colombia" | "Costa Rica" | "Cuba" | "Ecuador" | "El Salvador" | "Guatemala" | "Honduras" | "México" | "Nicaragua" | "Panamá" | "Paraguay" | "Perú" | "República Dominicana" | "Uruguay" | "Venezuela";
+type Pais = "España" | "Argentina" | "Bolivia" | "Brasil" | "Chile" | "Colombia" | "Costa Rica" | "Ecuador" | "El Salvador" | "Guatemala" | "Honduras" | "México" | "Nicaragua" | "Panamá" | "Paraguay" | "Perú" | "República Dominicana" | "Uruguay" | "Venezuela";
 
 type FormState = {
-  pais: Pais;
-  vivienda: Vivienda;
-  distancia: Distancia;
-  red: Red;
-  cargador: Cargador;
-  obra: Obra;
+  pais: Pais | "";
+  vivienda: Vivienda | "";
+  distancia: Distancia | "";
+  red: Red | "";
+  cargador: Cargador | "";
+  obra: Obra | "";
 };
 
 const PAISES: Pais[] = [
@@ -27,7 +27,6 @@ const PAISES: Pais[] = [
   "Chile",
   "Colombia",
   "Costa Rica",
-  "Cuba",
   "Ecuador",
   "El Salvador",
   "Guatemala",
@@ -113,23 +112,26 @@ function formatMoney(value: number, currency: "EUR" | "USD") {
 
 export default function PresupuestoCalculator() {
   const [form, setForm] = useState<FormState>({
-    pais: "España",
-    vivienda: "vivienda",
-    distancia: "10-20",
-    red: "monofasica",
-    cargador: "11",
-    obra: "media",
+    pais: "",
+    vivienda: "",
+    distancia: "",
+    red: "",
+    cargador: "",
+    obra: "",
   });
 
   const base = 520;
+  const allAnswered = Object.values(form).every(Boolean);
 
   const subtotal =
-    base +
-    VIVIENDA_COST[form.vivienda] +
-    DISTANCIA_COST[form.distancia] +
-    RED_COST[form.red] +
-    CARGADOR_COST[form.cargador] +
-    OBRA_COST[form.obra];
+    allAnswered
+      ? base +
+        VIVIENDA_COST[form.vivienda as Vivienda] +
+        DISTANCIA_COST[form.distancia as Distancia] +
+        RED_COST[form.red as Red] +
+        CARGADOR_COST[form.cargador as Cargador] +
+        OBRA_COST[form.obra as Obra]
+      : 0;
 
   const estimate = useMemo(() => {
     const min = roundToNearest50(subtotal * 0.92);
@@ -197,6 +199,7 @@ export default function PresupuestoCalculator() {
                   value={form.pais}
                   onChange={(e) => setForm((p) => ({ ...p, pais: e.target.value as Pais }))}
                 >
+                  <option value="">Selecciona un país</option>
                   {PAISES.map((pais) => (
                     <option key={pais} value={pais}>
                       {pais}
@@ -212,6 +215,7 @@ export default function PresupuestoCalculator() {
                   value={form.vivienda}
                   onChange={(e) => setForm((p) => ({ ...p, vivienda: e.target.value as Vivienda }))}
                 >
+                  <option value="">Selecciona una opción</option>
                   <option value="vivienda">Vivienda unifamiliar</option>
                   <option value="comunidad">Garaje comunitario</option>
                   <option value="comercio">Comercio / PyME</option>
@@ -227,6 +231,7 @@ export default function PresupuestoCalculator() {
                   value={form.distancia}
                   onChange={(e) => setForm((p) => ({ ...p, distancia: e.target.value as Distancia }))}
                 >
+                  <option value="">Selecciona una opción</option>
                   <option value="0-10">0-10 m</option>
                   <option value="10-20">10-20 m</option>
                   <option value="20-35">20-35 m</option>
@@ -241,6 +246,7 @@ export default function PresupuestoCalculator() {
                   value={form.red}
                   onChange={(e) => setForm((p) => ({ ...p, red: e.target.value as Red }))}
                 >
+                  <option value="">Selecciona una opción</option>
                   <option value="monofasica">Monofásica</option>
                   <option value="trifasica">Trifásica</option>
                   <option value="no-se">No lo sé</option>
@@ -254,6 +260,7 @@ export default function PresupuestoCalculator() {
                   value={form.cargador}
                   onChange={(e) => setForm((p) => ({ ...p, cargador: e.target.value as Cargador }))}
                 >
+                  <option value="">Selecciona una opción</option>
                   <option value="7.4">Incluye 7,4 kW</option>
                   <option value="11">Incluye 11 kW</option>
                   <option value="22">Incluye 22 kW</option>
@@ -270,6 +277,7 @@ export default function PresupuestoCalculator() {
                   value={form.obra}
                   onChange={(e) => setForm((p) => ({ ...p, obra: e.target.value as Obra }))}
                 >
+                  <option value="">Selecciona una opción</option>
                   <option value="baja">Baja (canalización simple, pocos obstáculos)</option>
                   <option value="media">Media (recorrido con dificultad moderada)</option>
                   <option value="alta">Alta (obra más compleja)</option>
@@ -283,7 +291,9 @@ export default function PresupuestoCalculator() {
               Estimación inicial
             </p>
             <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900">
-              {formatMoney(displayEstimate.min, currency)} - {formatMoney(displayEstimate.max, currency)}
+              {allAnswered
+                ? `${formatMoney(displayEstimate.min, currency)} - ${formatMoney(displayEstimate.max, currency)}`
+                : "Completa el formulario"}
             </p>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
               Rango orientativo con instalación estándar. El precio final se confirma tras validar
@@ -292,22 +302,24 @@ export default function PresupuestoCalculator() {
 
             <div className="mt-5 space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
               <p>
-                <span className="font-medium">País:</span> {form.pais}
+                <span className="font-medium">País:</span> {form.pais || "-"}
               </p>
               <p>
-                <span className="font-medium">Ubicación:</span> {labelForVivienda(form.vivienda)}
+                <span className="font-medium">Ubicación:</span>{" "}
+                {form.vivienda ? labelForVivienda(form.vivienda as Vivienda) : "-"}
               </p>
               <p>
-                <span className="font-medium">Distancia:</span> {form.distancia} m
+                <span className="font-medium">Distancia:</span> {form.distancia ? `${form.distancia} m` : "-"}
               </p>
               <p>
-                <span className="font-medium">Red:</span> {labelForRed(form.red)}
+                <span className="font-medium">Red:</span> {form.red ? labelForRed(form.red as Red) : "-"}
               </p>
               <p>
-                <span className="font-medium">Equipo:</span> {labelForCargador(form.cargador)}
+                <span className="font-medium">Equipo:</span>{" "}
+                {form.cargador ? labelForCargador(form.cargador as Cargador) : "-"}
               </p>
               <p>
-                <span className="font-medium">Obra:</span> {labelForObra(form.obra)}
+                <span className="font-medium">Obra:</span> {form.obra ? labelForObra(form.obra as Obra) : "-"}
               </p>
             </div>
 

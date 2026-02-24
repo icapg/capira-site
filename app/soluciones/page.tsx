@@ -35,6 +35,17 @@ export const metadata: Metadata = {
   title: "Soluciones",
   description:
     "Portafolio de CAPIRA para movilidad y energía: comercios (B2B), flotas, operadores (CPO) y usuarios.",
+  keywords: [
+    "soluciones de carga eléctrica",
+    "infraestructura de recarga",
+    "carga residencial",
+    "carga para comercios",
+    "electrificación de flotas",
+    "operación CPO",
+  ],
+  alternates: {
+    canonical: "/soluciones",
+  },
 };
 
 export default function SolucionesPage() {
@@ -50,18 +61,20 @@ export default function SolucionesPage() {
 
           <p className="mt-6 max-w-5xl text-base text-zinc-600 sm:text-lg">
             Acompañamos a nuestros clientes a lo largo de todo el ciclo del proyecto, desde la
-            estrategia y el diseño hasta la implementación, operación y mantenimiento, alineando
-            decisiones técnicas, económicas y financieras.
+            estrategia y el diseño hasta la implementación, operación y mantenimiento, que
+            reducen costos y aceleran tu transición energética.
           </p>
 
-          {/* Cards dentro del hero */}
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {landings.map((i) => (
-              <Card
-                key={i.href}
-                title={
-                  <div className="flex items-center gap-2">
-                    <span>{i.title}</span>
+	          {/* Cards dentro del hero */}
+	          <div className="mt-10 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:gap-3">
+	            {landings.map((i) => (
+	              <Card
+	                key={i.href}
+	                className="p-4 sm:p-6 lg:p-5"
+	                compactMobile
+	                title={
+	                  <div className="flex items-center gap-2">
+	                    <span>{i.title}</span>
                     <span className="inline-block text-xl transition-transform origin-left group-hover:scale-110">
                       {i.emoji}
                     </span>

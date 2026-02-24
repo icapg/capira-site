@@ -75,7 +75,7 @@ function classNames(...xs: Array<string | boolean | undefined>) {
 
 function MetaPill({ k, v }: { k: string; v: string }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-center shadow-sm">
+    <div className="rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-center shadow-sm sm:px-4 sm:py-3">
       <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
         {k}
       </p>
@@ -97,7 +97,7 @@ export default function BusinessModels() {
   return (
     <div
       id="modelos-inversion"
-      className="relative overflow-hidden rounded-[2rem] border border-zinc-300 bg-zinc-50 shadow-sm"
+      className="relative overflow-hidden rounded-3xl border border-zinc-300 bg-zinc-50 shadow-sm sm:rounded-[2rem]"
     >
       {/* Glow sutil */}
       <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-zinc-200/60 blur-3xl" />
@@ -106,18 +106,18 @@ export default function BusinessModels() {
       {/* Contenido real */}
       <div className="relative">
         {/* ================= HEADER ================= */}
-        <div className="border-b border-zinc-200 p-6 text-center">
+        <div className="border-b border-zinc-200 p-4 text-center sm:p-6">
           <p className="text-sm font-medium text-zinc-700">
             Modelos de inversión
           </p>
 
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
+          <h2 className="mt-2 text-xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
             Elige el modelo de inversión que mejor se adapte a tu estrategia
           </h2>
 
           {/* Segmented control */}
           <div className="mt-5 flex justify-center">
-            <div className="inline-flex rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm">
+            <div className="flex w-full flex-col rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm sm:inline-flex sm:w-auto sm:flex-row">
               {MODELS.map((m) => {
                 const isActive = m.key === active;
                 return (
@@ -125,7 +125,7 @@ export default function BusinessModels() {
                     key={m.key}
                     onClick={() => setActive(m.key)}
                     className={classNames(
-                      "whitespace-nowrap inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition",
+                      "inline-flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition sm:w-auto sm:justify-start sm:px-4",
                       isActive
                         ? "bg-zinc-900 text-white shadow-sm"
                         : "bg-transparent text-zinc-900 hover:bg-zinc-50"
@@ -141,22 +141,22 @@ export default function BusinessModels() {
         </div>
 
         {/* ================= BODY ================= */}
-        <div className="grid gap-10 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        <div className="grid gap-6 p-4 sm:gap-10 sm:p-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           {/* LEFT */}
           <div>
-            <h3 className="mt-1 text-xl font-bold tracking-tight text-zinc-900">
+            <h3 className="mt-1 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl">
               {current.title}
             </h3>
 
             {/* Meta */}
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
               {current.meta.map((x) => (
                 <MetaPill key={x.k} k={x.k} v={x.v} />
               ))}
             </div>
 
             {/* Bullets */}
-            <ul className="mt-7 space-y-3">
+            <ul className="mt-5 space-y-2 sm:mt-7 sm:space-y-3">
               {current.bullets.map((b) => (
                 <li key={b} className="flex gap-3 text-sm text-zinc-700">
                   <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-900">
@@ -169,7 +169,7 @@ export default function BusinessModels() {
           </div>
 
           {/* RIGHT */}
-          <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-gradient-to-b from-white to-zinc-50 p-6 shadow-sm">
+          <div className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-b from-white to-zinc-50 p-4 shadow-sm sm:rounded-3xl sm:p-6">
             <div className="absolute -right-14 -top-14 h-40 w-40 rounded-full bg-zinc-200/40 blur-3xl" />
 
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
@@ -179,7 +179,7 @@ export default function BusinessModels() {
               {current.note}
             </p>
 
-            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="mt-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:mt-6 sm:p-5">
               <p className="text-xs font-semibold text-zinc-600">
                 Qué definimos con vos
               </p>

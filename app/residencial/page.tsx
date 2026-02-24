@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   title: "Carga residencial",
   description:
     "Instalación de cargadores para vehículos eléctricos en viviendas. Presupuesto personalizado, distintas marcas y ayuda con incentivos y subvenciones.",
+  keywords: [
+    "cargador residencial",
+    "instalación wallbox en casa",
+    "presupuesto cargador coche eléctrico",
+    "subvenciones cargador residencial",
+    "potencia para cargar coche eléctrico",
+  ],
+  alternates: {
+    canonical: "/residencial",
+  },
 };
 
 export default function B2CPage() {
@@ -54,6 +64,7 @@ export default function B2CPage() {
                 src="/images/residencial/cargador-residencial-proceso.png"
                 alt="Instalación de cargador residencial para vehículo eléctrico"
                 fill
+                sizes="(min-width: 1024px) 44vw, 100vw"
                 className="object-cover"
                 priority
               />

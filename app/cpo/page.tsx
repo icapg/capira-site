@@ -26,6 +26,16 @@ export const metadata: Metadata = {
   title: "CPO / Operadores",
   description:
     "Operación de infraestructura con SLA, soporte, integraciones (OCPP/APIs) y control financiero con trazabilidad.",
+  keywords: [
+    "operador de puntos de carga",
+    "servicios para CPO",
+    "SLA cargadores eléctricos",
+    "integración OCPP",
+    "operación infraestructura de carga",
+  ],
+  alternates: {
+    canonical: "/cpo",
+  },
 };
 
 export default function CPOPage() {

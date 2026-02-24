@@ -85,6 +85,15 @@ export const metadata: Metadata = {
   title: "Casos",
   description:
     "Casos con evidencia: contexto, enfoque y métricas (disponibilidad, SLA, MTTR, TCO) para flotas, empresas y operadores.",
+  keywords: [
+    "casos de movilidad eléctrica",
+    "resultados electrificación de flotas",
+    "SLA infraestructura de carga",
+    "métricas MTTR y uptime",
+  ],
+  alternates: {
+    canonical: "/casos",
+  },
 };
 
 export default function CasosPage() {

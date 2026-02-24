@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   title: "Sobre CAPIRA",
   description:
     "Equipo internacional con experiencia real en movilidad eléctrica en Europa y LATAM: residencial, comercios, flotas y CPOs.",
+  keywords: [
+    "consultoría movilidad eléctrica",
+    "equipo experto en infraestructura de carga",
+    "capira",
+    "proyectos de recarga en europa y latam",
+  ],
+  alternates: {
+    canonical: "/sobre-capira",
+  },
 };
 
 const values = [

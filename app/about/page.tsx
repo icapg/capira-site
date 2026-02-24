@@ -1,3 +1,14 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Información institucional de CAPIRA.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default function AboutPage() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-12">

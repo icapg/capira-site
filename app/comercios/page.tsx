@@ -8,6 +8,16 @@ export const metadata: Metadata = {
   title: "Comercios (B2B)",
   description:
     "Rentabiliza plazas de aparcamiento con cargadores: opción sin inversión vía CPO u opción con inversión y proyecto propio.",
+  keywords: [
+    "cargadores para comercios",
+    "carga para clientes y empleados",
+    "proyecto de recarga B2B",
+    "modelo CPO",
+    "rentabilidad puntos de carga",
+  ],
+  alternates: {
+    canonical: "/comercios",
+  },
 };
 
 export default function ComerciosPage() {
@@ -52,6 +62,7 @@ export default function ComerciosPage() {
                 src="/images/comercios/Comercios.png"
                 alt="Soluciones de carga para comercios"
                 fill
+                sizes="(min-width: 1024px) 44vw, 100vw"
                 className="object-cover"
                 priority
               />

@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "Presupuesto | CAPIRA",
   description:
     "Solicitá un presupuesto personalizado para instalación de cargador residencial. Con o sin cargador. Sin coste.",
+  keywords: [
+    "presupuesto cargador eléctrico",
+    "instalación de wallbox",
+    "coste instalación cargador",
+    "presupuesto movilidad eléctrica",
+  ],
+  alternates: {
+    canonical: "/recursos/presupuesto",
+  },
 };
 
 export default function PresupuestoPage() {

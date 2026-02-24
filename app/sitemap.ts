@@ -9,10 +9,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/flotas",
     "/cpo",
     "/residencial",
+    "/cargadores",
     "/casos",
     "/recursos",
+    "/recursos/elegir-cargador",
+    "/recursos/presupuesto",
     "/sobre-capira",
     "/contacto",
+    "/terminos",
+    "/privacidad",
   ];
 
   return routes.map((path) => ({
