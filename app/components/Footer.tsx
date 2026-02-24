@@ -61,11 +61,6 @@ export function Footer() {
             <p className="text-sm font-semibold text-zinc-900">Recursos</p>
             <ul className="mt-3 space-y-2 text-sm text-zinc-600">
               <li>
-                <Link className="hover:text-zinc-900" href="/casos">
-                  Casos
-                </Link>
-              </li>
-              <li>
                 <Link className="hover:text-zinc-900" href="/recursos">
                   Guias y noticias
                 </Link>

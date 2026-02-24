@@ -14,7 +14,7 @@ const BusinessModels = dynamic(() => import("./BusinessModels"), {
 
 
 export const metadata: Metadata = {
-  title: "Flotas | Capira",
+  title: "Flotas",
   description:
     "Electrificación de flotas a escala. Reducimos TCO y riesgo operativo con ingeniería eléctrica, estrategia energética y carga inteligente.",
   keywords: [

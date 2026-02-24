@@ -5,7 +5,9 @@ import { Section } from "./components/ui/Section";
 import { Button } from "./components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Movilidad eléctrica e infraestructura de carga",
+  title: {
+    absolute: "CAPIRA | eMobility",
+  },
   description:
     "CAPIRA diseña e implementa infraestructura de carga para hogares, comercios, flotas y operadores CPO.",
   keywords: [

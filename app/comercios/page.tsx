@@ -5,7 +5,7 @@ import { Section } from "../components/ui/Section";
 import { ScrollToAnchorLink } from "../components/ui/ScrollToAnchorLink";
 
 export const metadata: Metadata = {
-  title: "Comercios (B2B)",
+  title: "Comercios",
   description:
     "Rentabiliza plazas de aparcamiento con cargadores: opción sin inversión vía CPO u opción con inversión y proyecto propio.",
   keywords: [

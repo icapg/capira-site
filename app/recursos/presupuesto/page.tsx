@@ -3,7 +3,7 @@ import Link from "next/link";
 import PresupuestoCalculator from "./PresupuestoCalculator";
 
 export const metadata: Metadata = {
-  title: "Presupuesto | CAPIRA",
+  title: "Presupuesto",
   description:
     "Solicitá un presupuesto personalizado para instalación de cargador residencial. Con o sin cargador. Sin coste.",
   keywords: [
