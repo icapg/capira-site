@@ -3,6 +3,6 @@ import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: "https://capira.com/sitemap.xml", // luego reemplazamos con dominio real
+    sitemap: "https://capirapower.com/sitemap.xml",
   };
 }

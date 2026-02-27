@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://capira.com"; // luego reemplazamos
+  const base = "https://capirapower.com";
   const routes = [
     "",
     "/soluciones",

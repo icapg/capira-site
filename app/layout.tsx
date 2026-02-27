@@ -1,4 +1,4 @@
-import "./globals.css";
+﻿import "./globals.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 
@@ -10,10 +10,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = "https://capira.com";
+const siteUrl = "https://capirapower.com";
 const defaultTitle = "CAPIRA";
-const defaultDescription =
-  "Infraestructura de carga para movilidad electrica: soluciones para residencial, comercios, flotas y operadores CPO.";
+const defaultDescription = "Movilidad eléctrica con visión de negocio";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -41,9 +40,9 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/images/logo-capira.png",
-    shortcut: "/images/logo-capira.png",
-    apple: "/images/logo-capira.png",
+    icon: "/icon.png?v=7",
+    shortcut: "/favicon.ico?v=7",
+    apple: "/apple-icon.png?v=7",
   },
   openGraph: {
     type: "website",
@@ -52,11 +51,20 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
     locale: "es_ES",
+    images: [
+      {
+        url: `${siteUrl}/images/og-capira-share-square.png?v=1`,
+        width: 512,
+        height: 512,
+        alt: "CAPIRA",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
+    images: [`${siteUrl}/images/og-capira-share-square.png?v=1`],
   },
 };
 
@@ -90,3 +98,4 @@ export default function RootLayout({
     </html>
   );
 }
+
