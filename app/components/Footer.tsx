@@ -19,8 +19,8 @@ export function Footer() {
                 />
               </div>
               <p className="text-left text-[13px] leading-6 text-zinc-600 sm:text-justify sm:text-sm">
-                Integramos experiencia tecnica, operativa y comercial para disenar e
-                implementar soluciones de movilidad electrica asegurando una transicion
+                Integramos experiencia técnica, operativa y comercial para diseñar e
+                implementar soluciones de movilidad eléctrica asegurando una transición
                 sostenible.
               </p>
             </div>
@@ -91,26 +91,11 @@ export function Footer() {
           <p>&copy; {new Date().getFullYear()} CAPIRA. Todos los derechos reservados.</p>
           <div className="flex flex-wrap items-center gap-4">
             <Link className="hover:text-zinc-700" href="/terminos">
-              Terminos
+              Términos
             </Link>
             <Link className="hover:text-zinc-700" href="/privacidad">
               Privacidad
             </Link>
-            <div className="flex items-center gap-2">
-              <label htmlFor="footer-language" className="text-xs font-medium text-zinc-600">
-                Idioma
-              </label>
-              <select
-                id="footer-language"
-                className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-900 outline-none transition focus:border-zinc-400"
-                defaultValue="es"
-                aria-label="Seleccionar idioma"
-              >
-                <option value="es">Espanol</option>
-                <option value="en">English</option>
-                <option value="pt">Portugues</option>
-              </select>
-            </div>
           </div>
         </div>
       </div>
