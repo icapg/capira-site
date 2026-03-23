@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Section } from "../components/ui/Section";
+import { trackEvent, trackGA4Event } from "@/app/lib/tracking";
 
 type Status = "idle" | "sending" | "sent" | "error";
 type CountryOption = { code: string; name: string; dialCode: string };
@@ -111,6 +112,8 @@ export default function ContactoPage() {
 
     if (res.ok) {
       setStatus("sent");
+      trackEvent("Lead", { content_name: payload.topic || "contacto" });
+      trackGA4Event("generate_lead", { source: "contacto", topic: payload.topic });
       e.currentTarget.reset();
       setCountryCode("");
       setPhone("");

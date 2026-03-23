@@ -80,11 +80,11 @@ export default function Home() {
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-                <Button href="/soluciones" className="w-full sm:w-fit">
-                  Ver soluciones
+                <Button href="/contacto" className="w-full sm:w-fit">
+                  Solicita tu presupuesto gratis
                 </Button>
-                <Button href="/sobre-capira" variant="secondary" className="w-full sm:w-fit">
-                  Conocer CAPIRA
+                <Button href="/soluciones" variant="secondary" className="w-full sm:w-fit">
+                  Ver soluciones
                 </Button>
               </div>
             </div>
@@ -115,6 +115,23 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Section className="border-b border-zinc-200 bg-white py-8 sm:py-10">
+        <div className="grid gap-6 sm:gap-8 sm:grid-cols-3">
+          <div className="text-center">
+            <p className="text-lg font-semibold text-zinc-900">10+ años experiencia</p>
+            <p className="mt-1 text-sm text-zinc-600">En soluciones de movilidad eléctrica</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-semibold text-zinc-900">Europa & LATAM</p>
+            <p className="mt-1 text-sm text-zinc-600">Experiencia real en mercados clave</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-semibold text-zinc-900">End-to-End</p>
+            <p className="mt-1 text-sm text-zinc-600">Diseño, instalación, financiación y operación</p>
+          </div>
+        </div>
+      </Section>
 
       <Section className="border-y border-zinc-200 bg-zinc-50 py-10 sm:py-14">
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
@@ -165,18 +182,18 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
-                ¿Quieres evaluar tu proyecto de carga?
+                ¿Listo para dar el salto a la movilidad eléctrica?
               </h2>
               <p className="mt-3 max-w-2xl text-zinc-600">
-                Te ayudamos a definir por dónde empezar y cuál es la solución adecuada para tu
-                contexto.
+                Te acompañamos en cada paso: desde el diagnóstico técnico hasta la operación
+                completa de tu infraestructura de carga.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Button href="/soluciones">Ir a soluciones</Button>
-              <Button href="/contacto" variant="secondary">
-                Hablar con CAPIRA
+              <Button href="/contacto">Solicita tu presupuesto gratis</Button>
+              <Button href="/soluciones" variant="secondary">
+                Ver soluciones
               </Button>
             </div>
           </div>
