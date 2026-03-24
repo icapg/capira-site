@@ -81,7 +81,7 @@ export default function Home() {
 
               <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
                 <Button href="/contacto" className="w-full sm:w-fit">
-                  Hablá con un especialista hoy
+                  Solicita tu presupuesto gratis
                 </Button>
                 <Button href="/soluciones" variant="secondary" className="w-full sm:w-fit">
                   Ver soluciones
@@ -191,7 +191,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Button href="/contacto">Hablá con un especialista hoy</Button>
+              <Button href="/contacto">Solicita tu presupuesto gratis</Button>
               <Button href="/soluciones" variant="secondary">
                 Ver soluciones
               </Button>
