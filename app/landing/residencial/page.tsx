@@ -46,7 +46,6 @@ export default function ResidencialLanding() {
             </h1>
             <p className="text-xl text-zinc-600">
               Ahorra dinero, carga cuando quieras y aprovecha las subvenciones MOVES Corredores.
-              Somos especialistas en infraestructura de carga en Europa y Latinoamérica.
             </p>
           </div>
         </div>

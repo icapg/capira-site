@@ -46,7 +46,6 @@ export default function FlotasLanding() {
             </h1>
             <p className="text-xl text-zinc-600">
               Reduce costos operativos, implementa carga inteligente y accede a financiación flexible.
-              Somos especialistas en soluciones de electrificación B2B en Europa y Latinoamérica.
             </p>
           </div>
         </div>

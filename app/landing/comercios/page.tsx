@@ -45,8 +45,7 @@ export default function ComerciosLanding() {
               Genera ingresos extra con cargadores en tu negocio
             </h1>
             <p className="text-xl text-zinc-600">
-              Atraer clientes, obtener ingresos pasivos y sin inversión inicial. Somos expertos en
-              infraestructura de carga en Europa y Latinoamérica.
+              Atraé clientes, generá ingresos pasivos y sin inversión inicial.
             </p>
           </div>
         </div>
