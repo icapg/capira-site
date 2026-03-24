@@ -52,26 +52,6 @@ export default function FlotasLanding() {
         </div>
       </section>
 
-      {/* Trust Signals */}
-      <section className="border-b border-zinc-200 bg-zinc-50 py-10 sm:py-14">
-        <div className="mx-auto max-w-4xl px-4 sm:px-8">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
-            <div className="rounded-lg bg-white p-4 text-center">
-              <p className="text-sm font-semibold text-zinc-900">10+ años</p>
-              <p className="text-xs text-zinc-600">experiencia B2B</p>
-            </div>
-            <div className="rounded-lg bg-white p-4 text-center">
-              <p className="text-sm font-semibold text-zinc-900">500+</p>
-              <p className="text-xs text-zinc-600">puntos de carga</p>
-            </div>
-            <div className="rounded-lg bg-white p-4 text-center">
-              <p className="text-sm font-semibold text-zinc-900">Integral</p>
-              <p className="text-xs text-zinc-600">diseño a operación</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Key Benefits */}
       <section className="border-b border-zinc-200 py-10 sm:py-14">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
@@ -210,8 +190,7 @@ export default function FlotasLanding() {
               Analiza tu potencial de electrificación
             </h2>
             <p className="mt-2 text-zinc-600">
-              Cuéntanos sobre tu flota y operación. Te enviaremos un análisis personalizado sin
-              compromiso.
+              Completá el formulario y te enviamos un análisis personalizado sin compromiso.
             </p>
 
             <div className="mt-8">

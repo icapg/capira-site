@@ -10,6 +10,7 @@ export function ResidencialForm() {
     email: "",
     phone: "",
     city: "",
+    message: "",
     utm_source: "",
     utm_medium: "",
     utm_campaign: "",
@@ -27,7 +28,7 @@ export function ResidencialForm() {
     }));
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -38,7 +39,7 @@ export function ResidencialForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.phone || !formData.city) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.message) {
       alert("Por favor completa todos los campos");
       return;
     }
@@ -55,7 +56,7 @@ export function ResidencialForm() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          message: `Solicitud de presupuesto para carga residencial en ${formData.city}`,
+          message: formData.message || `Solicitud de presupuesto para carga residencial en ${formData.city}`,
           topic: "Residencial - Landing",
           country: "Spain",
           utm_source: formData.utm_source,
@@ -149,6 +150,22 @@ export function ResidencialForm() {
           required
           className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
           placeholder="Tu ciudad"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-zinc-700">
+          Cuéntanos sobre tu vivienda y necesidades
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={4}
+          className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
+          placeholder="Tipo de vivienda, si tenés garaje, cuántos vehículos, dudas sobre subvenciones..."
         />
       </div>
 

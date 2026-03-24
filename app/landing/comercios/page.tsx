@@ -160,7 +160,7 @@ export default function ComerciosLanding() {
               Descubre tu potencial de ingresos
             </h2>
             <p className="mt-2 text-zinc-600">
-              Cuéntanos sobre tu negocio. Haremos un análisis de rentabilidad sin compromiso.
+              Completá el formulario y hacemos un análisis de rentabilidad sin compromiso.
             </p>
 
             <div className="mt-8">

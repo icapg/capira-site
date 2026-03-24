@@ -11,6 +11,7 @@ export function ComerciosForm() {
     phone: "",
     businessName: "",
     city: "",
+    message: "",
     utm_source: "",
     utm_medium: "",
     utm_campaign: "",
@@ -28,7 +29,7 @@ export function ComerciosForm() {
     }));
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -44,7 +45,8 @@ export function ComerciosForm() {
       !formData.email ||
       !formData.phone ||
       !formData.businessName ||
-      !formData.city
+      !formData.city ||
+      !formData.message
     ) {
       alert("Por favor completa todos los campos");
       return;
@@ -63,7 +65,7 @@ export function ComerciosForm() {
           email: formData.email,
           phone: formData.phone,
           company: formData.businessName,
-          message: `Solicitud de información para cargadores en comercio: ${formData.businessName} en ${formData.city}`,
+          message: formData.message || `Solicitud de información para cargadores en comercio: ${formData.businessName} en ${formData.city}`,
           topic: "Comercios - Landing",
           country: "Spain",
           utm_source: formData.utm_source,
@@ -173,6 +175,22 @@ export function ComerciosForm() {
           required
           className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
           placeholder="Tu ciudad"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-zinc-700">
+          Cuéntanos sobre tu negocio
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={4}
+          className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
+          placeholder="Tipo de negocio, cuántos clientes por día, si tenés estacionamiento, qué modelo te interesa..."
         />
       </div>
 

@@ -14,6 +14,7 @@ export function FlotasForm() {
     company: "",
     fleetSize: "" as FleetSize | "",
     city: "",
+    message: "",
     utm_source: "",
     utm_medium: "",
     utm_campaign: "",
@@ -32,7 +33,7 @@ export function FlotasForm() {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -50,7 +51,8 @@ export function FlotasForm() {
       !formData.phone ||
       !formData.company ||
       !formData.fleetSize ||
-      !formData.city
+      !formData.city ||
+      !formData.message
     ) {
       alert("Por favor completa todos los campos");
       return;
@@ -69,7 +71,7 @@ export function FlotasForm() {
           email: formData.email,
           phone: formData.phone,
           company: formData.company,
-          message: `Solicitud de electrificación de flota: ${formData.fleetSize} vehículos. Empresa: ${formData.company}. Ubicación: ${formData.city}`,
+          message: formData.message || `Solicitud de electrificación de flota: ${formData.fleetSize} vehículos. Empresa: ${formData.company}. Ubicación: ${formData.city}`,
           topic: "Flotas - Landing",
           country: "Spain",
           utm_source: formData.utm_source,
@@ -199,6 +201,22 @@ export function FlotasForm() {
           required
           className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
           placeholder="Tu ciudad"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-zinc-700">
+          Cuéntanos sobre tu flota y operación
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={4}
+          className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
+          placeholder="Tipo de vehículos, rutas, si ya tienen eléctricos, qué están evaluando..."
         />
       </div>
 
