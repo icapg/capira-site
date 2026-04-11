@@ -1,0 +1,138 @@
+{
+  "generado_en": "2026-04-11T21:18:09.759Z",
+  "mes_objetivo": "2026-03",
+  "matriculaciones": {
+    "ultimo_mes": "2026-02",
+    "al_dia": false,
+    "total_registros": 18638330,
+    "total_meses": 135
+  },
+  "bajas": {
+    "ultimo_mes": "2026-02",
+    "al_dia": false,
+    "total_registros": 21904116,
+    "total_meses": 135
+  },
+  "historial": [
+    {
+      "periodo": "2026-02",
+      "matriculaciones": 161682,
+      "bajas": 140532
+    },
+    {
+      "periodo": "2026-01",
+      "matriculaciones": 130543,
+      "bajas": 121938
+    },
+    {
+      "periodo": "2025-12",
+      "matriculaciones": 166146,
+      "bajas": 462441
+    },
+    {
+      "periodo": "2025-11",
+      "matriculaciones": 160698,
+      "bajas": 170701
+    },
+    {
+      "periodo": "2025-10",
+      "matriculaciones": 176870,
+      "bajas": 200864
+    },
+    {
+      "periodo": "2025-09",
+      "matriculaciones": 154363,
+      "bajas": 161702
+    },
+    {
+      "periodo": "2025-08",
+      "matriculaciones": 113138,
+      "bajas": 116984
+    },
+    {
+      "periodo": "2025-07",
+      "matriculaciones": 179039,
+      "bajas": 159294
+    },
+    {
+      "periodo": "2025-06",
+      "matriculaciones": 194021,
+      "bajas": 151195
+    },
+    {
+      "periodo": "2025-05",
+      "matriculaciones": 185750,
+      "bajas": 158891
+    },
+    {
+      "periodo": "2025-04",
+      "matriculaciones": 162550,
+      "bajas": 148080
+    },
+    {
+      "periodo": "2025-03",
+      "matriculaciones": 179345,
+      "bajas": 181209
+    },
+    {
+      "periodo": "2025-02",
+      "matriculaciones": 147085,
+      "bajas": 183167
+    },
+    {
+      "periodo": "2025-01",
+      "matriculaciones": 125425,
+      "bajas": 176111
+    },
+    {
+      "periodo": "2024-12",
+      "matriculaciones": 166690,
+      "bajas": 264448
+    },
+    {
+      "periodo": "2024-11",
+      "matriculaciones": 140976,
+      "bajas": 265702
+    },
+    {
+      "periodo": "2024-10",
+      "matriculaciones": 151548,
+      "bajas": 170100
+    },
+    {
+      "periodo": "2024-09",
+      "matriculaciones": 130367,
+      "bajas": 140917
+    },
+    {
+      "periodo": "2024-08",
+      "matriculaciones": 97890,
+      "bajas": 116271
+    },
+    {
+      "periodo": "2024-07",
+      "matriculaciones": 150215,
+      "bajas": 141191
+    },
+    {
+      "periodo": "2024-06",
+      "matriculaciones": 166021,
+      "bajas": 127830
+    },
+    {
+      "periodo": "2024-05",
+      "matriculaciones": 158789,
+      "bajas": 146018
+    },
+    {
+      "periodo": "2024-04",
+      "matriculaciones": 154004,
+      "bajas": 145382
+    },
+    {
+      "periodo": "2024-03",
+      "matriculaciones": 148796,
+      "bajas": 127017
+    }
+  ]
+}
