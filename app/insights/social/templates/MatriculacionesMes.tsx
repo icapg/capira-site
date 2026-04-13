@@ -3,6 +3,8 @@ export type { Format }
 
 type Props = {
   periodo: string
+  periodoFull?: string
+  periodoPrev?: string
   bev: number
   phev: number
   hev: number
@@ -147,7 +149,7 @@ function DesktopV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
   )
 }
 
-function PortraitV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evYoy, noElecYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
+function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMercado, bevYoy, phevYoy, evYoy, noElecYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const ev = bev + phev
   const noEnch = Math.max(0, totalMercado - bev - phev)
   const total = totalMercado
@@ -174,13 +176,13 @@ function PortraitV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
       <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
-            Matriculaciones · {periodo}
+            {periodoFull ?? periodo}
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
             {totalYoy != null && <div style={{ marginTop: v1TotalYoyMarginTop }}><YoyBadgeLight value={totalYoy} size={34} flushTop /></div>}
           </div>
-          <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos</span>
+          <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos matriculados</span>
         </div>
         <div style={{ marginLeft: 32, flexShrink: 0 }}>
           <LogoBlock logoW={126} logoH={40} urlSize={30} autoHeight />
@@ -219,7 +221,7 @@ function PortraitV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                 <div style={{ fontSize: 67, fontWeight: 800, color: noEnchColor, letterSpacing: '-0.02em', lineHeight: 1 }}>{(noEnch / 1000).toFixed(1)}k</div>
               </div>
               <div>
-                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                 {noElecYoy != null
                   ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: noElecYoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: noElecYoy >= 0 ? C.green : C.red }}>{noElecYoy >= 0 ? '▲' : '▼'} {Math.abs(noElecYoy).toFixed(1)}%</span>
                   : <span style={{ fontSize: 31, color: subColor }}>—</span>
@@ -242,7 +244,7 @@ function PortraitV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                     <div style={{ fontSize: 67, fontWeight: 800, color: box.color, letterSpacing: '-0.02em', lineHeight: 1 }}>{(box.value / 1000).toFixed(1)}k</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                     {box.yoy != null
                       ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: box.yoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: box.yoy >= 0 ? C.green : C.red }}>{box.yoy >= 0 ? '▲' : '▼'} {Math.abs(box.yoy).toFixed(1)}%</span>
                       : <span style={{ fontSize: 31, color: subColor }}>—</span>

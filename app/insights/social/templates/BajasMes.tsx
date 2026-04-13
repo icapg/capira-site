@@ -2,6 +2,8 @@ import type { Format } from './types'
 
 type Props = {
   periodo: string
+  periodoFull?: string
+  periodoPrev?: string
   bevBajas: number
   phevBajas: number
   hevBajas: number
@@ -159,15 +161,14 @@ function DonutChartBajas({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; 
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
       <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(248,113,113,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-        <div style={{ fontSize: Math.round(innerSize * 0.22), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1, whiteSpace: 'nowrap' }}>{fmt(enchuf)}</div>
-        <div style={{ fontSize: Math.round(innerSize * 0.12), fontWeight: 600, color: 'rgba(248,113,113,0.6)', letterSpacing: '0.03em', textTransform: 'uppercase', lineHeight: 1 }}>bajas EV</div>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
       </div>
     </div>
   )
 }
 
-function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
+function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const evBajas = bevBajas + phevBajas
   const noEnchBajas = Math.max(0, totalBajasMercado - bevBajas - phevBajas)
   const total = totalBajasMercado
@@ -194,7 +195,7 @@ function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado,
       <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
-            Bajas · {periodo}
+            {periodoFull ?? periodo}
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
@@ -239,7 +240,7 @@ function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado,
                 <div style={{ fontSize: 67, fontWeight: 800, color: noEnchColor, letterSpacing: '-0.02em', lineHeight: 1 }}>{(noEnchBajas / 1000).toFixed(1)}k</div>
               </div>
               <div>
-                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                 <span style={{ fontSize: 31, color: subColor }}>—</span>
               </div>
             </div>
@@ -259,7 +260,7 @@ function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado,
                     <div style={{ fontSize: 67, fontWeight: 800, color: box.color, letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(box.value)}</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                     {box.yoy != null
                       ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: box.yoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: box.yoy >= 0 ? C.green : C.red }}>{box.yoy >= 0 ? '▲' : '▼'} {Math.abs(box.yoy).toFixed(1)}%</span>
                       : <span style={{ fontSize: 31, color: subColor }}>—</span>

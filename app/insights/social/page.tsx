@@ -6,11 +6,17 @@ import { dgtMeses } from '../../lib/insights/dgt-data'
 import { PostsQueue } from './PostsQueue'
 import { TemplatesPanel } from './TemplatesPanel'
 
-const MESES_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+const MESES_ES      = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+const MESES_ES_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
 function formatPeriodo(periodo: string) {
   const [y, m] = periodo.split('-')
   return `${MESES_ES[parseInt(m) - 1]} ${y}`
+}
+
+function formatPeriodoFull(periodo: string) {
+  const [y, m] = periodo.split('-')
+  return `${MESES_ES_FULL[parseInt(m) - 1]} ${y}`
 }
 
 function yoy(current: number, previous: number | undefined) {
@@ -39,7 +45,9 @@ function getTemplateData() {
   const totalBajasMensual = ultimo.total_bajas_mes
 
   return {
-    periodo: formatPeriodo(ultimo.periodo),
+    periodo:     formatPeriodo(ultimo.periodo),
+    periodoFull: formatPeriodoFull(ultimo.periodo),
+    periodoPrev: penultimo ? formatPeriodo(penultimo.periodo) : undefined,
     matriculaciones: {
       bev:  mat.BEV  ?? 0,
       phev: mat.PHEV ?? 0,

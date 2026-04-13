@@ -11,6 +11,8 @@ import type { Format } from './templates/types'
 type Props = {
   data: {
     periodo: string
+    periodoFull: string
+    periodoPrev?: string
     matriculaciones: any
     bajas: any
     acumulado: any
@@ -142,7 +144,7 @@ export function TemplatesPanel({ data }: Props) {
       id:    'matriculaciones-mes',
       label: 'Matriculaciones del mes',
       variants: [
-        <MatriculacionesMes key="v1" periodo={data.periodo} {...data.matriculaciones} format={format} variant={1} />,
+        <MatriculacionesMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} {...data.matriculaciones} format={format} variant={1} />,
         <MatriculacionesMes key="v2" periodo={data.periodo} {...data.matriculaciones} format={format} variant={2} />,
         <MatriculacionesMes key="v3" periodo={data.periodo} {...data.matriculaciones} format={format} variant={3} />,
       ],
@@ -151,7 +153,7 @@ export function TemplatesPanel({ data }: Props) {
       id:    'bajas-mes',
       label: 'Bajas del mes',
       variants: [
-        <BajasMes key="v1" periodo={data.periodo} {...data.bajas} format={format} variant={1} />,
+        <BajasMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} {...data.bajas} format={format} variant={1} />,
         <BajasMes key="v2" periodo={data.periodo} {...data.bajas} format={format} variant={2} />,
         <BajasMes key="v3" periodo={data.periodo} {...data.bajas} format={format} variant={3} />,
       ],
