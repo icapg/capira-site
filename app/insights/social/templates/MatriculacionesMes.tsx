@@ -186,7 +186,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos matriculados</span>
         </div>
         <div style={{ marginLeft: 32, flexShrink: 0 }}>
-          <LogoBlock logoW={126} logoH={40} urlSize={30} autoHeight />
+          <LogoBlock logoW={113} logoH={40} urlSize={27} autoHeight />
         </div>
       </div>
 
@@ -212,7 +212,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
           <div style={{ flex: 1, display: 'flex', gap: 16 }}>
             <div style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 14, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>No Enchufable</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 90, boxSizing: 'border-box' }}>No Enchufable</div>
               <div>
                 <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                 <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(noEnch, total)}%</div>
@@ -235,7 +235,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
               ].map(box => (
                 <div key={box.label} style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 10, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>{box.label}</div>
+                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 90, boxSizing: 'border-box' }}>{box.label}</div>
                   <div>
                     <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                     <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(box.value, total)}%</div>
