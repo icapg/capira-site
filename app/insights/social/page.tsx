@@ -42,7 +42,12 @@ function getTemplateData() {
   const noElec     = Math.max(0, totalMercado     - (mat.BEV ?? 0)      - (mat.PHEV ?? 0))
   const noElecPrev = Math.max(0, totalMercadoPrev - (matPrev?.BEV ?? 0) - (matPrev?.PHEV ?? 0))
 
-  const totalBajasMensual = ultimo.total_bajas_mes
+  const totalBajasMensual     = ultimo.total_bajas_mes
+  const noEnchBajas           = Math.max(0, totalBajasMensual - (bajas.BEV ?? 0) - (bajas.PHEV ?? 0))
+  const totalBajasMensualPrev = penultimo?.total_bajas_mes
+  const noEnchBajasPrev       = totalBajasMensualPrev != null
+    ? Math.max(0, totalBajasMensualPrev - (penultimo?.bajas_mes.BEV ?? 0) - (penultimo?.bajas_mes.PHEV ?? 0))
+    : undefined
 
   return {
     periodo:     formatPeriodo(ultimo.periodo),
@@ -66,8 +71,9 @@ function getTemplateData() {
       totalBajasMercado: totalBajasMensual,
       bevYoy:   yoy(bajas.BEV  ?? 0, penultimo?.bajas_mes.BEV),
       phevYoy:  yoy(bajas.PHEV ?? 0, penultimo?.bajas_mes.PHEV),
-      evYoy:    yoy((bajas.BEV ?? 0) + (bajas.PHEV ?? 0), (penultimo?.bajas_mes.BEV ?? 0) + (penultimo?.bajas_mes.PHEV ?? 0)),
-      totalYoy: yoy(totalBajasMensual, penultimo?.total_bajas_mes),
+      evYoy:      yoy((bajas.BEV ?? 0) + (bajas.PHEV ?? 0), (penultimo?.bajas_mes.BEV ?? 0) + (penultimo?.bajas_mes.PHEV ?? 0)),
+      noEnchYoy:  yoy(noEnchBajas, noEnchBajasPrev),
+      totalYoy:   yoy(totalBajasMensual, penultimo?.total_bajas_mes),
     },
     acumulado: {
       bevActivos:  parque.BEV  ?? 0,

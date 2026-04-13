@@ -11,6 +11,7 @@ type Props = {
   bevYoy?: number
   phevYoy?: number
   evYoy?: number
+  noEnchYoy?: number
   totalYoy?: number
   format: Format
   variant?: 1 | 2 | 3
@@ -168,7 +169,7 @@ function DonutChartBajas({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; 
   )
 }
 
-function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
+function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, noEnchYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const evBajas = bevBajas + phevBajas
   const noEnchBajas = Math.max(0, totalBajasMercado - bevBajas - phevBajas)
   const total = totalBajasMercado
@@ -241,7 +242,10 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
               </div>
               <div>
                 <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
-                <span style={{ fontSize: 31, color: subColor }}>—</span>
+                {noEnchYoy != null
+                  ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: noEnchYoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: noEnchYoy >= 0 ? C.green : C.red }}>{noEnchYoy >= 0 ? '▲' : '▼'} {Math.abs(noEnchYoy).toFixed(1)}%</span>
+                  : <span style={{ fontSize: 31, color: subColor }}>—</span>
+                }
               </div>
             </div>
             <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.red}`, borderRadius: 14, padding: 6 }}>
