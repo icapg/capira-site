@@ -22,6 +22,7 @@ const C = {
   bev:    '#38bdf8',
   phev:   '#fb923c',
   green:  '#34d399',
+  ev:     '#a78bfa',
   red:    '#f87171',
   text:   '#f1f5f9',
   muted:  'rgba(241,245,249,0.45)',
@@ -102,12 +103,12 @@ function DesktopV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado, 
 
       {/* Sección oscura */}
       <div style={{ flex: 1, padding: '14px 56px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
-        <div style={{ position: 'absolute', bottom: -40, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle,rgba(248,113,113,0.08),transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -40, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle,rgba(167,139,250,0.08),transparent 70%)', pointerEvents: 'none' }} />
 
         {/* Cards */}
         <div style={{ display: 'flex', gap: 12 }}>
           {[
-            { label: 'Cuota bajas EV (BEV+PHEV)', value: pct(evBajas, total) + '%',  color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
+            { label: 'Cuota bajas EV (BEV+PHEV)', value: pct(evBajas, total) + '%',  color: C.ev,  bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',                        value: pct(bevBajas, total) + '%',  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)' },
             { label: 'PHEV',                       value: pct(phevBajas, total) + '%', color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)' },
           ].map(card => (
@@ -161,9 +162,9 @@ function DonutChartBajas({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; 
   const innerSize = Math.round(size * 0.52)
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
-      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(248,113,113,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
+      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(167,139,250,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
+        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.ev, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
       </div>
     </div>
   )
@@ -224,8 +225,8 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
               <DonutChartBajas enchuf={evBajas} noEnch={noEnchBajas} size={pieSize} bg={C.bg} />
             </div>
             {/* Red callout */}
-            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.red, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.red, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.ev, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
           </div>
 
           {/* 3 boxes */}
@@ -248,7 +249,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
                 }
               </div>
             </div>
-            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.red}`, borderRadius: 14, padding: 6 }}>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.ev}`, borderRadius: 14, padding: 6 }}>
               {[
                 { label: 'BEV',  value: bevBajas,  color: C.bev,  yoy: bevYoy  },
                 { label: 'PHEV', value: phevBajas, color: C.phev, yoy: phevYoy },
@@ -276,12 +277,12 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
           </div>
 
           {/* Red vertical line */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.red, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Red annotation */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 44, fontWeight: 900, color: C.red, lineHeight: 1.15 }}>{pct(evBajas, total)}%</div>
-            <div style={{ fontSize: 44, fontWeight: 700, color: C.red, lineHeight: 1.15 }}>bajas EV</div>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(evBajas, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>bajas EV</div>
           </div>
         </div>
 
@@ -327,7 +328,7 @@ function DesktopV2({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado }
 
         <div style={{ display: 'flex', gap: 12 }}>
           {[
-            { label: 'Bajas EV (BEV+PHEV)', value: fmt(evBajas),   color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
+            { label: 'Bajas EV (BEV+PHEV)', value: fmt(evBajas),   color: C.ev,  bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',                 value: fmt(bevBajas),  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)'  },
             { label: 'PHEV',                value: fmt(phevBajas), color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)'  },
           ].map(card => (
@@ -391,7 +392,7 @@ function PortraitV2({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado 
 
         <div style={{ display: 'flex', gap: 14 }}>
           {[
-            { label: 'Bajas EV', value: fmt(evBajas),   color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
+            { label: 'Bajas EV', value: fmt(evBajas),   color: C.ev,  bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',      value: fmt(bevBajas),  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)'  },
             { label: 'PHEV',     value: fmt(phevBajas), color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)'  },
           ].map(card => (
@@ -459,7 +460,7 @@ function DesktopV3({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado }
 
         <div style={{ display: 'flex', gap: 12 }}>
           {[
-            { label: 'Bajas EV (BEV+PHEV)', value: fmt(evBajas),   color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
+            { label: 'Bajas EV (BEV+PHEV)', value: fmt(evBajas),   color: C.ev,  bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',                 value: fmt(bevBajas),  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)'  },
             { label: 'PHEV',                value: fmt(phevBajas), color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)'  },
           ].map(card => (
@@ -523,7 +524,7 @@ function PortraitV3({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado 
 
         <div style={{ display: 'flex', gap: 14 }}>
           {[
-            { label: 'Bajas EV', value: fmt(evBajas),   color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
+            { label: 'Bajas EV', value: fmt(evBajas),   color: C.ev,  bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',      value: fmt(bevBajas),  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)'  },
             { label: 'PHEV',     value: fmt(phevBajas), color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)'  },
           ].map(card => (
