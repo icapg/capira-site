@@ -56,6 +56,10 @@ function getTemplateData() {
       phevBajas:         bajas.PHEV ?? 0,
       hevBajas:          bajas.HEV  ?? 0,
       totalBajasMercado: totalBajasMensual,
+      bevYoy:   yoy(bajas.BEV  ?? 0, penultimo?.bajas_mes.BEV),
+      phevYoy:  yoy(bajas.PHEV ?? 0, penultimo?.bajas_mes.PHEV),
+      evYoy:    yoy((bajas.BEV ?? 0) + (bajas.PHEV ?? 0), (penultimo?.bajas_mes.BEV ?? 0) + (penultimo?.bajas_mes.PHEV ?? 0)),
+      totalYoy: yoy(totalBajasMensual, penultimo?.total_bajas_mes),
     },
     acumulado: {
       bevActivos:  parque.BEV  ?? 0,
