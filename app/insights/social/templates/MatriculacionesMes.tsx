@@ -24,7 +24,7 @@ const C = {
   bev:    '#38bdf8',
   phev:   '#fb923c',
   green:  '#34d399',
-  ev:     '#a78bfa',
+  ev:     '#34d399',
   red:    '#f87171',
   text:   '#f1f5f9',
   muted:  'rgba(241,245,249,0.45)',
@@ -102,7 +102,7 @@ function DesktopV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
         {/* Cards */}
         <div style={{ display: 'flex', gap: 12 }}>
           {[
-            { label: 'Cuota EV (BEV+PHEV)', value: pct(ev, total) + '%',  color: C.ev, bg: 'rgba(167,139,250,0.08)',  border: 'rgba(167,139,250,0.25)' },
+            { label: 'Cuota EV (BEV+PHEV)', value: pct(ev, total) + '%',  color: C.ev, bg: 'rgba(52,211,153,0.08)',  border: 'rgba(52,211,153,0.25)' },
             { label: 'BEV',                 value: pct(bev, total) + '%',  color: C.bev,   bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)' },
             { label: 'PHEV',                value: pct(phev, total) + '%', color: C.phev,  bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)' },
           ].map(card => (
@@ -174,7 +174,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
 
       {/* Banda blanca */}
-      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
             {periodoFull ?? periodo}
@@ -185,8 +185,8 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           </div>
           <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos matriculados</span>
         </div>
-        <div style={{ marginLeft: 32, flexShrink: 0 }}>
-          <LogoBlock logoW={113} logoH={40} urlSize={27} autoHeight />
+        <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', alignItems: 'flex-end' }}>
+          <LogoBlock logoW={113} logoH={40} urlSize={34} autoHeight />
         </div>
       </div>
 
@@ -212,7 +212,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
           <div style={{ flex: 1, display: 'flex', gap: 16 }}>
             <div style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 14, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 90, boxSizing: 'border-box' }}>No Enchufable</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>No<br />Enchufable</div>
               <div>
                 <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                 <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(noEnch, total)}%</div>
@@ -235,7 +235,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
               ].map(box => (
                 <div key={box.label} style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 10, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 90, boxSizing: 'border-box' }}>{box.label}</div>
+                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>{box.label}</div>
                   <div>
                     <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                     <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(box.value, total)}%</div>
@@ -288,7 +288,7 @@ function DonutChart2({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; noEn
   const innerSize = Math.round(size * 0.52)
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
-      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(167,139,250,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
+      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(52,211,153,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.ev, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
       </div>
