@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@supabase/supabase-js'
 import { dgtParqueMensual } from '../../lib/insights/dgt-parque-data'
 import { dgtMeses } from '../../lib/insights/dgt-data'
