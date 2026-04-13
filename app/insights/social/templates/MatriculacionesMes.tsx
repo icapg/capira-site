@@ -24,6 +24,7 @@ const C = {
   bev:    '#38bdf8',
   phev:   '#fb923c',
   green:  '#34d399',
+  ev:     '#a78bfa',
   red:    '#f87171',
   text:   '#f1f5f9',
   muted:  'rgba(241,245,249,0.45)',
@@ -101,7 +102,7 @@ function DesktopV1({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
         {/* Cards */}
         <div style={{ display: 'flex', gap: 12 }}>
           {[
-            { label: 'Cuota EV (BEV+PHEV)', value: pct(ev, total) + '%',  color: C.green, bg: 'rgba(52,211,153,0.08)',  border: 'rgba(52,211,153,0.25)' },
+            { label: 'Cuota EV (BEV+PHEV)', value: pct(ev, total) + '%',  color: C.ev, bg: 'rgba(167,139,250,0.08)',  border: 'rgba(167,139,250,0.25)' },
             { label: 'BEV',                 value: pct(bev, total) + '%',  color: C.bev,   bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)' },
             { label: 'PHEV',                value: pct(phev, total) + '%', color: C.phev,  bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)' },
           ].map(card => (
@@ -204,8 +205,8 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
             {/* Green callout */}
-            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.green, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.green, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.ev, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
           </div>
 
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
@@ -228,7 +229,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
                 }
               </div>
             </div>
-            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.green}`, borderRadius: 14, padding: 6 }}>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.ev}`, borderRadius: 14, padding: 6 }}>
               {[
                 { label: 'BEV',  value: bev,  color: C.bev,  yoy: bevYoy  },
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
@@ -256,12 +257,12 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           </div>
 
           {/* Green line: vertical — touches top of green wrapper */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green text: 2 rows to the right of vertical line */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 44, fontWeight: 900, color: C.green, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
-            <div style={{ fontSize: 44, fontWeight: 700, color: C.green, lineHeight: 1.15 }}>enchufables</div>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
           </div>
         </div>
 
@@ -287,9 +288,9 @@ function DonutChart2({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; noEn
   const innerSize = Math.round(size * 0.52)
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
-      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(52,211,153,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
+      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(167,139,250,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.green, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
+        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.ev, letterSpacing: '-0.02em', lineHeight: 1 }}>{(enchuf / 1000).toFixed(1)}k</div>
       </div>
     </div>
   )
@@ -353,10 +354,10 @@ function DesktopV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
             </div>
 
             {/* Green dot at green arc exit */}
-            <div style={{ position: 'absolute', left: pieRightX - 4, top: `calc(50% + ${greenExitDY}px)`, width: 8, height: 8, borderRadius: '50%', background: C.green, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 4, top: `calc(50% + ${greenExitDY}px)`, width: 8, height: 8, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
 
             {/* Green line: horizontal to gap2 center */}
-            <div style={{ position: 'absolute', left: pieRightX + 4, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 4, height: 1.5, background: C.green, transform: 'translateY(-0.75px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 4, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 4, height: 1.5, background: C.ev, transform: 'translateY(-0.75px)', pointerEvents: 'none' }} />
 
           </div>
 
@@ -391,15 +392,15 @@ function DesktopV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
           </div>
 
           {/* Green line: vertical — ends at bracket */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${110 + greenExitDY}px`, width: 1.5, height: `${85 - greenExitDY}px`, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${110 + greenExitDY}px`, width: 1.5, height: `${85 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green bracket: from BEV center to PHEV center */}
-          <div style={{ position: 'absolute', left: Math.round(boxW * 1.5 + 12), top: `${195}px`, width: Math.round(boxW + 12), height: 1.5, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(boxW * 1.5 + 12), top: `${195}px`, width: Math.round(boxW + 12), height: 1.5, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green text: 2 rows to the right of vertical line */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 10, top: `${110 + greenExitDY + 10}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 28, fontWeight: 900, color: C.green, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: C.green, lineHeight: 1.15 }}>enchufables</div>
+            <div style={{ fontSize: 28, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
           </div>
         </div>
 
@@ -470,8 +471,8 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
             {/* Green callout */}
-            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.green, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.green, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.ev, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
           </div>
 
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
@@ -494,7 +495,7 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                 }
               </div>
             </div>
-            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.green}`, borderRadius: 14, padding: 6 }}>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.ev}`, borderRadius: 14, padding: 6 }}>
               {[
                 { label: 'BEV',  value: bev,  color: C.bev,  yoy: bevYoy  },
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
@@ -522,12 +523,12 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
           </div>
 
           {/* Green line: vertical — touches top of green wrapper */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green text: 2 rows to the right of vertical line */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 44, fontWeight: 900, color: C.green, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
-            <div style={{ fontSize: 44, fontWeight: 700, color: C.green, lineHeight: 1.15 }}>enchufables</div>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
           </div>
         </div>
 
@@ -597,8 +598,8 @@ function DesktopV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
             <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
-            <div style={{ position: 'absolute', left: pieRightX - 4, top: `calc(50% + ${greenExitDY}px)`, width: 8, height: 8, borderRadius: '50%', background: C.green, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: pieRightX + 4, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 4, height: 1.5, background: C.green, transform: 'translateY(-0.75px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 4, top: `calc(50% + ${greenExitDY}px)`, width: 8, height: 8, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 4, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 4, height: 1.5, background: C.ev, transform: 'translateY(-0.75px)', pointerEvents: 'none' }} />
           </div>
 
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
@@ -623,7 +624,7 @@ function DesktopV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
               </div>
             </div>
             {/* BEV + PHEV in green border wrapper */}
-            <div style={{ flex: 2, display: 'flex', gap: 8, border: `1.5px solid ${C.green}`, borderRadius: 10, padding: 4 }}>
+            <div style={{ flex: 2, display: 'flex', gap: 8, border: `1.5px solid ${C.ev}`, borderRadius: 10, padding: 4 }}>
               {[
                 { label: 'BEV',  value: bev,  color: C.bev,  yoy: bevYoy  },
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
@@ -651,12 +652,12 @@ function DesktopV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
           </div>
 
           {/* Green line: vertical — touches top of green wrapper */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${110 + greenExitDY}px`, width: 1.5, height: `${110 - greenExitDY}px`, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${110 + greenExitDY}px`, width: 1.5, height: `${110 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green text: 2 rows to the right of vertical line */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 10, top: `${110 + greenExitDY + 10}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 28, fontWeight: 900, color: C.green, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: C.green, lineHeight: 1.15 }}>enchufables</div>
+            <div style={{ fontSize: 28, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
           </div>
         </div>
 
@@ -726,8 +727,8 @@ function PortraitV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
             {/* Green callout */}
-            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.green, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.green, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.ev, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
           </div>
 
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
@@ -750,7 +751,7 @@ function PortraitV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                 }
               </div>
             </div>
-            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.green}`, borderRadius: 14, padding: 6 }}>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.ev}`, borderRadius: 14, padding: 6 }}>
               {[
                 { label: 'BEV',  value: bev,  color: C.bev,  yoy: bevYoy  },
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
@@ -778,12 +779,12 @@ function PortraitV3({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
           </div>
 
           {/* Green line: vertical — touches top of green wrapper */}
-          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.green, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
 
           {/* Green text: 2 rows to the right of vertical line */}
           <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
-            <div style={{ fontSize: 44, fontWeight: 900, color: C.green, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
-            <div style={{ fontSize: 44, fontWeight: 700, color: C.green, lineHeight: 1.15 }}>enchufables</div>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(ev, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
           </div>
         </div>
 
