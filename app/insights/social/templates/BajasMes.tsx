@@ -29,6 +29,15 @@ const C = {
 function fmt(n: number) { return n.toLocaleString('es-ES') }
 function pct(n: number, t: number) { return t > 0 ? ((n / t) * 100).toFixed(1) : '0.0' }
 
+function Bar({ value, max, color, height = 7 }: { value: number; max: number; color: string; height?: number }) {
+  const w = max > 0 ? Math.max(1, (value / max) * 100) : 0
+  return (
+    <div style={{ flex: 1, height, borderRadius: 4, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
+      <div style={{ height: '100%', width: `${w}%`, background: color, borderRadius: 4 }} />
+    </div>
+  )
+}
+
 function YoyBadge({ value, size = 16 }: { value?: number; size?: number }) {
   if (value == null) return null
   const up = value >= 0
