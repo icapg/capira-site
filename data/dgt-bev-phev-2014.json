@@ -1,0 +1,1212 @@
+{
+  "meta": {
+    "año": 2014,
+    "fuente": "DGT MATRABA microdatos",
+    "generado_en": "2026-04-12T20:07:35.067Z"
+  },
+  "bev": {
+    "total": 283,
+    "nuevos": 283,
+    "usados": 0,
+    "renting_pct": 9.9,
+    "empresa_pct": 74.6,
+    "marcas_top20": [
+      {
+        "marca": "NISSAN",
+        "n": 117
+      },
+      {
+        "marca": "RENAULT",
+        "n": 87
+      },
+      {
+        "marca": "BMW",
+        "n": 20
+      },
+      {
+        "marca": "BMW I",
+        "n": 8
+      },
+      {
+        "marca": "VOLKSWAGEN",
+        "n": 6
+      },
+      {
+        "marca": "BRAMMO",
+        "n": 5
+      },
+      {
+        "marca": "SCUTUM",
+        "n": 5
+      },
+      {
+        "marca": "COMARTH",
+        "n": 4
+      },
+      {
+        "marca": "PIAGGIO",
+        "n": 3
+      },
+      {
+        "marca": "ERIDER",
+        "n": 2
+      },
+      {
+        "marca": "YAMAHA",
+        "n": 2
+      },
+      {
+        "marca": "GOUPIL",
+        "n": 2
+      },
+      {
+        "marca": "EFUN X-TREME",
+        "n": 2
+      },
+      {
+        "marca": "EAGLE",
+        "n": 2
+      },
+      {
+        "marca": "JONWAY",
+        "n": 2
+      },
+      {
+        "marca": "MEGA",
+        "n": 2
+      },
+      {
+        "marca": "BYD",
+        "n": 1
+      },
+      {
+        "marca": "SANYOU",
+        "n": 1
+      },
+      {
+        "marca": "XKUTY",
+        "n": 1
+      },
+      {
+        "marca": "EMO",
+        "n": 1
+      }
+    ],
+    "modelos_top20": [
+      {
+        "modelo": "NISSAN LEAF",
+        "n": 47
+      },
+      {
+        "modelo": "ZOE",
+        "n": 39
+      },
+      {
+        "modelo": "LEAF",
+        "n": 24
+      },
+      {
+        "modelo": "I3",
+        "n": 24
+      },
+      {
+        "modelo": "NISSAN E NV200",
+        "n": 24
+      },
+      {
+        "modelo": "KANGOO EXPRESS Z.E.",
+        "n": 14
+      },
+      {
+        "modelo": "TWIZY",
+        "n": 11
+      },
+      {
+        "modelo": "NV200",
+        "n": 6
+      },
+      {
+        "modelo": "EMPULSE",
+        "n": 5
+      },
+      {
+        "modelo": "KANGOO",
+        "n": 5
+      },
+      {
+        "modelo": "E-NV200",
+        "n": 5
+      },
+      {
+        "modelo": "SCUTUM S02",
+        "n": 5
+      },
+      {
+        "modelo": "NISSAN E-NV200",
+        "n": 5
+      },
+      {
+        "modelo": "TWIZY 45",
+        "n": 5
+      },
+      {
+        "modelo": "KANGOO EXPRESS ZE",
+        "n": 5
+      },
+      {
+        "modelo": "C EVOLUTION",
+        "n": 4
+      },
+      {
+        "modelo": "PORTER ELECTRICO",
+        "n": 3
+      },
+      {
+        "modelo": "T-TRUCK",
+        "n": 3
+      },
+      {
+        "modelo": "GOLF",
+        "n": 3
+      },
+      {
+        "modelo": "ED06",
+        "n": 2
+      }
+    ],
+    "provincias": [
+      {
+        "cod": "B",
+        "provincia": "Barcelona",
+        "n": 78
+      },
+      {
+        "cod": "M",
+        "provincia": "Madrid",
+        "n": 63
+      },
+      {
+        "cod": "BI",
+        "provincia": "Vizcaya",
+        "n": 15
+      },
+      {
+        "cod": "MA",
+        "provincia": "Málaga",
+        "n": 14
+      },
+      {
+        "cod": "GC",
+        "provincia": "Las Palmas",
+        "n": 10
+      },
+      {
+        "cod": "TF",
+        "provincia": "Santa Cruz de Tenerife",
+        "n": 9
+      },
+      {
+        "cod": "IB",
+        "provincia": "Illes Balears",
+        "n": 8
+      },
+      {
+        "cod": "MU",
+        "provincia": "Murcia",
+        "n": 8
+      },
+      {
+        "cod": "SE",
+        "provincia": "Sevilla",
+        "n": 8
+      },
+      {
+        "cod": "A",
+        "provincia": "Alicante",
+        "n": 8
+      },
+      {
+        "cod": "T",
+        "provincia": "Tarragona",
+        "n": 7
+      },
+      {
+        "cod": "GI",
+        "provincia": "Girona",
+        "n": 6
+      },
+      {
+        "cod": "AL",
+        "provincia": "Almería",
+        "n": 5
+      },
+      {
+        "cod": "V",
+        "provincia": "Valencia",
+        "n": 5
+      },
+      {
+        "cod": "GR",
+        "provincia": "Granada",
+        "n": 4
+      },
+      {
+        "cod": "C",
+        "provincia": "A Coruña",
+        "n": 4
+      },
+      {
+        "cod": "VI",
+        "provincia": "Álava",
+        "n": 4
+      },
+      {
+        "cod": "SS",
+        "provincia": "Gipuzkoa",
+        "n": 3
+      },
+      {
+        "cod": "Z",
+        "provincia": "Zaragoza",
+        "n": 3
+      },
+      {
+        "cod": "S",
+        "provincia": "Cantabria",
+        "n": 2
+      },
+      {
+        "cod": "BA",
+        "provincia": "Badajoz",
+        "n": 2
+      },
+      {
+        "cod": "LE",
+        "provincia": "León",
+        "n": 2
+      },
+      {
+        "cod": "HU",
+        "provincia": "Huesca",
+        "n": 2
+      },
+      {
+        "cod": "PO",
+        "provincia": "Pontevedra",
+        "n": 2
+      },
+      {
+        "cod": "O",
+        "provincia": "Asturias",
+        "n": 2
+      },
+      {
+        "cod": "ZA",
+        "provincia": "Zamora",
+        "n": 1
+      },
+      {
+        "cod": "AB",
+        "provincia": "Albacete",
+        "n": 1
+      },
+      {
+        "cod": "H",
+        "provincia": "Huelva",
+        "n": 1
+      },
+      {
+        "cod": "VA",
+        "provincia": "Valladolid",
+        "n": 1
+      },
+      {
+        "cod": "L",
+        "provincia": "Lleida",
+        "n": 1
+      },
+      {
+        "cod": "SA",
+        "provincia": "Salamanca",
+        "n": 1
+      },
+      {
+        "cod": "J",
+        "provincia": "Jaén",
+        "n": 1
+      },
+      {
+        "cod": "GU",
+        "provincia": "Guadalajara",
+        "n": 1
+      },
+      {
+        "cod": "NA",
+        "provincia": "Navarra",
+        "n": 1
+      }
+    ],
+    "municipios": [
+      {
+        "municipio": "L HOSPITALET DE LLOB",
+        "n": 27
+      },
+      {
+        "municipio": "BARCELONA",
+        "n": 25
+      },
+      {
+        "municipio": "MADRID",
+        "n": 24
+      },
+      {
+        "municipio": "MORALZARZAL",
+        "n": 12
+      },
+      {
+        "municipio": "BRUNETE",
+        "n": 7
+      },
+      {
+        "municipio": "LAS PALMAS G C",
+        "n": 7
+      },
+      {
+        "municipio": "SEVILLA",
+        "n": 5
+      },
+      {
+        "municipio": "LA LAGUNA",
+        "n": 5
+      },
+      {
+        "municipio": "AGUILAR DE SEGARRA",
+        "n": 4
+      },
+      {
+        "municipio": "GRANADA",
+        "n": 4
+      },
+      {
+        "municipio": "MURCIA",
+        "n": 4
+      },
+      {
+        "municipio": "ORIHUELA",
+        "n": 4
+      },
+      {
+        "municipio": "MALAGA",
+        "n": 4
+      },
+      {
+        "municipio": "LEIOA",
+        "n": 3
+      },
+      {
+        "municipio": "MARBELLA",
+        "n": 3
+      },
+      {
+        "municipio": "ALCOBENDAS",
+        "n": 3
+      },
+      {
+        "municipio": "PALMA MALLORCA",
+        "n": 3
+      },
+      {
+        "municipio": "PORTUGALETE",
+        "n": 3
+      },
+      {
+        "municipio": "PUEBLA DE SAN MIGUEL",
+        "n": 3
+      },
+      {
+        "municipio": "VITORIA GASTEIZ",
+        "n": 3
+      },
+      {
+        "municipio": "FORNELLS DE LA SELVA",
+        "n": 3
+      },
+      {
+        "municipio": "GRANOLLERS",
+        "n": 3
+      },
+      {
+        "municipio": "ALMERIA",
+        "n": 2
+      },
+      {
+        "municipio": "S C TENERIFE",
+        "n": 2
+      },
+      {
+        "municipio": "VIGO",
+        "n": 2
+      },
+      {
+        "municipio": "TIAS",
+        "n": 2
+      },
+      {
+        "municipio": "ALICANTE",
+        "n": 2
+      },
+      {
+        "municipio": "BILBAO",
+        "n": 2
+      },
+      {
+        "municipio": "GALDAKAO",
+        "n": 2
+      },
+      {
+        "municipio": "ROBLEDO DE CHAVELA",
+        "n": 2
+      },
+      {
+        "municipio": "MIJAS",
+        "n": 2
+      },
+      {
+        "municipio": "SANT PERE PESCADOR",
+        "n": 2
+      },
+      {
+        "municipio": "SANTIAGO",
+        "n": 2
+      },
+      {
+        "municipio": "GIJON",
+        "n": 2
+      },
+      {
+        "municipio": "ZARAGOZA",
+        "n": 2
+      },
+      {
+        "municipio": "MANRESA",
+        "n": 2
+      },
+      {
+        "municipio": "BENALMADENA",
+        "n": 2
+      },
+      {
+        "municipio": "TRES CANTOS",
+        "n": 2
+      },
+      {
+        "municipio": "ABRERA",
+        "n": 1
+      },
+      {
+        "municipio": "CORNELLA DE LLOB",
+        "n": 1
+      },
+      {
+        "municipio": "ROQUETES",
+        "n": 1
+      },
+      {
+        "municipio": "REUS",
+        "n": 1
+      },
+      {
+        "municipio": "CAMARGO",
+        "n": 1
+      },
+      {
+        "municipio": "BADAJOZ",
+        "n": 1
+      },
+      {
+        "municipio": "ORTUELLA",
+        "n": 1
+      },
+      {
+        "municipio": "ZAMORA",
+        "n": 1
+      },
+      {
+        "municipio": "POLLENCA",
+        "n": 1
+      },
+      {
+        "municipio": "SANTOMERA",
+        "n": 1
+      },
+      {
+        "municipio": "VALENCIA DE DON JUAN",
+        "n": 1
+      },
+      {
+        "municipio": "TORRELODONES",
+        "n": 1
+      },
+      {
+        "municipio": "CARTAGENA",
+        "n": 1
+      },
+      {
+        "municipio": "MAO",
+        "n": 1
+      },
+      {
+        "municipio": "BINEFAR",
+        "n": 1
+      },
+      {
+        "municipio": "ALBACETE",
+        "n": 1
+      },
+      {
+        "municipio": "ROCIANA DEL CONDADO",
+        "n": 1
+      },
+      {
+        "municipio": "OYARZUN",
+        "n": 1
+      },
+      {
+        "municipio": "HONDARRIBIA",
+        "n": 1
+      },
+      {
+        "municipio": "ISTAN",
+        "n": 1
+      },
+      {
+        "municipio": "EL ESCORIAL",
+        "n": 1
+      },
+      {
+        "municipio": "SANTIPONCE",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA GALLEGO",
+        "n": 1
+      },
+      {
+        "municipio": "VALDEMORILLO",
+        "n": 1
+      },
+      {
+        "municipio": "VALLROMANES",
+        "n": 1
+      },
+      {
+        "municipio": "ALMENDRALEJO",
+        "n": 1
+      },
+      {
+        "municipio": "HUESCA",
+        "n": 1
+      },
+      {
+        "municipio": "LORCA",
+        "n": 1
+      },
+      {
+        "municipio": "POZUELO DE ALARCON",
+        "n": 1
+      },
+      {
+        "municipio": "S JUST DESVERN",
+        "n": 1
+      },
+      {
+        "municipio": "ARGENTONA",
+        "n": 1
+      },
+      {
+        "municipio": "S VICENC MONTALT",
+        "n": 1
+      },
+      {
+        "municipio": "LAGUNA DE DUERO",
+        "n": 1
+      },
+      {
+        "municipio": "SAN PEDRO PINATAR",
+        "n": 1
+      },
+      {
+        "municipio": "MARRATXI",
+        "n": 1
+      },
+      {
+        "municipio": "CADAQUES",
+        "n": 1
+      },
+      {
+        "municipio": "EL CATLLAR",
+        "n": 1
+      },
+      {
+        "municipio": "RINCON DE VICTORIA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLAR DEL VALLES",
+        "n": 1
+      },
+      {
+        "municipio": "L ALBI",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA DE CAÑADA",
+        "n": 1
+      },
+      {
+        "municipio": "S EULALIA RIUPRIMER",
+        "n": 1
+      },
+      {
+        "municipio": "VALENCIA",
+        "n": 1
+      },
+      {
+        "municipio": "GETXO",
+        "n": 1
+      },
+      {
+        "municipio": "BANYERES DE MARIOLA",
+        "n": 1
+      },
+      {
+        "municipio": "BEGUES",
+        "n": 1
+      },
+      {
+        "municipio": "MUNGIA",
+        "n": 1
+      },
+      {
+        "municipio": "SANT JOAN D ALACANT",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARES DE LA REINA",
+        "n": 1
+      },
+      {
+        "municipio": "BINISSALEM",
+        "n": 1
+      },
+      {
+        "municipio": "GELVES",
+        "n": 1
+      },
+      {
+        "municipio": "MANACOR",
+        "n": 1
+      },
+      {
+        "municipio": "TIANA",
+        "n": 1
+      },
+      {
+        "municipio": "CONSTANTI",
+        "n": 1
+      },
+      {
+        "municipio": "HERMIGUA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCORCON",
+        "n": 1
+      },
+      {
+        "municipio": "LAS ROZAS DE MADRID",
+        "n": 1
+      },
+      {
+        "municipio": "ROQUETAS DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "BARRUNDIA",
+        "n": 1
+      },
+      {
+        "municipio": "LA ALGABA",
+        "n": 1
+      },
+      {
+        "municipio": "NACIMIENTO",
+        "n": 1
+      },
+      {
+        "municipio": "LAZKAO",
+        "n": 1
+      },
+      {
+        "municipio": "ARRECIFE",
+        "n": 1
+      },
+      {
+        "municipio": "IGUALADA",
+        "n": 1
+      },
+      {
+        "municipio": "TORTOSA",
+        "n": 1
+      },
+      {
+        "municipio": "LA CAROLINA",
+        "n": 1
+      },
+      {
+        "municipio": "S S GOMERA",
+        "n": 1
+      },
+      {
+        "municipio": "HUERCAL DE ALMERIA",
+        "n": 1
+      },
+      {
+        "municipio": "ESTEPONA",
+        "n": 1
+      },
+      {
+        "municipio": "VALLS",
+        "n": 1
+      },
+      {
+        "municipio": "BARAKALDO",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA DE HENARES",
+        "n": 1
+      },
+      {
+        "municipio": "TERRASSA",
+        "n": 1
+      },
+      {
+        "municipio": "PALAU SOLITA I PLEGAMANS",
+        "n": 1
+      },
+      {
+        "municipio": "MELIANA",
+        "n": 1
+      },
+      {
+        "municipio": "IURRETA",
+        "n": 1
+      },
+      {
+        "municipio": "GUADALAJARA",
+        "n": 1
+      },
+      {
+        "municipio": "LA GARRIGA",
+        "n": 1
+      },
+      {
+        "municipio": "VENTURADA",
+        "n": 1
+      },
+      {
+        "municipio": "S BOI DE LLOB",
+        "n": 1
+      },
+      {
+        "municipio": "AMPOSTA",
+        "n": 1
+      },
+      {
+        "municipio": "RAJADELL",
+        "n": 1
+      },
+      {
+        "municipio": "EZCABARTE",
+        "n": 1
+      },
+      {
+        "municipio": "MELIDE",
+        "n": 1
+      },
+      {
+        "municipio": "LEGANES",
+        "n": 1
+      },
+      {
+        "municipio": "OLEIROS",
+        "n": 1
+      },
+      {
+        "municipio": "TORREJON DE ARDOZ",
+        "n": 1
+      },
+      {
+        "municipio": "MOSTOLES",
+        "n": 1
+      },
+      {
+        "municipio": "RIVAS VACIAMADRID",
+        "n": 1
+      },
+      {
+        "municipio": "VAL SAN VICENTE",
+        "n": 1
+      },
+      {
+        "municipio": "MOLINS DE REI",
+        "n": 1
+      },
+      {
+        "municipio": "VALDEFRESNO",
+        "n": 1
+      }
+    ],
+    "cat_homologacion": {
+      "turismo": 164,
+      "moto_scooter": 57,
+      "furgoneta": 61,
+      "nd": 1
+    },
+    "carroceria": {
+      "turismo": 46,
+      "nd": 58,
+      "familiar": 18,
+      "furgoneta": 61,
+      "suv_mpv": 71,
+      "berlina": 26,
+      "otros": 3
+    },
+    "servicio": {
+      "privado": 271,
+      "comercial": 12
+    },
+    "kw_buckets": {
+      "0-50": 134,
+      "51-100": 124,
+      "101-150": 24,
+      "nd": 1
+    },
+    "autonomia_buckets": {
+      "201-300": 20,
+      "301-400": 1,
+      "nd": 53,
+      "0-200": 208,
+      "501+": 1
+    }
+  },
+  "phev": {
+    "total": 51,
+    "nuevos": 51,
+    "usados": 0,
+    "renting_pct": 2,
+    "empresa_pct": 66.7,
+    "marcas_top20": [
+      {
+        "marca": "MITSUBISHI",
+        "n": 33
+      },
+      {
+        "marca": "PORSCHE",
+        "n": 10
+      },
+      {
+        "marca": "BMW",
+        "n": 3
+      },
+      {
+        "marca": "BMW I",
+        "n": 2
+      },
+      {
+        "marca": "VOLVO",
+        "n": 1
+      },
+      {
+        "marca": "AUDI",
+        "n": 1
+      },
+      {
+        "marca": "MELIA",
+        "n": 1
+      }
+    ],
+    "modelos_top20": [
+      {
+        "modelo": "OUTLANDER PHEV",
+        "n": 29
+      },
+      {
+        "modelo": "I8",
+        "n": 5
+      },
+      {
+        "modelo": "CAYENNE S E HYBRID",
+        "n": 4
+      },
+      {
+        "modelo": "OUTLANDER PHEV KAITEKI",
+        "n": 2
+      },
+      {
+        "modelo": "918 SPYDER",
+        "n": 2
+      },
+      {
+        "modelo": "CAYENNE S E-HYBRID",
+        "n": 2
+      },
+      {
+        "modelo": "PANAMERA S E-HYBRID",
+        "n": 2
+      },
+      {
+        "modelo": "565",
+        "n": 1
+      },
+      {
+        "modelo": "V60 PLUG IN HYBRID",
+        "n": 1
+      },
+      {
+        "modelo": "OUTLANDER PHEV MOTION",
+        "n": 1
+      },
+      {
+        "modelo": "A3 SPORTBACK E TRON",
+        "n": 1
+      },
+      {
+        "modelo": "MITSUBISHI OUTLANDER",
+        "n": 1
+      }
+    ],
+    "provincias": [
+      {
+        "cod": "M",
+        "provincia": "Madrid",
+        "n": 19
+      },
+      {
+        "cod": "B",
+        "provincia": "Barcelona",
+        "n": 10
+      },
+      {
+        "cod": "V",
+        "provincia": "Valencia",
+        "n": 5
+      },
+      {
+        "cod": "MA",
+        "provincia": "Málaga",
+        "n": 3
+      },
+      {
+        "cod": "TO",
+        "provincia": "Toledo",
+        "n": 3
+      },
+      {
+        "cod": "BI",
+        "provincia": "Vizcaya",
+        "n": 2
+      },
+      {
+        "cod": "SE",
+        "provincia": "Sevilla",
+        "n": 1
+      },
+      {
+        "cod": "OU",
+        "provincia": "OU",
+        "n": 1
+      },
+      {
+        "cod": "LE",
+        "provincia": "León",
+        "n": 1
+      },
+      {
+        "cod": "CA",
+        "provincia": "Cádiz",
+        "n": 1
+      },
+      {
+        "cod": "S",
+        "provincia": "Cantabria",
+        "n": 1
+      },
+      {
+        "cod": "SS",
+        "provincia": "Gipuzkoa",
+        "n": 1
+      },
+      {
+        "cod": "GC",
+        "provincia": "Las Palmas",
+        "n": 1
+      },
+      {
+        "cod": "AB",
+        "provincia": "Albacete",
+        "n": 1
+      },
+      {
+        "cod": "A",
+        "provincia": "Alicante",
+        "n": 1
+      }
+    ],
+    "municipios": [
+      {
+        "municipio": "MADRID",
+        "n": 13
+      },
+      {
+        "municipio": "AGUILAR DE SEGARRA",
+        "n": 3
+      },
+      {
+        "municipio": "MONTCADA I REIXAC",
+        "n": 3
+      },
+      {
+        "municipio": "BOROX",
+        "n": 3
+      },
+      {
+        "municipio": "VALENCIA",
+        "n": 3
+      },
+      {
+        "municipio": "MARBELLA",
+        "n": 2
+      },
+      {
+        "municipio": "POZUELO DE ALARCON",
+        "n": 2
+      },
+      {
+        "municipio": "DOS HERMANAS",
+        "n": 1
+      },
+      {
+        "municipio": "OURENSE",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLDEFELS",
+        "n": 1
+      },
+      {
+        "municipio": "BRUNETE",
+        "n": 1
+      },
+      {
+        "municipio": "S ADRIA DE BESOS",
+        "n": 1
+      },
+      {
+        "municipio": "LA ROBLA",
+        "n": 1
+      },
+      {
+        "municipio": "PORTUGALETE",
+        "n": 1
+      },
+      {
+        "municipio": "BILBAO",
+        "n": 1
+      },
+      {
+        "municipio": "SAN ROQUE",
+        "n": 1
+      },
+      {
+        "municipio": "VALDEMORILLO",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAR DEL OLMO",
+        "n": 1
+      },
+      {
+        "municipio": "MARINA CUDEYO",
+        "n": 1
+      },
+      {
+        "municipio": "ALCOBENDAS",
+        "n": 1
+      },
+      {
+        "municipio": "LA POBLA DE VALLBONA",
+        "n": 1
+      },
+      {
+        "municipio": "VECIANA",
+        "n": 1
+      },
+      {
+        "municipio": "ORIO",
+        "n": 1
+      },
+      {
+        "municipio": "MALAGA",
+        "n": 1
+      },
+      {
+        "municipio": "PATERNA",
+        "n": 1
+      },
+      {
+        "municipio": "S CUGAT DEL VALLES",
+        "n": 1
+      },
+      {
+        "municipio": "LAS PALMAS G C",
+        "n": 1
+      },
+      {
+        "municipio": "ALBACETE",
+        "n": 1
+      },
+      {
+        "municipio": "ALICANTE",
+        "n": 1
+      }
+    ],
+    "cat_homologacion": {
+      "turismo": 50,
+      "moto_scooter": 1
+    },
+    "carroceria": {
+      "familiar": 7,
+      "suv_mpv": 33,
+      "cabrio_coupe": 2,
+      "turismo": 3,
+      "todoterreno": 5,
+      "nd": 1
+    },
+    "servicio": {
+      "privado": 51
+    },
+    "kw_buckets": {
+      "151-200": 5,
+      "0-50": 33,
+      "201+": 10,
+      "101-150": 1,
+      "51-100": 2
+    },
+    "autonomia_buckets": {
+      "0-200": 50,
+      "nd": 1
+    }
+  }
+}

@@ -1,0 +1,4870 @@
+{
+  "meta": {
+    "fuente": "DGT MATRABA microdatos",
+    "generado_en": "2026-04-12T20:07:35.067Z",
+    "primer_periodo": "2014-12",
+    "ultimo_periodo": "2026-02"
+  },
+  "mensual": [
+    {
+      "periodo": "2014-12",
+      "bev": {
+        "total": 283,
+        "nuevos": 283,
+        "usados": 0
+      },
+      "phev": {
+        "total": 51,
+        "nuevos": 51,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 164,
+        "furgoneta": 61,
+        "moto_scooter": 57,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "phev_por_tipo": {
+        "turismo": 50,
+        "furgoneta": 0,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 164,
+      "anfac_phev": 50,
+      "total_mercado_nuevos": 99887,
+      "cuota_bev_pct": 0.28,
+      "cuota_phev_pct": 0.05
+    },
+    {
+      "periodo": "2015-01",
+      "bev": {
+        "total": 98,
+        "nuevos": 98,
+        "usados": 0
+      },
+      "phev": {
+        "total": 11,
+        "nuevos": 11,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 46,
+        "furgoneta": 10,
+        "moto_scooter": 41,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "phev_por_tipo": {
+        "turismo": 9,
+        "furgoneta": 0,
+        "moto_scooter": 2,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 46,
+      "anfac_phev": 9,
+      "total_mercado_nuevos": 88379,
+      "cuota_bev_pct": 0.11,
+      "cuota_phev_pct": 0.01
+    },
+    {
+      "periodo": "2015-02",
+      "bev": {
+        "total": 121,
+        "nuevos": 119,
+        "usados": 2
+      },
+      "phev": {
+        "total": 19,
+        "nuevos": 19,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 30,
+        "furgoneta": 11,
+        "moto_scooter": 80,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 19,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 29,
+      "anfac_phev": 19,
+      "total_mercado_nuevos": 109103,
+      "cuota_bev_pct": 0.11,
+      "cuota_phev_pct": 0.02
+    },
+    {
+      "periodo": "2015-03",
+      "bev": {
+        "total": 202,
+        "nuevos": 201,
+        "usados": 1
+      },
+      "phev": {
+        "total": 27,
+        "nuevos": 27,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 131,
+        "furgoneta": 22,
+        "moto_scooter": 48,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 25,
+        "furgoneta": 2,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 131,
+      "anfac_phev": 25,
+      "total_mercado_nuevos": 144780,
+      "cuota_bev_pct": 0.14,
+      "cuota_phev_pct": 0.02
+    },
+    {
+      "periodo": "2015-04",
+      "bev": {
+        "total": 119,
+        "nuevos": 118,
+        "usados": 1
+      },
+      "phev": {
+        "total": 44,
+        "nuevos": 44,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 56,
+        "furgoneta": 34,
+        "moto_scooter": 29,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 44,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 55,
+      "anfac_phev": 44,
+      "total_mercado_nuevos": 112061,
+      "cuota_bev_pct": 0.11,
+      "cuota_phev_pct": 0.04
+    },
+    {
+      "periodo": "2015-05",
+      "bev": {
+        "total": 113,
+        "nuevos": 112,
+        "usados": 1
+      },
+      "phev": {
+        "total": 52,
+        "nuevos": 52,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 49,
+        "furgoneta": 20,
+        "moto_scooter": 44,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 51,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 49,
+      "anfac_phev": 51,
+      "total_mercado_nuevos": 126133,
+      "cuota_bev_pct": 0.09,
+      "cuota_phev_pct": 0.04
+    },
+    {
+      "periodo": "2015-06",
+      "bev": {
+        "total": 157,
+        "nuevos": 152,
+        "usados": 5
+      },
+      "phev": {
+        "total": 43,
+        "nuevos": 43,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 62,
+        "furgoneta": 26,
+        "moto_scooter": 69,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 43,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 62,
+      "anfac_phev": 43,
+      "total_mercado_nuevos": 148434,
+      "cuota_bev_pct": 0.1,
+      "cuota_phev_pct": 0.03
+    },
+    {
+      "periodo": "2015-07",
+      "bev": {
+        "total": 236,
+        "nuevos": 236,
+        "usados": 0
+      },
+      "phev": {
+        "total": 93,
+        "nuevos": 93,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 89,
+        "furgoneta": 94,
+        "moto_scooter": 53,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 93,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 89,
+      "anfac_phev": 93,
+      "total_mercado_nuevos": 142102,
+      "cuota_bev_pct": 0.17,
+      "cuota_phev_pct": 0.07
+    },
+    {
+      "periodo": "2015-08",
+      "bev": {
+        "total": 113,
+        "nuevos": 112,
+        "usados": 1
+      },
+      "phev": {
+        "total": 39,
+        "nuevos": 39,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 66,
+        "furgoneta": 25,
+        "moto_scooter": 22,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 39,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 66,
+      "anfac_phev": 39,
+      "total_mercado_nuevos": 78656,
+      "cuota_bev_pct": 0.14,
+      "cuota_phev_pct": 0.05
+    },
+    {
+      "periodo": "2015-09",
+      "bev": {
+        "total": 144,
+        "nuevos": 143,
+        "usados": 1
+      },
+      "phev": {
+        "total": 118,
+        "nuevos": 117,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 78,
+        "furgoneta": 33,
+        "moto_scooter": 33,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 117,
+        "furgoneta": 0,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 78,
+      "anfac_phev": 116,
+      "total_mercado_nuevos": 101933,
+      "cuota_bev_pct": 0.14,
+      "cuota_phev_pct": 0.11
+    },
+    {
+      "periodo": "2015-10",
+      "bev": {
+        "total": 389,
+        "nuevos": 388,
+        "usados": 1
+      },
+      "phev": {
+        "total": 88,
+        "nuevos": 88,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 302,
+        "furgoneta": 37,
+        "moto_scooter": 50,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 88,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 301,
+      "anfac_phev": 88,
+      "total_mercado_nuevos": 114114,
+      "cuota_bev_pct": 0.34,
+      "cuota_phev_pct": 0.08
+    },
+    {
+      "periodo": "2015-11",
+      "bev": {
+        "total": 289,
+        "nuevos": 288,
+        "usados": 1
+      },
+      "phev": {
+        "total": 59,
+        "nuevos": 59,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 214,
+        "furgoneta": 26,
+        "moto_scooter": 49,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 59,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 213,
+      "anfac_phev": 59,
+      "total_mercado_nuevos": 110153,
+      "cuota_bev_pct": 0.26,
+      "cuota_phev_pct": 0.05
+    },
+    {
+      "periodo": "2015-12",
+      "bev": {
+        "total": 164,
+        "nuevos": 161,
+        "usados": 3
+      },
+      "phev": {
+        "total": 75,
+        "nuevos": 74,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 49,
+        "furgoneta": 78,
+        "moto_scooter": 36,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "phev_por_tipo": {
+        "turismo": 73,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 0
+      },
+      "anfac_bev": 46,
+      "anfac_phev": 72,
+      "total_mercado_nuevos": 116481,
+      "cuota_bev_pct": 0.14,
+      "cuota_phev_pct": 0.06
+    },
+    {
+      "periodo": "2016-01",
+      "bev": {
+        "total": 205,
+        "nuevos": 204,
+        "usados": 1
+      },
+      "phev": {
+        "total": 93,
+        "nuevos": 93,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 99,
+        "furgoneta": 29,
+        "moto_scooter": 59,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 17
+      },
+      "phev_por_tipo": {
+        "turismo": 91,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 0
+      },
+      "anfac_bev": 99,
+      "anfac_phev": 91,
+      "total_mercado_nuevos": 103895,
+      "cuota_bev_pct": 0.2,
+      "cuota_phev_pct": 0.09
+    },
+    {
+      "periodo": "2016-02",
+      "bev": {
+        "total": 184,
+        "nuevos": 178,
+        "usados": 6
+      },
+      "phev": {
+        "total": 77,
+        "nuevos": 77,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 49,
+        "furgoneta": 32,
+        "moto_scooter": 66,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 35
+      },
+      "phev_por_tipo": {
+        "turismo": 77,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 44,
+      "anfac_phev": 77,
+      "total_mercado_nuevos": 127416,
+      "cuota_bev_pct": 0.14,
+      "cuota_phev_pct": 0.06
+    },
+    {
+      "periodo": "2016-03",
+      "bev": {
+        "total": 456,
+        "nuevos": 450,
+        "usados": 6
+      },
+      "phev": {
+        "total": 198,
+        "nuevos": 198,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 245,
+        "furgoneta": 82,
+        "moto_scooter": 98,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 31
+      },
+      "phev_por_tipo": {
+        "turismo": 198,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 240,
+      "anfac_phev": 198,
+      "total_mercado_nuevos": 144483,
+      "cuota_bev_pct": 0.31,
+      "cuota_phev_pct": 0.14
+    },
+    {
+      "periodo": "2016-04",
+      "bev": {
+        "total": 331,
+        "nuevos": 330,
+        "usados": 1
+      },
+      "phev": {
+        "total": 210,
+        "nuevos": 210,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 180,
+        "furgoneta": 61,
+        "moto_scooter": 60,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 30
+      },
+      "phev_por_tipo": {
+        "turismo": 210,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 179,
+      "anfac_phev": 210,
+      "total_mercado_nuevos": 138176,
+      "cuota_bev_pct": 0.24,
+      "cuota_phev_pct": 0.15
+    },
+    {
+      "periodo": "2016-05",
+      "bev": {
+        "total": 422,
+        "nuevos": 421,
+        "usados": 1
+      },
+      "phev": {
+        "total": 159,
+        "nuevos": 158,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 170,
+        "furgoneta": 92,
+        "moto_scooter": 127,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 31
+      },
+      "phev_por_tipo": {
+        "turismo": 159,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 169,
+      "anfac_phev": 158,
+      "total_mercado_nuevos": 153229,
+      "cuota_bev_pct": 0.27,
+      "cuota_phev_pct": 0.1
+    },
+    {
+      "periodo": "2016-06",
+      "bev": {
+        "total": 254,
+        "nuevos": 249,
+        "usados": 5
+      },
+      "phev": {
+        "total": 139,
+        "nuevos": 138,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 101,
+        "furgoneta": 74,
+        "moto_scooter": 42,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 36
+      },
+      "phev_por_tipo": {
+        "turismo": 139,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 101,
+      "anfac_phev": 138,
+      "total_mercado_nuevos": 169394,
+      "cuota_bev_pct": 0.15,
+      "cuota_phev_pct": 0.08
+    },
+    {
+      "periodo": "2016-07",
+      "bev": {
+        "total": 313,
+        "nuevos": 310,
+        "usados": 3
+      },
+      "phev": {
+        "total": 111,
+        "nuevos": 111,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 148,
+        "furgoneta": 85,
+        "moto_scooter": 57,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 20
+      },
+      "phev_por_tipo": {
+        "turismo": 111,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 145,
+      "anfac_phev": 111,
+      "total_mercado_nuevos": 148208,
+      "cuota_bev_pct": 0.21,
+      "cuota_phev_pct": 0.07
+    },
+    {
+      "periodo": "2016-08",
+      "bev": {
+        "total": 148,
+        "nuevos": 143,
+        "usados": 5
+      },
+      "phev": {
+        "total": 91,
+        "nuevos": 90,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 79,
+        "furgoneta": 40,
+        "moto_scooter": 14,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 15
+      },
+      "phev_por_tipo": {
+        "turismo": 91,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 74,
+      "anfac_phev": 90,
+      "total_mercado_nuevos": 93264,
+      "cuota_bev_pct": 0.15,
+      "cuota_phev_pct": 0.1
+    },
+    {
+      "periodo": "2016-09",
+      "bev": {
+        "total": 291,
+        "nuevos": 284,
+        "usados": 7
+      },
+      "phev": {
+        "total": 145,
+        "nuevos": 144,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 115,
+        "furgoneta": 66,
+        "moto_scooter": 70,
+        "microcar": 0,
+        "camion": 3,
+        "autobus": 0,
+        "otros": 37
+      },
+      "phev_por_tipo": {
+        "turismo": 144,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 112,
+      "anfac_phev": 143,
+      "total_mercado_nuevos": 118404,
+      "cuota_bev_pct": 0.24,
+      "cuota_phev_pct": 0.12
+    },
+    {
+      "periodo": "2016-10",
+      "bev": {
+        "total": 323,
+        "nuevos": 316,
+        "usados": 7
+      },
+      "phev": {
+        "total": 93,
+        "nuevos": 89,
+        "usados": 4
+      },
+      "bev_por_tipo": {
+        "turismo": 122,
+        "furgoneta": 109,
+        "moto_scooter": 44,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 46
+      },
+      "phev_por_tipo": {
+        "turismo": 88,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 5,
+        "otros": 0
+      },
+      "anfac_bev": 119,
+      "anfac_phev": 84,
+      "total_mercado_nuevos": 120581,
+      "cuota_bev_pct": 0.26,
+      "cuota_phev_pct": 0.07
+    },
+    {
+      "periodo": "2016-11",
+      "bev": {
+        "total": 541,
+        "nuevos": 533,
+        "usados": 8
+      },
+      "phev": {
+        "total": 115,
+        "nuevos": 114,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 404,
+        "furgoneta": 38,
+        "moto_scooter": 64,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 33
+      },
+      "phev_por_tipo": {
+        "turismo": 115,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 401,
+      "anfac_phev": 114,
+      "total_mercado_nuevos": 131425,
+      "cuota_bev_pct": 0.41,
+      "cuota_phev_pct": 0.09
+    },
+    {
+      "periodo": "2016-12",
+      "bev": {
+        "total": 573,
+        "nuevos": 567,
+        "usados": 6
+      },
+      "phev": {
+        "total": 91,
+        "nuevos": 91,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 358,
+        "furgoneta": 63,
+        "moto_scooter": 92,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 57
+      },
+      "phev_por_tipo": {
+        "turismo": 91,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 352,
+      "anfac_phev": 91,
+      "total_mercado_nuevos": 138690,
+      "cuota_bev_pct": 0.41,
+      "cuota_phev_pct": 0.07
+    },
+    {
+      "periodo": "2017-01",
+      "bev": {
+        "total": 287,
+        "nuevos": 283,
+        "usados": 4
+      },
+      "phev": {
+        "total": 122,
+        "nuevos": 121,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 96,
+        "furgoneta": 32,
+        "moto_scooter": 66,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 93
+      },
+      "phev_por_tipo": {
+        "turismo": 122,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 94,
+      "anfac_phev": 121,
+      "total_mercado_nuevos": 114515,
+      "cuota_bev_pct": 0.25,
+      "cuota_phev_pct": 0.11
+    },
+    {
+      "periodo": "2017-02",
+      "bev": {
+        "total": 365,
+        "nuevos": 361,
+        "usados": 4
+      },
+      "phev": {
+        "total": 99,
+        "nuevos": 99,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 211,
+        "furgoneta": 44,
+        "moto_scooter": 61,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 49
+      },
+      "phev_por_tipo": {
+        "turismo": 99,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 208,
+      "anfac_phev": 99,
+      "total_mercado_nuevos": 128229,
+      "cuota_bev_pct": 0.28,
+      "cuota_phev_pct": 0.08
+    },
+    {
+      "periodo": "2017-03",
+      "bev": {
+        "total": 499,
+        "nuevos": 494,
+        "usados": 5
+      },
+      "phev": {
+        "total": 158,
+        "nuevos": 153,
+        "usados": 5
+      },
+      "bev_por_tipo": {
+        "turismo": 301,
+        "furgoneta": 80,
+        "moto_scooter": 77,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 40
+      },
+      "phev_por_tipo": {
+        "turismo": 158,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 297,
+      "anfac_phev": 153,
+      "total_mercado_nuevos": 166785,
+      "cuota_bev_pct": 0.3,
+      "cuota_phev_pct": 0.09
+    },
+    {
+      "periodo": "2017-04",
+      "bev": {
+        "total": 604,
+        "nuevos": 596,
+        "usados": 8
+      },
+      "phev": {
+        "total": 153,
+        "nuevos": 153,
+        "usados": 0
+      },
+      "bev_por_tipo": {
+        "turismo": 165,
+        "furgoneta": 39,
+        "moto_scooter": 323,
+        "microcar": 5,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 72
+      },
+      "phev_por_tipo": {
+        "turismo": 153,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 159,
+      "anfac_phev": 153,
+      "total_mercado_nuevos": 136941,
+      "cuota_bev_pct": 0.44,
+      "cuota_phev_pct": 0.11
+    },
+    {
+      "periodo": "2017-05",
+      "bev": {
+        "total": 517,
+        "nuevos": 511,
+        "usados": 6
+      },
+      "phev": {
+        "total": 241,
+        "nuevos": 240,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 220,
+        "furgoneta": 86,
+        "moto_scooter": 159,
+        "microcar": 9,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 41
+      },
+      "phev_por_tipo": {
+        "turismo": 239,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 214,
+      "anfac_phev": 238,
+      "total_mercado_nuevos": 170720,
+      "cuota_bev_pct": 0.3,
+      "cuota_phev_pct": 0.14
+    },
+    {
+      "periodo": "2017-06",
+      "bev": {
+        "total": 556,
+        "nuevos": 540,
+        "usados": 16
+      },
+      "phev": {
+        "total": 348,
+        "nuevos": 344,
+        "usados": 4
+      },
+      "bev_por_tipo": {
+        "turismo": 345,
+        "furgoneta": 59,
+        "moto_scooter": 109,
+        "microcar": 10,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 33
+      },
+      "phev_por_tipo": {
+        "turismo": 348,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 333,
+      "anfac_phev": 344,
+      "total_mercado_nuevos": 179029,
+      "cuota_bev_pct": 0.3,
+      "cuota_phev_pct": 0.19
+    },
+    {
+      "periodo": "2017-07",
+      "bev": {
+        "total": 793,
+        "nuevos": 770,
+        "usados": 23
+      },
+      "phev": {
+        "total": 333,
+        "nuevos": 331,
+        "usados": 2
+      },
+      "bev_por_tipo": {
+        "turismo": 281,
+        "furgoneta": 33,
+        "moto_scooter": 424,
+        "microcar": 12,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 43
+      },
+      "phev_por_tipo": {
+        "turismo": 333,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 260,
+      "anfac_phev": 331,
+      "total_mercado_nuevos": 153830,
+      "cuota_bev_pct": 0.5,
+      "cuota_phev_pct": 0.22
+    },
+    {
+      "periodo": "2017-08",
+      "bev": {
+        "total": 733,
+        "nuevos": 725,
+        "usados": 8
+      },
+      "phev": {
+        "total": 336,
+        "nuevos": 335,
+        "usados": 1
+      },
+      "bev_por_tipo": {
+        "turismo": 320,
+        "furgoneta": 67,
+        "moto_scooter": 318,
+        "microcar": 4,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 24
+      },
+      "phev_por_tipo": {
+        "turismo": 336,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 313,
+      "anfac_phev": 335,
+      "total_mercado_nuevos": 103984,
+      "cuota_bev_pct": 0.7,
+      "cuota_phev_pct": 0.32
+    },
+    {
+      "periodo": "2017-09",
+      "bev": {
+        "total": 1015,
+        "nuevos": 999,
+        "usados": 16
+      },
+      "phev": {
+        "total": 308,
+        "nuevos": 306,
+        "usados": 2
+      },
+      "bev_por_tipo": {
+        "turismo": 552,
+        "furgoneta": 80,
+        "moto_scooter": 346,
+        "microcar": 2,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 35
+      },
+      "phev_por_tipo": {
+        "turismo": 307,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 546,
+      "anfac_phev": 305,
+      "total_mercado_nuevos": 121050,
+      "cuota_bev_pct": 0.83,
+      "cuota_phev_pct": 0.25
+    },
+    {
+      "periodo": "2017-10",
+      "bev": {
+        "total": 1567,
+        "nuevos": 1555,
+        "usados": 12
+      },
+      "phev": {
+        "total": 330,
+        "nuevos": 328,
+        "usados": 2
+      },
+      "bev_por_tipo": {
+        "turismo": 873,
+        "furgoneta": 166,
+        "moto_scooter": 475,
+        "microcar": 2,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 51
+      },
+      "phev_por_tipo": {
+        "turismo": 329,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 861,
+      "anfac_phev": 327,
+      "total_mercado_nuevos": 136338,
+      "cuota_bev_pct": 1.14,
+      "cuota_phev_pct": 0.24
+    },
+    {
+      "periodo": "2017-11",
+      "bev": {
+        "total": 1042,
+        "nuevos": 1030,
+        "usados": 12
+      },
+      "phev": {
+        "total": 374,
+        "nuevos": 368,
+        "usados": 6
+      },
+      "bev_por_tipo": {
+        "turismo": 303,
+        "furgoneta": 51,
+        "moto_scooter": 606,
+        "microcar": 13,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 67
+      },
+      "phev_por_tipo": {
+        "turismo": 374,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 293,
+      "anfac_phev": 368,
+      "total_mercado_nuevos": 145144,
+      "cuota_bev_pct": 0.71,
+      "cuota_phev_pct": 0.25
+    },
+    {
+      "periodo": "2017-12",
+      "bev": {
+        "total": 1022,
+        "nuevos": 1010,
+        "usados": 12
+      },
+      "phev": {
+        "total": 548,
+        "nuevos": 545,
+        "usados": 3
+      },
+      "bev_por_tipo": {
+        "turismo": 468,
+        "furgoneta": 77,
+        "moto_scooter": 269,
+        "microcar": 22,
+        "camion": 1,
+        "autobus": 13,
+        "otros": 172
+      },
+      "phev_por_tipo": {
+        "turismo": 548,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 457,
+      "anfac_phev": 545,
+      "total_mercado_nuevos": 138198,
+      "cuota_bev_pct": 0.73,
+      "cuota_phev_pct": 0.39
+    },
+    {
+      "periodo": "2018-01",
+      "bev": {
+        "total": 1276,
+        "nuevos": 1262,
+        "usados": 14
+      },
+      "phev": {
+        "total": 374,
+        "nuevos": 372,
+        "usados": 2
+      },
+      "bev_por_tipo": {
+        "turismo": 385,
+        "furgoneta": 137,
+        "moto_scooter": 686,
+        "microcar": 10,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 58
+      },
+      "phev_por_tipo": {
+        "turismo": 374,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 373,
+      "anfac_phev": 372,
+      "total_mercado_nuevos": 137963,
+      "cuota_bev_pct": 0.91,
+      "cuota_phev_pct": 0.27
+    },
+    {
+      "periodo": "2018-02",
+      "bev": {
+        "total": 770,
+        "nuevos": 747,
+        "usados": 23
+      },
+      "phev": {
+        "total": 350,
+        "nuevos": 340,
+        "usados": 10
+      },
+      "bev_por_tipo": {
+        "turismo": 389,
+        "furgoneta": 93,
+        "moto_scooter": 237,
+        "microcar": 7,
+        "camion": 4,
+        "autobus": 1,
+        "otros": 39
+      },
+      "phev_por_tipo": {
+        "turismo": 350,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 372,
+      "anfac_phev": 340,
+      "total_mercado_nuevos": 145677,
+      "cuota_bev_pct": 0.51,
+      "cuota_phev_pct": 0.23
+    },
+    {
+      "periodo": "2018-03",
+      "bev": {
+        "total": 1562,
+        "nuevos": 1547,
+        "usados": 15
+      },
+      "phev": {
+        "total": 317,
+        "nuevos": 304,
+        "usados": 13
+      },
+      "bev_por_tipo": {
+        "turismo": 499,
+        "furgoneta": 114,
+        "moto_scooter": 472,
+        "microcar": 21,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 456
+      },
+      "phev_por_tipo": {
+        "turismo": 316,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 488,
+      "anfac_phev": 303,
+      "total_mercado_nuevos": 168307,
+      "cuota_bev_pct": 0.92,
+      "cuota_phev_pct": 0.18
+    },
+    {
+      "periodo": "2018-04",
+      "bev": {
+        "total": 1043,
+        "nuevos": 1024,
+        "usados": 19
+      },
+      "phev": {
+        "total": 274,
+        "nuevos": 269,
+        "usados": 5
+      },
+      "bev_por_tipo": {
+        "turismo": 469,
+        "furgoneta": 123,
+        "moto_scooter": 278,
+        "microcar": 17,
+        "camion": 3,
+        "autobus": 0,
+        "otros": 153
+      },
+      "phev_por_tipo": {
+        "turismo": 273,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 456,
+      "anfac_phev": 268,
+      "total_mercado_nuevos": 158347,
+      "cuota_bev_pct": 0.65,
+      "cuota_phev_pct": 0.17
+    },
+    {
+      "periodo": "2018-05",
+      "bev": {
+        "total": 989,
+        "nuevos": 955,
+        "usados": 34
+      },
+      "phev": {
+        "total": 472,
+        "nuevos": 466,
+        "usados": 6
+      },
+      "bev_por_tipo": {
+        "turismo": 342,
+        "furgoneta": 61,
+        "moto_scooter": 128,
+        "microcar": 16,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 441
+      },
+      "phev_por_tipo": {
+        "turismo": 472,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 317,
+      "anfac_phev": 466,
+      "total_mercado_nuevos": 183813,
+      "cuota_bev_pct": 0.52,
+      "cuota_phev_pct": 0.25
+    },
+    {
+      "periodo": "2018-06",
+      "bev": {
+        "total": 1319,
+        "nuevos": 1296,
+        "usados": 23
+      },
+      "phev": {
+        "total": 925,
+        "nuevos": 914,
+        "usados": 11
+      },
+      "bev_por_tipo": {
+        "turismo": 379,
+        "furgoneta": 100,
+        "moto_scooter": 195,
+        "microcar": 23,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 621
+      },
+      "phev_por_tipo": {
+        "turismo": 922,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 1
+      },
+      "anfac_bev": 362,
+      "anfac_phev": 911,
+      "total_mercado_nuevos": 191688,
+      "cuota_bev_pct": 0.68,
+      "cuota_phev_pct": 0.48
+    },
+    {
+      "periodo": "2018-07",
+      "bev": {
+        "total": 1009,
+        "nuevos": 981,
+        "usados": 28
+      },
+      "phev": {
+        "total": 482,
+        "nuevos": 476,
+        "usados": 6
+      },
+      "bev_por_tipo": {
+        "turismo": 420,
+        "furgoneta": 94,
+        "moto_scooter": 190,
+        "microcar": 18,
+        "camion": 2,
+        "autobus": 6,
+        "otros": 279
+      },
+      "phev_por_tipo": {
+        "turismo": 482,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 398,
+      "anfac_phev": 476,
+      "total_mercado_nuevos": 178009,
+      "cuota_bev_pct": 0.55,
+      "cuota_phev_pct": 0.27
+    },
+    {
+      "periodo": "2018-08",
+      "bev": {
+        "total": 687,
+        "nuevos": 658,
+        "usados": 29
+      },
+      "phev": {
+        "total": 423,
+        "nuevos": 412,
+        "usados": 11
+      },
+      "bev_por_tipo": {
+        "turismo": 302,
+        "furgoneta": 92,
+        "moto_scooter": 169,
+        "microcar": 5,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 116
+      },
+      "phev_por_tipo": {
+        "turismo": 422,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 1,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 275,
+      "anfac_phev": 411,
+      "total_mercado_nuevos": 142903,
+      "cuota_bev_pct": 0.46,
+      "cuota_phev_pct": 0.29
+    },
+    {
+      "periodo": "2018-09",
+      "bev": {
+        "total": 1654,
+        "nuevos": 1568,
+        "usados": 86
+      },
+      "phev": {
+        "total": 386,
+        "nuevos": 367,
+        "usados": 19
+      },
+      "bev_por_tipo": {
+        "turismo": 520,
+        "furgoneta": 127,
+        "moto_scooter": 753,
+        "microcar": 9,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 243
+      },
+      "phev_por_tipo": {
+        "turismo": 383,
+        "furgoneta": 0,
+        "moto_scooter": 2,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 495,
+      "anfac_phev": 366,
+      "total_mercado_nuevos": 106503,
+      "cuota_bev_pct": 1.47,
+      "cuota_phev_pct": 0.34
+    },
+    {
+      "periodo": "2018-10",
+      "bev": {
+        "total": 1471,
+        "nuevos": 1300,
+        "usados": 171
+      },
+      "phev": {
+        "total": 444,
+        "nuevos": 427,
+        "usados": 17
+      },
+      "bev_por_tipo": {
+        "turismo": 621,
+        "furgoneta": 178,
+        "moto_scooter": 443,
+        "microcar": 16,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 211
+      },
+      "phev_por_tipo": {
+        "turismo": 441,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 0
+      },
+      "anfac_bev": 578,
+      "anfac_phev": 424,
+      "total_mercado_nuevos": 132709,
+      "cuota_bev_pct": 0.98,
+      "cuota_phev_pct": 0.32
+    },
+    {
+      "periodo": "2018-11",
+      "bev": {
+        "total": 1522,
+        "nuevos": 1300,
+        "usados": 222
+      },
+      "phev": {
+        "total": 514,
+        "nuevos": 481,
+        "usados": 33
+      },
+      "bev_por_tipo": {
+        "turismo": 735,
+        "furgoneta": 155,
+        "moto_scooter": 406,
+        "microcar": 12,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 212
+      },
+      "phev_por_tipo": {
+        "turismo": 512,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 696,
+      "anfac_phev": 479,
+      "total_mercado_nuevos": 129935,
+      "cuota_bev_pct": 1,
+      "cuota_phev_pct": 0.37
+    },
+    {
+      "periodo": "2018-12",
+      "bev": {
+        "total": 2332,
+        "nuevos": 2285,
+        "usados": 47
+      },
+      "phev": {
+        "total": 862,
+        "nuevos": 830,
+        "usados": 32
+      },
+      "bev_por_tipo": {
+        "turismo": 1433,
+        "furgoneta": 286,
+        "moto_scooter": 330,
+        "microcar": 20,
+        "camion": 1,
+        "autobus": 5,
+        "otros": 257
+      },
+      "phev_por_tipo": {
+        "turismo": 861,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 1393,
+      "anfac_phev": 829,
+      "total_mercado_nuevos": 138956,
+      "cuota_bev_pct": 1.64,
+      "cuota_phev_pct": 0.6
+    },
+    {
+      "periodo": "2019-01",
+      "bev": {
+        "total": 1419,
+        "nuevos": 1353,
+        "usados": 66
+      },
+      "phev": {
+        "total": 545,
+        "nuevos": 514,
+        "usados": 31
+      },
+      "bev_por_tipo": {
+        "turismo": 699,
+        "furgoneta": 152,
+        "moto_scooter": 409,
+        "microcar": 14,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 143
+      },
+      "phev_por_tipo": {
+        "turismo": 541,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 1
+      },
+      "anfac_bev": 646,
+      "anfac_phev": 510,
+      "total_mercado_nuevos": 134105,
+      "cuota_bev_pct": 1.01,
+      "cuota_phev_pct": 0.38
+    },
+    {
+      "periodo": "2019-02",
+      "bev": {
+        "total": 1689,
+        "nuevos": 1638,
+        "usados": 51
+      },
+      "phev": {
+        "total": 491,
+        "nuevos": 429,
+        "usados": 62
+      },
+      "bev_por_tipo": {
+        "turismo": 924,
+        "furgoneta": 122,
+        "moto_scooter": 479,
+        "microcar": 6,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 156
+      },
+      "phev_por_tipo": {
+        "turismo": 489,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 881,
+      "anfac_phev": 428,
+      "total_mercado_nuevos": 137647,
+      "cuota_bev_pct": 1.19,
+      "cuota_phev_pct": 0.31
+    },
+    {
+      "periodo": "2019-03",
+      "bev": {
+        "total": 2044,
+        "nuevos": 1994,
+        "usados": 50
+      },
+      "phev": {
+        "total": 837,
+        "nuevos": 793,
+        "usados": 44
+      },
+      "bev_por_tipo": {
+        "turismo": 1367,
+        "furgoneta": 137,
+        "moto_scooter": 377,
+        "microcar": 16,
+        "camion": 0,
+        "autobus": 10,
+        "otros": 137
+      },
+      "phev_por_tipo": {
+        "turismo": 828,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 8,
+        "otros": 0
+      },
+      "anfac_bev": 1326,
+      "anfac_phev": 784,
+      "total_mercado_nuevos": 167420,
+      "cuota_bev_pct": 1.19,
+      "cuota_phev_pct": 0.47
+    },
+    {
+      "periodo": "2019-04",
+      "bev": {
+        "total": 1244,
+        "nuevos": 1192,
+        "usados": 52
+      },
+      "phev": {
+        "total": 705,
+        "nuevos": 665,
+        "usados": 40
+      },
+      "bev_por_tipo": {
+        "turismo": 696,
+        "furgoneta": 106,
+        "moto_scooter": 75,
+        "microcar": 13,
+        "camion": 0,
+        "autobus": 10,
+        "otros": 344
+      },
+      "phev_por_tipo": {
+        "turismo": 703,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 650,
+      "anfac_phev": 663,
+      "total_mercado_nuevos": 163636,
+      "cuota_bev_pct": 0.73,
+      "cuota_phev_pct": 0.41
+    },
+    {
+      "periodo": "2019-05",
+      "bev": {
+        "total": 1941,
+        "nuevos": 1879,
+        "usados": 62
+      },
+      "phev": {
+        "total": 710,
+        "nuevos": 668,
+        "usados": 42
+      },
+      "bev_por_tipo": {
+        "turismo": 1033,
+        "furgoneta": 149,
+        "moto_scooter": 479,
+        "microcar": 13,
+        "camion": 0,
+        "autobus": 16,
+        "otros": 251
+      },
+      "phev_por_tipo": {
+        "turismo": 710,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 994,
+      "anfac_phev": 668,
+      "total_mercado_nuevos": 175481,
+      "cuota_bev_pct": 1.07,
+      "cuota_phev_pct": 0.38
+    },
+    {
+      "periodo": "2019-06",
+      "bev": {
+        "total": 2784,
+        "nuevos": 2709,
+        "usados": 75
+      },
+      "phev": {
+        "total": 494,
+        "nuevos": 439,
+        "usados": 55
+      },
+      "bev_por_tipo": {
+        "turismo": 1208,
+        "furgoneta": 197,
+        "moto_scooter": 1177,
+        "microcar": 9,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 192
+      },
+      "phev_por_tipo": {
+        "turismo": 494,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1185,
+      "anfac_phev": 439,
+      "total_mercado_nuevos": 180612,
+      "cuota_bev_pct": 1.5,
+      "cuota_phev_pct": 0.24
+    },
+    {
+      "periodo": "2019-07",
+      "bev": {
+        "total": 2701,
+        "nuevos": 2671,
+        "usados": 30
+      },
+      "phev": {
+        "total": 538,
+        "nuevos": 496,
+        "usados": 42
+      },
+      "bev_por_tipo": {
+        "turismo": 793,
+        "furgoneta": 121,
+        "moto_scooter": 1184,
+        "microcar": 15,
+        "camion": 0,
+        "autobus": 4,
+        "otros": 584
+      },
+      "phev_por_tipo": {
+        "turismo": 537,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 768,
+      "anfac_phev": 495,
+      "total_mercado_nuevos": 167756,
+      "cuota_bev_pct": 1.59,
+      "cuota_phev_pct": 0.3
+    },
+    {
+      "periodo": "2019-08",
+      "bev": {
+        "total": 846,
+        "nuevos": 813,
+        "usados": 33
+      },
+      "phev": {
+        "total": 475,
+        "nuevos": 445,
+        "usados": 30
+      },
+      "bev_por_tipo": {
+        "turismo": 512,
+        "furgoneta": 132,
+        "moto_scooter": 61,
+        "microcar": 8,
+        "camion": 5,
+        "autobus": 1,
+        "otros": 127
+      },
+      "phev_por_tipo": {
+        "turismo": 474,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 490,
+      "anfac_phev": 444,
+      "total_mercado_nuevos": 108635,
+      "cuota_bev_pct": 0.75,
+      "cuota_phev_pct": 0.41
+    },
+    {
+      "periodo": "2019-09",
+      "bev": {
+        "total": 1871,
+        "nuevos": 1849,
+        "usados": 22
+      },
+      "phev": {
+        "total": 572,
+        "nuevos": 540,
+        "usados": 32
+      },
+      "bev_por_tipo": {
+        "turismo": 823,
+        "furgoneta": 126,
+        "moto_scooter": 70,
+        "microcar": 8,
+        "camion": 0,
+        "autobus": 5,
+        "otros": 839
+      },
+      "phev_por_tipo": {
+        "turismo": 572,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 805,
+      "anfac_phev": 540,
+      "total_mercado_nuevos": 119364,
+      "cuota_bev_pct": 1.55,
+      "cuota_phev_pct": 0.45
+    },
+    {
+      "periodo": "2019-10",
+      "bev": {
+        "total": 1907,
+        "nuevos": 1786,
+        "usados": 121
+      },
+      "phev": {
+        "total": 828,
+        "nuevos": 793,
+        "usados": 35
+      },
+      "bev_por_tipo": {
+        "turismo": 874,
+        "furgoneta": 188,
+        "moto_scooter": 573,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 20,
+        "otros": 251
+      },
+      "phev_por_tipo": {
+        "turismo": 827,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 830,
+      "anfac_phev": 792,
+      "total_mercado_nuevos": 139966,
+      "cuota_bev_pct": 1.28,
+      "cuota_phev_pct": 0.57
+    },
+    {
+      "periodo": "2019-11",
+      "bev": {
+        "total": 3141,
+        "nuevos": 3089,
+        "usados": 52
+      },
+      "phev": {
+        "total": 883,
+        "nuevos": 837,
+        "usados": 46
+      },
+      "bev_por_tipo": {
+        "turismo": 854,
+        "furgoneta": 124,
+        "moto_scooter": 1967,
+        "microcar": 16,
+        "camion": 2,
+        "autobus": 1,
+        "otros": 177
+      },
+      "phev_por_tipo": {
+        "turismo": 882,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 812,
+      "anfac_phev": 836,
+      "total_mercado_nuevos": 133360,
+      "cuota_bev_pct": 2.32,
+      "cuota_phev_pct": 0.63
+    },
+    {
+      "periodo": "2019-12",
+      "bev": {
+        "total": 2367,
+        "nuevos": 2332,
+        "usados": 35
+      },
+      "phev": {
+        "total": 854,
+        "nuevos": 815,
+        "usados": 39
+      },
+      "bev_por_tipo": {
+        "turismo": 1034,
+        "furgoneta": 87,
+        "moto_scooter": 1044,
+        "microcar": 42,
+        "camion": 0,
+        "autobus": 3,
+        "otros": 157
+      },
+      "phev_por_tipo": {
+        "turismo": 853,
+        "furgoneta": 0,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1008,
+      "anfac_phev": 814,
+      "total_mercado_nuevos": 141539,
+      "cuota_bev_pct": 1.65,
+      "cuota_phev_pct": 0.58
+    },
+    {
+      "periodo": "2020-01",
+      "bev": {
+        "total": 2846,
+        "nuevos": 2793,
+        "usados": 53
+      },
+      "phev": {
+        "total": 1511,
+        "nuevos": 1464,
+        "usados": 47
+      },
+      "bev_por_tipo": {
+        "turismo": 1691,
+        "furgoneta": 170,
+        "moto_scooter": 552,
+        "microcar": 7,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 424
+      },
+      "phev_por_tipo": {
+        "turismo": 1511,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1645,
+      "anfac_phev": 1464,
+      "total_mercado_nuevos": 122917,
+      "cuota_bev_pct": 2.27,
+      "cuota_phev_pct": 1.19
+    },
+    {
+      "periodo": "2020-02",
+      "bev": {
+        "total": 3118,
+        "nuevos": 3080,
+        "usados": 38
+      },
+      "phev": {
+        "total": 1283,
+        "nuevos": 1214,
+        "usados": 69
+      },
+      "bev_por_tipo": {
+        "turismo": 1652,
+        "furgoneta": 108,
+        "moto_scooter": 527,
+        "microcar": 12,
+        "camion": 0,
+        "autobus": 15,
+        "otros": 804
+      },
+      "phev_por_tipo": {
+        "turismo": 1283,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1617,
+      "anfac_phev": 1214,
+      "total_mercado_nuevos": 132853,
+      "cuota_bev_pct": 2.32,
+      "cuota_phev_pct": 0.91
+    },
+    {
+      "periodo": "2020-03",
+      "bev": {
+        "total": 2096,
+        "nuevos": 2065,
+        "usados": 31
+      },
+      "phev": {
+        "total": 668,
+        "nuevos": 628,
+        "usados": 40
+      },
+      "bev_por_tipo": {
+        "turismo": 788,
+        "furgoneta": 61,
+        "moto_scooter": 609,
+        "microcar": 3,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 635
+      },
+      "phev_por_tipo": {
+        "turismo": 668,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 758,
+      "anfac_phev": 628,
+      "total_mercado_nuevos": 58388,
+      "cuota_bev_pct": 3.54,
+      "cuota_phev_pct": 1.08
+    },
+    {
+      "periodo": "2020-04",
+      "bev": {
+        "total": 441,
+        "nuevos": 438,
+        "usados": 3
+      },
+      "phev": {
+        "total": 69,
+        "nuevos": 61,
+        "usados": 8
+      },
+      "bev_por_tipo": {
+        "turismo": 93,
+        "furgoneta": 8,
+        "moto_scooter": 276,
+        "microcar": 1,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 63
+      },
+      "phev_por_tipo": {
+        "turismo": 69,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 90,
+      "anfac_phev": 61,
+      "total_mercado_nuevos": 9999,
+      "cuota_bev_pct": 4.38,
+      "cuota_phev_pct": 0.61
+    },
+    {
+      "periodo": "2020-05",
+      "bev": {
+        "total": 2169,
+        "nuevos": 2167,
+        "usados": 2
+      },
+      "phev": {
+        "total": 760,
+        "nuevos": 748,
+        "usados": 12
+      },
+      "bev_por_tipo": {
+        "turismo": 382,
+        "furgoneta": 53,
+        "moto_scooter": 1619,
+        "microcar": 2,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 113
+      },
+      "phev_por_tipo": {
+        "turismo": 760,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 380,
+      "anfac_phev": 748,
+      "total_mercado_nuevos": 58696,
+      "cuota_bev_pct": 3.69,
+      "cuota_phev_pct": 1.27
+    },
+    {
+      "periodo": "2020-06",
+      "bev": {
+        "total": 1909,
+        "nuevos": 1863,
+        "usados": 46
+      },
+      "phev": {
+        "total": 1510,
+        "nuevos": 1451,
+        "usados": 59
+      },
+      "bev_por_tipo": {
+        "turismo": 827,
+        "furgoneta": 97,
+        "moto_scooter": 687,
+        "microcar": 13,
+        "camion": 1,
+        "autobus": 3,
+        "otros": 281
+      },
+      "phev_por_tipo": {
+        "turismo": 1510,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 789,
+      "anfac_phev": 1451,
+      "total_mercado_nuevos": 129993,
+      "cuota_bev_pct": 1.43,
+      "cuota_phev_pct": 1.12
+    },
+    {
+      "periodo": "2020-07",
+      "bev": {
+        "total": 3257,
+        "nuevos": 3205,
+        "usados": 52
+      },
+      "phev": {
+        "total": 2442,
+        "nuevos": 2397,
+        "usados": 45
+      },
+      "bev_por_tipo": {
+        "turismo": 1549,
+        "furgoneta": 123,
+        "moto_scooter": 1206,
+        "microcar": 16,
+        "camion": 3,
+        "autobus": 0,
+        "otros": 360
+      },
+      "phev_por_tipo": {
+        "turismo": 2435,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 4,
+        "otros": 3
+      },
+      "anfac_bev": 1508,
+      "anfac_phev": 2390,
+      "total_mercado_nuevos": 174918,
+      "cuota_bev_pct": 1.83,
+      "cuota_phev_pct": 1.37
+    },
+    {
+      "periodo": "2020-08",
+      "bev": {
+        "total": 1991,
+        "nuevos": 1950,
+        "usados": 41
+      },
+      "phev": {
+        "total": 1372,
+        "nuevos": 1334,
+        "usados": 38
+      },
+      "bev_por_tipo": {
+        "turismo": 1246,
+        "furgoneta": 151,
+        "moto_scooter": 237,
+        "microcar": 10,
+        "camion": 2,
+        "autobus": 1,
+        "otros": 344
+      },
+      "phev_por_tipo": {
+        "turismo": 1370,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 1208,
+      "anfac_phev": 1332,
+      "total_mercado_nuevos": 101290,
+      "cuota_bev_pct": 1.93,
+      "cuota_phev_pct": 1.32
+    },
+    {
+      "periodo": "2020-09",
+      "bev": {
+        "total": 3274,
+        "nuevos": 3230,
+        "usados": 44
+      },
+      "phev": {
+        "total": 2028,
+        "nuevos": 1969,
+        "usados": 59
+      },
+      "bev_por_tipo": {
+        "turismo": 2112,
+        "furgoneta": 290,
+        "moto_scooter": 478,
+        "microcar": 11,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 381
+      },
+      "phev_por_tipo": {
+        "turismo": 2028,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2071,
+      "anfac_phev": 1969,
+      "total_mercado_nuevos": 110491,
+      "cuota_bev_pct": 2.92,
+      "cuota_phev_pct": 1.78
+    },
+    {
+      "periodo": "2020-10",
+      "bev": {
+        "total": 2988,
+        "nuevos": 2878,
+        "usados": 110
+      },
+      "phev": {
+        "total": 2563,
+        "nuevos": 2518,
+        "usados": 45
+      },
+      "bev_por_tipo": {
+        "turismo": 1881,
+        "furgoneta": 240,
+        "moto_scooter": 424,
+        "microcar": 10,
+        "camion": 1,
+        "autobus": 2,
+        "otros": 430
+      },
+      "phev_por_tipo": {
+        "turismo": 2560,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 1829,
+      "anfac_phev": 2516,
+      "total_mercado_nuevos": 115847,
+      "cuota_bev_pct": 2.48,
+      "cuota_phev_pct": 2.17
+    },
+    {
+      "periodo": "2020-11",
+      "bev": {
+        "total": 3026,
+        "nuevos": 2658,
+        "usados": 368
+      },
+      "phev": {
+        "total": 3084,
+        "nuevos": 3040,
+        "usados": 44
+      },
+      "bev_por_tipo": {
+        "turismo": 1982,
+        "furgoneta": 215,
+        "moto_scooter": 378,
+        "microcar": 9,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 441
+      },
+      "phev_por_tipo": {
+        "turismo": 3077,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 3,
+        "otros": 2
+      },
+      "anfac_bev": 1925,
+      "anfac_phev": 3035,
+      "total_mercado_nuevos": 112255,
+      "cuota_bev_pct": 2.37,
+      "cuota_phev_pct": 2.71
+    },
+    {
+      "periodo": "2020-12",
+      "bev": {
+        "total": 5373,
+        "nuevos": 5299,
+        "usados": 74
+      },
+      "phev": {
+        "total": 6549,
+        "nuevos": 6497,
+        "usados": 52
+      },
+      "bev_por_tipo": {
+        "turismo": 4428,
+        "furgoneta": 210,
+        "moto_scooter": 542,
+        "microcar": 6,
+        "camion": 0,
+        "autobus": 16,
+        "otros": 171
+      },
+      "phev_por_tipo": {
+        "turismo": 6549,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 4399,
+      "anfac_phev": 6497,
+      "total_mercado_nuevos": 144803,
+      "cuota_bev_pct": 3.66,
+      "cuota_phev_pct": 4.49
+    },
+    {
+      "periodo": "2021-01",
+      "bev": {
+        "total": 1094,
+        "nuevos": 971,
+        "usados": 123
+      },
+      "phev": {
+        "total": 1469,
+        "nuevos": 1440,
+        "usados": 29
+      },
+      "bev_por_tipo": {
+        "turismo": 543,
+        "furgoneta": 73,
+        "moto_scooter": 294,
+        "microcar": 12,
+        "camion": 0,
+        "autobus": 13,
+        "otros": 159
+      },
+      "phev_por_tipo": {
+        "turismo": 1467,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 0
+      },
+      "anfac_bev": 508,
+      "anfac_phev": 1438,
+      "total_mercado_nuevos": 66917,
+      "cuota_bev_pct": 1.45,
+      "cuota_phev_pct": 2.15
+    },
+    {
+      "periodo": "2021-02",
+      "bev": {
+        "total": 1714,
+        "nuevos": 1605,
+        "usados": 109
+      },
+      "phev": {
+        "total": 2224,
+        "nuevos": 2155,
+        "usados": 69
+      },
+      "bev_por_tipo": {
+        "turismo": 996,
+        "furgoneta": 147,
+        "moto_scooter": 355,
+        "microcar": 6,
+        "camion": 1,
+        "autobus": 3,
+        "otros": 206
+      },
+      "phev_por_tipo": {
+        "turismo": 2224,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 953,
+      "anfac_phev": 2155,
+      "total_mercado_nuevos": 90717,
+      "cuota_bev_pct": 1.77,
+      "cuota_phev_pct": 2.38
+    },
+    {
+      "periodo": "2021-03",
+      "bev": {
+        "total": 3447,
+        "nuevos": 3298,
+        "usados": 149
+      },
+      "phev": {
+        "total": 3645,
+        "nuevos": 3557,
+        "usados": 88
+      },
+      "bev_por_tipo": {
+        "turismo": 2114,
+        "furgoneta": 166,
+        "moto_scooter": 748,
+        "microcar": 11,
+        "camion": 4,
+        "autobus": 4,
+        "otros": 400
+      },
+      "phev_por_tipo": {
+        "turismo": 3641,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 4,
+        "otros": 0
+      },
+      "anfac_bev": 2070,
+      "anfac_phev": 3553,
+      "total_mercado_nuevos": 129296,
+      "cuota_bev_pct": 2.55,
+      "cuota_phev_pct": 2.75
+    },
+    {
+      "periodo": "2021-04",
+      "bev": {
+        "total": 2871,
+        "nuevos": 2802,
+        "usados": 69
+      },
+      "phev": {
+        "total": 3142,
+        "nuevos": 3070,
+        "usados": 72
+      },
+      "bev_por_tipo": {
+        "turismo": 1590,
+        "furgoneta": 223,
+        "moto_scooter": 376,
+        "microcar": 36,
+        "camion": 1,
+        "autobus": 14,
+        "otros": 631
+      },
+      "phev_por_tipo": {
+        "turismo": 3132,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 10,
+        "otros": 0
+      },
+      "anfac_bev": 1549,
+      "anfac_phev": 3060,
+      "total_mercado_nuevos": 118533,
+      "cuota_bev_pct": 2.36,
+      "cuota_phev_pct": 2.59
+    },
+    {
+      "periodo": "2021-05",
+      "bev": {
+        "total": 3065,
+        "nuevos": 3004,
+        "usados": 61
+      },
+      "phev": {
+        "total": 4534,
+        "nuevos": 4458,
+        "usados": 76
+      },
+      "bev_por_tipo": {
+        "turismo": 1906,
+        "furgoneta": 158,
+        "moto_scooter": 583,
+        "microcar": 110,
+        "camion": 1,
+        "autobus": 32,
+        "otros": 275
+      },
+      "phev_por_tipo": {
+        "turismo": 4534,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1848,
+      "anfac_phev": 4458,
+      "total_mercado_nuevos": 137469,
+      "cuota_bev_pct": 2.19,
+      "cuota_phev_pct": 3.24
+    },
+    {
+      "periodo": "2021-06",
+      "bev": {
+        "total": 4837,
+        "nuevos": 4391,
+        "usados": 446
+      },
+      "phev": {
+        "total": 4553,
+        "nuevos": 4469,
+        "usados": 84
+      },
+      "bev_por_tipo": {
+        "turismo": 2648,
+        "furgoneta": 228,
+        "moto_scooter": 986,
+        "microcar": 99,
+        "camion": 1,
+        "autobus": 18,
+        "otros": 857
+      },
+      "phev_por_tipo": {
+        "turismo": 4552,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2603,
+      "anfac_phev": 4468,
+      "total_mercado_nuevos": 141912,
+      "cuota_bev_pct": 3.09,
+      "cuota_phev_pct": 3.15
+    },
+    {
+      "periodo": "2021-07",
+      "bev": {
+        "total": 2916,
+        "nuevos": 2843,
+        "usados": 73
+      },
+      "phev": {
+        "total": 4123,
+        "nuevos": 4036,
+        "usados": 87
+      },
+      "bev_por_tipo": {
+        "turismo": 1637,
+        "furgoneta": 362,
+        "moto_scooter": 610,
+        "microcar": 52,
+        "camion": 0,
+        "autobus": 7,
+        "otros": 248
+      },
+      "phev_por_tipo": {
+        "turismo": 4122,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1575,
+      "anfac_phev": 4035,
+      "total_mercado_nuevos": 125701,
+      "cuota_bev_pct": 2.26,
+      "cuota_phev_pct": 3.21
+    },
+    {
+      "periodo": "2021-08",
+      "bev": {
+        "total": 2204,
+        "nuevos": 2156,
+        "usados": 48
+      },
+      "phev": {
+        "total": 2769,
+        "nuevos": 2696,
+        "usados": 73
+      },
+      "bev_por_tipo": {
+        "turismo": 1361,
+        "furgoneta": 135,
+        "moto_scooter": 454,
+        "microcar": 46,
+        "camion": 2,
+        "autobus": 6,
+        "otros": 200
+      },
+      "phev_por_tipo": {
+        "turismo": 2769,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1316,
+      "anfac_phev": 2696,
+      "total_mercado_nuevos": 74354,
+      "cuota_bev_pct": 2.9,
+      "cuota_phev_pct": 3.63
+    },
+    {
+      "periodo": "2021-09",
+      "bev": {
+        "total": 4148,
+        "nuevos": 4089,
+        "usados": 59
+      },
+      "phev": {
+        "total": 4039,
+        "nuevos": 3950,
+        "usados": 89
+      },
+      "bev_por_tipo": {
+        "turismo": 3000,
+        "furgoneta": 135,
+        "moto_scooter": 529,
+        "microcar": 67,
+        "camion": 4,
+        "autobus": 1,
+        "otros": 412
+      },
+      "phev_por_tipo": {
+        "turismo": 4039,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2946,
+      "anfac_phev": 3950,
+      "total_mercado_nuevos": 94332,
+      "cuota_bev_pct": 4.33,
+      "cuota_phev_pct": 4.19
+    },
+    {
+      "periodo": "2021-10",
+      "bev": {
+        "total": 3671,
+        "nuevos": 3574,
+        "usados": 97
+      },
+      "phev": {
+        "total": 4285,
+        "nuevos": 4200,
+        "usados": 85
+      },
+      "bev_por_tipo": {
+        "turismo": 2530,
+        "furgoneta": 151,
+        "moto_scooter": 516,
+        "microcar": 96,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 376
+      },
+      "phev_por_tipo": {
+        "turismo": 4285,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2436,
+      "anfac_phev": 4200,
+      "total_mercado_nuevos": 93916,
+      "cuota_bev_pct": 3.81,
+      "cuota_phev_pct": 4.47
+    },
+    {
+      "periodo": "2021-11",
+      "bev": {
+        "total": 4231,
+        "nuevos": 4166,
+        "usados": 65
+      },
+      "phev": {
+        "total": 4464,
+        "nuevos": 4397,
+        "usados": 67
+      },
+      "bev_por_tipo": {
+        "turismo": 3001,
+        "furgoneta": 211,
+        "moto_scooter": 554,
+        "microcar": 79,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 386
+      },
+      "phev_por_tipo": {
+        "turismo": 4463,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 2940,
+      "anfac_phev": 4396,
+      "total_mercado_nuevos": 100423,
+      "cuota_bev_pct": 4.15,
+      "cuota_phev_pct": 4.38
+    },
+    {
+      "periodo": "2021-12",
+      "bev": {
+        "total": 5361,
+        "nuevos": 5320,
+        "usados": 41
+      },
+      "phev": {
+        "total": 4892,
+        "nuevos": 4822,
+        "usados": 70
+      },
+      "bev_por_tipo": {
+        "turismo": 3701,
+        "furgoneta": 420,
+        "moto_scooter": 642,
+        "microcar": 82,
+        "camion": 0,
+        "autobus": 32,
+        "otros": 484
+      },
+      "phev_por_tipo": {
+        "turismo": 4892,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3665,
+      "anfac_phev": 4822,
+      "total_mercado_nuevos": 117993,
+      "cuota_bev_pct": 4.51,
+      "cuota_phev_pct": 4.09
+    },
+    {
+      "periodo": "2022-01",
+      "bev": {
+        "total": 3564,
+        "nuevos": 3520,
+        "usados": 44
+      },
+      "phev": {
+        "total": 3273,
+        "nuevos": 3215,
+        "usados": 58
+      },
+      "bev_por_tipo": {
+        "turismo": 1861,
+        "furgoneta": 293,
+        "moto_scooter": 1021,
+        "microcar": 58,
+        "camion": 1,
+        "autobus": 2,
+        "otros": 328
+      },
+      "phev_por_tipo": {
+        "turismo": 3273,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1819,
+      "anfac_phev": 3215,
+      "total_mercado_nuevos": 69355,
+      "cuota_bev_pct": 5.08,
+      "cuota_phev_pct": 4.64
+    },
+    {
+      "periodo": "2022-02",
+      "bev": {
+        "total": 3841,
+        "nuevos": 3777,
+        "usados": 64
+      },
+      "phev": {
+        "total": 3993,
+        "nuevos": 3937,
+        "usados": 56
+      },
+      "bev_por_tipo": {
+        "turismo": 2577,
+        "furgoneta": 234,
+        "moto_scooter": 398,
+        "microcar": 60,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 570
+      },
+      "phev_por_tipo": {
+        "turismo": 3991,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2517,
+      "anfac_phev": 3935,
+      "total_mercado_nuevos": 93425,
+      "cuota_bev_pct": 4.04,
+      "cuota_phev_pct": 4.21
+    },
+    {
+      "periodo": "2022-03",
+      "bev": {
+        "total": 5043,
+        "nuevos": 4960,
+        "usados": 83
+      },
+      "phev": {
+        "total": 3459,
+        "nuevos": 3377,
+        "usados": 82
+      },
+      "bev_por_tipo": {
+        "turismo": 3262,
+        "furgoneta": 190,
+        "moto_scooter": 906,
+        "microcar": 65,
+        "camion": 1,
+        "autobus": 21,
+        "otros": 598
+      },
+      "phev_por_tipo": {
+        "turismo": 3456,
+        "furgoneta": 1,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 3185,
+      "anfac_phev": 3376,
+      "total_mercado_nuevos": 94666,
+      "cuota_bev_pct": 5.24,
+      "cuota_phev_pct": 3.57
+    },
+    {
+      "periodo": "2022-04",
+      "bev": {
+        "total": 3333,
+        "nuevos": 3276,
+        "usados": 57
+      },
+      "phev": {
+        "total": 4291,
+        "nuevos": 4230,
+        "usados": 61
+      },
+      "bev_por_tipo": {
+        "turismo": 1995,
+        "furgoneta": 143,
+        "moto_scooter": 736,
+        "microcar": 65,
+        "camion": 2,
+        "autobus": 1,
+        "otros": 391
+      },
+      "phev_por_tipo": {
+        "turismo": 4290,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1939,
+      "anfac_phev": 4229,
+      "total_mercado_nuevos": 101326,
+      "cuota_bev_pct": 3.23,
+      "cuota_phev_pct": 4.17
+    },
+    {
+      "periodo": "2022-05",
+      "bev": {
+        "total": 3612,
+        "nuevos": 3534,
+        "usados": 78
+      },
+      "phev": {
+        "total": 4921,
+        "nuevos": 4834,
+        "usados": 87
+      },
+      "bev_por_tipo": {
+        "turismo": 2176,
+        "furgoneta": 222,
+        "moto_scooter": 652,
+        "microcar": 85,
+        "camion": 7,
+        "autobus": 3,
+        "otros": 467
+      },
+      "phev_por_tipo": {
+        "turismo": 4917,
+        "furgoneta": 4,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2102,
+      "anfac_phev": 4830,
+      "total_mercado_nuevos": 125047,
+      "cuota_bev_pct": 2.83,
+      "cuota_phev_pct": 3.87
+    },
+    {
+      "periodo": "2022-06",
+      "bev": {
+        "total": 5150,
+        "nuevos": 5086,
+        "usados": 64
+      },
+      "phev": {
+        "total": 4370,
+        "nuevos": 4281,
+        "usados": 89
+      },
+      "bev_por_tipo": {
+        "turismo": 3264,
+        "furgoneta": 232,
+        "moto_scooter": 838,
+        "microcar": 94,
+        "camion": 5,
+        "autobus": 7,
+        "otros": 710
+      },
+      "phev_por_tipo": {
+        "turismo": 4370,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3207,
+      "anfac_phev": 4281,
+      "total_mercado_nuevos": 129694,
+      "cuota_bev_pct": 3.92,
+      "cuota_phev_pct": 3.3
+    },
+    {
+      "periodo": "2022-07",
+      "bev": {
+        "total": 4060,
+        "nuevos": 3989,
+        "usados": 71
+      },
+      "phev": {
+        "total": 3724,
+        "nuevos": 3654,
+        "usados": 70
+      },
+      "bev_por_tipo": {
+        "turismo": 2242,
+        "furgoneta": 326,
+        "moto_scooter": 912,
+        "microcar": 87,
+        "camion": 14,
+        "autobus": 12,
+        "otros": 467
+      },
+      "phev_por_tipo": {
+        "turismo": 3723,
+        "furgoneta": 0,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2190,
+      "anfac_phev": 3653,
+      "total_mercado_nuevos": 110297,
+      "cuota_bev_pct": 3.62,
+      "cuota_phev_pct": 3.31
+    },
+    {
+      "periodo": "2022-08",
+      "bev": {
+        "total": 2908,
+        "nuevos": 2807,
+        "usados": 101
+      },
+      "phev": {
+        "total": 2840,
+        "nuevos": 2778,
+        "usados": 62
+      },
+      "bev_por_tipo": {
+        "turismo": 1556,
+        "furgoneta": 265,
+        "moto_scooter": 638,
+        "microcar": 78,
+        "camion": 14,
+        "autobus": 32,
+        "otros": 325
+      },
+      "phev_por_tipo": {
+        "turismo": 2840,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 1499,
+      "anfac_phev": 2778,
+      "total_mercado_nuevos": 79791,
+      "cuota_bev_pct": 3.52,
+      "cuota_phev_pct": 3.48
+    },
+    {
+      "periodo": "2022-09",
+      "bev": {
+        "total": 4940,
+        "nuevos": 4868,
+        "usados": 72
+      },
+      "phev": {
+        "total": 4274,
+        "nuevos": 4192,
+        "usados": 82
+      },
+      "bev_por_tipo": {
+        "turismo": 3418,
+        "furgoneta": 330,
+        "moto_scooter": 739,
+        "microcar": 77,
+        "camion": 40,
+        "autobus": 26,
+        "otros": 310
+      },
+      "phev_por_tipo": {
+        "turismo": 4272,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 3356,
+      "anfac_phev": 4190,
+      "total_mercado_nuevos": 101752,
+      "cuota_bev_pct": 4.78,
+      "cuota_phev_pct": 4.12
+    },
+    {
+      "periodo": "2022-10",
+      "bev": {
+        "total": 4389,
+        "nuevos": 4320,
+        "usados": 69
+      },
+      "phev": {
+        "total": 4086,
+        "nuevos": 3986,
+        "usados": 100
+      },
+      "bev_por_tipo": {
+        "turismo": 2888,
+        "furgoneta": 304,
+        "moto_scooter": 616,
+        "microcar": 86,
+        "camion": 19,
+        "autobus": 11,
+        "otros": 465
+      },
+      "phev_por_tipo": {
+        "turismo": 4086,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 2825,
+      "anfac_phev": 3986,
+      "total_mercado_nuevos": 101294,
+      "cuota_bev_pct": 4.26,
+      "cuota_phev_pct": 3.94
+    },
+    {
+      "periodo": "2022-11",
+      "bev": {
+        "total": 5254,
+        "nuevos": 5162,
+        "usados": 92
+      },
+      "phev": {
+        "total": 4921,
+        "nuevos": 4829,
+        "usados": 92
+      },
+      "bev_por_tipo": {
+        "turismo": 3569,
+        "furgoneta": 360,
+        "moto_scooter": 761,
+        "microcar": 85,
+        "camion": 29,
+        "autobus": 6,
+        "otros": 444
+      },
+      "phev_por_tipo": {
+        "turismo": 4920,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3482,
+      "anfac_phev": 4828,
+      "total_mercado_nuevos": 108487,
+      "cuota_bev_pct": 4.76,
+      "cuota_phev_pct": 4.45
+    },
+    {
+      "periodo": "2022-12",
+      "bev": {
+        "total": 5453,
+        "nuevos": 5353,
+        "usados": 100
+      },
+      "phev": {
+        "total": 4755,
+        "nuevos": 4642,
+        "usados": 113
+      },
+      "bev_por_tipo": {
+        "turismo": 3718,
+        "furgoneta": 420,
+        "moto_scooter": 564,
+        "microcar": 61,
+        "camion": 16,
+        "autobus": 20,
+        "otros": 654
+      },
+      "phev_por_tipo": {
+        "turismo": 4754,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 3626,
+      "anfac_phev": 4641,
+      "total_mercado_nuevos": 106749,
+      "cuota_bev_pct": 5.01,
+      "cuota_phev_pct": 4.35
+    },
+    {
+      "periodo": "2023-01",
+      "bev": {
+        "total": 4784,
+        "nuevos": 4681,
+        "usados": 103
+      },
+      "phev": {
+        "total": 4237,
+        "nuevos": 4112,
+        "usados": 125
+      },
+      "bev_por_tipo": {
+        "turismo": 3464,
+        "furgoneta": 460,
+        "moto_scooter": 482,
+        "microcar": 60,
+        "camion": 22,
+        "autobus": 39,
+        "otros": 257
+      },
+      "phev_por_tipo": {
+        "turismo": 4237,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3370,
+      "anfac_phev": 4112,
+      "total_mercado_nuevos": 95898,
+      "cuota_bev_pct": 4.88,
+      "cuota_phev_pct": 4.29
+    },
+    {
+      "periodo": "2023-02",
+      "bev": {
+        "total": 5228,
+        "nuevos": 5115,
+        "usados": 113
+      },
+      "phev": {
+        "total": 4951,
+        "nuevos": 4831,
+        "usados": 120
+      },
+      "bev_por_tipo": {
+        "turismo": 3728,
+        "furgoneta": 497,
+        "moto_scooter": 498,
+        "microcar": 73,
+        "camion": 19,
+        "autobus": 22,
+        "otros": 391
+      },
+      "phev_por_tipo": {
+        "turismo": 4949,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 2,
+        "otros": 0
+      },
+      "anfac_bev": 3620,
+      "anfac_phev": 4829,
+      "total_mercado_nuevos": 106457,
+      "cuota_bev_pct": 4.8,
+      "cuota_phev_pct": 4.54
+    },
+    {
+      "periodo": "2023-03",
+      "bev": {
+        "total": 6644,
+        "nuevos": 6513,
+        "usados": 131
+      },
+      "phev": {
+        "total": 6193,
+        "nuevos": 6010,
+        "usados": 183
+      },
+      "bev_por_tipo": {
+        "turismo": 4889,
+        "furgoneta": 715,
+        "moto_scooter": 513,
+        "microcar": 101,
+        "camion": 41,
+        "autobus": 53,
+        "otros": 332
+      },
+      "phev_por_tipo": {
+        "turismo": 6169,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 4,
+        "autobus": 20,
+        "otros": 0
+      },
+      "anfac_bev": 4774,
+      "anfac_phev": 5986,
+      "total_mercado_nuevos": 141600,
+      "cuota_bev_pct": 4.6,
+      "cuota_phev_pct": 4.24
+    },
+    {
+      "periodo": "2023-04",
+      "bev": {
+        "total": 5406,
+        "nuevos": 5282,
+        "usados": 124
+      },
+      "phev": {
+        "total": 4514,
+        "nuevos": 4346,
+        "usados": 168
+      },
+      "bev_por_tipo": {
+        "turismo": 3791,
+        "furgoneta": 318,
+        "moto_scooter": 760,
+        "microcar": 82,
+        "camion": 23,
+        "autobus": 63,
+        "otros": 369
+      },
+      "phev_por_tipo": {
+        "turismo": 4511,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 3,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3680,
+      "anfac_phev": 4343,
+      "total_mercado_nuevos": 109187,
+      "cuota_bev_pct": 4.84,
+      "cuota_phev_pct": 3.98
+    },
+    {
+      "periodo": "2023-05",
+      "bev": {
+        "total": 7160,
+        "nuevos": 7022,
+        "usados": 138
+      },
+      "phev": {
+        "total": 6244,
+        "nuevos": 6065,
+        "usados": 179
+      },
+      "bev_por_tipo": {
+        "turismo": 4735,
+        "furgoneta": 344,
+        "moto_scooter": 638,
+        "microcar": 77,
+        "camion": 20,
+        "autobus": 24,
+        "otros": 1322
+      },
+      "phev_por_tipo": {
+        "turismo": 6235,
+        "furgoneta": 2,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 6,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 4607,
+      "anfac_phev": 6056,
+      "total_mercado_nuevos": 136486,
+      "cuota_bev_pct": 5.14,
+      "cuota_phev_pct": 4.44
+    },
+    {
+      "periodo": "2023-06",
+      "bev": {
+        "total": 7828,
+        "nuevos": 7693,
+        "usados": 135
+      },
+      "phev": {
+        "total": 6677,
+        "nuevos": 6522,
+        "usados": 155
+      },
+      "bev_por_tipo": {
+        "turismo": 6055,
+        "furgoneta": 511,
+        "moto_scooter": 701,
+        "microcar": 92,
+        "camion": 23,
+        "autobus": 68,
+        "otros": 378
+      },
+      "phev_por_tipo": {
+        "turismo": 6673,
+        "furgoneta": 1,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 3,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 5930,
+      "anfac_phev": 6518,
+      "total_mercado_nuevos": 147934,
+      "cuota_bev_pct": 5.2,
+      "cuota_phev_pct": 4.41
+    },
+    {
+      "periodo": "2023-07",
+      "bev": {
+        "total": 5761,
+        "nuevos": 5628,
+        "usados": 133
+      },
+      "phev": {
+        "total": 5399,
+        "nuevos": 5219,
+        "usados": 180
+      },
+      "bev_por_tipo": {
+        "turismo": 3779,
+        "furgoneta": 372,
+        "moto_scooter": 602,
+        "microcar": 85,
+        "camion": 37,
+        "autobus": 35,
+        "otros": 851
+      },
+      "phev_por_tipo": {
+        "turismo": 5392,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 7,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3662,
+      "anfac_phev": 5212,
+      "total_mercado_nuevos": 124219,
+      "cuota_bev_pct": 4.53,
+      "cuota_phev_pct": 4.2
+    },
+    {
+      "periodo": "2023-08",
+      "bev": {
+        "total": 5478,
+        "nuevos": 5344,
+        "usados": 134
+      },
+      "phev": {
+        "total": 3607,
+        "nuevos": 3391,
+        "usados": 216
+      },
+      "bev_por_tipo": {
+        "turismo": 3898,
+        "furgoneta": 271,
+        "moto_scooter": 578,
+        "microcar": 44,
+        "camion": 23,
+        "autobus": 17,
+        "otros": 647
+      },
+      "phev_por_tipo": {
+        "turismo": 3607,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3769,
+      "anfac_phev": 3391,
+      "total_mercado_nuevos": 87629,
+      "cuota_bev_pct": 6.1,
+      "cuota_phev_pct": 3.87
+    },
+    {
+      "periodo": "2023-09",
+      "bev": {
+        "total": 5642,
+        "nuevos": 5458,
+        "usados": 184
+      },
+      "phev": {
+        "total": 4781,
+        "nuevos": 4570,
+        "usados": 211
+      },
+      "bev_por_tipo": {
+        "turismo": 3990,
+        "furgoneta": 364,
+        "moto_scooter": 902,
+        "microcar": 55,
+        "camion": 13,
+        "autobus": 17,
+        "otros": 301
+      },
+      "phev_por_tipo": {
+        "turismo": 4778,
+        "furgoneta": 3,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3878,
+      "anfac_phev": 4567,
+      "total_mercado_nuevos": 99176,
+      "cuota_bev_pct": 5.5,
+      "cuota_phev_pct": 4.61
+    },
+    {
+      "periodo": "2023-10",
+      "bev": {
+        "total": 8115,
+        "nuevos": 7813,
+        "usados": 302
+      },
+      "phev": {
+        "total": 5739,
+        "nuevos": 5459,
+        "usados": 280
+      },
+      "bev_por_tipo": {
+        "turismo": 5842,
+        "furgoneta": 574,
+        "moto_scooter": 1150,
+        "microcar": 76,
+        "camion": 22,
+        "autobus": 13,
+        "otros": 438
+      },
+      "phev_por_tipo": {
+        "turismo": 5737,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 5693,
+      "anfac_phev": 5458,
+      "total_mercado_nuevos": 126224,
+      "cuota_bev_pct": 6.19,
+      "cuota_phev_pct": 4.32
+    },
+    {
+      "periodo": "2023-11",
+      "bev": {
+        "total": 8432,
+        "nuevos": 8237,
+        "usados": 195
+      },
+      "phev": {
+        "total": 6025,
+        "nuevos": 5674,
+        "usados": 351
+      },
+      "bev_por_tipo": {
+        "turismo": 6501,
+        "furgoneta": 694,
+        "moto_scooter": 743,
+        "microcar": 95,
+        "camion": 17,
+        "autobus": 94,
+        "otros": 288
+      },
+      "phev_por_tipo": {
+        "turismo": 6024,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 1,
+        "otros": 0
+      },
+      "anfac_bev": 6330,
+      "anfac_phev": 5673,
+      "total_mercado_nuevos": 119028,
+      "cuota_bev_pct": 6.92,
+      "cuota_phev_pct": 4.77
+    },
+    {
+      "periodo": "2023-12",
+      "bev": {
+        "total": 7772,
+        "nuevos": 7588,
+        "usados": 184
+      },
+      "phev": {
+        "total": 6994,
+        "nuevos": 6652,
+        "usados": 342
+      },
+      "bev_por_tipo": {
+        "turismo": 6247,
+        "furgoneta": 518,
+        "moto_scooter": 537,
+        "microcar": 80,
+        "camion": 38,
+        "autobus": 58,
+        "otros": 294
+      },
+      "phev_por_tipo": {
+        "turismo": 6993,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 6099,
+      "anfac_phev": 6652,
+      "total_mercado_nuevos": 114856,
+      "cuota_bev_pct": 6.61,
+      "cuota_phev_pct": 5.79
+    },
+    {
+      "periodo": "2024-01",
+      "bev": {
+        "total": 4761,
+        "nuevos": 4555,
+        "usados": 206
+      },
+      "phev": {
+        "total": 4976,
+        "nuevos": 4597,
+        "usados": 379
+      },
+      "bev_por_tipo": {
+        "turismo": 3729,
+        "furgoneta": 309,
+        "moto_scooter": 372,
+        "microcar": 87,
+        "camion": 18,
+        "autobus": 13,
+        "otros": 233
+      },
+      "phev_por_tipo": {
+        "turismo": 4976,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 3537,
+      "anfac_phev": 4597,
+      "total_mercado_nuevos": 103832,
+      "cuota_bev_pct": 4.39,
+      "cuota_phev_pct": 4.43
+    },
+    {
+      "periodo": "2024-02",
+      "bev": {
+        "total": 5258,
+        "nuevos": 5023,
+        "usados": 235
+      },
+      "phev": {
+        "total": 6027,
+        "nuevos": 5600,
+        "usados": 427
+      },
+      "bev_por_tipo": {
+        "turismo": 4174,
+        "furgoneta": 353,
+        "moto_scooter": 318,
+        "microcar": 109,
+        "camion": 32,
+        "autobus": 23,
+        "otros": 249
+      },
+      "phev_por_tipo": {
+        "turismo": 6026,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 3956,
+      "anfac_phev": 5600,
+      "total_mercado_nuevos": 119714,
+      "cuota_bev_pct": 4.2,
+      "cuota_phev_pct": 4.68
+    },
+    {
+      "periodo": "2024-03",
+      "bev": {
+        "total": 5786,
+        "nuevos": 5586,
+        "usados": 200
+      },
+      "phev": {
+        "total": 6037,
+        "nuevos": 5651,
+        "usados": 386
+      },
+      "bev_por_tipo": {
+        "turismo": 4534,
+        "furgoneta": 432,
+        "moto_scooter": 344,
+        "microcar": 83,
+        "camion": 44,
+        "autobus": 77,
+        "otros": 272
+      },
+      "phev_por_tipo": {
+        "turismo": 6037,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 4345,
+      "anfac_phev": 5651,
+      "total_mercado_nuevos": 134415,
+      "cuota_bev_pct": 4.16,
+      "cuota_phev_pct": 4.2
+    },
+    {
+      "periodo": "2024-04",
+      "bev": {
+        "total": 5655,
+        "nuevos": 5398,
+        "usados": 257
+      },
+      "phev": {
+        "total": 5634,
+        "nuevos": 5147,
+        "usados": 487
+      },
+      "bev_por_tipo": {
+        "turismo": 4313,
+        "furgoneta": 365,
+        "moto_scooter": 488,
+        "microcar": 74,
+        "camion": 28,
+        "autobus": 59,
+        "otros": 328
+      },
+      "phev_por_tipo": {
+        "turismo": 5631,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 2,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 4069,
+      "anfac_phev": 5145,
+      "total_mercado_nuevos": 138128,
+      "cuota_bev_pct": 3.91,
+      "cuota_phev_pct": 3.73
+    },
+    {
+      "periodo": "2024-05",
+      "bev": {
+        "total": 6209,
+        "nuevos": 6025,
+        "usados": 184
+      },
+      "phev": {
+        "total": 5389,
+        "nuevos": 4888,
+        "usados": 501
+      },
+      "bev_por_tipo": {
+        "turismo": 4775,
+        "furgoneta": 356,
+        "moto_scooter": 503,
+        "microcar": 78,
+        "camion": 44,
+        "autobus": 102,
+        "otros": 351
+      },
+      "phev_por_tipo": {
+        "turismo": 5387,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 4610,
+      "anfac_phev": 4886,
+      "total_mercado_nuevos": 142793,
+      "cuota_bev_pct": 4.22,
+      "cuota_phev_pct": 3.42
+    },
+    {
+      "periodo": "2024-06",
+      "bev": {
+        "total": 7137,
+        "nuevos": 6854,
+        "usados": 283
+      },
+      "phev": {
+        "total": 5928,
+        "nuevos": 5447,
+        "usados": 481
+      },
+      "bev_por_tipo": {
+        "turismo": 5984,
+        "furgoneta": 341,
+        "moto_scooter": 420,
+        "microcar": 73,
+        "camion": 31,
+        "autobus": 55,
+        "otros": 233
+      },
+      "phev_por_tipo": {
+        "turismo": 5926,
+        "furgoneta": 0,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 5713,
+      "anfac_phev": 5446,
+      "total_mercado_nuevos": 151226,
+      "cuota_bev_pct": 4.53,
+      "cuota_phev_pct": 3.6
+    },
+    {
+      "periodo": "2024-07",
+      "bev": {
+        "total": 6025,
+        "nuevos": 5570,
+        "usados": 455
+      },
+      "phev": {
+        "total": 5037,
+        "nuevos": 4471,
+        "usados": 566
+      },
+      "bev_por_tipo": {
+        "turismo": 4388,
+        "furgoneta": 382,
+        "moto_scooter": 721,
+        "microcar": 91,
+        "camion": 35,
+        "autobus": 17,
+        "otros": 391
+      },
+      "phev_por_tipo": {
+        "turismo": 5034,
+        "furgoneta": 3,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 4075,
+      "anfac_phev": 4468,
+      "total_mercado_nuevos": 133216,
+      "cuota_bev_pct": 4.18,
+      "cuota_phev_pct": 3.36
+    },
+    {
+      "periodo": "2024-08",
+      "bev": {
+        "total": 4172,
+        "nuevos": 3781,
+        "usados": 391
+      },
+      "phev": {
+        "total": 3575,
+        "nuevos": 3043,
+        "usados": 532
+      },
+      "bev_por_tipo": {
+        "turismo": 2969,
+        "furgoneta": 191,
+        "moto_scooter": 683,
+        "microcar": 43,
+        "camion": 31,
+        "autobus": 24,
+        "otros": 231
+      },
+      "phev_por_tipo": {
+        "turismo": 3565,
+        "furgoneta": 8,
+        "moto_scooter": 1,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 2764,
+      "anfac_phev": 3035,
+      "total_mercado_nuevos": 84297,
+      "cuota_bev_pct": 4.49,
+      "cuota_phev_pct": 3.61
+    },
+    {
+      "periodo": "2024-09",
+      "bev": {
+        "total": 7784,
+        "nuevos": 7471,
+        "usados": 313
+      },
+      "phev": {
+        "total": 4687,
+        "nuevos": 4136,
+        "usados": 551
+      },
+      "bev_por_tipo": {
+        "turismo": 6664,
+        "furgoneta": 230,
+        "moto_scooter": 508,
+        "microcar": 79,
+        "camion": 14,
+        "autobus": 60,
+        "otros": 229
+      },
+      "phev_por_tipo": {
+        "turismo": 4668,
+        "furgoneta": 18,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 6424,
+      "anfac_phev": 4118,
+      "total_mercado_nuevos": 115788,
+      "cuota_bev_pct": 6.45,
+      "cuota_phev_pct": 3.57
+    },
+    {
+      "periodo": "2024-10",
+      "bev": {
+        "total": 7064,
+        "nuevos": 6241,
+        "usados": 823
+      },
+      "phev": {
+        "total": 5985,
+        "nuevos": 5256,
+        "usados": 729
+      },
+      "bev_por_tipo": {
+        "turismo": 5225,
+        "furgoneta": 372,
+        "moto_scooter": 943,
+        "microcar": 93,
+        "camion": 31,
+        "autobus": 89,
+        "otros": 311
+      },
+      "phev_por_tipo": {
+        "turismo": 5956,
+        "furgoneta": 27,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 1,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 4918,
+      "anfac_phev": 5228,
+      "total_mercado_nuevos": 132999,
+      "cuota_bev_pct": 4.69,
+      "cuota_phev_pct": 3.95
+    },
+    {
+      "periodo": "2024-11",
+      "bev": {
+        "total": 7584,
+        "nuevos": 7115,
+        "usados": 469
+      },
+      "phev": {
+        "total": 5545,
+        "nuevos": 4967,
+        "usados": 578
+      },
+      "bev_por_tipo": {
+        "turismo": 6239,
+        "furgoneta": 372,
+        "moto_scooter": 534,
+        "microcar": 82,
+        "camion": 31,
+        "autobus": 63,
+        "otros": 263
+      },
+      "phev_por_tipo": {
+        "turismo": 5513,
+        "furgoneta": 31,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 5952,
+      "anfac_phev": 4936,
+      "total_mercado_nuevos": 125109,
+      "cuota_bev_pct": 5.69,
+      "cuota_phev_pct": 3.97
+    },
+    {
+      "periodo": "2024-12",
+      "bev": {
+        "total": 11508,
+        "nuevos": 10802,
+        "usados": 706
+      },
+      "phev": {
+        "total": 7138,
+        "nuevos": 6523,
+        "usados": 615
+      },
+      "bev_por_tipo": {
+        "turismo": 9346,
+        "furgoneta": 413,
+        "moto_scooter": 861,
+        "microcar": 79,
+        "camion": 34,
+        "autobus": 36,
+        "otros": 739
+      },
+      "phev_por_tipo": {
+        "turismo": 6982,
+        "furgoneta": 155,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 9018,
+      "anfac_phev": 6368,
+      "total_mercado_nuevos": 151573,
+      "cuota_bev_pct": 7.13,
+      "cuota_phev_pct": 4.3
+    },
+    {
+      "periodo": "2025-01",
+      "bev": {
+        "total": 7200,
+        "nuevos": 6672,
+        "usados": 528
+      },
+      "phev": {
+        "total": 6230,
+        "nuevos": 5439,
+        "usados": 791
+      },
+      "bev_por_tipo": {
+        "turismo": 5564,
+        "furgoneta": 514,
+        "moto_scooter": 563,
+        "microcar": 86,
+        "camion": 27,
+        "autobus": 39,
+        "otros": 407
+      },
+      "phev_por_tipo": {
+        "turismo": 6172,
+        "furgoneta": 57,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 5248,
+      "anfac_phev": 5381,
+      "total_mercado_nuevos": 108954,
+      "cuota_bev_pct": 6.12,
+      "cuota_phev_pct": 4.99
+    },
+    {
+      "periodo": "2025-02",
+      "bev": {
+        "total": 8414,
+        "nuevos": 7603,
+        "usados": 811
+      },
+      "phev": {
+        "total": 7921,
+        "nuevos": 7088,
+        "usados": 833
+      },
+      "bev_por_tipo": {
+        "turismo": 6747,
+        "furgoneta": 393,
+        "moto_scooter": 538,
+        "microcar": 65,
+        "camion": 35,
+        "autobus": 23,
+        "otros": 613
+      },
+      "phev_por_tipo": {
+        "turismo": 7831,
+        "furgoneta": 87,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 3
+      },
+      "anfac_bev": 6329,
+      "anfac_phev": 7001,
+      "total_mercado_nuevos": 128463,
+      "cuota_bev_pct": 5.92,
+      "cuota_phev_pct": 5.52
+    },
+    {
+      "periodo": "2025-03",
+      "bev": {
+        "total": 10369,
+        "nuevos": 9864,
+        "usados": 505
+      },
+      "phev": {
+        "total": 9412,
+        "nuevos": 8586,
+        "usados": 826
+      },
+      "bev_por_tipo": {
+        "turismo": 8878,
+        "furgoneta": 613,
+        "moto_scooter": 331,
+        "microcar": 104,
+        "camion": 39,
+        "autobus": 24,
+        "otros": 380
+      },
+      "phev_por_tipo": {
+        "turismo": 9347,
+        "furgoneta": 64,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 8429,
+      "anfac_phev": 8522,
+      "total_mercado_nuevos": 160802,
+      "cuota_bev_pct": 6.13,
+      "cuota_phev_pct": 5.34
+    },
+    {
+      "periodo": "2025-04",
+      "bev": {
+        "total": 9390,
+        "nuevos": 8730,
+        "usados": 660
+      },
+      "phev": {
+        "total": 10500,
+        "nuevos": 9650,
+        "usados": 850
+      },
+      "bev_por_tipo": {
+        "turismo": 7733,
+        "furgoneta": 350,
+        "moto_scooter": 728,
+        "microcar": 91,
+        "camion": 28,
+        "autobus": 71,
+        "otros": 389
+      },
+      "phev_por_tipo": {
+        "turismo": 10267,
+        "furgoneta": 232,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 7105,
+      "anfac_phev": 9419,
+      "total_mercado_nuevos": 143775,
+      "cuota_bev_pct": 6.07,
+      "cuota_phev_pct": 6.71
+    },
+    {
+      "periodo": "2025-05",
+      "bev": {
+        "total": 11415,
+        "nuevos": 10802,
+        "usados": 613
+      },
+      "phev": {
+        "total": 14460,
+        "nuevos": 13648,
+        "usados": 812
+      },
+      "bev_por_tipo": {
+        "turismo": 9762,
+        "furgoneta": 415,
+        "moto_scooter": 641,
+        "microcar": 143,
+        "camion": 57,
+        "autobus": 32,
+        "otros": 365
+      },
+      "phev_por_tipo": {
+        "turismo": 14158,
+        "furgoneta": 301,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 9259,
+      "anfac_phev": 13349,
+      "total_mercado_nuevos": 165277,
+      "cuota_bev_pct": 6.54,
+      "cuota_phev_pct": 8.26
+    },
+    {
+      "periodo": "2025-06",
+      "bev": {
+        "total": 14429,
+        "nuevos": 13969,
+        "usados": 460
+      },
+      "phev": {
+        "total": 15112,
+        "nuevos": 14242,
+        "usados": 870
+      },
+      "bev_por_tipo": {
+        "turismo": 11953,
+        "furgoneta": 1140,
+        "moto_scooter": 747,
+        "microcar": 111,
+        "camion": 58,
+        "autobus": 30,
+        "otros": 390
+      },
+      "phev_por_tipo": {
+        "turismo": 14848,
+        "furgoneta": 262,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 11576,
+      "anfac_phev": 13981,
+      "total_mercado_nuevos": 174529,
+      "cuota_bev_pct": 8,
+      "cuota_phev_pct": 8.16
+    },
+    {
+      "periodo": "2025-07",
+      "bev": {
+        "total": 11723,
+        "nuevos": 11037,
+        "usados": 686
+      },
+      "phev": {
+        "total": 13749,
+        "nuevos": 12899,
+        "usados": 850
+      },
+      "bev_por_tipo": {
+        "turismo": 9521,
+        "furgoneta": 806,
+        "moto_scooter": 757,
+        "microcar": 139,
+        "camion": 32,
+        "autobus": 24,
+        "otros": 444
+      },
+      "phev_por_tipo": {
+        "turismo": 13497,
+        "furgoneta": 252,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 9019,
+      "anfac_phev": 12647,
+      "total_mercado_nuevos": 156664,
+      "cuota_bev_pct": 7.05,
+      "cuota_phev_pct": 8.23
+    },
+    {
+      "periodo": "2025-08",
+      "bev": {
+        "total": 8775,
+        "nuevos": 8420,
+        "usados": 355
+      },
+      "phev": {
+        "total": 9063,
+        "nuevos": 8315,
+        "usados": 748
+      },
+      "bev_por_tipo": {
+        "turismo": 7558,
+        "furgoneta": 429,
+        "moto_scooter": 398,
+        "microcar": 89,
+        "camion": 30,
+        "autobus": 22,
+        "otros": 249
+      },
+      "phev_por_tipo": {
+        "turismo": 8883,
+        "furgoneta": 180,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 7218,
+      "anfac_phev": 8136,
+      "total_mercado_nuevos": 97046,
+      "cuota_bev_pct": 8.68,
+      "cuota_phev_pct": 8.57
+    },
+    {
+      "periodo": "2025-09",
+      "bev": {
+        "total": 12340,
+        "nuevos": 11885,
+        "usados": 455
+      },
+      "phev": {
+        "total": 11638,
+        "nuevos": 10871,
+        "usados": 767
+      },
+      "bev_por_tipo": {
+        "turismo": 10846,
+        "furgoneta": 599,
+        "moto_scooter": 350,
+        "microcar": 133,
+        "camion": 25,
+        "autobus": 57,
+        "otros": 330
+      },
+      "phev_por_tipo": {
+        "turismo": 11353,
+        "furgoneta": 283,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 10416,
+      "anfac_phev": 10588,
+      "total_mercado_nuevos": 135345,
+      "cuota_bev_pct": 8.78,
+      "cuota_phev_pct": 8.03
+    },
+    {
+      "periodo": "2025-10",
+      "bev": {
+        "total": 12004,
+        "nuevos": 11349,
+        "usados": 655
+      },
+      "phev": {
+        "total": 14479,
+        "nuevos": 13383,
+        "usados": 1096
+      },
+      "bev_por_tipo": {
+        "turismo": 9970,
+        "furgoneta": 700,
+        "moto_scooter": 591,
+        "microcar": 152,
+        "camion": 32,
+        "autobus": 49,
+        "otros": 510
+      },
+      "phev_por_tipo": {
+        "turismo": 14050,
+        "furgoneta": 428,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 9382,
+      "anfac_phev": 12956,
+      "total_mercado_nuevos": 153280,
+      "cuota_bev_pct": 7.4,
+      "cuota_phev_pct": 8.73
+    },
+    {
+      "periodo": "2025-11",
+      "bev": {
+        "total": 12526,
+        "nuevos": 11880,
+        "usados": 646
+      },
+      "phev": {
+        "total": 13505,
+        "nuevos": 12517,
+        "usados": 988
+      },
+      "bev_por_tipo": {
+        "turismo": 10181,
+        "furgoneta": 805,
+        "moto_scooter": 334,
+        "microcar": 127,
+        "camion": 54,
+        "autobus": 52,
+        "otros": 973
+      },
+      "phev_por_tipo": {
+        "turismo": 13184,
+        "furgoneta": 320,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 9663,
+      "anfac_phev": 12196,
+      "total_mercado_nuevos": 140006,
+      "cuota_bev_pct": 8.49,
+      "cuota_phev_pct": 8.94
+    },
+    {
+      "periodo": "2025-12",
+      "bev": {
+        "total": 13808,
+        "nuevos": 13233,
+        "usados": 575
+      },
+      "phev": {
+        "total": 14336,
+        "nuevos": 13463,
+        "usados": 873
+      },
+      "bev_por_tipo": {
+        "turismo": 11911,
+        "furgoneta": 721,
+        "moto_scooter": 403,
+        "microcar": 163,
+        "camion": 68,
+        "autobus": 56,
+        "otros": 486
+      },
+      "phev_por_tipo": {
+        "turismo": 13862,
+        "furgoneta": 473,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 11466,
+      "anfac_phev": 12990,
+      "total_mercado_nuevos": 146415,
+      "cuota_bev_pct": 9.04,
+      "cuota_phev_pct": 9.2
+    },
+    {
+      "periodo": "2026-01",
+      "bev": {
+        "total": 8213,
+        "nuevos": 7818,
+        "usados": 395
+      },
+      "phev": {
+        "total": 10016,
+        "nuevos": 9189,
+        "usados": 827
+      },
+      "bev_por_tipo": {
+        "turismo": 7062,
+        "furgoneta": 530,
+        "moto_scooter": 212,
+        "microcar": 123,
+        "camion": 13,
+        "autobus": 28,
+        "otros": 245
+      },
+      "phev_por_tipo": {
+        "turismo": 9767,
+        "furgoneta": 248,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 1
+      },
+      "anfac_bev": 6696,
+      "anfac_phev": 8941,
+      "total_mercado_nuevos": 112287,
+      "cuota_bev_pct": 6.96,
+      "cuota_phev_pct": 8.18
+    },
+    {
+      "periodo": "2026-02",
+      "bev": {
+        "total": 11465,
+        "nuevos": 10937,
+        "usados": 528
+      },
+      "phev": {
+        "total": 13611,
+        "nuevos": 12665,
+        "usados": 946
+      },
+      "bev_por_tipo": {
+        "turismo": 9673,
+        "furgoneta": 794,
+        "moto_scooter": 299,
+        "microcar": 137,
+        "camion": 21,
+        "autobus": 45,
+        "otros": 496
+      },
+      "phev_por_tipo": {
+        "turismo": 13363,
+        "furgoneta": 246,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 2
+      },
+      "anfac_bev": 9162,
+      "anfac_phev": 12419,
+      "total_mercado_nuevos": 140987,
+      "cuota_bev_pct": 7.76,
+      "cuota_phev_pct": 8.98
+    }
+  ]
+}

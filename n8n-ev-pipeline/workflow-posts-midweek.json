@@ -1,0 +1,290 @@
+{
+  "name": "EV News - Posts Mid-Week (Mié/Vie) + Carpincho",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtDay": 3,
+              "triggerAtHour": 10
+            },
+            {
+              "triggerAtDay": 5,
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "cron-midweek",
+      "name": "Mié y Vie 10am - Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://electrek.co/feed/",
+        "options": {}
+      },
+      "id": "rss-electrek-mw",
+      "name": "RSS Electrek",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [250, 100]
+    },
+    {
+      "parameters": {
+        "url": "https://insideevs.com/rss/news/all/",
+        "options": {}
+      },
+      "id": "rss-insideevs-mw",
+      "name": "RSS InsideEVs",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://cleantechnica.com/feed/",
+        "options": {}
+      },
+      "id": "rss-cleantechnica-mw",
+      "name": "RSS CleanTechnica",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [250, 500]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "options": {}
+      },
+      "id": "merge-feeds-mw",
+      "name": "Merge Fuentes",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Filtrar artículos de las últimas 48 horas y tomar top 5\nconst now = new Date();\nconst twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);\n\nconst filtered = items\n  .filter(item => {\n    const pubDate = new Date(item.json.pubDate || item.json.isoDate);\n    return pubDate >= twoDaysAgo;\n  })\n  .sort((a, b) => {\n    const dateA = new Date(a.json.pubDate || a.json.isoDate);\n    const dateB = new Date(b.json.pubDate || b.json.isoDate);\n    return dateB - dateA;\n  })\n  .slice(0, 5);\n\nconst articlesSummary = filtered.map((item, i) => {\n  const title = item.json.title || 'Sin título';\n  const content = (item.json.contentSnippet || item.json.content || '').substring(0, 200);\n  const source = item.json.link?.match(/https?:\\/\\/([^/]+)/)?.[1] || 'Fuente';\n  const link = item.json.link || '';\n  return `${i+1}. [${source}] ${title}\\n   ${content}\\n   Link: ${link}`;\n}).join('\\n\\n');\n\nreturn [{\n  json: {\n    articlesSummary,\n    articleCount: filtered.length,\n    date: now.toISOString().split('T')[0]\n  }\n}];"
+      },
+      "id": "filter-48h",
+      "name": "Filtrar Últimas 48hs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "claude-sonnet-4-5-20250514",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "=Sos un experto en movilidad eléctrica y creador de contenido para LinkedIn en español.\n\nNoticias de hoy ({{$json.date}}):\n\n{{$json.articlesSummary}}\n\nGenerá DOS outputs separados por ===SEPARADOR===:\n\n**OUTPUT 1 - POST CORTO DE LINKEDIN:**\nCreá un post corto y punzante para LinkedIn en español sobre LA noticia más interesante o impactante del día. El post debe:\n- Ser de 400-700 caracteres\n- Tener un enfoque en una sola noticia (la más relevante)\n- Incluir una opinión o reflexión propia\n- 2-3 hashtags relevantes\n- Invitar al debate en comments\n\n**OUTPUT 2 - SCRIPT CARPINCHO (después de ===SEPARADOR===):**\nScript de máximo 20 segundos (~50 palabras) donde el carpincho comenta la noticia del día. Tono relajado, rioplatense, gracioso. Empezá con 'Buenas, soy Capincho...' y cerrá con algo cómico."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 1500,
+          "temperature": 0.8
+        }
+      },
+      "id": "claude-midweek",
+      "name": "Claude - Post del Día + Script",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "credentials": {
+        "anthropicApi": {
+          "id": "ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "const fullResponse = $input.first().json.response || $input.first().json.text || $input.first().json.message?.content || '';\nconst parts = fullResponse.split('===SEPARADOR===');\n\nreturn [{\n  json: {\n    linkedinPost: (parts[0] || '').trim(),\n    carpinchoScript: (parts[1] || '').trim(),\n    date: $('Filtrar Últimas 48hs').first().json.date\n  }\n}];"
+      },
+      "id": "split-midweek",
+      "name": "Separar Post y Script",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.d-id.com/talks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"source_url\": \"{{$credentials.carpinchoImageUrl}}\",\n  \"script\": {\n    \"type\": \"text\",\n    \"input\": \"{{$json.carpinchoScript}}\",\n    \"provider\": {\n      \"type\": \"microsoft\",\n      \"voice_id\": \"es-AR-TomasNeural\"\n    }\n  },\n  \"config\": {\n    \"result_format\": \"mp4\"\n  }\n}",
+        "options": {}
+      },
+      "id": "did-create-mw",
+      "name": "D-ID - Video Carpincho",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 450],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DID_CREDENTIAL_ID",
+          "name": "D-ID API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15,
+        "unit": "seconds"
+      },
+      "id": "wait-mw",
+      "name": "Esperar Procesamiento",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1700, 450]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.d-id.com/talks/{{$('D-ID - Video Carpincho').first().json.id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "did-get-mw",
+      "name": "D-ID - Obtener Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1950, 450],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DID_CREDENTIAL_ID",
+          "name": "D-ID API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{$json.result_url}}",
+        "options": {}
+      },
+      "id": "download-video-mw",
+      "name": "Descargar Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2200, 450]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "person": "={{$credentials.linkedinPersonUrn}}",
+        "text": "={{$('Separar Post y Script').first().json.linkedinPost}}",
+        "mediaCategory": "video",
+        "additionalFields": {}
+      },
+      "id": "linkedin-mw",
+      "name": "LinkedIn - Publicar con Video",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [2450, 300],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "LINKEDIN_CREDENTIAL_ID",
+          "name": "LinkedIn OAuth2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Mié y Vie 10am - Trigger": {
+      "main": [
+        [
+          { "node": "RSS Electrek", "type": "main", "index": 0 },
+          { "node": "RSS InsideEVs", "type": "main", "index": 0 },
+          { "node": "RSS CleanTechnica", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "RSS Electrek": {
+      "main": [
+        [{ "node": "Merge Fuentes", "type": "main", "index": 0 }]
+      ]
+    },
+    "RSS InsideEVs": {
+      "main": [
+        [{ "node": "Merge Fuentes", "type": "main", "index": 1 }]
+      ]
+    },
+    "RSS CleanTechnica": {
+      "main": [
+        [{ "node": "Merge Fuentes", "type": "main", "index": 2 }]
+      ]
+    },
+    "Merge Fuentes": {
+      "main": [
+        [{ "node": "Filtrar Últimas 48hs", "type": "main", "index": 0 }]
+      ]
+    },
+    "Filtrar Últimas 48hs": {
+      "main": [
+        [{ "node": "Claude - Post del Día + Script", "type": "main", "index": 0 }]
+      ]
+    },
+    "Claude - Post del Día + Script": {
+      "main": [
+        [{ "node": "Separar Post y Script", "type": "main", "index": 0 }]
+      ]
+    },
+    "Separar Post y Script": {
+      "main": [
+        [
+          { "node": "D-ID - Video Carpincho", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "D-ID - Video Carpincho": {
+      "main": [
+        [{ "node": "Esperar Procesamiento", "type": "main", "index": 0 }]
+      ]
+    },
+    "Esperar Procesamiento": {
+      "main": [
+        [{ "node": "D-ID - Obtener Video", "type": "main", "index": 0 }]
+      ]
+    },
+    "D-ID - Obtener Video": {
+      "main": [
+        [{ "node": "Descargar Video", "type": "main", "index": 0 }]
+      ]
+    },
+    "Descargar Video": {
+      "main": [
+        [{ "node": "LinkedIn - Publicar con Video", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "tags": [
+    { "name": "EV News" },
+    { "name": "LinkedIn" },
+    { "name": "Mid-Week" }
+  ]
+}

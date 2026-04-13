@@ -33,6 +33,8 @@ const TIPO_GRUPOS = ['turismo', 'suv_todo_terreno', 'furgoneta_van', 'moto', 'ca
 // Este offset es constante (no varía por mes) porque los vehículos pre-2014 siguen activos
 const ANCHOR_PERIODO = '2025-03';
 const ANCHOR_DGT = { BEV: 343873, PHEV: 277307, HEV: 1724593, REEV: 2250, FCEV: 120 };
+// Total parque todos los vehículos en marzo 2025 (DGT microdatos parque_vehiculos_202503.zip)
+const ANCHOR_TOTAL = 38_143_882; // valor exacto del fichero ZIP de parque de marzo 2025
 // Offsets calculados: ANCHOR_DGT - parque_propio[202503]
 // Se calculan dinámicamente al final del loop y se aplican a toda la serie
 
@@ -59,6 +61,26 @@ const matPorPeriodoCat = db.prepare(`
   GROUP BY periodo, cat_vehiculo_ev
   ORDER BY periodo
 `).all();
+
+// ─── Total matriculaciones por período (todos los vehículos) ─────────────────
+console.log('Calculando total matriculaciones mensuales (mercado completo)...');
+const totalMatPorPeriodo = db.prepare(`
+  SELECT periodo, COUNT(*) as n
+  FROM matriculaciones
+  GROUP BY periodo
+  ORDER BY periodo
+`).all();
+const totalMatIdx = Object.fromEntries(totalMatPorPeriodo.map(r => [r.periodo, r.n]));
+
+// ─── Total bajas por período (todos los combustibles) ────────────────────────
+console.log('Calculando total bajas mensuales (mercado completo)...');
+const totalBajasPorPeriodo = db.prepare(`
+  SELECT periodo, COUNT(*) as n
+  FROM bajas
+  GROUP BY periodo
+  ORDER BY periodo
+`).all();
+const totalBajasIdx = Object.fromEntries(totalBajasPorPeriodo.map(r => [r.periodo, r.n]));
 
 // ─── Bajas por período y cat_vehiculo_ev ─────────────────────────────────────
 console.log('Calculando bajas mensuales por categoría EV...');
@@ -128,6 +150,10 @@ console.log('Calculando parque acumulado...');
 const cumMat  = Object.fromEntries(EV_CATS.map(c => [c, 0]));
 const cumBaja = Object.fromEntries(EV_CATS.map(c => [c, 0]));
 
+// Totales de todos los vehículos (para calcular no enchufables)
+let cumTotalMat  = 0;
+let cumTotalBaja = 0;
+
 // tipo_grupo cumulative: { turismo: { BEV: 0, ... }, ... }
 const cumMatTipo  = {};
 const cumBajaTipo = {};
@@ -139,6 +165,7 @@ for (const tg of TIPO_GRUPOS) {
 // First pass: compute raw series and capture raw value at anchor period
 const rawMensual = [];
 let rawAtAnchor = null;
+let rawTotalAtAnchor = null;
 
 for (const periodo of periodos) {
   const matCat  = matCatIdx[periodo]  || {};
@@ -148,6 +175,9 @@ for (const periodo of periodos) {
     cumMat[cat]  += matCat[cat]  || 0;
     cumBaja[cat] += bajaCat[cat] || 0;
   }
+
+  cumTotalMat  += totalMatIdx[periodo]  || 0;
+  cumTotalBaja += totalBajasIdx[periodo] || 0;
   for (const tg of TIPO_GRUPOS) {
     for (const cat of ['BEV','PHEV','HEV']) {
       cumMatTipo[tg][cat]  += matTipoIdx[periodo]?.[tg]?.[cat]  || 0;
@@ -168,16 +198,20 @@ for (const periodo of periodos) {
     }
   }
 
+  const parque_total_raw = cumTotalMat - cumTotalBaja;
+
   rawMensual.push({
     periodo,
     matCat: { ...matCat },
     bajaCat: { ...bajaCat },
     parque_cat_raw: { ...parque_cat_raw },
     parque_tipo_raw: JSON.parse(JSON.stringify(parque_tipo_raw)),
+    parque_total_raw,
   });
 
   if (periodo === ANCHOR_PERIODO) {
     rawAtAnchor = { ...parque_cat_raw };
+    rawTotalAtAnchor = parque_total_raw;
   }
 }
 
@@ -193,6 +227,10 @@ for (const cat of EV_CATS) {
     console.log(`  ${cat}: raw=${rawAtAnchor?.[cat]?.toLocaleString()}, DGT=${ANCHOR_DGT[cat].toLocaleString()}, offset=${offsets[cat] >= 0 ? '+' : ''}${offsets[cat].toLocaleString()}`);
   }
 }
+
+// Offset para el total (incluye vehículos pre-2014 aún activos + diferencias metodológicas)
+const offsetTotal = ANCHOR_TOTAL - (rawTotalAtAnchor || 0);
+console.log(`  TOTAL: raw=${rawTotalAtAnchor?.toLocaleString()}, DGT=${ANCHOR_TOTAL.toLocaleString()}, offset=${offsetTotal >= 0 ? '+' : ''}${offsetTotal.toLocaleString()}`);
 
 // Distribute tipo_grupo offset proportionally by cat
 // offset_tipo[cat][tg] = offset[cat] * (rawTipo[tg][cat] / rawTotal[cat])  at anchor period
@@ -214,7 +252,7 @@ for (const tg of TIPO_GRUPOS) {
 // Second pass: build final mensual array with anchored values
 const mensual = [];
 for (const raw of rawMensual) {
-  const { periodo, matCat, bajaCat, parque_cat_raw, parque_tipo_raw } = raw;
+  const { periodo, matCat, bajaCat, parque_cat_raw, parque_tipo_raw, parque_total_raw } = raw;
 
   // Apply offset to cat parque
   const parque_cat = {};
@@ -222,6 +260,10 @@ for (const raw of rawMensual) {
     const p = parque_cat_raw[cat] + (offsets[cat] || 0);
     if (p > 0 || (ANCHOR_DGT[cat] && parque_cat_raw[cat] > 0)) parque_cat[cat] = Math.max(0, p);
   }
+
+  // Total anchored park and non-pluggable (gasoline + diesel + HEV + everything that isn't BEV or PHEV)
+  const parque_total        = Math.max(0, parque_total_raw + offsetTotal);
+  const parque_no_enchufable = Math.max(0, parque_total - (parque_cat.BEV || 0) - (parque_cat.PHEV || 0));
 
   // Apply tipo offset proportionally
   const parque_tipo = {};
@@ -242,7 +284,10 @@ for (const raw of rawMensual) {
     periodo,
     matriculaciones_mes: {},
     bajas_mes: {},
+    total_bajas_mes: totalBajasIdx[periodo] ?? 0,
     parque_acumulado: parque_cat,
+    parque_total,
+    parque_no_enchufable,
   };
 
   for (const cat of EV_CATS) {
@@ -300,7 +345,9 @@ const output = {
     periodo: ANCHOR_PERIODO,
     fuente: 'DGT Parque Microdatos marzo 2025',
     dgt_oficial: ANCHOR_DGT,
+    dgt_total: ANCHOR_TOTAL,
     offsets,
+    offset_total: offsetTotal,
   },
   resumen,
   resumen_por_tipo,
@@ -340,11 +387,14 @@ const tsLines = [
   `};`,
   ``,
   `export type ParqueMes = {`,
-  `  periodo:           string;`,
-  `  matriculaciones_mes: ParqueCatEv;`,
-  `  bajas_mes:           ParqueCatEv;`,
-  `  parque_acumulado:    ParqueCatEv;`,
-  `  parque_por_tipo?:    ParqueTipoGrupo;`,
+  `  periodo:              string;`,
+  `  matriculaciones_mes:  ParqueCatEv;`,
+  `  bajas_mes:            ParqueCatEv;`,
+  `  total_bajas_mes:      number;`,
+  `  parque_acumulado:     ParqueCatEv;`,
+  `  parque_total:         number;`,
+  `  parque_no_enchufable: number;`,
+  `  parque_por_tipo?:     ParqueTipoGrupo;`,
   `};`,
   ``,
   `export type ParqueResumenCat = {`,
@@ -360,7 +410,9 @@ const tsLines = [
   `  anchor_periodo:       "${ANCHOR_PERIODO}",`,
   `  anchor_fuente:        "DGT Parque Microdatos marzo 2025",`,
   `  anchor_dgt:           ${JSON.stringify(ANCHOR_DGT)},`,
+  `  anchor_total:         ${ANCHOR_TOTAL},`,
   `  anchor_offsets:       ${JSON.stringify(offsets)},`,
+  `  anchor_offset_total:  ${offsetTotal},`,
   `} as const;`,
   ``,
   `export const dgtParqueResumen: Record<string, ParqueResumenCat> = ${JSON.stringify(output.resumen, null, 2)};`,

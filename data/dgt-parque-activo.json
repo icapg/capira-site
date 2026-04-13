@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "fuente": "DGT MATRABA microdatos (matriculaciones − bajas)",
+    "generado_en": "2026-04-12T20:07:35.067Z"
+  },
+  "total": {
+    "bev": 396452,
+    "phev": 370752,
+    "total": 767204
+  },
+  "por_año": [
+    {
+      "año": 2011,
+      "mat_acum_bev": 0,
+      "mat_acum_phev": 0,
+      "bajas_acum_bev": 0,
+      "bajas_acum_phev": 13,
+      "parque_bev": 0,
+      "parque_phev": -13,
+      "parque_total": -13
+    },
+    {
+      "año": 2012,
+      "mat_acum_bev": 0,
+      "mat_acum_phev": 0,
+      "bajas_acum_bev": 96,
+      "bajas_acum_phev": 13,
+      "parque_bev": -96,
+      "parque_phev": -13,
+      "parque_total": -109
+    },
+    {
+      "año": 2014,
+      "mat_acum_bev": 283,
+      "mat_acum_phev": 51,
+      "bajas_acum_bev": 2269,
+      "bajas_acum_phev": 206,
+      "parque_bev": -1986,
+      "parque_phev": -155,
+      "parque_total": -2141
+    },
+    {
+      "año": 2015,
+      "mat_acum_bev": 2428,
+      "mat_acum_phev": 719,
+      "bajas_acum_bev": 2269,
+      "bajas_acum_phev": 486,
+      "parque_bev": 159,
+      "parque_phev": 233,
+      "parque_total": 392
+    },
+    {
+      "año": 2016,
+      "mat_acum_bev": 6469,
+      "mat_acum_phev": 2241,
+      "bajas_acum_bev": 2269,
+      "bajas_acum_phev": 486,
+      "parque_bev": 4200,
+      "parque_phev": 1755,
+      "parque_total": 5955
+    },
+    {
+      "año": 2017,
+      "mat_acum_bev": 15469,
+      "mat_acum_phev": 5591,
+      "bajas_acum_bev": 3765,
+      "bajas_acum_phev": 763,
+      "parque_bev": 11704,
+      "parque_phev": 4828,
+      "parque_total": 16532
+    },
+    {
+      "año": 2018,
+      "mat_acum_bev": 31103,
+      "mat_acum_phev": 11414,
+      "bajas_acum_bev": 19591,
+      "bajas_acum_phev": 7702,
+      "parque_bev": 11512,
+      "parque_phev": 3712,
+      "parque_total": 15224
+    },
+    {
+      "año": 2019,
+      "mat_acum_bev": 55057,
+      "mat_acum_phev": 19346,
+      "bajas_acum_bev": 19591,
+      "bajas_acum_phev": 8805,
+      "parque_bev": 35466,
+      "parque_phev": 10541,
+      "parque_total": 46007
+    },
+    {
+      "año": 2020,
+      "mat_acum_bev": 87545,
+      "mat_acum_phev": 43185,
+      "bajas_acum_bev": 19591,
+      "bajas_acum_phev": 12024,
+      "parque_bev": 67954,
+      "parque_phev": 31161,
+      "parque_total": 99115
+    },
+    {
+      "año": 2021,
+      "mat_acum_bev": 127104,
+      "mat_acum_phev": 87324,
+      "bajas_acum_bev": 41885,
+      "bajas_acum_phev": 17116,
+      "parque_bev": 85219,
+      "parque_phev": 70208,
+      "parque_total": 155427
+    },
+    {
+      "año": 2022,
+      "mat_acum_bev": 178651,
+      "mat_acum_phev": 136231,
+      "bajas_acum_bev": 46835,
+      "bajas_acum_phev": 29434,
+      "parque_bev": 131816,
+      "parque_phev": 106797,
+      "parque_total": 238613
+    },
+    {
+      "año": 2023,
+      "mat_acum_bev": 256901,
+      "mat_acum_phev": 201592,
+      "bajas_acum_bev": 81913,
+      "bajas_acum_phev": 49732,
+      "parque_bev": 174988,
+      "parque_phev": 151860,
+      "parque_total": 326848
+    },
+    {
+      "año": 2024,
+      "mat_acum_bev": 335844,
+      "mat_acum_phev": 267550,
+      "bajas_acum_bev": 91463,
+      "bajas_acum_phev": 58528,
+      "parque_bev": 244381,
+      "parque_phev": 209022,
+      "parque_total": 453403
+    },
+    {
+      "año": 2025,
+      "mat_acum_bev": 468237,
+      "mat_acum_phev": 407955,
+      "bajas_acum_bev": 91463,
+      "bajas_acum_phev": 60830,
+      "parque_bev": 376774,
+      "parque_phev": 347125,
+      "parque_total": 723899
+    },
+    {
+      "año": 2026,
+      "mat_acum_bev": 487915,
+      "mat_acum_phev": 431582,
+      "bajas_acum_bev": 91463,
+      "bajas_acum_phev": 60830,
+      "parque_bev": 396452,
+      "parque_phev": 370752,
+      "parque_total": 767204
+    }
+  ]
+}

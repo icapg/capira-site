@@ -7,6 +7,7 @@ const navItems = [
   { href: "/insights/matriculaciones", label: "Matriculaciones" },
   { href: "/insights/parque", label: "Parque activo" },
   { href: "/insights/infraestructura", label: "Infraestructura" },
+  { href: "/insights/social", label: "Social" },
 ];
 
 export function InsightsNav() {

@@ -1,0 +1,34 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const COOKIE_NAME = "insights_auth";
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 días
+
+export async function POST(request: NextRequest) {
+  const { password } = await request.json();
+  const validToken = process.env.ADMIN_TOKEN;
+
+  if (!validToken) {
+    return NextResponse.json({ error: "No configurado" }, { status: 500 });
+  }
+
+  if (password !== validToken) {
+    return NextResponse.json({ error: "Contraseña incorrecta" }, { status: 401 });
+  }
+
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set(COOKIE_NAME, validToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: COOKIE_MAX_AGE,
+    path: "/",
+  });
+
+  return response;
+}
+
+export async function DELETE() {
+  const response = NextResponse.json({ ok: true });
+  response.cookies.delete(COOKIE_NAME);
+  return response;
+}

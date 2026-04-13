@@ -1,0 +1,9938 @@
+{
+  "meta": {
+    "año": 2019,
+    "fuente": "DGT MATRABA microdatos",
+    "generado_en": "2026-04-12T20:07:35.067Z"
+  },
+  "bev": {
+    "total": 23954,
+    "nuevos": 23305,
+    "usados": 649,
+    "renting_pct": 15.1,
+    "empresa_pct": 78.1,
+    "marcas_top20": [
+      {
+        "marca": "SILENCE",
+        "n": 5134
+      },
+      {
+        "marca": "NISSAN",
+        "n": 2194
+      },
+      {
+        "marca": "RENAULT",
+        "n": 2192
+      },
+      {
+        "marca": "TESLA",
+        "n": 2106
+      },
+      {
+        "marca": "ASKOLL",
+        "n": 1936
+      },
+      {
+        "marca": "SMART",
+        "n": 1473
+      },
+      {
+        "marca": "HYUNDAI",
+        "n": 1172
+      },
+      {
+        "marca": "NIU",
+        "n": 1172
+      },
+      {
+        "marca": "VOLKSWAGEN",
+        "n": 984
+      },
+      {
+        "marca": "BMW I",
+        "n": 921
+      },
+      {
+        "marca": "KIA",
+        "n": 405
+      },
+      {
+        "marca": "EMCO",
+        "n": 393
+      },
+      {
+        "marca": "BMW",
+        "n": 262
+      },
+      {
+        "marca": "TOYOTA",
+        "n": 182
+      },
+      {
+        "marca": "STILL",
+        "n": 180
+      },
+      {
+        "marca": "JAGUAR",
+        "n": 167
+      },
+      {
+        "marca": "AUDI",
+        "n": 167
+      },
+      {
+        "marca": "SUPER SOCO",
+        "n": 146
+      },
+      {
+        "marca": "CITROEN",
+        "n": 141
+      },
+      {
+        "marca": "E-BROH",
+        "n": 129
+      }
+    ],
+    "modelos_top20": [
+      {
+        "modelo": "S02",
+        "n": 4817
+      },
+      {
+        "modelo": "ES2",
+        "n": 1801
+      },
+      {
+        "modelo": "MODEL 3",
+        "n": 1690
+      },
+      {
+        "modelo": "NISSAN LEAF 40KWH",
+        "n": 1458
+      },
+      {
+        "modelo": "ZOE",
+        "n": 1202
+      },
+      {
+        "modelo": "KONA, KAUAI",
+        "n": 1004
+      },
+      {
+        "modelo": "GOLF",
+        "n": 949
+      },
+      {
+        "modelo": "N SHARING",
+        "n": 799
+      },
+      {
+        "modelo": "KANGOO EXPRESS Z.E.",
+        "n": 770
+      },
+      {
+        "modelo": "EQ FORFOUR",
+        "n": 746
+      },
+      {
+        "modelo": "I3",
+        "n": 743
+      },
+      {
+        "modelo": "NISSAN E-NV200",
+        "n": 673
+      },
+      {
+        "modelo": "EQ FORTWO COUPE",
+        "n": 578
+      },
+      {
+        "modelo": "NOVA 3000",
+        "n": 393
+      },
+      {
+        "modelo": "S01",
+        "n": 370
+      },
+      {
+        "modelo": "NIRO",
+        "n": 348
+      },
+      {
+        "modelo": "MODEL S",
+        "n": 294
+      },
+      {
+        "modelo": "C EVOLUTION",
+        "n": 225
+      },
+      {
+        "modelo": "I3S",
+        "n": 212
+      },
+      {
+        "modelo": "MODEL X",
+        "n": 195
+      }
+    ],
+    "provincias": [
+      {
+        "cod": "M",
+        "provincia": "Madrid",
+        "n": 11737
+      },
+      {
+        "cod": "B",
+        "provincia": "Barcelona",
+        "n": 6037
+      },
+      {
+        "cod": "V",
+        "provincia": "Valencia",
+        "n": 739
+      },
+      {
+        "cod": "GC",
+        "provincia": "Las Palmas",
+        "n": 543
+      },
+      {
+        "cod": "IB",
+        "provincia": "Illes Balears",
+        "n": 495
+      },
+      {
+        "cod": "MA",
+        "provincia": "Málaga",
+        "n": 360
+      },
+      {
+        "cod": "A",
+        "provincia": "Alicante",
+        "n": 336
+      },
+      {
+        "cod": "T",
+        "provincia": "Tarragona",
+        "n": 231
+      },
+      {
+        "cod": "SE",
+        "provincia": "Sevilla",
+        "n": 227
+      },
+      {
+        "cod": "Z",
+        "provincia": "Zaragoza",
+        "n": 223
+      },
+      {
+        "cod": "TF",
+        "provincia": "Santa Cruz de Tenerife",
+        "n": 221
+      },
+      {
+        "cod": "GI",
+        "provincia": "Girona",
+        "n": 215
+      },
+      {
+        "cod": "MU",
+        "provincia": "Murcia",
+        "n": 193
+      },
+      {
+        "cod": "O",
+        "provincia": "Asturias",
+        "n": 190
+      },
+      {
+        "cod": "BI",
+        "provincia": "Vizcaya",
+        "n": 180
+      },
+      {
+        "cod": "NA",
+        "provincia": "Navarra",
+        "n": 143
+      },
+      {
+        "cod": "TO",
+        "provincia": "Toledo",
+        "n": 137
+      },
+      {
+        "cod": "CA",
+        "provincia": "Cádiz",
+        "n": 129
+      },
+      {
+        "cod": "GR",
+        "provincia": "Granada",
+        "n": 118
+      },
+      {
+        "cod": "CS",
+        "provincia": "Castellón",
+        "n": 111
+      },
+      {
+        "cod": "PO",
+        "provincia": "Pontevedra",
+        "n": 102
+      },
+      {
+        "cod": "L",
+        "provincia": "Lleida",
+        "n": 98
+      },
+      {
+        "cod": "SS",
+        "provincia": "Gipuzkoa",
+        "n": 98
+      },
+      {
+        "cod": "C",
+        "provincia": "A Coruña",
+        "n": 94
+      },
+      {
+        "cod": "VA",
+        "provincia": "Valladolid",
+        "n": 92
+      },
+      {
+        "cod": "BA",
+        "provincia": "Badajoz",
+        "n": 92
+      },
+      {
+        "cod": "CO",
+        "provincia": "Córdoba",
+        "n": 70
+      },
+      {
+        "cod": "S",
+        "provincia": "Cantabria",
+        "n": 69
+      },
+      {
+        "cod": "AL",
+        "provincia": "Almería",
+        "n": 63
+      },
+      {
+        "cod": "VI",
+        "provincia": "Álava",
+        "n": 54
+      },
+      {
+        "cod": "J",
+        "provincia": "Jaén",
+        "n": 48
+      },
+      {
+        "cod": "CR",
+        "provincia": "Ciudad Real",
+        "n": 41
+      },
+      {
+        "cod": "LU",
+        "provincia": "Lugo",
+        "n": 40
+      },
+      {
+        "cod": "BU",
+        "provincia": "Burgos",
+        "n": 40
+      },
+      {
+        "cod": "LE",
+        "provincia": "León",
+        "n": 38
+      },
+      {
+        "cod": "OU",
+        "provincia": "OU",
+        "n": 35
+      },
+      {
+        "cod": "H",
+        "provincia": "Huelva",
+        "n": 34
+      },
+      {
+        "cod": "SA",
+        "provincia": "Salamanca",
+        "n": 30
+      },
+      {
+        "cod": "LO",
+        "provincia": "La Rioja",
+        "n": 29
+      },
+      {
+        "cod": "AB",
+        "provincia": "Albacete",
+        "n": 27
+      },
+      {
+        "cod": "GU",
+        "provincia": "Guadalajara",
+        "n": 27
+      },
+      {
+        "cod": "P",
+        "provincia": "Palencia",
+        "n": 26
+      },
+      {
+        "cod": "CC",
+        "provincia": "Cáceres",
+        "n": 24
+      },
+      {
+        "cod": "HU",
+        "provincia": "Huesca",
+        "n": 24
+      },
+      {
+        "cod": "ML",
+        "provincia": "ML",
+        "n": 20
+      },
+      {
+        "cod": "ZA",
+        "provincia": "Zamora",
+        "n": 16
+      },
+      {
+        "cod": "SG",
+        "provincia": "Segovia",
+        "n": 14
+      },
+      {
+        "cod": "CU",
+        "provincia": "Cuenca",
+        "n": 14
+      },
+      {
+        "cod": "AV",
+        "provincia": "Ávila",
+        "n": 14
+      },
+      {
+        "cod": "TE",
+        "provincia": "Teruel",
+        "n": 8
+      },
+      {
+        "cod": "CE",
+        "provincia": "Ceuta",
+        "n": 5
+      },
+      {
+        "cod": "SO",
+        "provincia": "Soria",
+        "n": 3
+      }
+    ],
+    "municipios": [
+      {
+        "municipio": "MADRID",
+        "n": 6081
+      },
+      {
+        "municipio": "BARCELONA",
+        "n": 3757
+      },
+      {
+        "municipio": "COLMENAR DEL ARROYO",
+        "n": 1418
+      },
+      {
+        "municipio": "PATONES",
+        "n": 683
+      },
+      {
+        "municipio": "ROBLEDO DE CHAVELA",
+        "n": 567
+      },
+      {
+        "municipio": "RAJADELL",
+        "n": 419
+      },
+      {
+        "municipio": "ALCOBENDAS",
+        "n": 416
+      },
+      {
+        "municipio": "BRUNETE",
+        "n": 325
+      },
+      {
+        "municipio": "MORALZARZAL",
+        "n": 317
+      },
+      {
+        "municipio": "VALENCIA",
+        "n": 278
+      },
+      {
+        "municipio": "VENTURADA",
+        "n": 253
+      },
+      {
+        "municipio": "PALMA MALLORCA",
+        "n": 241
+      },
+      {
+        "municipio": "TEJEDA",
+        "n": 221
+      },
+      {
+        "municipio": "BOADILLA DEL MONTE",
+        "n": 198
+      },
+      {
+        "municipio": "L HOSPITALET DE LLOB",
+        "n": 189
+      },
+      {
+        "municipio": "ZARAGOZA",
+        "n": 164
+      },
+      {
+        "municipio": "LAS PALMAS G C",
+        "n": 151
+      },
+      {
+        "municipio": "TORRELAGUNA",
+        "n": 137
+      },
+      {
+        "municipio": "SABADELL",
+        "n": 132
+      },
+      {
+        "municipio": "MALAGA",
+        "n": 126
+      },
+      {
+        "municipio": "S CUGAT DEL VALLES",
+        "n": 112
+      },
+      {
+        "municipio": "SEVILLA",
+        "n": 104
+      },
+      {
+        "municipio": "MARBELLA",
+        "n": 91
+      },
+      {
+        "municipio": "COSLADA",
+        "n": 89
+      },
+      {
+        "municipio": "TERRASSA",
+        "n": 81
+      },
+      {
+        "municipio": "LAS ROZAS DE MADRID",
+        "n": 79
+      },
+      {
+        "municipio": "OVIEDO",
+        "n": 79
+      },
+      {
+        "municipio": "TORREMOCHA DE JARAMA",
+        "n": 76
+      },
+      {
+        "municipio": "BADAJOZ",
+        "n": 75
+      },
+      {
+        "municipio": "TAVERNES BLANQUES",
+        "n": 75
+      },
+      {
+        "municipio": "MURCIA",
+        "n": 74
+      },
+      {
+        "municipio": "POZUELO DE ALARCON",
+        "n": 73
+      },
+      {
+        "municipio": "GIJON",
+        "n": 73
+      },
+      {
+        "municipio": "S C TENERIFE",
+        "n": 69
+      },
+      {
+        "municipio": "ROZAS DE PUERTO REAL",
+        "n": 67
+      },
+      {
+        "municipio": "LA LAGUNA",
+        "n": 62
+      },
+      {
+        "municipio": "BOROX",
+        "n": 62
+      },
+      {
+        "municipio": "PALLEJA",
+        "n": 60
+      },
+      {
+        "municipio": "MAJADAHONDA",
+        "n": 58
+      },
+      {
+        "municipio": "CASTELLO PLANA",
+        "n": 58
+      },
+      {
+        "municipio": "VALLADOLID",
+        "n": 56
+      },
+      {
+        "municipio": "ALICANTE",
+        "n": 55
+      },
+      {
+        "municipio": "ALCORCON",
+        "n": 54
+      },
+      {
+        "municipio": "ABRERA",
+        "n": 54
+      },
+      {
+        "municipio": "PINTO",
+        "n": 53
+      },
+      {
+        "municipio": "MATARO",
+        "n": 51
+      },
+      {
+        "municipio": "CORDOBA",
+        "n": 50
+      },
+      {
+        "municipio": "BADALONA",
+        "n": 50
+      },
+      {
+        "municipio": "ESPLUGUES DE LLOB",
+        "n": 49
+      },
+      {
+        "municipio": "PATERNA",
+        "n": 47
+      },
+      {
+        "municipio": "GRANOLLERS",
+        "n": 46
+      },
+      {
+        "municipio": "GAVA",
+        "n": 43
+      },
+      {
+        "municipio": "TARRAGONA",
+        "n": 43
+      },
+      {
+        "municipio": "AGUILAR DE SEGARRA",
+        "n": 42
+      },
+      {
+        "municipio": "BILBAO",
+        "n": 41
+      },
+      {
+        "municipio": "GRANADA",
+        "n": 41
+      },
+      {
+        "municipio": "PAMPLONA",
+        "n": 40
+      },
+      {
+        "municipio": "SAN FERNANDO HENARES",
+        "n": 39
+      },
+      {
+        "municipio": "MOSTOLES",
+        "n": 38
+      },
+      {
+        "municipio": "VITORIA GASTEIZ",
+        "n": 38
+      },
+      {
+        "municipio": "RODA DE BARA",
+        "n": 38
+      },
+      {
+        "municipio": "ORIHUELA",
+        "n": 37
+      },
+      {
+        "municipio": "LLEIDA",
+        "n": 36
+      },
+      {
+        "municipio": "MARTORELL",
+        "n": 35
+      },
+      {
+        "municipio": "RIVAS VACIAMADRID",
+        "n": 34
+      },
+      {
+        "municipio": "VIGO",
+        "n": 34
+      },
+      {
+        "municipio": "ELCHE",
+        "n": 34
+      },
+      {
+        "municipio": "SAN SEBASTIAN REYES",
+        "n": 32
+      },
+      {
+        "municipio": "DONOSTIA",
+        "n": 32
+      },
+      {
+        "municipio": "DOS HERMANAS",
+        "n": 32
+      },
+      {
+        "municipio": "NAVACERRADA",
+        "n": 31
+      },
+      {
+        "municipio": "EL PRAT DE LLOBREGAT",
+        "n": 31
+      },
+      {
+        "municipio": "FUENGIROLA",
+        "n": 31
+      },
+      {
+        "municipio": "GETAFE",
+        "n": 29
+      },
+      {
+        "municipio": "FUENLABRADA",
+        "n": 29
+      },
+      {
+        "municipio": "PARACUELLOS JARAMA",
+        "n": 28
+      },
+      {
+        "municipio": "S BARTOLOME TIRAJANA",
+        "n": 28
+      },
+      {
+        "municipio": "LEGANES",
+        "n": 28
+      },
+      {
+        "municipio": "VILLAVICIOSA DE ODON",
+        "n": 27
+      },
+      {
+        "municipio": "SANTANDER",
+        "n": 27
+      },
+      {
+        "municipio": "CALVIA",
+        "n": 27
+      },
+      {
+        "municipio": "ALCALA DE HENARES",
+        "n": 27
+      },
+      {
+        "municipio": "JEREZ DE LA FTRA",
+        "n": 27
+      },
+      {
+        "municipio": "ALMERIA",
+        "n": 27
+      },
+      {
+        "municipio": "MANRESA",
+        "n": 27
+      },
+      {
+        "municipio": "S JUST DESVERN",
+        "n": 27
+      },
+      {
+        "municipio": "A CORUÑA",
+        "n": 27
+      },
+      {
+        "municipio": "TORRELODONES",
+        "n": 26
+      },
+      {
+        "municipio": "VILADECANS",
+        "n": 26
+      },
+      {
+        "municipio": "GIRONA",
+        "n": 25
+      },
+      {
+        "municipio": "CARTAGENA",
+        "n": 24
+      },
+      {
+        "municipio": "SITGES",
+        "n": 24
+      },
+      {
+        "municipio": "CASTELLDEFELS",
+        "n": 23
+      },
+      {
+        "municipio": "RUBI",
+        "n": 23
+      },
+      {
+        "municipio": "BURGOS",
+        "n": 23
+      },
+      {
+        "municipio": "PUEBLA DE SAN MIGUEL",
+        "n": 23
+      },
+      {
+        "municipio": "LEIOA",
+        "n": 23
+      },
+      {
+        "municipio": "PALENCIA",
+        "n": 23
+      },
+      {
+        "municipio": "MANACOR",
+        "n": 23
+      },
+      {
+        "municipio": "TELDE",
+        "n": 22
+      },
+      {
+        "municipio": "AJALVIR",
+        "n": 22
+      },
+      {
+        "municipio": "S PERE DE RIBES",
+        "n": 22
+      },
+      {
+        "municipio": "JAEN",
+        "n": 22
+      },
+      {
+        "municipio": "REUS",
+        "n": 22
+      },
+      {
+        "municipio": "VILANOVA I LA GELTRU",
+        "n": 21
+      },
+      {
+        "municipio": "CASTELLAR DEL VALLES",
+        "n": 20
+      },
+      {
+        "municipio": "EGUES",
+        "n": 20
+      },
+      {
+        "municipio": "MELILLA",
+        "n": 20
+      },
+      {
+        "municipio": "CASARRUBUELOS",
+        "n": 20
+      },
+      {
+        "municipio": "ALBACETE",
+        "n": 19
+      },
+      {
+        "municipio": "ARGANDA DEL REY",
+        "n": 19
+      },
+      {
+        "municipio": "ARROYOMOLINOS",
+        "n": 18
+      },
+      {
+        "municipio": "JAVEA",
+        "n": 18
+      },
+      {
+        "municipio": "DENIA",
+        "n": 18
+      },
+      {
+        "municipio": "FORMENTERA",
+        "n": 18
+      },
+      {
+        "municipio": "GANDIA",
+        "n": 18
+      },
+      {
+        "municipio": "STA EULALIA DEL RIO",
+        "n": 18
+      },
+      {
+        "municipio": "VILAFRANCA PENEDES",
+        "n": 17
+      },
+      {
+        "municipio": "CIUDAD REAL",
+        "n": 17
+      },
+      {
+        "municipio": "ARUCAS",
+        "n": 17
+      },
+      {
+        "municipio": "CERDANYOLA VALLES",
+        "n": 17
+      },
+      {
+        "municipio": "LUGO",
+        "n": 17
+      },
+      {
+        "municipio": "PEREIRO DE AGUIAR",
+        "n": 16
+      },
+      {
+        "municipio": "S FRUITOS DE BAGES",
+        "n": 16
+      },
+      {
+        "municipio": "EIVISSA",
+        "n": 16
+      },
+      {
+        "municipio": "S FELIU DE LLOB",
+        "n": 16
+      },
+      {
+        "municipio": "SIERO",
+        "n": 16
+      },
+      {
+        "municipio": "COLMENAR VIEJO",
+        "n": 16
+      },
+      {
+        "municipio": "MONTCADA I REIXAC",
+        "n": 16
+      },
+      {
+        "municipio": "LOGROÑO",
+        "n": 15
+      },
+      {
+        "municipio": "VIC",
+        "n": 15
+      },
+      {
+        "municipio": "S PERPETUA DE MOGODA",
+        "n": 15
+      },
+      {
+        "municipio": "VELEZ MALAGA",
+        "n": 15
+      },
+      {
+        "municipio": "VALDEMORO",
+        "n": 15
+      },
+      {
+        "municipio": "AGUIMES",
+        "n": 15
+      },
+      {
+        "municipio": "COLLADO VILLALBA",
+        "n": 15
+      },
+      {
+        "municipio": "TORREJON DE ARDOZ",
+        "n": 14
+      },
+      {
+        "municipio": "OLEIROS",
+        "n": 14
+      },
+      {
+        "municipio": "CORNELLA DE LLOB",
+        "n": 14
+      },
+      {
+        "municipio": "MIJAS",
+        "n": 14
+      },
+      {
+        "municipio": "RIBA ROJA DE TURIA",
+        "n": 14
+      },
+      {
+        "municipio": "TRES CANTOS",
+        "n": 13
+      },
+      {
+        "municipio": "BEDIA",
+        "n": 13
+      },
+      {
+        "municipio": "S QUIRZE DEL VALLES",
+        "n": 13
+      },
+      {
+        "municipio": "ARANJUEZ",
+        "n": 13
+      },
+      {
+        "municipio": "O PORRIÑO",
+        "n": 13
+      },
+      {
+        "municipio": "MOLINA DE SEGURA",
+        "n": 13
+      },
+      {
+        "municipio": "CADIZ",
+        "n": 13
+      },
+      {
+        "municipio": "ALGETE",
+        "n": 13
+      },
+      {
+        "municipio": "ARANGUREN",
+        "n": 13
+      },
+      {
+        "municipio": "MARRATXI",
+        "n": 12
+      },
+      {
+        "municipio": "QUART DE POBLET",
+        "n": 12
+      },
+      {
+        "municipio": "S BOI DE LLOB",
+        "n": 12
+      },
+      {
+        "municipio": "PUERTO CRUZ",
+        "n": 12
+      },
+      {
+        "municipio": "OLIAS DEL REY",
+        "n": 12
+      },
+      {
+        "municipio": "AVILA",
+        "n": 12
+      },
+      {
+        "municipio": "MATADEPERA",
+        "n": 12
+      },
+      {
+        "municipio": "TORRE PACHECO",
+        "n": 12
+      },
+      {
+        "municipio": "TORREVIEJA",
+        "n": 12
+      },
+      {
+        "municipio": "EL RONQUILLO",
+        "n": 12
+      },
+      {
+        "municipio": "YAIZA",
+        "n": 12
+      },
+      {
+        "municipio": "ALZIRA",
+        "n": 12
+      },
+      {
+        "municipio": "VILLANUEVA PERALES",
+        "n": 11
+      },
+      {
+        "municipio": "LLUCMAJOR",
+        "n": 11
+      },
+      {
+        "municipio": "PINEDA DE MAR",
+        "n": 11
+      },
+      {
+        "municipio": "ALMAZORA",
+        "n": 11
+      },
+      {
+        "municipio": "ETXEBARRI",
+        "n": 11
+      },
+      {
+        "municipio": "GUADALAJARA",
+        "n": 11
+      },
+      {
+        "municipio": "ARROYO",
+        "n": 11
+      },
+      {
+        "municipio": "LEON",
+        "n": 11
+      },
+      {
+        "municipio": "GETXO",
+        "n": 11
+      },
+      {
+        "municipio": "ALMUÑECAR",
+        "n": 11
+      },
+      {
+        "municipio": "LLORET DE MAR",
+        "n": 11
+      },
+      {
+        "municipio": "MOLLET DEL VALLES",
+        "n": 11
+      },
+      {
+        "municipio": "MOTRIL",
+        "n": 11
+      },
+      {
+        "municipio": "ARRECIFE",
+        "n": 11
+      },
+      {
+        "municipio": "SAGUNTO",
+        "n": 10
+      },
+      {
+        "municipio": "HUELVA",
+        "n": 10
+      },
+      {
+        "municipio": "SAN VICENTE RASPEIG",
+        "n": 10
+      },
+      {
+        "municipio": "PARLA",
+        "n": 10
+      },
+      {
+        "municipio": "UTRERA",
+        "n": 10
+      },
+      {
+        "municipio": "SANTIAGO",
+        "n": 10
+      },
+      {
+        "municipio": "CALDES DE MONTBUI",
+        "n": 10
+      },
+      {
+        "municipio": "VILLANUEVA PARDILLO",
+        "n": 10
+      },
+      {
+        "municipio": "EL EJIDO",
+        "n": 10
+      },
+      {
+        "municipio": "MEJORADA DEL CAMPO",
+        "n": 10
+      },
+      {
+        "municipio": "TORRENT",
+        "n": 10
+      },
+      {
+        "municipio": "PUERTO DEL ROSARIO",
+        "n": 10
+      },
+      {
+        "municipio": "LA HIRUELA",
+        "n": 10
+      },
+      {
+        "municipio": "AGUILAS",
+        "n": 10
+      },
+      {
+        "municipio": "EL VENDRELL",
+        "n": 10
+      },
+      {
+        "municipio": "FORNELLS DE LA SELVA",
+        "n": 10
+      },
+      {
+        "municipio": "ROSES",
+        "n": 10
+      },
+      {
+        "municipio": "SALAMANCA",
+        "n": 10
+      },
+      {
+        "municipio": "CABRILS",
+        "n": 10
+      },
+      {
+        "municipio": "CAMBRILS",
+        "n": 10
+      },
+      {
+        "municipio": "MOLINS DE REI",
+        "n": 10
+      },
+      {
+        "municipio": "GALAPAGAR",
+        "n": 10
+      },
+      {
+        "municipio": "MUNGIA",
+        "n": 10
+      },
+      {
+        "municipio": "ALGEMESI",
+        "n": 9
+      },
+      {
+        "municipio": "NAVAS DEL REY",
+        "n": 9
+      },
+      {
+        "municipio": "L ALDEA",
+        "n": 9
+      },
+      {
+        "municipio": "TORREMOLINOS",
+        "n": 9
+      },
+      {
+        "municipio": "EL MASNOU",
+        "n": 9
+      },
+      {
+        "municipio": "FIGUERES",
+        "n": 9
+      },
+      {
+        "municipio": "COBEÑA",
+        "n": 9
+      },
+      {
+        "municipio": "BARAKALDO",
+        "n": 9
+      },
+      {
+        "municipio": "ZAMORA",
+        "n": 9
+      },
+      {
+        "municipio": "SUECA",
+        "n": 9
+      },
+      {
+        "municipio": "ANDRATX",
+        "n": 9
+      },
+      {
+        "municipio": "CERVELLO",
+        "n": 9
+      },
+      {
+        "municipio": "NAVALCARNERO",
+        "n": 9
+      },
+      {
+        "municipio": "MONTORNES DEL VALLES",
+        "n": 9
+      },
+      {
+        "municipio": "ALGECIRAS",
+        "n": 9
+      },
+      {
+        "municipio": "PALAU SOLITA I PLEGAMANS",
+        "n": 9
+      },
+      {
+        "municipio": "VILASSAR DE DALT",
+        "n": 9
+      },
+      {
+        "municipio": "REDUEÑA",
+        "n": 9
+      },
+      {
+        "municipio": "ALELLA",
+        "n": 9
+      },
+      {
+        "municipio": "CAMARGO",
+        "n": 9
+      },
+      {
+        "municipio": "ALCALA DE GUADAIRA",
+        "n": 9
+      },
+      {
+        "municipio": "RINCON DE VICTORIA",
+        "n": 8
+      },
+      {
+        "municipio": "RONDA",
+        "n": 8
+      },
+      {
+        "municipio": "CACERES",
+        "n": 8
+      },
+      {
+        "municipio": "UTEBO",
+        "n": 8
+      },
+      {
+        "municipio": "SANTA MARGARITA",
+        "n": 8
+      },
+      {
+        "municipio": "CHURRIANA DE LA VEGA",
+        "n": 8
+      },
+      {
+        "municipio": "ALDAIA",
+        "n": 8
+      },
+      {
+        "municipio": "SEGOVIA",
+        "n": 8
+      },
+      {
+        "municipio": "EL CATLLAR",
+        "n": 8
+      },
+      {
+        "municipio": "SALT",
+        "n": 8
+      },
+      {
+        "municipio": "BENALMADENA",
+        "n": 8
+      },
+      {
+        "municipio": "ERANDIO",
+        "n": 8
+      },
+      {
+        "municipio": "MALGRAT DE MAR",
+        "n": 8
+      },
+      {
+        "municipio": "ADEJE",
+        "n": 8
+      },
+      {
+        "municipio": "VILLAMANRIQUE TAJO",
+        "n": 8
+      },
+      {
+        "municipio": "IRUN",
+        "n": 8
+      },
+      {
+        "municipio": "VILASECA",
+        "n": 8
+      },
+      {
+        "municipio": "CHIVA",
+        "n": 8
+      },
+      {
+        "municipio": "ONTINYENT",
+        "n": 8
+      },
+      {
+        "municipio": "CHICLANA DE LA FTRA",
+        "n": 8
+      },
+      {
+        "municipio": "SALOU",
+        "n": 8
+      },
+      {
+        "municipio": "BENIDOLEIG",
+        "n": 8
+      },
+      {
+        "municipio": "BARBERA DEL VALLES",
+        "n": 8
+      },
+      {
+        "municipio": "CUARTE DE HUERVA",
+        "n": 8
+      },
+      {
+        "municipio": "EL PUERTO STA MARIA",
+        "n": 8
+      },
+      {
+        "municipio": "TOLEDO",
+        "n": 8
+      },
+      {
+        "municipio": "S COLOMA CERVELLO",
+        "n": 8
+      },
+      {
+        "municipio": "SANT JOAN D ALACANT",
+        "n": 7
+      },
+      {
+        "municipio": "S ADRIA DE BESOS",
+        "n": 7
+      },
+      {
+        "municipio": "ALBORAYA",
+        "n": 7
+      },
+      {
+        "municipio": "SAN AGUSTIN GUADALIX",
+        "n": 7
+      },
+      {
+        "municipio": "INCA",
+        "n": 7
+      },
+      {
+        "municipio": "SANTA BRIGIDA",
+        "n": 7
+      },
+      {
+        "municipio": "RIPOLLET",
+        "n": 7
+      },
+      {
+        "municipio": "SANLUCAR BARRAMEDA",
+        "n": 7
+      },
+      {
+        "municipio": "HUERCAL DE ALMERIA",
+        "n": 7
+      },
+      {
+        "municipio": "SAN ROQUE",
+        "n": 7
+      },
+      {
+        "municipio": "NARON",
+        "n": 7
+      },
+      {
+        "municipio": "CALELLA",
+        "n": 7
+      },
+      {
+        "municipio": "SAN FERNANDO",
+        "n": 7
+      },
+      {
+        "municipio": "ARONA",
+        "n": 7
+      },
+      {
+        "municipio": "SANTA LUCIA",
+        "n": 7
+      },
+      {
+        "municipio": "COLLADO MEDIANO",
+        "n": 7
+      },
+      {
+        "municipio": "OYARZUN",
+        "n": 7
+      },
+      {
+        "municipio": "IGUALADA",
+        "n": 7
+      },
+      {
+        "municipio": "S COLOMA GRAMENET",
+        "n": 7
+      },
+      {
+        "municipio": "CANET DE MAR",
+        "n": 7
+      },
+      {
+        "municipio": "LA ROCA DEL VALLES",
+        "n": 7
+      },
+      {
+        "municipio": "CREVILLENT",
+        "n": 7
+      },
+      {
+        "municipio": "ARGENTONA",
+        "n": 7
+      },
+      {
+        "municipio": "SAN JOSE",
+        "n": 7
+      },
+      {
+        "municipio": "BENIDORM",
+        "n": 7
+      },
+      {
+        "municipio": "ALAQUAS",
+        "n": 7
+      },
+      {
+        "municipio": "VILLANUEVA DE CAÑADA",
+        "n": 7
+      },
+      {
+        "municipio": "ESTEPONA",
+        "n": 7
+      },
+      {
+        "municipio": "OLESA DE MONTSERRAT",
+        "n": 7
+      },
+      {
+        "municipio": "S ANTONI VILAMAJOR",
+        "n": 7
+      },
+      {
+        "municipio": "IURRETA",
+        "n": 7
+      },
+      {
+        "municipio": "FERROL",
+        "n": 7
+      },
+      {
+        "municipio": "CORBERA DE LLOB",
+        "n": 7
+      },
+      {
+        "municipio": "SESTAO",
+        "n": 7
+      },
+      {
+        "municipio": "HONDARRIBIA",
+        "n": 6
+      },
+      {
+        "municipio": "VILLARES DE LA REINA",
+        "n": 6
+      },
+      {
+        "municipio": "LORCA",
+        "n": 6
+      },
+      {
+        "municipio": "ALCOY",
+        "n": 6
+      },
+      {
+        "municipio": "S JOAN DESPI",
+        "n": 6
+      },
+      {
+        "municipio": "BENAHAVIS",
+        "n": 6
+      },
+      {
+        "municipio": "ALBATERA",
+        "n": 6
+      },
+      {
+        "municipio": "L AMETLLA DEL VALLES",
+        "n": 6
+      },
+      {
+        "municipio": "ALAYOR",
+        "n": 6
+      },
+      {
+        "municipio": "LLICA D AMUNT",
+        "n": 6
+      },
+      {
+        "municipio": "NAMBROCA",
+        "n": 6
+      },
+      {
+        "municipio": "VILAGARCIA DE AROUSA",
+        "n": 6
+      },
+      {
+        "municipio": "CIEZA",
+        "n": 6
+      },
+      {
+        "municipio": "EL ESCORIAL",
+        "n": 6
+      },
+      {
+        "municipio": "BARBASTRO",
+        "n": 6
+      },
+      {
+        "municipio": "LINARES",
+        "n": 6
+      },
+      {
+        "municipio": "PALAFRUGELL",
+        "n": 6
+      },
+      {
+        "municipio": "S VICENC MONTALT",
+        "n": 6
+      },
+      {
+        "municipio": "TIAS",
+        "n": 6
+      },
+      {
+        "municipio": "OLOT",
+        "n": 6
+      },
+      {
+        "municipio": "BOALO",
+        "n": 6
+      },
+      {
+        "municipio": "CASTELLO D EMPURIES",
+        "n": 6
+      },
+      {
+        "municipio": "PARETS DEL VALLES",
+        "n": 6
+      },
+      {
+        "municipio": "SARRATELLA",
+        "n": 6
+      },
+      {
+        "municipio": "OURENSE",
+        "n": 6
+      },
+      {
+        "municipio": "LES FRANQUESES VALLE",
+        "n": 6
+      },
+      {
+        "municipio": "S CELONI",
+        "n": 6
+      },
+      {
+        "municipio": "TORTOSA",
+        "n": 6
+      },
+      {
+        "municipio": "GUADARRAMA",
+        "n": 6
+      },
+      {
+        "municipio": "LA OROTAVA",
+        "n": 6
+      },
+      {
+        "municipio": "ECIJA",
+        "n": 6
+      },
+      {
+        "municipio": "LLODIO",
+        "n": 6
+      },
+      {
+        "municipio": "PUIGCERDA",
+        "n": 6
+      },
+      {
+        "municipio": "HOYO DE MANZANARES",
+        "n": 6
+      },
+      {
+        "municipio": "YECLA",
+        "n": 5
+      },
+      {
+        "municipio": "S ESTEVE SESROVIRES",
+        "n": 5
+      },
+      {
+        "municipio": "SANTA POLA",
+        "n": 5
+      },
+      {
+        "municipio": "MURO",
+        "n": 5
+      },
+      {
+        "municipio": "BEGUR",
+        "n": 5
+      },
+      {
+        "municipio": "BIGUES I RIELLS",
+        "n": 5
+      },
+      {
+        "municipio": "HUMANES DE MADRID",
+        "n": 5
+      },
+      {
+        "municipio": "LLINARS DEL VALLES",
+        "n": 5
+      },
+      {
+        "municipio": "VILLALBILLA",
+        "n": 5
+      },
+      {
+        "municipio": "MASQUEFA",
+        "n": 5
+      },
+      {
+        "municipio": "CANET D EN BERENGUER",
+        "n": 5
+      },
+      {
+        "municipio": "ZARATAMO",
+        "n": 5
+      },
+      {
+        "municipio": "GALAR",
+        "n": 5
+      },
+      {
+        "municipio": "MAO",
+        "n": 5
+      },
+      {
+        "municipio": "BALAGUER",
+        "n": 5
+      },
+      {
+        "municipio": "SAN JAVIER",
+        "n": 5
+      },
+      {
+        "municipio": "ARENYS DE MAR",
+        "n": 5
+      },
+      {
+        "municipio": "CUENCA",
+        "n": 5
+      },
+      {
+        "municipio": "MAZARRON",
+        "n": 5
+      },
+      {
+        "municipio": "BLANES",
+        "n": 5
+      },
+      {
+        "municipio": "TUI",
+        "n": 5
+      },
+      {
+        "municipio": "BURLADA",
+        "n": 5
+      },
+      {
+        "municipio": "VILLAJOYOSA",
+        "n": 5
+      },
+      {
+        "municipio": "MONCADA",
+        "n": 5
+      },
+      {
+        "municipio": "PILAR DE LA HORADADA",
+        "n": 5
+      },
+      {
+        "municipio": "ALARO",
+        "n": 5
+      },
+      {
+        "municipio": "OROPESA",
+        "n": 5
+      },
+      {
+        "municipio": "BERGA",
+        "n": 5
+      },
+      {
+        "municipio": "BENISSA",
+        "n": 5
+      },
+      {
+        "municipio": "EZCABARTE",
+        "n": 5
+      },
+      {
+        "municipio": "NERJA",
+        "n": 5
+      },
+      {
+        "municipio": "TALAVERA DE LA REINA",
+        "n": 5
+      },
+      {
+        "municipio": "SAN MIGUEL",
+        "n": 5
+      },
+      {
+        "municipio": "GINES",
+        "n": 5
+      },
+      {
+        "municipio": "VILASSAR DE MAR",
+        "n": 5
+      },
+      {
+        "municipio": "ILLESCAS",
+        "n": 5
+      },
+      {
+        "municipio": "PICANYA",
+        "n": 5
+      },
+      {
+        "municipio": "CEUTA",
+        "n": 5
+      },
+      {
+        "municipio": "SOTO DEL REAL",
+        "n": 5
+      },
+      {
+        "municipio": "VILA REAL",
+        "n": 5
+      },
+      {
+        "municipio": "POLINYA",
+        "n": 5
+      },
+      {
+        "municipio": "S ANDREU LLAVANERES",
+        "n": 5
+      },
+      {
+        "municipio": "ARENYS DE MUNT",
+        "n": 5
+      },
+      {
+        "municipio": "VILLANUEVA GALLEGO",
+        "n": 5
+      },
+      {
+        "municipio": "SENTMENAT",
+        "n": 5
+      },
+      {
+        "municipio": "PIELAGOS",
+        "n": 5
+      },
+      {
+        "municipio": "MALAGON",
+        "n": 5
+      },
+      {
+        "municipio": "ARCOS DE LA FTRA",
+        "n": 5
+      },
+      {
+        "municipio": "DELTEBRE",
+        "n": 5
+      },
+      {
+        "municipio": "ONDARA",
+        "n": 5
+      },
+      {
+        "municipio": "LA SEU D URGELL",
+        "n": 5
+      },
+      {
+        "municipio": "A PASTORIZA",
+        "n": 5
+      },
+      {
+        "municipio": "LLIRIA",
+        "n": 5
+      },
+      {
+        "municipio": "ALBUIXECH",
+        "n": 5
+      },
+      {
+        "municipio": "AVILES",
+        "n": 5
+      },
+      {
+        "municipio": "CIUTADELLA MENORCA",
+        "n": 5
+      },
+      {
+        "municipio": "POLLENCA",
+        "n": 5
+      },
+      {
+        "municipio": "LES PRESES",
+        "n": 5
+      },
+      {
+        "municipio": "L ESCALA",
+        "n": 5
+      },
+      {
+        "municipio": "PALAFOLLS",
+        "n": 4
+      },
+      {
+        "municipio": "PUENTE GENIL",
+        "n": 4
+      },
+      {
+        "municipio": "BUNYOLA",
+        "n": 4
+      },
+      {
+        "municipio": "BENAGUACIL",
+        "n": 4
+      },
+      {
+        "municipio": "EL ROSARIO",
+        "n": 4
+      },
+      {
+        "municipio": "COAÑA",
+        "n": 4
+      },
+      {
+        "municipio": "MAIRENA DEL ALJARAFE",
+        "n": 4
+      },
+      {
+        "municipio": "FIRGAS",
+        "n": 4
+      },
+      {
+        "municipio": "TORREJON DE CALZADA",
+        "n": 4
+      },
+      {
+        "municipio": "ALFAFAR",
+        "n": 4
+      },
+      {
+        "municipio": "CALLOSA DE SEGURA",
+        "n": 4
+      },
+      {
+        "municipio": "PUERTO REAL",
+        "n": 4
+      },
+      {
+        "municipio": "ESTELLA",
+        "n": 4
+      },
+      {
+        "municipio": "SAN JUAN BAUTISTA",
+        "n": 4
+      },
+      {
+        "municipio": "SAN MARTIN DE VEGA",
+        "n": 4
+      },
+      {
+        "municipio": "ALFAZ DEL PI",
+        "n": 4
+      },
+      {
+        "municipio": "BETERA",
+        "n": 4
+      },
+      {
+        "municipio": "TEGUISE",
+        "n": 4
+      },
+      {
+        "municipio": "SANTURTZI",
+        "n": 4
+      },
+      {
+        "municipio": "PREMIA DE MAR",
+        "n": 4
+      },
+      {
+        "municipio": "BENAVENTE",
+        "n": 4
+      },
+      {
+        "municipio": "LLAGOSTERA",
+        "n": 4
+      },
+      {
+        "municipio": "CASTRO URDIALES",
+        "n": 4
+      },
+      {
+        "municipio": "TIANA",
+        "n": 4
+      },
+      {
+        "municipio": "CALDES DE MALAVELLA",
+        "n": 4
+      },
+      {
+        "municipio": "GALDAR",
+        "n": 4
+      },
+      {
+        "municipio": "LOS REALEJOS",
+        "n": 4
+      },
+      {
+        "municipio": "SAN ANDRES RABANEDO",
+        "n": 4
+      },
+      {
+        "municipio": "PONFERRADA",
+        "n": 4
+      },
+      {
+        "municipio": "LUCENA",
+        "n": 4
+      },
+      {
+        "municipio": "CUBELLES",
+        "n": 4
+      },
+      {
+        "municipio": "SESEÑA",
+        "n": 4
+      },
+      {
+        "municipio": "MUTXAMEL",
+        "n": 4
+      },
+      {
+        "municipio": "PONTEDEUME",
+        "n": 4
+      },
+      {
+        "municipio": "CABRERA DE MAR",
+        "n": 4
+      },
+      {
+        "municipio": "BINISSALEM",
+        "n": 4
+      },
+      {
+        "municipio": "VALDEMORILLO",
+        "n": 4
+      },
+      {
+        "municipio": "SANT LLUIS",
+        "n": 4
+      },
+      {
+        "municipio": "LA ZUBIA",
+        "n": 4
+      },
+      {
+        "municipio": "MANISES",
+        "n": 4
+      },
+      {
+        "municipio": "ORCOYEN",
+        "n": 4
+      },
+      {
+        "municipio": "PLASENCIA",
+        "n": 4
+      },
+      {
+        "municipio": "BENIPARRELL",
+        "n": 4
+      },
+      {
+        "municipio": "MANZANARES EL REAL",
+        "n": 4
+      },
+      {
+        "municipio": "ABANILLA",
+        "n": 4
+      },
+      {
+        "municipio": "LA GARRIGA",
+        "n": 4
+      },
+      {
+        "municipio": "PIERA",
+        "n": 4
+      },
+      {
+        "municipio": "VACARISSES",
+        "n": 4
+      },
+      {
+        "municipio": "LA NUCIA",
+        "n": 4
+      },
+      {
+        "municipio": "PREMIA DE DALT",
+        "n": 4
+      },
+      {
+        "municipio": "ALTEA",
+        "n": 4
+      },
+      {
+        "municipio": "PUCOL",
+        "n": 4
+      },
+      {
+        "municipio": "CARDEDEU",
+        "n": 4
+      },
+      {
+        "municipio": "COLMENAR DE OREJA",
+        "n": 4
+      },
+      {
+        "municipio": "VILLENA",
+        "n": 4
+      },
+      {
+        "municipio": "BEGUES",
+        "n": 4
+      },
+      {
+        "municipio": "LA POBLA DE VALLBONA",
+        "n": 4
+      },
+      {
+        "municipio": "PONTEVEDRA",
+        "n": 4
+      },
+      {
+        "municipio": "HUESCA",
+        "n": 4
+      },
+      {
+        "municipio": "ALJARAQUE",
+        "n": 4
+      },
+      {
+        "municipio": "ARTA",
+        "n": 4
+      },
+      {
+        "municipio": "UBRIQUE",
+        "n": 4
+      },
+      {
+        "municipio": "FOIOS",
+        "n": 4
+      },
+      {
+        "municipio": "HUETOR VEGA",
+        "n": 4
+      },
+      {
+        "municipio": "EL ALAMO",
+        "n": 4
+      },
+      {
+        "municipio": "PORTOMARIN",
+        "n": 4
+      },
+      {
+        "municipio": "ODENA",
+        "n": 4
+      },
+      {
+        "municipio": "BARBATE",
+        "n": 4
+      },
+      {
+        "municipio": "PETRER",
+        "n": 4
+      },
+      {
+        "municipio": "S SADURNI D ANOIA",
+        "n": 4
+      },
+      {
+        "municipio": "NAQUERA",
+        "n": 4
+      },
+      {
+        "municipio": "CALAF",
+        "n": 4
+      },
+      {
+        "municipio": "TUINEJE",
+        "n": 4
+      },
+      {
+        "municipio": "VILLAGONZALO PEDERNA",
+        "n": 4
+      },
+      {
+        "municipio": "ULEA",
+        "n": 4
+      },
+      {
+        "municipio": "FRONTERA",
+        "n": 4
+      },
+      {
+        "municipio": "BURJASSOT",
+        "n": 4
+      },
+      {
+        "municipio": "MASSANASSA",
+        "n": 4
+      },
+      {
+        "municipio": "S FOST CAMPSENTELLES",
+        "n": 4
+      },
+      {
+        "municipio": "LAGUNA DE DUERO",
+        "n": 4
+      },
+      {
+        "municipio": "ASTIGARRAGA",
+        "n": 3
+      },
+      {
+        "municipio": "LARDERO",
+        "n": 3
+      },
+      {
+        "municipio": "GUADALIX DE SIERRA",
+        "n": 3
+      },
+      {
+        "municipio": "SANT JULIA DE RAMIS",
+        "n": 3
+      },
+      {
+        "municipio": "CHIPIONA",
+        "n": 3
+      },
+      {
+        "municipio": "SANT ANTONI DE PORTMANY",
+        "n": 3
+      },
+      {
+        "municipio": "MANLLEU",
+        "n": 3
+      },
+      {
+        "municipio": "CHANTADA",
+        "n": 3
+      },
+      {
+        "municipio": "VILOBI D ONYAR",
+        "n": 3
+      },
+      {
+        "municipio": "GRANADILLA",
+        "n": 3
+      },
+      {
+        "municipio": "S PERE SALLAVINERA",
+        "n": 3
+      },
+      {
+        "municipio": "ANSOAIN",
+        "n": 3
+      },
+      {
+        "municipio": "SANT LLORENC DES C",
+        "n": 3
+      },
+      {
+        "municipio": "RIPOLL",
+        "n": 3
+      },
+      {
+        "municipio": "INGENIO",
+        "n": 3
+      },
+      {
+        "municipio": "LES CABANYES",
+        "n": 3
+      },
+      {
+        "municipio": "CALDES D ESTRAC",
+        "n": 3
+      },
+      {
+        "municipio": "ZUMAIA",
+        "n": 3
+      },
+      {
+        "municipio": "BEASAIN",
+        "n": 3
+      },
+      {
+        "municipio": "S C LA PALMA",
+        "n": 3
+      },
+      {
+        "municipio": "MERIDA",
+        "n": 3
+      },
+      {
+        "municipio": "ES MERCADAL",
+        "n": 3
+      },
+      {
+        "municipio": "OLIVELLA",
+        "n": 3
+      },
+      {
+        "municipio": "CHESTE",
+        "n": 3
+      },
+      {
+        "municipio": "VALVERDE",
+        "n": 3
+      },
+      {
+        "municipio": "TARREGA",
+        "n": 3
+      },
+      {
+        "municipio": "ARRIGORRIAGA",
+        "n": 3
+      },
+      {
+        "municipio": "BENICASIM",
+        "n": 3
+      },
+      {
+        "municipio": "ARTEIXO",
+        "n": 3
+      },
+      {
+        "municipio": "S ESTEVE PALAUTORD",
+        "n": 3
+      },
+      {
+        "municipio": "LA ELIANA",
+        "n": 3
+      },
+      {
+        "municipio": "MOGAN",
+        "n": 3
+      },
+      {
+        "municipio": "S EULALIA RONCANA",
+        "n": 3
+      },
+      {
+        "municipio": "CADAQUES",
+        "n": 3
+      },
+      {
+        "municipio": "ANTEQUERA",
+        "n": 3
+      },
+      {
+        "municipio": "TOMARES",
+        "n": 3
+      },
+      {
+        "municipio": "VILLAMARTIN",
+        "n": 3
+      },
+      {
+        "municipio": "ALHAURIN EL GRANDE",
+        "n": 3
+      },
+      {
+        "municipio": "POIO",
+        "n": 3
+      },
+      {
+        "municipio": "BUITRAGO DEL LOZOYA",
+        "n": 3
+      },
+      {
+        "municipio": "REQUENA",
+        "n": 3
+      },
+      {
+        "municipio": "ESPARREGUERA",
+        "n": 3
+      },
+      {
+        "municipio": "TORROELLA DE MONTGRI",
+        "n": 3
+      },
+      {
+        "municipio": "SANTOVENIA PISUERGA",
+        "n": 3
+      },
+      {
+        "municipio": "GRIÑON",
+        "n": 3
+      },
+      {
+        "municipio": "COIN",
+        "n": 3
+      },
+      {
+        "municipio": "MANILVA",
+        "n": 3
+      },
+      {
+        "municipio": "VILLA DE MAZO",
+        "n": 3
+      },
+      {
+        "municipio": "CHILCHES",
+        "n": 3
+      },
+      {
+        "municipio": "VALL DE UXO",
+        "n": 3
+      },
+      {
+        "municipio": "PEGO",
+        "n": 3
+      },
+      {
+        "municipio": "LAS TORRES COTILLAS",
+        "n": 3
+      },
+      {
+        "municipio": "SOLLER",
+        "n": 3
+      },
+      {
+        "municipio": "MISLATA",
+        "n": 3
+      },
+      {
+        "municipio": "RENTERIA",
+        "n": 3
+      },
+      {
+        "municipio": "DILAR",
+        "n": 3
+      },
+      {
+        "municipio": "TORROX",
+        "n": 3
+      },
+      {
+        "municipio": "GURB",
+        "n": 3
+      },
+      {
+        "municipio": "LOS LLANOS A",
+        "n": 3
+      },
+      {
+        "municipio": "VELILLA SAN ANTONIO",
+        "n": 3
+      },
+      {
+        "municipio": "NAVALMORAL DE MATA",
+        "n": 3
+      },
+      {
+        "municipio": "CARRICOLA",
+        "n": 3
+      },
+      {
+        "municipio": "S JOAN VILATORRADA",
+        "n": 3
+      },
+      {
+        "municipio": "CALAFELL",
+        "n": 3
+      },
+      {
+        "municipio": "CAMPOS",
+        "n": 3
+      },
+      {
+        "municipio": "CASSA DE LA SELVA",
+        "n": 3
+      },
+      {
+        "municipio": "LA RINCONADA",
+        "n": 3
+      },
+      {
+        "municipio": "FINESTRAT",
+        "n": 3
+      },
+      {
+        "municipio": "TARAZONA DE ARAGON",
+        "n": 3
+      },
+      {
+        "municipio": "CALPE",
+        "n": 3
+      },
+      {
+        "municipio": "LLICA DE VALL",
+        "n": 3
+      },
+      {
+        "municipio": "NIGRAN",
+        "n": 3
+      },
+      {
+        "municipio": "PUIG REIG",
+        "n": 3
+      },
+      {
+        "municipio": "MIRAMAR",
+        "n": 3
+      },
+      {
+        "municipio": "CIZUR",
+        "n": 3
+      },
+      {
+        "municipio": "LOECHES",
+        "n": 3
+      },
+      {
+        "municipio": "SEGORBE",
+        "n": 3
+      },
+      {
+        "municipio": "BETANCURIA",
+        "n": 3
+      },
+      {
+        "municipio": "COLLBATO",
+        "n": 3
+      },
+      {
+        "municipio": "MECO",
+        "n": 3
+      },
+      {
+        "municipio": "INIESTA",
+        "n": 3
+      },
+      {
+        "municipio": "SANT FELIU DE GUIXOLS",
+        "n": 3
+      },
+      {
+        "municipio": "ARAHAL",
+        "n": 3
+      },
+      {
+        "municipio": "TACORONTE",
+        "n": 3
+      },
+      {
+        "municipio": "VILABOA",
+        "n": 3
+      },
+      {
+        "municipio": "SAN CIBRAO DAS VIÑAS",
+        "n": 3
+      },
+      {
+        "municipio": "AMPOSTA",
+        "n": 3
+      },
+      {
+        "municipio": "PINSEQUE",
+        "n": 3
+      },
+      {
+        "municipio": "ALCUDIA",
+        "n": 3
+      },
+      {
+        "municipio": "MARTORELLES",
+        "n": 3
+      },
+      {
+        "municipio": "PARACUELLOS JILOCA",
+        "n": 3
+      },
+      {
+        "municipio": "CAMBRE",
+        "n": 3
+      },
+      {
+        "municipio": "CASTILLEJA CUESTA",
+        "n": 3
+      },
+      {
+        "municipio": "VINAROS",
+        "n": 3
+      },
+      {
+        "municipio": "GERNIKA-LUMO",
+        "n": 3
+      },
+      {
+        "municipio": "PALOS DE LA FRONTERA",
+        "n": 3
+      },
+      {
+        "municipio": "BAENA",
+        "n": 3
+      },
+      {
+        "municipio": "PEDREGUER",
+        "n": 3
+      },
+      {
+        "municipio": "CANALS",
+        "n": 3
+      },
+      {
+        "municipio": "MONTFERRER CASTELLBO",
+        "n": 3
+      },
+      {
+        "municipio": "S ANDREU DE BARCA",
+        "n": 3
+      },
+      {
+        "municipio": "GODELLA",
+        "n": 3
+      },
+      {
+        "municipio": "CASTELLBISBAL",
+        "n": 3
+      },
+      {
+        "municipio": "ATARFE",
+        "n": 3
+      },
+      {
+        "municipio": "SON SERVERA",
+        "n": 3
+      },
+      {
+        "municipio": "ALBOLOTE",
+        "n": 3
+      },
+      {
+        "municipio": "ALCANTARILLA",
+        "n": 3
+      },
+      {
+        "municipio": "MONDRAGON",
+        "n": 3
+      },
+      {
+        "municipio": "TEIA",
+        "n": 3
+      },
+      {
+        "municipio": "OTURA",
+        "n": 3
+      },
+      {
+        "municipio": "COMPETA",
+        "n": 3
+      },
+      {
+        "municipio": "ALMONTE",
+        "n": 3
+      },
+      {
+        "municipio": "BELLVER DE CERDANYA",
+        "n": 3
+      },
+      {
+        "municipio": "CABRERIZOS",
+        "n": 3
+      },
+      {
+        "municipio": "EL FRANCO",
+        "n": 3
+      },
+      {
+        "municipio": "ALHAURIN DE LA TORRE",
+        "n": 3
+      },
+      {
+        "municipio": "PALACIOS VILLAFRANCA",
+        "n": 3
+      },
+      {
+        "municipio": "FERRERIES",
+        "n": 3
+      },
+      {
+        "municipio": "VILLARTA DE SAN JUAN",
+        "n": 3
+      },
+      {
+        "municipio": "AIGUAVIVA",
+        "n": 3
+      },
+      {
+        "municipio": "CERVERA",
+        "n": 3
+      },
+      {
+        "municipio": "ROQUETES",
+        "n": 3
+      },
+      {
+        "municipio": "SANTOMERA",
+        "n": 3
+      },
+      {
+        "municipio": "SANT CARLES RAPITA",
+        "n": 3
+      },
+      {
+        "municipio": "SANTA MARIA DEL CAMI",
+        "n": 3
+      },
+      {
+        "municipio": "CASTELLVELL DEL CAMP",
+        "n": 3
+      },
+      {
+        "municipio": "SADA",
+        "n": 3
+      },
+      {
+        "municipio": "TORRELAVEGA",
+        "n": 3
+      },
+      {
+        "municipio": "MOYA",
+        "n": 3
+      },
+      {
+        "municipio": "EL CARPIO DE TAJO",
+        "n": 2
+      },
+      {
+        "municipio": "CERCEDILLA",
+        "n": 2
+      },
+      {
+        "municipio": "S JUAN AZNALFARACHE",
+        "n": 2
+      },
+      {
+        "municipio": "BELLPUIG",
+        "n": 2
+      },
+      {
+        "municipio": "MEDIO CUDEYO",
+        "n": 2
+      },
+      {
+        "municipio": "CUNIT",
+        "n": 2
+      },
+      {
+        "municipio": "VALDEPEÑAS",
+        "n": 2
+      },
+      {
+        "municipio": "MONFORTE DEL CID",
+        "n": 2
+      },
+      {
+        "municipio": "TORRELAVIT",
+        "n": 2
+      },
+      {
+        "municipio": "SANTANYI",
+        "n": 2
+      },
+      {
+        "municipio": "VALDES",
+        "n": 2
+      },
+      {
+        "municipio": "OLZA",
+        "n": 2
+      },
+      {
+        "municipio": "PUENTE LA REINA",
+        "n": 2
+      },
+      {
+        "municipio": "CAMPELLO",
+        "n": 2
+      },
+      {
+        "municipio": "FONTELLAS",
+        "n": 2
+      },
+      {
+        "municipio": "CULLEREDO",
+        "n": 2
+      },
+      {
+        "municipio": "CANDELARIA",
+        "n": 2
+      },
+      {
+        "municipio": "BANYOLES",
+        "n": 2
+      },
+      {
+        "municipio": "LECRIN",
+        "n": 2
+      },
+      {
+        "municipio": "VILLALBA",
+        "n": 2
+      },
+      {
+        "municipio": "DAGANZO DE ARRIBA",
+        "n": 2
+      },
+      {
+        "municipio": "UBEDA",
+        "n": 2
+      },
+      {
+        "municipio": "BESCANO",
+        "n": 2
+      },
+      {
+        "municipio": "ASPE",
+        "n": 2
+      },
+      {
+        "municipio": "GERGAL",
+        "n": 2
+      },
+      {
+        "municipio": "SAN JUSTO DE LA VEGA",
+        "n": 2
+      },
+      {
+        "municipio": "GATA DE GORGOS",
+        "n": 2
+      },
+      {
+        "municipio": "MONTUIRI",
+        "n": 2
+      },
+      {
+        "municipio": "HOSTALRIC",
+        "n": 2
+      },
+      {
+        "municipio": "VALLIRANA",
+        "n": 2
+      },
+      {
+        "municipio": "ROTA",
+        "n": 2
+      },
+      {
+        "municipio": "BELLREGUARD",
+        "n": 2
+      },
+      {
+        "municipio": "ARNEDO",
+        "n": 2
+      },
+      {
+        "municipio": "JUSLAPEÑA",
+        "n": 2
+      },
+      {
+        "municipio": "OJEN",
+        "n": 2
+      },
+      {
+        "municipio": "FELANITX",
+        "n": 2
+      },
+      {
+        "municipio": "ANTAS",
+        "n": 2
+      },
+      {
+        "municipio": "COLES",
+        "n": 2
+      },
+      {
+        "municipio": "TARIFA",
+        "n": 2
+      },
+      {
+        "municipio": "MORATA DE TAJUÑA",
+        "n": 2
+      },
+      {
+        "municipio": "SALLENT",
+        "n": 2
+      },
+      {
+        "municipio": "AMES",
+        "n": 2
+      },
+      {
+        "municipio": "VILLA DEL PRADO",
+        "n": 2
+      },
+      {
+        "municipio": "VILANANT",
+        "n": 2
+      },
+      {
+        "municipio": "ORIO",
+        "n": 2
+      },
+      {
+        "municipio": "BERRIOPLANO",
+        "n": 2
+      },
+      {
+        "municipio": "VALLGORGUINA",
+        "n": 2
+      },
+      {
+        "municipio": "LA JONQUERA",
+        "n": 2
+      },
+      {
+        "municipio": "MORALEJA DE EN MEDIO",
+        "n": 2
+      },
+      {
+        "municipio": "SAN ANTONIO DE BENAGEBER",
+        "n": 2
+      },
+      {
+        "municipio": "MONZON",
+        "n": 2
+      },
+      {
+        "municipio": "SAN MATEO",
+        "n": 2
+      },
+      {
+        "municipio": "MONACHIL",
+        "n": 2
+      },
+      {
+        "municipio": "MIRAVET",
+        "n": 2
+      },
+      {
+        "municipio": "CARMONA",
+        "n": 2
+      },
+      {
+        "municipio": "ALORA",
+        "n": 2
+      },
+      {
+        "municipio": "PELIGROS",
+        "n": 2
+      },
+      {
+        "municipio": "HUETOR SANTILLAN",
+        "n": 2
+      },
+      {
+        "municipio": "TAFALLA",
+        "n": 2
+      },
+      {
+        "municipio": "AMPUERO",
+        "n": 2
+      },
+      {
+        "municipio": "BELLCAIRE D URGELL",
+        "n": 2
+      },
+      {
+        "municipio": "NAVALAGAMELLA",
+        "n": 2
+      },
+      {
+        "municipio": "VALLS",
+        "n": 2
+      },
+      {
+        "municipio": "S CEBRIA VALLALTA",
+        "n": 2
+      },
+      {
+        "municipio": "LA POBLA LLARGA",
+        "n": 2
+      },
+      {
+        "municipio": "CAMARMA ESTERUELAS",
+        "n": 2
+      },
+      {
+        "municipio": "CASARRUBIOS MONTE",
+        "n": 2
+      },
+      {
+        "municipio": "SANT GREGORI",
+        "n": 2
+      },
+      {
+        "municipio": "S MARTI SARROCA",
+        "n": 2
+      },
+      {
+        "municipio": "ALBALAT DE LA RIBERA",
+        "n": 2
+      },
+      {
+        "municipio": "SEVA",
+        "n": 2
+      },
+      {
+        "municipio": "VILALLONGA DEL CAMP",
+        "n": 2
+      },
+      {
+        "municipio": "ALCAZAR DE SAN JUAN",
+        "n": 2
+      },
+      {
+        "municipio": "GONDOMAR",
+        "n": 2
+      },
+      {
+        "municipio": "QUEROL",
+        "n": 2
+      },
+      {
+        "municipio": "SANTA URSULA",
+        "n": 2
+      },
+      {
+        "municipio": "CASTRILLON",
+        "n": 2
+      },
+      {
+        "municipio": "ISLA CRISTINA",
+        "n": 2
+      },
+      {
+        "municipio": "BUEU",
+        "n": 2
+      },
+      {
+        "municipio": "OLIVA",
+        "n": 2
+      },
+      {
+        "municipio": "PACS DEL PENEDES",
+        "n": 2
+      },
+      {
+        "municipio": "XATIVA",
+        "n": 2
+      },
+      {
+        "municipio": "VILABLAREIX",
+        "n": 2
+      },
+      {
+        "municipio": "ZIZUR MAYOR",
+        "n": 2
+      },
+      {
+        "municipio": "PRIEGO DE CORDOBA",
+        "n": 2
+      },
+      {
+        "municipio": "NIJAR",
+        "n": 2
+      },
+      {
+        "municipio": "NOVELDA",
+        "n": 2
+      },
+      {
+        "municipio": "CHILOECHES",
+        "n": 2
+      },
+      {
+        "municipio": "HINOJOS",
+        "n": 2
+      },
+      {
+        "municipio": "MOLLERUSSA",
+        "n": 2
+      },
+      {
+        "municipio": "FUENTES DE EBRO",
+        "n": 2
+      },
+      {
+        "municipio": "URNIETA",
+        "n": 2
+      },
+      {
+        "municipio": "ALPICAT",
+        "n": 2
+      },
+      {
+        "municipio": "NAVARCLES",
+        "n": 2
+      },
+      {
+        "municipio": "SALEM",
+        "n": 2
+      },
+      {
+        "municipio": "TOMIÑO",
+        "n": 2
+      },
+      {
+        "municipio": "CAZALEGAS",
+        "n": 2
+      },
+      {
+        "municipio": "MELIANA",
+        "n": 2
+      },
+      {
+        "municipio": "HELLIN",
+        "n": 2
+      },
+      {
+        "municipio": "ALMORADI",
+        "n": 2
+      },
+      {
+        "municipio": "RIBERA D URGELLET",
+        "n": 2
+      },
+      {
+        "municipio": "AVINYONET DE PUIGVENTOS",
+        "n": 2
+      },
+      {
+        "municipio": "QUART",
+        "n": 2
+      },
+      {
+        "municipio": "HERNANI",
+        "n": 2
+      },
+      {
+        "municipio": "LA BAÑEZA",
+        "n": 2
+      },
+      {
+        "municipio": "PERALADA",
+        "n": 2
+      },
+      {
+        "municipio": "PUIG",
+        "n": 2
+      },
+      {
+        "municipio": "POBLA DE MONTORNES",
+        "n": 2
+      },
+      {
+        "municipio": "LIERGANES",
+        "n": 2
+      },
+      {
+        "municipio": "S VICENC DELS HORTS",
+        "n": 2
+      },
+      {
+        "municipio": "GALDAKAO",
+        "n": 2
+      },
+      {
+        "municipio": "FRESNO DE RIOTIRON",
+        "n": 2
+      },
+      {
+        "municipio": "SAN LORENZO ESCORIAL",
+        "n": 2
+      },
+      {
+        "municipio": "MIGUELTURRA",
+        "n": 2
+      },
+      {
+        "municipio": "SAN PEDRO PINATAR",
+        "n": 2
+      },
+      {
+        "municipio": "COCENTAINA",
+        "n": 2
+      },
+      {
+        "municipio": "EL PONT DE BAR",
+        "n": 2
+      },
+      {
+        "municipio": "BIGASTRO",
+        "n": 2
+      },
+      {
+        "municipio": "TORRELLES DE LLOB",
+        "n": 2
+      },
+      {
+        "municipio": "PONTEAREAS",
+        "n": 2
+      },
+      {
+        "municipio": "CONSUEGRA",
+        "n": 2
+      },
+      {
+        "municipio": "CATARROJA",
+        "n": 2
+      },
+      {
+        "municipio": "VILLANUEVA CORDOBA",
+        "n": 2
+      },
+      {
+        "municipio": "MEIS",
+        "n": 2
+      },
+      {
+        "municipio": "GOJAR",
+        "n": 2
+      },
+      {
+        "municipio": "IZA",
+        "n": 2
+      },
+      {
+        "municipio": "ALMUNIA DOÑA GODINA",
+        "n": 2
+      },
+      {
+        "municipio": "TIJARAFE",
+        "n": 2
+      },
+      {
+        "municipio": "OLERDOLA",
+        "n": 2
+      },
+      {
+        "municipio": "TAUSTE",
+        "n": 2
+      },
+      {
+        "municipio": "BERGONDO",
+        "n": 2
+      },
+      {
+        "municipio": "DOSRIUS",
+        "n": 2
+      },
+      {
+        "municipio": "LA VALL D EN BAS",
+        "n": 2
+      },
+      {
+        "municipio": "IBI",
+        "n": 2
+      },
+      {
+        "municipio": "S POL DE MAR",
+        "n": 2
+      },
+      {
+        "municipio": "VILLAQUILAMBRE",
+        "n": 2
+      },
+      {
+        "municipio": "ZUIA",
+        "n": 2
+      },
+      {
+        "municipio": "BURRIANA",
+        "n": 2
+      },
+      {
+        "municipio": "PEDREZUELA",
+        "n": 2
+      },
+      {
+        "municipio": "SILLA",
+        "n": 2
+      },
+      {
+        "municipio": "ESPARTINAS",
+        "n": 2
+      },
+      {
+        "municipio": "VALLADA",
+        "n": 2
+      },
+      {
+        "municipio": "VALGA",
+        "n": 2
+      },
+      {
+        "municipio": "SANTPEDOR",
+        "n": 2
+      },
+      {
+        "municipio": "ONTIGOLA",
+        "n": 2
+      },
+      {
+        "municipio": "PERALTA",
+        "n": 2
+      },
+      {
+        "municipio": "SANTIAGO DEL TEIDE",
+        "n": 2
+      },
+      {
+        "municipio": "CANYELLES",
+        "n": 2
+      },
+      {
+        "municipio": "SARRIA DE TER",
+        "n": 2
+      },
+      {
+        "municipio": "SAN ISIDRO",
+        "n": 2
+      },
+      {
+        "municipio": "LLOSETA",
+        "n": 2
+      },
+      {
+        "municipio": "ONDA",
+        "n": 2
+      },
+      {
+        "municipio": "RAFELBUÑOL",
+        "n": 2
+      },
+      {
+        "municipio": "ZARAUTZ",
+        "n": 2
+      },
+      {
+        "municipio": "CENTELLES",
+        "n": 2
+      },
+      {
+        "municipio": "CARCAIXENT",
+        "n": 2
+      },
+      {
+        "municipio": "CUELLAR",
+        "n": 2
+      },
+      {
+        "municipio": "CASTRO DE REI",
+        "n": 2
+      },
+      {
+        "municipio": "ZUERA",
+        "n": 2
+      },
+      {
+        "municipio": "CAMARLES",
+        "n": 2
+      },
+      {
+        "municipio": "VILLAFRANCA DE EBRO",
+        "n": 2
+      },
+      {
+        "municipio": "ASTORGA",
+        "n": 2
+      },
+      {
+        "municipio": "HARO",
+        "n": 2
+      },
+      {
+        "municipio": "CAJAR",
+        "n": 2
+      },
+      {
+        "municipio": "RIOGORDO",
+        "n": 2
+      },
+      {
+        "municipio": "BREDA",
+        "n": 2
+      },
+      {
+        "municipio": "MONOVAR",
+        "n": 2
+      },
+      {
+        "municipio": "OSUNA",
+        "n": 2
+      },
+      {
+        "municipio": "ALBALAT DELS SORELLS",
+        "n": 2
+      },
+      {
+        "municipio": "CISTERNIGA",
+        "n": 2
+      },
+      {
+        "municipio": "TORREJON DEL REY",
+        "n": 2
+      },
+      {
+        "municipio": "VIATOR",
+        "n": 2
+      },
+      {
+        "municipio": "MORA D EBRE",
+        "n": 2
+      },
+      {
+        "municipio": "MULA",
+        "n": 2
+      },
+      {
+        "municipio": "DON BENITO",
+        "n": 2
+      },
+      {
+        "municipio": "MONTBLANC",
+        "n": 2
+      },
+      {
+        "municipio": "FIGUEROLA",
+        "n": 2
+      },
+      {
+        "municipio": "PORTUGALETE",
+        "n": 2
+      },
+      {
+        "municipio": "MARCHAMALO",
+        "n": 2
+      },
+      {
+        "municipio": "ESKORIATZA",
+        "n": 2
+      },
+      {
+        "municipio": "EL CAMPILLO",
+        "n": 2
+      },
+      {
+        "municipio": "COLMENAR",
+        "n": 2
+      },
+      {
+        "municipio": "ZARATAN",
+        "n": 2
+      },
+      {
+        "municipio": "BENIFAIO",
+        "n": 2
+      },
+      {
+        "municipio": "LA FONT D EN CARROS",
+        "n": 2
+      },
+      {
+        "municipio": "MONISTROL DE MONTS",
+        "n": 2
+      },
+      {
+        "municipio": "BORJA",
+        "n": 2
+      },
+      {
+        "municipio": "TEO",
+        "n": 2
+      },
+      {
+        "municipio": "RIOTUERTO",
+        "n": 2
+      },
+      {
+        "municipio": "REDONDELA",
+        "n": 2
+      },
+      {
+        "municipio": "S LLORENC D HORTONS",
+        "n": 2
+      },
+      {
+        "municipio": "MUSKIZ",
+        "n": 2
+      },
+      {
+        "municipio": "VANDELLOS",
+        "n": 2
+      },
+      {
+        "municipio": "EL VERGER",
+        "n": 2
+      },
+      {
+        "municipio": "LA VALL DE BIANYA",
+        "n": 2
+      },
+      {
+        "municipio": "ADRA",
+        "n": 2
+      },
+      {
+        "municipio": "MOS",
+        "n": 2
+      },
+      {
+        "municipio": "MASALFASAR",
+        "n": 2
+      },
+      {
+        "municipio": "LOS BARRIOS",
+        "n": 2
+      },
+      {
+        "municipio": "BARBADAS",
+        "n": 2
+      },
+      {
+        "municipio": "BAZA",
+        "n": 2
+      },
+      {
+        "municipio": "ARJONA",
+        "n": 2
+      },
+      {
+        "municipio": "ALBATARREC",
+        "n": 2
+      },
+      {
+        "municipio": "TUDELA",
+        "n": 2
+      },
+      {
+        "municipio": "NAVAS",
+        "n": 2
+      },
+      {
+        "municipio": "CONIL DE LA FTRA",
+        "n": 2
+      },
+      {
+        "municipio": "BONREPOS Y MIRAMBELL",
+        "n": 2
+      },
+      {
+        "municipio": "ALCARRAS",
+        "n": 2
+      },
+      {
+        "municipio": "CASPE",
+        "n": 2
+      },
+      {
+        "municipio": "BARGAS",
+        "n": 2
+      },
+      {
+        "municipio": "TERUEL",
+        "n": 2
+      },
+      {
+        "municipio": "O COVELO",
+        "n": 2
+      },
+      {
+        "municipio": "SANTA OLIVA",
+        "n": 2
+      },
+      {
+        "municipio": "CASTELLCIR",
+        "n": 2
+      },
+      {
+        "municipio": "MARIN",
+        "n": 2
+      },
+      {
+        "municipio": "VILANOVA DE AROUSA",
+        "n": 2
+      },
+      {
+        "municipio": "ADUNA",
+        "n": 2
+      },
+      {
+        "municipio": "PEPINO",
+        "n": 2
+      },
+      {
+        "municipio": "CALACEITE",
+        "n": 2
+      },
+      {
+        "municipio": "CARREÑO",
+        "n": 2
+      },
+      {
+        "municipio": "PALOL DE REVARDIT",
+        "n": 2
+      },
+      {
+        "municipio": "ALMASSERA",
+        "n": 2
+      },
+      {
+        "municipio": "SAN MATEO DE GALLEGO",
+        "n": 2
+      },
+      {
+        "municipio": "ALGAR",
+        "n": 2
+      },
+      {
+        "municipio": "S QUINTI DE MEDIONA",
+        "n": 2
+      },
+      {
+        "municipio": "ROQUETAS DE MAR",
+        "n": 2
+      },
+      {
+        "municipio": "ALMENDRALEJO",
+        "n": 2
+      },
+      {
+        "municipio": "SANTA MARTA TORMES",
+        "n": 2
+      },
+      {
+        "municipio": "CASTIELFABIB",
+        "n": 2
+      },
+      {
+        "municipio": "MEDINA DE POMAR",
+        "n": 2
+      },
+      {
+        "municipio": "LA TORRE DE CABDELLA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA DE CHIVERT",
+        "n": 1
+      },
+      {
+        "municipio": "LA CAROLINA",
+        "n": 1
+      },
+      {
+        "municipio": "PUENTE DEL ARZOBISPO",
+        "n": 1
+      },
+      {
+        "municipio": "VEJER DE LA FTRA",
+        "n": 1
+      },
+      {
+        "municipio": "CARABAÑA",
+        "n": 1
+      },
+      {
+        "municipio": "SANT RAMON",
+        "n": 1
+      },
+      {
+        "municipio": "RADAL",
+        "n": 1
+      },
+      {
+        "municipio": "ALDEAMAYOR S MARTIN",
+        "n": 1
+      },
+      {
+        "municipio": "ELS TORMS",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAFRANCA BARROS",
+        "n": 1
+      },
+      {
+        "municipio": "ISLA MAYOR",
+        "n": 1
+      },
+      {
+        "municipio": "LEKEITIO",
+        "n": 1
+      },
+      {
+        "municipio": "SANT PERE PESCADOR",
+        "n": 1
+      },
+      {
+        "municipio": "BENEJUZAR",
+        "n": 1
+      },
+      {
+        "municipio": "FOMPEDRAZA",
+        "n": 1
+      },
+      {
+        "municipio": "AITONA",
+        "n": 1
+      },
+      {
+        "municipio": "VICAR",
+        "n": 1
+      },
+      {
+        "municipio": "LOS NAVALUCILLOS",
+        "n": 1
+      },
+      {
+        "municipio": "TRUJILLANOS",
+        "n": 1
+      },
+      {
+        "municipio": "VALLE DE MATAMOROS",
+        "n": 1
+      },
+      {
+        "municipio": "FALSET",
+        "n": 1
+      },
+      {
+        "municipio": "MACHARAVIAYA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENMAYOR",
+        "n": 1
+      },
+      {
+        "municipio": "BUJALANCE",
+        "n": 1
+      },
+      {
+        "municipio": "L ESQUIROL",
+        "n": 1
+      },
+      {
+        "municipio": "FRUMALES",
+        "n": 1
+      },
+      {
+        "municipio": "SANXENXO",
+        "n": 1
+      },
+      {
+        "municipio": "DURCAL",
+        "n": 1
+      },
+      {
+        "municipio": "FONTANAR",
+        "n": 1
+      },
+      {
+        "municipio": "SANTOÑA",
+        "n": 1
+      },
+      {
+        "municipio": "AVIA",
+        "n": 1
+      },
+      {
+        "municipio": "BENIFAIRO LES VALLS",
+        "n": 1
+      },
+      {
+        "municipio": "MALLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMANTILLA",
+        "n": 1
+      },
+      {
+        "municipio": "VALSEQUILLO G C",
+        "n": 1
+      },
+      {
+        "municipio": "OJOS",
+        "n": 1
+      },
+      {
+        "municipio": "ALMOINES",
+        "n": 1
+      },
+      {
+        "municipio": "QUINTANAR DEL REY",
+        "n": 1
+      },
+      {
+        "municipio": "AIGUES",
+        "n": 1
+      },
+      {
+        "municipio": "ZAMUDIO",
+        "n": 1
+      },
+      {
+        "municipio": "SAN CRISTOBO DE CEA",
+        "n": 1
+      },
+      {
+        "municipio": "SAN PEDRO DE LATARCE",
+        "n": 1
+      },
+      {
+        "municipio": "EL ROBLEDO",
+        "n": 1
+      },
+      {
+        "municipio": "MIRALCAMP",
+        "n": 1
+      },
+      {
+        "municipio": "COBEJA",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPO REAL",
+        "n": 1
+      },
+      {
+        "municipio": "ALONSOTEGI",
+        "n": 1
+      },
+      {
+        "municipio": "HUARTE",
+        "n": 1
+      },
+      {
+        "municipio": "VOTO",
+        "n": 1
+      },
+      {
+        "municipio": "ACEHUCHE",
+        "n": 1
+      },
+      {
+        "municipio": "JUMILLA",
+        "n": 1
+      },
+      {
+        "municipio": "ESCORCA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTES DE ANDALUCIA",
+        "n": 1
+      },
+      {
+        "municipio": "BASAURI",
+        "n": 1
+      },
+      {
+        "municipio": "STO DOMINGO CALZADA",
+        "n": 1
+      },
+      {
+        "municipio": "MEMBRILLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARROBLEDO",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELL PLATJA D ARO",
+        "n": 1
+      },
+      {
+        "municipio": "FUENSALIDA",
+        "n": 1
+      },
+      {
+        "municipio": "JALON",
+        "n": 1
+      },
+      {
+        "municipio": "ARANDA DE DUERO",
+        "n": 1
+      },
+      {
+        "municipio": "CABEZON LA SAL",
+        "n": 1
+      },
+      {
+        "municipio": "LA PUERTA DE SEGURA",
+        "n": 1
+      },
+      {
+        "municipio": "AGAETE",
+        "n": 1
+      },
+      {
+        "municipio": "L ARMENTERA",
+        "n": 1
+      },
+      {
+        "municipio": "ARTZINIEGA",
+        "n": 1
+      },
+      {
+        "municipio": "LOGROSAN",
+        "n": 1
+      },
+      {
+        "municipio": "LIEDENA",
+        "n": 1
+      },
+      {
+        "municipio": "TAVERNES DE LA VALLDIGNA",
+        "n": 1
+      },
+      {
+        "municipio": "PUIGPUNYENT",
+        "n": 1
+      },
+      {
+        "municipio": "PRATS I SANSOR",
+        "n": 1
+      },
+      {
+        "municipio": "GUIJO DE GALISTEO",
+        "n": 1
+      },
+      {
+        "municipio": "FORTUNA",
+        "n": 1
+      },
+      {
+        "municipio": "TOMELLOSO",
+        "n": 1
+      },
+      {
+        "municipio": "BURGUILLOS",
+        "n": 1
+      },
+      {
+        "municipio": "BOLLULLOS PAR CDO",
+        "n": 1
+      },
+      {
+        "municipio": "TRAMACED",
+        "n": 1
+      },
+      {
+        "municipio": "MARCHENA",
+        "n": 1
+      },
+      {
+        "municipio": "IGRIES",
+        "n": 1
+      },
+      {
+        "municipio": "ESPLUGA DE FRANCOLI",
+        "n": 1
+      },
+      {
+        "municipio": "POZUELO DE CALATRAVA",
+        "n": 1
+      },
+      {
+        "municipio": "S VICENC DE TORELLO",
+        "n": 1
+      },
+      {
+        "municipio": "DAYA VIEJA",
+        "n": 1
+      },
+      {
+        "municipio": "ENCINAS REALES",
+        "n": 1
+      },
+      {
+        "municipio": "SALOBREÑA",
+        "n": 1
+      },
+      {
+        "municipio": "EL SAUZAL",
+        "n": 1
+      },
+      {
+        "municipio": "SUSQUEDA",
+        "n": 1
+      },
+      {
+        "municipio": "S MARTI CENTELLES",
+        "n": 1
+      },
+      {
+        "municipio": "UGENA",
+        "n": 1
+      },
+      {
+        "municipio": "MANZANARES",
+        "n": 1
+      },
+      {
+        "municipio": "RIUDOMS",
+        "n": 1
+      },
+      {
+        "municipio": "CORBERA",
+        "n": 1
+      },
+      {
+        "municipio": "MARINA CUDEYO",
+        "n": 1
+      },
+      {
+        "municipio": "CABRA DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "ALATOZ",
+        "n": 1
+      },
+      {
+        "municipio": "TABOADA",
+        "n": 1
+      },
+      {
+        "municipio": "VALDEMANCO",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMEDIANA IREGUA",
+        "n": 1
+      },
+      {
+        "municipio": "TOLOSA",
+        "n": 1
+      },
+      {
+        "municipio": "PINOS PUENTE",
+        "n": 1
+      },
+      {
+        "municipio": "YEBES",
+        "n": 1
+      },
+      {
+        "municipio": "MOTILLA DEL PALANCAR",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARLUENGO",
+        "n": 1
+      },
+      {
+        "municipio": "MAIALS",
+        "n": 1
+      },
+      {
+        "municipio": "ALOVERA",
+        "n": 1
+      },
+      {
+        "municipio": "FOLGUEROLES",
+        "n": 1
+      },
+      {
+        "municipio": "PALAZUELOS DE ERESMA",
+        "n": 1
+      },
+      {
+        "municipio": "CORIA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLET I GORNAL",
+        "n": 1
+      },
+      {
+        "municipio": "HERMANDAD C SUSO",
+        "n": 1
+      },
+      {
+        "municipio": "BURELA",
+        "n": 1
+      },
+      {
+        "municipio": "XINZO DE LIMIA",
+        "n": 1
+      },
+      {
+        "municipio": "ASTEASU",
+        "n": 1
+      },
+      {
+        "municipio": "ALBOX",
+        "n": 1
+      },
+      {
+        "municipio": "CIEMPOZUELOS",
+        "n": 1
+      },
+      {
+        "municipio": "BIAR",
+        "n": 1
+      },
+      {
+        "municipio": "BELGIDA",
+        "n": 1
+      },
+      {
+        "municipio": "S VICENC CASTELLET",
+        "n": 1
+      },
+      {
+        "municipio": "CELRA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAVIEJA DE LOZOYA",
+        "n": 1
+      },
+      {
+        "municipio": "CEVICO DE LA TORRE",
+        "n": 1
+      },
+      {
+        "municipio": "BENEIXAMA",
+        "n": 1
+      },
+      {
+        "municipio": "NAUT ARAN",
+        "n": 1
+      },
+      {
+        "municipio": "MASSAMAGRELL",
+        "n": 1
+      },
+      {
+        "municipio": "GUITIRIZ",
+        "n": 1
+      },
+      {
+        "municipio": "PADRON",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAVICIOSA",
+        "n": 1
+      },
+      {
+        "municipio": "GUIMAR",
+        "n": 1
+      },
+      {
+        "municipio": "HUERCAL OVERA",
+        "n": 1
+      },
+      {
+        "municipio": "COCA",
+        "n": 1
+      },
+      {
+        "municipio": "ALTAREJOS",
+        "n": 1
+      },
+      {
+        "municipio": "MIENGO",
+        "n": 1
+      },
+      {
+        "municipio": "MUNTANYOLA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTE EL SAZ JARAMA",
+        "n": 1
+      },
+      {
+        "municipio": "GER",
+        "n": 1
+      },
+      {
+        "municipio": "LOS MONTESINOS",
+        "n": 1
+      },
+      {
+        "municipio": "LES BORGES DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "ENCINEDO",
+        "n": 1
+      },
+      {
+        "municipio": "FAURA",
+        "n": 1
+      },
+      {
+        "municipio": "MORILES",
+        "n": 1
+      },
+      {
+        "municipio": "BOECILLO",
+        "n": 1
+      },
+      {
+        "municipio": "S S GOMERA",
+        "n": 1
+      },
+      {
+        "municipio": "MALLABIA",
+        "n": 1
+      },
+      {
+        "municipio": "CERVERA DE MONTES",
+        "n": 1
+      },
+      {
+        "municipio": "ORCE",
+        "n": 1
+      },
+      {
+        "municipio": "LANTARON",
+        "n": 1
+      },
+      {
+        "municipio": "L ALBIOL",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLVI DE MARCA",
+        "n": 1
+      },
+      {
+        "municipio": "DAIMIEL",
+        "n": 1
+      },
+      {
+        "municipio": "LA LLACUNA",
+        "n": 1
+      },
+      {
+        "municipio": "LA GUANCHA",
+        "n": 1
+      },
+      {
+        "municipio": "OLMOS DE ESGUEVA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCAÑICES",
+        "n": 1
+      },
+      {
+        "municipio": "S PERE DE TORELLO",
+        "n": 1
+      },
+      {
+        "municipio": "LA POBLA DE LILLET",
+        "n": 1
+      },
+      {
+        "municipio": "BENAVENT DE SEGRIA",
+        "n": 1
+      },
+      {
+        "municipio": "GUIA DE ISORA",
+        "n": 1
+      },
+      {
+        "municipio": "MURLA",
+        "n": 1
+      },
+      {
+        "municipio": "CARRANQUE",
+        "n": 1
+      },
+      {
+        "municipio": "FONOLLOSA",
+        "n": 1
+      },
+      {
+        "municipio": "ALGIMIA DE ALFARA",
+        "n": 1
+      },
+      {
+        "municipio": "L AMETLLA DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "ALBA DE TORMES",
+        "n": 1
+      },
+      {
+        "municipio": "BERIAIN",
+        "n": 1
+      },
+      {
+        "municipio": "CORRALES BUELNA",
+        "n": 1
+      },
+      {
+        "municipio": "LA SECUITA",
+        "n": 1
+      },
+      {
+        "municipio": "TAZACORTE",
+        "n": 1
+      },
+      {
+        "municipio": "GARAFIA",
+        "n": 1
+      },
+      {
+        "municipio": "JIMENA DE LA FTRA",
+        "n": 1
+      },
+      {
+        "municipio": "BARBADILLO MERCADO",
+        "n": 1
+      },
+      {
+        "municipio": "PEDRAFITA D CEBREIRO",
+        "n": 1
+      },
+      {
+        "municipio": "PIEROLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILANOVA DE LA BARCA",
+        "n": 1
+      },
+      {
+        "municipio": "CATRAL",
+        "n": 1
+      },
+      {
+        "municipio": "ARMILLA",
+        "n": 1
+      },
+      {
+        "municipio": "ATAUN",
+        "n": 1
+      },
+      {
+        "municipio": "IZURTZA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTESPINA",
+        "n": 1
+      },
+      {
+        "municipio": "ARTESA DE SEGRE",
+        "n": 1
+      },
+      {
+        "municipio": "VILLALUENGA DE SAGRA",
+        "n": 1
+      },
+      {
+        "municipio": "GILET",
+        "n": 1
+      },
+      {
+        "municipio": "ALGINET",
+        "n": 1
+      },
+      {
+        "municipio": "ELGOIBAR",
+        "n": 1
+      },
+      {
+        "municipio": "PEDROLA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA DE GAZULES",
+        "n": 1
+      },
+      {
+        "municipio": "AÑOVER DE TAJO",
+        "n": 1
+      },
+      {
+        "municipio": "ORMAIZTEGI",
+        "n": 1
+      },
+      {
+        "municipio": "ANOETA",
+        "n": 1
+      },
+      {
+        "municipio": "ALHAMA DE MURCIA",
+        "n": 1
+      },
+      {
+        "municipio": "SANT JAUME DOMENYS",
+        "n": 1
+      },
+      {
+        "municipio": "BALENYA",
+        "n": 1
+      },
+      {
+        "municipio": "LA UNION",
+        "n": 1
+      },
+      {
+        "municipio": "MIRANDA DE EBRO",
+        "n": 1
+      },
+      {
+        "municipio": "ELCIEGO",
+        "n": 1
+      },
+      {
+        "municipio": "BENICARLO",
+        "n": 1
+      },
+      {
+        "municipio": "TORIJA",
+        "n": 1
+      },
+      {
+        "municipio": "BENIRREDRA",
+        "n": 1
+      },
+      {
+        "municipio": "COLMENAREJO",
+        "n": 1
+      },
+      {
+        "municipio": "CUBILLOS DEL SIL",
+        "n": 1
+      },
+      {
+        "municipio": "TORRES TORRES",
+        "n": 1
+      },
+      {
+        "municipio": "S HIPOLIT VOLTREGA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENSALDAÑA",
+        "n": 1
+      },
+      {
+        "municipio": "SOPUERTA",
+        "n": 1
+      },
+      {
+        "municipio": "EL BURGO DE EBRO",
+        "n": 1
+      },
+      {
+        "municipio": "CANREDONDO",
+        "n": 1
+      },
+      {
+        "municipio": "BOTORRITA",
+        "n": 1
+      },
+      {
+        "municipio": "MONTELLANO",
+        "n": 1
+      },
+      {
+        "municipio": "JODAR",
+        "n": 1
+      },
+      {
+        "municipio": "MUSEROS",
+        "n": 1
+      },
+      {
+        "municipio": "LLUTXENT",
+        "n": 1
+      },
+      {
+        "municipio": "MOJACAR",
+        "n": 1
+      },
+      {
+        "municipio": "MONTABERNER",
+        "n": 1
+      },
+      {
+        "municipio": "PLA DE SANTA MARIA",
+        "n": 1
+      },
+      {
+        "municipio": "AYAMONTE",
+        "n": 1
+      },
+      {
+        "municipio": "EL RASILLO",
+        "n": 1
+      },
+      {
+        "municipio": "SARRAL",
+        "n": 1
+      },
+      {
+        "municipio": "AGREDA",
+        "n": 1
+      },
+      {
+        "municipio": "SEVILLA LA NUEVA",
+        "n": 1
+      },
+      {
+        "municipio": "GERINDOTE",
+        "n": 1
+      },
+      {
+        "municipio": "LOIU",
+        "n": 1
+      },
+      {
+        "municipio": "BAEZA",
+        "n": 1
+      },
+      {
+        "municipio": "CARTAYA",
+        "n": 1
+      },
+      {
+        "municipio": "LA LINEA CONCEPCION",
+        "n": 1
+      },
+      {
+        "municipio": "MONTERRUBIO ARMUÑA",
+        "n": 1
+      },
+      {
+        "municipio": "BENIGANIM",
+        "n": 1
+      },
+      {
+        "municipio": "CUBAS",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARES DEL SAZ",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAVIEJA",
+        "n": 1
+      },
+      {
+        "municipio": "EL CASAR",
+        "n": 1
+      },
+      {
+        "municipio": "VILAJUIGA",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPLLONG",
+        "n": 1
+      },
+      {
+        "municipio": "PADERNE",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTESAUCO",
+        "n": 1
+      },
+      {
+        "municipio": "LA GRANADA",
+        "n": 1
+      },
+      {
+        "municipio": "JUNEDA",
+        "n": 1
+      },
+      {
+        "municipio": "TORRES DE LA ALAMEDA",
+        "n": 1
+      },
+      {
+        "municipio": "LOPERA",
+        "n": 1
+      },
+      {
+        "municipio": "LLANARS",
+        "n": 1
+      },
+      {
+        "municipio": "LEMOA",
+        "n": 1
+      },
+      {
+        "municipio": "ARTES",
+        "n": 1
+      },
+      {
+        "municipio": "CAPMANY",
+        "n": 1
+      },
+      {
+        "municipio": "RIUDELLOTS DE LA SELVA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAVA",
+        "n": 1
+      },
+      {
+        "municipio": "VILADEMULS",
+        "n": 1
+      },
+      {
+        "municipio": "BULLAS",
+        "n": 1
+      },
+      {
+        "municipio": "OGIJARES",
+        "n": 1
+      },
+      {
+        "municipio": "ALBAIDA ALJARAFE",
+        "n": 1
+      },
+      {
+        "municipio": "ICOD",
+        "n": 1
+      },
+      {
+        "municipio": "IRURA",
+        "n": 1
+      },
+      {
+        "municipio": "ORGAZ",
+        "n": 1
+      },
+      {
+        "municipio": "ARRAIA MAEZTU",
+        "n": 1
+      },
+      {
+        "municipio": "ANTIGUA",
+        "n": 1
+      },
+      {
+        "municipio": "SARRION",
+        "n": 1
+      },
+      {
+        "municipio": "CORRAL DE CALATRAVA",
+        "n": 1
+      },
+      {
+        "municipio": "MOIA",
+        "n": 1
+      },
+      {
+        "municipio": "BENISSANET",
+        "n": 1
+      },
+      {
+        "municipio": "LA PALMA DE CERVELLO",
+        "n": 1
+      },
+      {
+        "municipio": "MACANET DE LA SELVA",
+        "n": 1
+      },
+      {
+        "municipio": "PEÑISCOLA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLOLI",
+        "n": 1
+      },
+      {
+        "municipio": "OCAÑA",
+        "n": 1
+      },
+      {
+        "municipio": "YUNCLER",
+        "n": 1
+      },
+      {
+        "municipio": "PULIANAS",
+        "n": 1
+      },
+      {
+        "municipio": "LLANES",
+        "n": 1
+      },
+      {
+        "municipio": "PIEDRATAJADA",
+        "n": 1
+      },
+      {
+        "municipio": "CARCER",
+        "n": 1
+      },
+      {
+        "municipio": "TORRELLES DE FOIX",
+        "n": 1
+      },
+      {
+        "municipio": "CALAHORRA",
+        "n": 1
+      },
+      {
+        "municipio": "NUÑOMORAL",
+        "n": 1
+      },
+      {
+        "municipio": "VALL LLOBREGA",
+        "n": 1
+      },
+      {
+        "municipio": "ARROYO DEL OJANCO",
+        "n": 1
+      },
+      {
+        "municipio": "OROSO",
+        "n": 1
+      },
+      {
+        "municipio": "CORBINS",
+        "n": 1
+      },
+      {
+        "municipio": "CANOVELLES",
+        "n": 1
+      },
+      {
+        "municipio": "LOPORZANO",
+        "n": 1
+      },
+      {
+        "municipio": "S CLIMENT DE LLOB",
+        "n": 1
+      },
+      {
+        "municipio": "SARRIA",
+        "n": 1
+      },
+      {
+        "municipio": "VALENCIA DE DON JUAN",
+        "n": 1
+      },
+      {
+        "municipio": "MINGORRIA",
+        "n": 1
+      },
+      {
+        "municipio": "ROJALES",
+        "n": 1
+      },
+      {
+        "municipio": "PUIGPELAT",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA DE TORRE",
+        "n": 1
+      },
+      {
+        "municipio": "RAFAL",
+        "n": 1
+      },
+      {
+        "municipio": "BUÑOL",
+        "n": 1
+      },
+      {
+        "municipio": "MONTIJO",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTIDUEÑA",
+        "n": 1
+      },
+      {
+        "municipio": "ABARZUZA",
+        "n": 1
+      },
+      {
+        "municipio": "MARTIN DE LA JARA",
+        "n": 1
+      },
+      {
+        "municipio": "ELS PALLARESOS",
+        "n": 1
+      },
+      {
+        "municipio": "ALIAGA",
+        "n": 1
+      },
+      {
+        "municipio": "VILADECAVALLS",
+        "n": 1
+      },
+      {
+        "municipio": "GORLIZ",
+        "n": 1
+      },
+      {
+        "municipio": "ATAPUERCA",
+        "n": 1
+      },
+      {
+        "municipio": "O SAVIÑAO",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLVI DE ROSANES",
+        "n": 1
+      },
+      {
+        "municipio": "EL VISO DE SAN JUAN",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARCAYO",
+        "n": 1
+      },
+      {
+        "municipio": "TRIGUEROS",
+        "n": 1
+      },
+      {
+        "municipio": "SIMANCAS",
+        "n": 1
+      },
+      {
+        "municipio": "BANYERES DEL PENEDES",
+        "n": 1
+      },
+      {
+        "municipio": "EIBAR",
+        "n": 1
+      },
+      {
+        "municipio": "FABARA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTIDUEÑA DE TAJO",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMAYOR CALATRAVA",
+        "n": 1
+      },
+      {
+        "municipio": "ESPELUY",
+        "n": 1
+      },
+      {
+        "municipio": "SERRANILLOS VALLE",
+        "n": 1
+      },
+      {
+        "municipio": "FORALLAC",
+        "n": 1
+      },
+      {
+        "municipio": "GUADALCAZAR",
+        "n": 1
+      },
+      {
+        "municipio": "PONTS",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAREJO SALVANES",
+        "n": 1
+      },
+      {
+        "municipio": "MEDINA DE RIOSECO",
+        "n": 1
+      },
+      {
+        "municipio": "EL TIEMBLO",
+        "n": 1
+      },
+      {
+        "municipio": "BARAÑAIN",
+        "n": 1
+      },
+      {
+        "municipio": "VALDERRUBIO",
+        "n": 1
+      },
+      {
+        "municipio": "GISCLARENY",
+        "n": 1
+      },
+      {
+        "municipio": "BELAUNZA",
+        "n": 1
+      },
+      {
+        "municipio": "ARRONIZ",
+        "n": 1
+      },
+      {
+        "municipio": "NUENO",
+        "n": 1
+      },
+      {
+        "municipio": "ALGAIDA",
+        "n": 1
+      },
+      {
+        "municipio": "TARBENA",
+        "n": 1
+      },
+      {
+        "municipio": "TORRIJOS",
+        "n": 1
+      },
+      {
+        "municipio": "PRADO DEL REY",
+        "n": 1
+      },
+      {
+        "municipio": "SERRADA",
+        "n": 1
+      },
+      {
+        "municipio": "ALMONACID DE SIERRA",
+        "n": 1
+      },
+      {
+        "municipio": "BANYERES DE MARIOLA",
+        "n": 1
+      },
+      {
+        "municipio": "BENETUSSER",
+        "n": 1
+      },
+      {
+        "municipio": "OLVEGA",
+        "n": 1
+      },
+      {
+        "municipio": "LA ROBLA",
+        "n": 1
+      },
+      {
+        "municipio": "SOTO DE LA VEGA",
+        "n": 1
+      },
+      {
+        "municipio": "S BARTOLOME ABIERTAS",
+        "n": 1
+      },
+      {
+        "municipio": "QUATRETONDA",
+        "n": 1
+      },
+      {
+        "municipio": "LA BISBAL D EMPORDA",
+        "n": 1
+      },
+      {
+        "municipio": "BENITACHELL",
+        "n": 1
+      },
+      {
+        "municipio": "PAJARA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAR DEL ARZOBISPO",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "GIRONELLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILAVERT",
+        "n": 1
+      },
+      {
+        "municipio": "TORREJON EL RUBIO",
+        "n": 1
+      },
+      {
+        "municipio": "S ESTEBAN LITERA",
+        "n": 1
+      },
+      {
+        "municipio": "VERA DE BIDASOA",
+        "n": 1
+      },
+      {
+        "municipio": "TUDELA DE DUERO",
+        "n": 1
+      },
+      {
+        "municipio": "SALOMO",
+        "n": 1
+      },
+      {
+        "municipio": "TOLLOS",
+        "n": 1
+      },
+      {
+        "municipio": "CONGOSTO",
+        "n": 1
+      },
+      {
+        "municipio": "PAJARES DE OTEROS",
+        "n": 1
+      },
+      {
+        "municipio": "SUKARRIETA",
+        "n": 1
+      },
+      {
+        "municipio": "MONREAL",
+        "n": 1
+      },
+      {
+        "municipio": "ROA",
+        "n": 1
+      },
+      {
+        "municipio": "LLANCA",
+        "n": 1
+      },
+      {
+        "municipio": "CALVARRASA DE ABAJO",
+        "n": 1
+      },
+      {
+        "municipio": "SANT FELIU DE BUIXALLEU",
+        "n": 1
+      },
+      {
+        "municipio": "BEMBIBRE",
+        "n": 1
+      },
+      {
+        "municipio": "PAREDES DE NAVA",
+        "n": 1
+      },
+      {
+        "municipio": "PALMERA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTE PALMERA",
+        "n": 1
+      },
+      {
+        "municipio": "BENICULL DE XUQUER",
+        "n": 1
+      },
+      {
+        "municipio": "POTRIES",
+        "n": 1
+      },
+      {
+        "municipio": "RADA",
+        "n": 1
+      },
+      {
+        "municipio": "TOCINA",
+        "n": 1
+      },
+      {
+        "municipio": "OKONDO",
+        "n": 1
+      },
+      {
+        "municipio": "IBARRA",
+        "n": 1
+      },
+      {
+        "municipio": "UMBRETE",
+        "n": 1
+      },
+      {
+        "municipio": "LA LUISIANA",
+        "n": 1
+      },
+      {
+        "municipio": "AVION",
+        "n": 1
+      },
+      {
+        "municipio": "SOBRESCOBIO",
+        "n": 1
+      },
+      {
+        "municipio": "LEZO",
+        "n": 1
+      },
+      {
+        "municipio": "O GROVE",
+        "n": 1
+      },
+      {
+        "municipio": "GUADIX",
+        "n": 1
+      },
+      {
+        "municipio": "OHANES",
+        "n": 1
+      },
+      {
+        "municipio": "LA PUEBLA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "DEBA",
+        "n": 1
+      },
+      {
+        "municipio": "VELADA",
+        "n": 1
+      },
+      {
+        "municipio": "LA FATARELLA",
+        "n": 1
+      },
+      {
+        "municipio": "PORRERES",
+        "n": 1
+      },
+      {
+        "municipio": "MENDAVIA",
+        "n": 1
+      },
+      {
+        "municipio": "GUILLENA",
+        "n": 1
+      },
+      {
+        "municipio": "LA TORRE CLARAMUNT",
+        "n": 1
+      },
+      {
+        "municipio": "AZUQUECA DE HENARES",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA CASTELLON",
+        "n": 1
+      },
+      {
+        "municipio": "SIGUENZA",
+        "n": 1
+      },
+      {
+        "municipio": "SUANCES",
+        "n": 1
+      },
+      {
+        "municipio": "ANDUJAR",
+        "n": 1
+      },
+      {
+        "municipio": "S MARIA PALAUTORDERA",
+        "n": 1
+      },
+      {
+        "municipio": "BENAGEBER",
+        "n": 1
+      },
+      {
+        "municipio": "VIANA DE CEGA",
+        "n": 1
+      },
+      {
+        "municipio": "CARBAJOSA DE SAGRADA",
+        "n": 1
+      },
+      {
+        "municipio": "CABANELLES",
+        "n": 1
+      },
+      {
+        "municipio": "ARAFO",
+        "n": 1
+      },
+      {
+        "municipio": "MORCIN",
+        "n": 1
+      },
+      {
+        "municipio": "VALDEGANGA",
+        "n": 1
+      },
+      {
+        "municipio": "MARTIN VALDEIGLESIAS",
+        "n": 1
+      },
+      {
+        "municipio": "EL MOLAR",
+        "n": 1
+      },
+      {
+        "municipio": "SORIA",
+        "n": 1
+      },
+      {
+        "municipio": "S FELIU CODINES",
+        "n": 1
+      },
+      {
+        "municipio": "AMURRIO",
+        "n": 1
+      },
+      {
+        "municipio": "VALLMOLL",
+        "n": 1
+      },
+      {
+        "municipio": "SILS",
+        "n": 1
+      },
+      {
+        "municipio": "LACUNZA",
+        "n": 1
+      },
+      {
+        "municipio": "MALPARTIDA PLASENCIA",
+        "n": 1
+      },
+      {
+        "municipio": "ARCHENA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLBELL I VILAR",
+        "n": 1
+      },
+      {
+        "municipio": "FORMENTERA SEGURA",
+        "n": 1
+      },
+      {
+        "municipio": "AGRAMUNT",
+        "n": 1
+      },
+      {
+        "municipio": "SARIÑENA",
+        "n": 1
+      },
+      {
+        "municipio": "ALBAL",
+        "n": 1
+      },
+      {
+        "municipio": "LUQUIN",
+        "n": 1
+      },
+      {
+        "municipio": "RIBES DE FRESER",
+        "n": 1
+      },
+      {
+        "municipio": "SUMACARCEL",
+        "n": 1
+      },
+      {
+        "municipio": "COLOMERA",
+        "n": 1
+      },
+      {
+        "municipio": "MONTALBO",
+        "n": 1
+      },
+      {
+        "municipio": "MARMOLEJO",
+        "n": 1
+      },
+      {
+        "municipio": "ESQUIVIAS",
+        "n": 1
+      },
+      {
+        "municipio": "LA MUELA",
+        "n": 1
+      },
+      {
+        "municipio": "JUZBADO",
+        "n": 1
+      },
+      {
+        "municipio": "CALONGE",
+        "n": 1
+      },
+      {
+        "municipio": "AOIZ",
+        "n": 1
+      },
+      {
+        "municipio": "OTXANDIO",
+        "n": 1
+      },
+      {
+        "municipio": "TEGUESTE",
+        "n": 1
+      },
+      {
+        "municipio": "LORA DE ESTEPA",
+        "n": 1
+      },
+      {
+        "municipio": "RIBERA ALTA",
+        "n": 1
+      },
+      {
+        "municipio": "LES BORGES BLANQUES",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMAYOR",
+        "n": 1
+      },
+      {
+        "municipio": "L ALCUDIA",
+        "n": 1
+      },
+      {
+        "municipio": "MACOTERA",
+        "n": 1
+      },
+      {
+        "municipio": "MONFORTE DE LEMOS",
+        "n": 1
+      },
+      {
+        "municipio": "SAN PABLO DE MONTES",
+        "n": 1
+      },
+      {
+        "municipio": "PUNTA UMBRIA",
+        "n": 1
+      },
+      {
+        "municipio": "SONSECA",
+        "n": 1
+      },
+      {
+        "municipio": "MOGUER",
+        "n": 1
+      },
+      {
+        "municipio": "SAN AMARO",
+        "n": 1
+      },
+      {
+        "municipio": "VILLARTA",
+        "n": 1
+      },
+      {
+        "municipio": "L OLLERIA",
+        "n": 1
+      },
+      {
+        "municipio": "NAJERA",
+        "n": 1
+      },
+      {
+        "municipio": "TORNABOUS",
+        "n": 1
+      },
+      {
+        "municipio": "DERIO",
+        "n": 1
+      },
+      {
+        "municipio": "RETASCON",
+        "n": 1
+      },
+      {
+        "municipio": "ST JOAN DE LES ABADESSES",
+        "n": 1
+      },
+      {
+        "municipio": "MADRIGAL DE LA VERA",
+        "n": 1
+      },
+      {
+        "municipio": "AZPEITIA",
+        "n": 1
+      },
+      {
+        "municipio": "ALGODONALES",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTERROBLE SALVATI",
+        "n": 1
+      },
+      {
+        "municipio": "SANT JAUME DE LLIERCA",
+        "n": 1
+      },
+      {
+        "municipio": "MONCOFA",
+        "n": 1
+      },
+      {
+        "municipio": "ABADIÑO",
+        "n": 1
+      },
+      {
+        "municipio": "ALMUSSAFES",
+        "n": 1
+      },
+      {
+        "municipio": "OYON-OION",
+        "n": 1
+      },
+      {
+        "municipio": "CALASPARRA",
+        "n": 1
+      },
+      {
+        "municipio": "VILANOVA DE SEGRIA",
+        "n": 1
+      },
+      {
+        "municipio": "SABIÑANIGO",
+        "n": 1
+      },
+      {
+        "municipio": "PATERNA DE RIVERA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAFRUELA",
+        "n": 1
+      },
+      {
+        "municipio": "ALMACELLES",
+        "n": 1
+      },
+      {
+        "municipio": "BARCARROTA",
+        "n": 1
+      },
+      {
+        "municipio": "CALLOSA D EN SARRIA",
+        "n": 1
+      },
+      {
+        "municipio": "LA MOJONERA",
+        "n": 1
+      },
+      {
+        "municipio": "MORON DE LA FRONTERA",
+        "n": 1
+      },
+      {
+        "municipio": "REOCIN",
+        "n": 1
+      },
+      {
+        "municipio": "PEDRO MUÑOZ",
+        "n": 1
+      },
+      {
+        "municipio": "RODA DE TER",
+        "n": 1
+      },
+      {
+        "municipio": "ALCACER",
+        "n": 1
+      },
+      {
+        "municipio": "SANT JOANET",
+        "n": 1
+      },
+      {
+        "municipio": "VERA",
+        "n": 1
+      },
+      {
+        "municipio": "S MARIA D OLO",
+        "n": 1
+      },
+      {
+        "municipio": "VIANA",
+        "n": 1
+      },
+      {
+        "municipio": "SEDAVI",
+        "n": 1
+      },
+      {
+        "municipio": "HINOJAL",
+        "n": 1
+      },
+      {
+        "municipio": "ALFARO",
+        "n": 1
+      },
+      {
+        "municipio": "RUILOBA",
+        "n": 1
+      },
+      {
+        "municipio": "MARACENA",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA COLOMA DE FARNERS",
+        "n": 1
+      },
+      {
+        "municipio": "AYEGUI",
+        "n": 1
+      },
+      {
+        "municipio": "IMOZ",
+        "n": 1
+      },
+      {
+        "municipio": "TOTANA",
+        "n": 1
+      },
+      {
+        "municipio": "TORRENTE CINCA",
+        "n": 1
+      },
+      {
+        "municipio": "GRAZALEMA",
+        "n": 1
+      },
+      {
+        "municipio": "TIEBAS MURUARTE RETA",
+        "n": 1
+      },
+      {
+        "municipio": "FRAGA",
+        "n": 1
+      },
+      {
+        "municipio": "PUEBLA DE ALFINDEN",
+        "n": 1
+      },
+      {
+        "municipio": "TORREDEMBARRA",
+        "n": 1
+      },
+      {
+        "municipio": "XERACO",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPINS",
+        "n": 1
+      },
+      {
+        "municipio": "ADOR",
+        "n": 1
+      },
+      {
+        "municipio": "BOCAIRENT",
+        "n": 1
+      },
+      {
+        "municipio": "BATRES",
+        "n": 1
+      },
+      {
+        "municipio": "CAPDEPERA",
+        "n": 1
+      },
+      {
+        "municipio": "MELIDE",
+        "n": 1
+      },
+      {
+        "municipio": "TAMARITE LITERA",
+        "n": 1
+      },
+      {
+        "municipio": "LA PERNIA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAVERDE DE MEDINA",
+        "n": 1
+      },
+      {
+        "municipio": "IDIAZABAL",
+        "n": 1
+      },
+      {
+        "municipio": "LA LLAGOSTA",
+        "n": 1
+      },
+      {
+        "municipio": "GUADASSUAR",
+        "n": 1
+      },
+      {
+        "municipio": "XIRIVELLA",
+        "n": 1
+      },
+      {
+        "municipio": "GELIDA",
+        "n": 1
+      },
+      {
+        "municipio": "CULLERA",
+        "n": 1
+      },
+      {
+        "municipio": "BORMUJOS",
+        "n": 1
+      },
+      {
+        "municipio": "OLIVENZA",
+        "n": 1
+      },
+      {
+        "municipio": "HIGUERA LA REAL",
+        "n": 1
+      },
+      {
+        "municipio": "ELDA",
+        "n": 1
+      },
+      {
+        "municipio": "PINOSO",
+        "n": 1
+      },
+      {
+        "municipio": "CARTAMA",
+        "n": 1
+      },
+      {
+        "municipio": "EL BOSQUE",
+        "n": 1
+      },
+      {
+        "municipio": "ALMOSTER",
+        "n": 1
+      },
+      {
+        "municipio": "MUELAS DE CABALLEROS",
+        "n": 1
+      },
+      {
+        "municipio": "MANCHA REAL",
+        "n": 1
+      },
+      {
+        "municipio": "EJEA DE CABALLEROS",
+        "n": 1
+      },
+      {
+        "municipio": "TORELLO",
+        "n": 1
+      },
+      {
+        "municipio": "VALVERDE DEL CAMINO",
+        "n": 1
+      },
+      {
+        "municipio": "PETRA",
+        "n": 1
+      },
+      {
+        "municipio": "LORA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "VILA SACRA",
+        "n": 1
+      },
+      {
+        "municipio": "UNCASTILLO",
+        "n": 1
+      },
+      {
+        "municipio": "SAN MIGUEL DEL PINO",
+        "n": 1
+      },
+      {
+        "municipio": "ARETXABALETA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA DE SERENA",
+        "n": 1
+      },
+      {
+        "municipio": "BAIONA",
+        "n": 1
+      },
+      {
+        "municipio": "NOJA",
+        "n": 1
+      },
+      {
+        "municipio": "CAMBADOS",
+        "n": 1
+      },
+      {
+        "municipio": "GARINOAIN",
+        "n": 1
+      },
+      {
+        "municipio": "BRION",
+        "n": 1
+      },
+      {
+        "municipio": "AIELO DE MALFERIT",
+        "n": 1
+      },
+      {
+        "municipio": "BAGA",
+        "n": 1
+      },
+      {
+        "municipio": "BENICOLET",
+        "n": 1
+      },
+      {
+        "municipio": "BORNOS",
+        "n": 1
+      },
+      {
+        "municipio": "ATXONDO",
+        "n": 1
+      },
+      {
+        "municipio": "FALCES",
+        "n": 1
+      },
+      {
+        "municipio": "POZUELO DE ZARZON",
+        "n": 1
+      },
+      {
+        "municipio": "BAILEN",
+        "n": 1
+      },
+      {
+        "municipio": "URDULIZ",
+        "n": 1
+      },
+      {
+        "municipio": "GUARDAMAR",
+        "n": 1
+      },
+      {
+        "municipio": "ALCANTERA DE XUQUER",
+        "n": 1
+      },
+      {
+        "municipio": "CEHEGIN",
+        "n": 1
+      },
+      {
+        "municipio": "ALHAMA DE GRANADA",
+        "n": 1
+      },
+      {
+        "municipio": "SELVA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMARCHANTE",
+        "n": 1
+      },
+      {
+        "municipio": "VENTAS DE RETAMOSA",
+        "n": 1
+      },
+      {
+        "municipio": "EL BONILLO",
+        "n": 1
+      },
+      {
+        "municipio": "PUENTE MONTAÑANA",
+        "n": 1
+      },
+      {
+        "municipio": "LOS VILLARES",
+        "n": 1
+      },
+      {
+        "municipio": "PORTO DO SON",
+        "n": 1
+      },
+      {
+        "municipio": "BOLLULLOS MITACION",
+        "n": 1
+      },
+      {
+        "municipio": "HERGUIJUELA SIERRA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTALLA",
+        "n": 1
+      },
+      {
+        "municipio": "PRADOLUENGO",
+        "n": 1
+      },
+      {
+        "municipio": "CALLDETENES",
+        "n": 1
+      },
+      {
+        "municipio": "COX",
+        "n": 1
+      },
+      {
+        "municipio": "LA VICTORIA",
+        "n": 1
+      },
+      {
+        "municipio": "VIANA DO BOLO",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPANET",
+        "n": 1
+      },
+      {
+        "municipio": "CARBONEROS",
+        "n": 1
+      },
+      {
+        "municipio": "LA PUEBLA DE CAZALLA",
+        "n": 1
+      },
+      {
+        "municipio": "MASIES DE VOLTREGA",
+        "n": 1
+      },
+      {
+        "municipio": "BAKIO",
+        "n": 1
+      },
+      {
+        "municipio": "CERCEDA",
+        "n": 1
+      },
+      {
+        "municipio": "DOMEÑO",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA CRISTINA D ARO",
+        "n": 1
+      },
+      {
+        "municipio": "MADRIGUERAS",
+        "n": 1
+      },
+      {
+        "municipio": "MONTGAT",
+        "n": 1
+      },
+      {
+        "municipio": "HERMIGUA",
+        "n": 1
+      },
+      {
+        "municipio": "TORREBLANCA",
+        "n": 1
+      },
+      {
+        "municipio": "ALGUAIRE",
+        "n": 1
+      },
+      {
+        "municipio": "VALDARACETE",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA COLOMBA SOMOZA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA LA REAL",
+        "n": 1
+      },
+      {
+        "municipio": "GAUCIN",
+        "n": 1
+      },
+      {
+        "municipio": "CACABELOS",
+        "n": 1
+      },
+      {
+        "municipio": "A GUARDA",
+        "n": 1
+      },
+      {
+        "municipio": "GARACHICO",
+        "n": 1
+      },
+      {
+        "municipio": "PUNTAGORDA",
+        "n": 1
+      },
+      {
+        "municipio": "MANCOR DE LA VALL",
+        "n": 1
+      },
+      {
+        "municipio": "ESCALANTE",
+        "n": 1
+      },
+      {
+        "municipio": "ROCAFORT",
+        "n": 1
+      },
+      {
+        "municipio": "OSERA",
+        "n": 1
+      },
+      {
+        "municipio": "GAUTEGIZ-ARTEAGA",
+        "n": 1
+      },
+      {
+        "municipio": "AVINYO",
+        "n": 1
+      },
+      {
+        "municipio": "TARADELL",
+        "n": 1
+      },
+      {
+        "municipio": "NOAIN",
+        "n": 1
+      },
+      {
+        "municipio": "LA PERA",
+        "n": 1
+      },
+      {
+        "municipio": "GORDEXOLA",
+        "n": 1
+      },
+      {
+        "municipio": "SUBIRATS",
+        "n": 1
+      },
+      {
+        "municipio": "ORRIUS",
+        "n": 1
+      },
+      {
+        "municipio": "AMER",
+        "n": 1
+      },
+      {
+        "municipio": "MONTMELL",
+        "n": 1
+      },
+      {
+        "municipio": "MONT-RAS",
+        "n": 1
+      },
+      {
+        "municipio": "A CAÑIZA",
+        "n": 1
+      },
+      {
+        "municipio": "LOS ALCAZARES",
+        "n": 1
+      },
+      {
+        "municipio": "CAMAS",
+        "n": 1
+      },
+      {
+        "municipio": "RIU DE CERDANYA",
+        "n": 1
+      },
+      {
+        "municipio": "LA POBLA CLARAMUNT",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA CRUZ BEZANA",
+        "n": 1
+      },
+      {
+        "municipio": "CARLET",
+        "n": 1
+      },
+      {
+        "municipio": "ALTAFULLA",
+        "n": 1
+      },
+      {
+        "municipio": "LA MATA DE MORELLA",
+        "n": 1
+      },
+      {
+        "municipio": "BERGARA",
+        "n": 1
+      },
+      {
+        "municipio": "L ALBI",
+        "n": 1
+      },
+      {
+        "municipio": "VALLROMANES",
+        "n": 1
+      },
+      {
+        "municipio": "CALATAYUD",
+        "n": 1
+      },
+      {
+        "municipio": "CALANDA",
+        "n": 1
+      },
+      {
+        "municipio": "ES CASTELL",
+        "n": 1
+      },
+      {
+        "municipio": "RUEDA",
+        "n": 1
+      },
+      {
+        "municipio": "TARDIENTA",
+        "n": 1
+      },
+      {
+        "municipio": "EL VISO DEL ALCOR",
+        "n": 1
+      },
+      {
+        "municipio": "ALBONDON",
+        "n": 1
+      },
+      {
+        "municipio": "ALMANSA",
+        "n": 1
+      },
+      {
+        "municipio": "NUEVO BAZTAN",
+        "n": 1
+      },
+      {
+        "municipio": "VILA SANA",
+        "n": 1
+      },
+      {
+        "municipio": "A LAMA",
+        "n": 1
+      },
+      {
+        "municipio": "VERIN",
+        "n": 1
+      },
+      {
+        "municipio": "EL GRANADO",
+        "n": 1
+      },
+      {
+        "municipio": "BLANCA",
+        "n": 1
+      },
+      {
+        "municipio": "EL BURGO RANERO",
+        "n": 1
+      },
+      {
+        "municipio": "S QUIRZE DE BESORA",
+        "n": 1
+      },
+      {
+        "municipio": "AZKOITIA",
+        "n": 1
+      },
+      {
+        "municipio": "O ROSAL",
+        "n": 1
+      },
+      {
+        "municipio": "S MARIA DE GUIA G C",
+        "n": 1
+      },
+      {
+        "municipio": "BELLVIS",
+        "n": 1
+      },
+      {
+        "municipio": "MONT ROIG DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "CATOIRA",
+        "n": 1
+      },
+      {
+        "municipio": "TEROR",
+        "n": 1
+      },
+      {
+        "municipio": "EL MORELL",
+        "n": 1
+      },
+      {
+        "municipio": "MARIA DE LA SALUT",
+        "n": 1
+      },
+      {
+        "municipio": "ESTERIBAR",
+        "n": 1
+      },
+      {
+        "municipio": "TEULADA",
+        "n": 1
+      },
+      {
+        "municipio": "VILAFANT",
+        "n": 1
+      },
+      {
+        "municipio": "LEGAZPIA",
+        "n": 1
+      },
+      {
+        "municipio": "ALPEDRETE",
+        "n": 1
+      },
+      {
+        "municipio": "CASTUERA",
+        "n": 1
+      },
+      {
+        "municipio": "LLIVIA",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPILLO DE RANAS",
+        "n": 1
+      },
+      {
+        "municipio": "MARTOS",
+        "n": 1
+      },
+      {
+        "municipio": "TORREDONJIMENO",
+        "n": 1
+      },
+      {
+        "municipio": "FOGARS DE LA SELVA",
+        "n": 1
+      },
+      {
+        "municipio": "VALDETORRES JARAMA",
+        "n": 1
+      },
+      {
+        "municipio": "PORQUERES",
+        "n": 1
+      },
+      {
+        "municipio": "MUGARDOS",
+        "n": 1
+      },
+      {
+        "municipio": "CONSELL",
+        "n": 1
+      },
+      {
+        "municipio": "GUAREÑA",
+        "n": 1
+      },
+      {
+        "municipio": "ALQUERIA DE CONDESA",
+        "n": 1
+      },
+      {
+        "municipio": "PUENTES VIEJAS",
+        "n": 1
+      },
+      {
+        "municipio": "POBLETE",
+        "n": 1
+      },
+      {
+        "municipio": "PALAMOS",
+        "n": 1
+      }
+    ],
+    "cat_homologacion": {
+      "turismo": 10817,
+      "moto_scooter": 7895,
+      "quad_atv": 2455,
+      "furgoneta": 1641,
+      "especial": 835,
+      "cuadricilo": 160,
+      "autobus": 74,
+      "nd": 65,
+      "tractor": 3,
+      "camion": 9
+    },
+    "carroceria": {
+      "suv_mpv": 2778,
+      "berlina": 3418,
+      "turismo": 1822,
+      "nd": 11416,
+      "furgoneta": 1647,
+      "todoterreno": 633,
+      "familiar": 2077,
+      "especial": 74,
+      "cabrio_coupe": 84,
+      "otros": 5
+    },
+    "servicio": {
+      "privado": 14462,
+      "comercial": 9492
+    },
+    "kw_buckets": {
+      "0-50": 16220,
+      "101-150": 2502,
+      "201+": 2290,
+      "nd": 1162,
+      "51-100": 1716,
+      "151-200": 64
+    },
+    "autonomia_buckets": {
+      "401-500": 1601,
+      "201-300": 3609,
+      "0-200": 13560,
+      "501+": 2288,
+      "nd": 714,
+      "301-400": 2182
+    }
+  },
+  "phev": {
+    "total": 7932,
+    "nuevos": 7434,
+    "usados": 498,
+    "renting_pct": 40.5,
+    "empresa_pct": 71.8,
+    "marcas_top20": [
+      {
+        "marca": "MITSUBISHI",
+        "n": 1467
+      },
+      {
+        "marca": "BMW",
+        "n": 1254
+      },
+      {
+        "marca": "VOLVO",
+        "n": 1233
+      },
+      {
+        "marca": "JIMINI",
+        "n": 855
+      },
+      {
+        "marca": "PORSCHE",
+        "n": 621
+      },
+      {
+        "marca": "MINI",
+        "n": 532
+      },
+      {
+        "marca": "HYUNDAI",
+        "n": 463
+      },
+      {
+        "marca": "LAND ROVER",
+        "n": 429
+      },
+      {
+        "marca": "KIA",
+        "n": 428
+      },
+      {
+        "marca": "MERCEDES-BENZ",
+        "n": 226
+      },
+      {
+        "marca": "VOLKSWAGEN",
+        "n": 173
+      },
+      {
+        "marca": "AUDI",
+        "n": 135
+      },
+      {
+        "marca": "BMW I",
+        "n": 40
+      },
+      {
+        "marca": "PEUGEOT",
+        "n": 17
+      },
+      {
+        "marca": "DS",
+        "n": 13
+      },
+      {
+        "marca": "VECTIA",
+        "n": 10
+      },
+      {
+        "marca": "MERCEDES",
+        "n": 5
+      },
+      {
+        "marca": "TOYOTA",
+        "n": 4
+      },
+      {
+        "marca": "OPEL",
+        "n": 3
+      },
+      {
+        "marca": "VOLKSWAGEN V W",
+        "n": 3
+      }
+    ],
+    "modelos_top20": [
+      {
+        "modelo": "COUNTRYMAN COOPER SE A",
+        "n": 1386
+      },
+      {
+        "modelo": "225XE IPERFORMANCE",
+        "n": 777
+      },
+      {
+        "modelo": "OUTLANDER PHEV KAITEKI",
+        "n": 641
+      },
+      {
+        "modelo": "XC60 T8 TWIN ENGINE",
+        "n": 498
+      },
+      {
+        "modelo": "XC90 T8 TWIN ENGINE",
+        "n": 487
+      },
+      {
+        "modelo": "IONIQ",
+        "n": 463
+      },
+      {
+        "modelo": "OUTLANDER PHEV MY19.5",
+        "n": 451
+      },
+      {
+        "modelo": "NIRO",
+        "n": 388
+      },
+      {
+        "modelo": "CAYENNE E-HYBRID",
+        "n": 369
+      },
+      {
+        "modelo": "RANGE ROVER SPORT",
+        "n": 360
+      },
+      {
+        "modelo": "OUTLANDER PHEV MOTION",
+        "n": 266
+      },
+      {
+        "modelo": "PANAMERA 4 E-HYBRID",
+        "n": 193
+      },
+      {
+        "modelo": "530E IPERFORMANCE",
+        "n": 154
+      },
+      {
+        "modelo": "330E",
+        "n": 144
+      },
+      {
+        "modelo": "E 300 DE",
+        "n": 125
+      },
+      {
+        "modelo": "GOLF",
+        "n": 105
+      },
+      {
+        "modelo": "X5 XDRIVE45E",
+        "n": 90
+      },
+      {
+        "modelo": "Q5",
+        "n": 78
+      },
+      {
+        "modelo": "RANGE ROVER",
+        "n": 69
+      },
+      {
+        "modelo": "PASSAT",
+        "n": 68
+      }
+    ],
+    "provincias": [
+      {
+        "cod": "M",
+        "provincia": "Madrid",
+        "n": 5332
+      },
+      {
+        "cod": "B",
+        "provincia": "Barcelona",
+        "n": 576
+      },
+      {
+        "cod": "TO",
+        "provincia": "Toledo",
+        "n": 160
+      },
+      {
+        "cod": "GC",
+        "provincia": "Las Palmas",
+        "n": 160
+      },
+      {
+        "cod": "V",
+        "provincia": "Valencia",
+        "n": 143
+      },
+      {
+        "cod": "A",
+        "provincia": "Alicante",
+        "n": 119
+      },
+      {
+        "cod": "MA",
+        "provincia": "Málaga",
+        "n": 98
+      },
+      {
+        "cod": "IB",
+        "provincia": "Illes Balears",
+        "n": 92
+      },
+      {
+        "cod": "BI",
+        "provincia": "Vizcaya",
+        "n": 81
+      },
+      {
+        "cod": "MU",
+        "provincia": "Murcia",
+        "n": 73
+      },
+      {
+        "cod": "C",
+        "provincia": "A Coruña",
+        "n": 71
+      },
+      {
+        "cod": "O",
+        "provincia": "Asturias",
+        "n": 71
+      },
+      {
+        "cod": "GI",
+        "provincia": "Girona",
+        "n": 68
+      },
+      {
+        "cod": "SE",
+        "provincia": "Sevilla",
+        "n": 64
+      },
+      {
+        "cod": "Z",
+        "provincia": "Zaragoza",
+        "n": 59
+      },
+      {
+        "cod": "TF",
+        "provincia": "Santa Cruz de Tenerife",
+        "n": 56
+      },
+      {
+        "cod": "PO",
+        "provincia": "Pontevedra",
+        "n": 50
+      },
+      {
+        "cod": "SS",
+        "provincia": "Gipuzkoa",
+        "n": 48
+      },
+      {
+        "cod": "VA",
+        "provincia": "Valladolid",
+        "n": 41
+      },
+      {
+        "cod": "T",
+        "provincia": "Tarragona",
+        "n": 38
+      },
+      {
+        "cod": "CS",
+        "provincia": "Castellón",
+        "n": 37
+      },
+      {
+        "cod": "CA",
+        "provincia": "Cádiz",
+        "n": 34
+      },
+      {
+        "cod": "GR",
+        "provincia": "Granada",
+        "n": 34
+      },
+      {
+        "cod": "BU",
+        "provincia": "Burgos",
+        "n": 30
+      },
+      {
+        "cod": "L",
+        "provincia": "Lleida",
+        "n": 30
+      },
+      {
+        "cod": "NA",
+        "provincia": "Navarra",
+        "n": 29
+      },
+      {
+        "cod": "S",
+        "provincia": "Cantabria",
+        "n": 27
+      },
+      {
+        "cod": "LE",
+        "provincia": "León",
+        "n": 26
+      },
+      {
+        "cod": "VI",
+        "provincia": "Álava",
+        "n": 25
+      },
+      {
+        "cod": "CR",
+        "provincia": "Ciudad Real",
+        "n": 21
+      },
+      {
+        "cod": "AL",
+        "provincia": "Almería",
+        "n": 20
+      },
+      {
+        "cod": "BA",
+        "provincia": "Badajoz",
+        "n": 20
+      },
+      {
+        "cod": "GU",
+        "provincia": "Guadalajara",
+        "n": 19
+      },
+      {
+        "cod": "CO",
+        "provincia": "Córdoba",
+        "n": 17
+      },
+      {
+        "cod": "LU",
+        "provincia": "Lugo",
+        "n": 16
+      },
+      {
+        "cod": "OU",
+        "provincia": "OU",
+        "n": 15
+      },
+      {
+        "cod": "LO",
+        "provincia": "La Rioja",
+        "n": 14
+      },
+      {
+        "cod": "SG",
+        "provincia": "Segovia",
+        "n": 13
+      },
+      {
+        "cod": "H",
+        "provincia": "Huelva",
+        "n": 12
+      },
+      {
+        "cod": "AB",
+        "provincia": "Albacete",
+        "n": 11
+      },
+      {
+        "cod": "AV",
+        "provincia": "Ávila",
+        "n": 11
+      },
+      {
+        "cod": "CC",
+        "provincia": "Cáceres",
+        "n": 11
+      },
+      {
+        "cod": "SA",
+        "provincia": "Salamanca",
+        "n": 10
+      },
+      {
+        "cod": "HU",
+        "provincia": "Huesca",
+        "n": 10
+      },
+      {
+        "cod": "ZA",
+        "provincia": "Zamora",
+        "n": 6
+      },
+      {
+        "cod": "TE",
+        "provincia": "Teruel",
+        "n": 6
+      },
+      {
+        "cod": "ML",
+        "provincia": "ML",
+        "n": 6
+      },
+      {
+        "cod": "CU",
+        "provincia": "Cuenca",
+        "n": 6
+      },
+      {
+        "cod": "P",
+        "provincia": "Palencia",
+        "n": 6
+      },
+      {
+        "cod": "CE",
+        "provincia": "Ceuta",
+        "n": 5
+      },
+      {
+        "cod": "J",
+        "provincia": "Jaén",
+        "n": 5
+      }
+    ],
+    "municipios": [
+      {
+        "municipio": "COLMENAR DEL ARROYO",
+        "n": 1525
+      },
+      {
+        "municipio": "MADRID",
+        "n": 842
+      },
+      {
+        "municipio": "ROBLEDO DE CHAVELA",
+        "n": 688
+      },
+      {
+        "municipio": "BRUNETE",
+        "n": 449
+      },
+      {
+        "municipio": "ALCOBENDAS",
+        "n": 318
+      },
+      {
+        "municipio": "BOADILLA DEL MONTE",
+        "n": 238
+      },
+      {
+        "municipio": "VENTURADA",
+        "n": 183
+      },
+      {
+        "municipio": "BARCELONA",
+        "n": 169
+      },
+      {
+        "municipio": "TORRELAGUNA",
+        "n": 156
+      },
+      {
+        "municipio": "BOROX",
+        "n": 116
+      },
+      {
+        "municipio": "LAS PALMAS G C",
+        "n": 113
+      },
+      {
+        "municipio": "LAS ROZAS DE MADRID",
+        "n": 84
+      },
+      {
+        "municipio": "MORALZARZAL",
+        "n": 81
+      },
+      {
+        "municipio": "MAJADAHONDA",
+        "n": 66
+      },
+      {
+        "municipio": "VALENCIA",
+        "n": 61
+      },
+      {
+        "municipio": "POZUELO DE ALARCON",
+        "n": 56
+      },
+      {
+        "municipio": "RAJADELL",
+        "n": 51
+      },
+      {
+        "municipio": "ZARAGOZA",
+        "n": 49
+      },
+      {
+        "municipio": "PALMA MALLORCA",
+        "n": 44
+      },
+      {
+        "municipio": "SEVILLA",
+        "n": 39
+      },
+      {
+        "municipio": "MALAGA",
+        "n": 38
+      },
+      {
+        "municipio": "VIGO",
+        "n": 38
+      },
+      {
+        "municipio": "ROZAS DE PUERTO REAL",
+        "n": 37
+      },
+      {
+        "municipio": "MURCIA",
+        "n": 34
+      },
+      {
+        "municipio": "CASARRUBUELOS",
+        "n": 32
+      },
+      {
+        "municipio": "AGUILAR DE SEGARRA",
+        "n": 31
+      },
+      {
+        "municipio": "RIVAS VACIAMADRID",
+        "n": 29
+      },
+      {
+        "municipio": "ALICANTE",
+        "n": 28
+      },
+      {
+        "municipio": "PATONES",
+        "n": 28
+      },
+      {
+        "municipio": "A CORUÑA",
+        "n": 27
+      },
+      {
+        "municipio": "SABADELL",
+        "n": 27
+      },
+      {
+        "municipio": "ALCALA DE HENARES",
+        "n": 25
+      },
+      {
+        "municipio": "SANT JOAN D ALACANT",
+        "n": 24
+      },
+      {
+        "municipio": "GETAFE",
+        "n": 24
+      },
+      {
+        "municipio": "SAN SEBASTIAN REYES",
+        "n": 24
+      },
+      {
+        "municipio": "VALLADOLID",
+        "n": 23
+      },
+      {
+        "municipio": "PINTO",
+        "n": 23
+      },
+      {
+        "municipio": "BILBAO",
+        "n": 23
+      },
+      {
+        "municipio": "GIJON",
+        "n": 22
+      },
+      {
+        "municipio": "OVIEDO",
+        "n": 22
+      },
+      {
+        "municipio": "TORRELODONES",
+        "n": 21
+      },
+      {
+        "municipio": "MARBELLA",
+        "n": 21
+      },
+      {
+        "municipio": "LEGANES",
+        "n": 19
+      },
+      {
+        "municipio": "MOSTOLES",
+        "n": 19
+      },
+      {
+        "municipio": "S CUGAT DEL VALLES",
+        "n": 19
+      },
+      {
+        "municipio": "VITORIA GASTEIZ",
+        "n": 19
+      },
+      {
+        "municipio": "S C TENERIFE",
+        "n": 18
+      },
+      {
+        "municipio": "GIRONA",
+        "n": 18
+      },
+      {
+        "municipio": "FUENLABRADA",
+        "n": 18
+      },
+      {
+        "municipio": "TERRASSA",
+        "n": 17
+      },
+      {
+        "municipio": "TRES CANTOS",
+        "n": 16
+      },
+      {
+        "municipio": "TORREJON DE ARDOZ",
+        "n": 16
+      },
+      {
+        "municipio": "BURGOS",
+        "n": 16
+      },
+      {
+        "municipio": "CASTELLO PLANA",
+        "n": 16
+      },
+      {
+        "municipio": "ALCORCON",
+        "n": 16
+      },
+      {
+        "municipio": "JEREZ DE LA FTRA",
+        "n": 16
+      },
+      {
+        "municipio": "L HOSPITALET DE LLOB",
+        "n": 16
+      },
+      {
+        "municipio": "AJALVIR",
+        "n": 16
+      },
+      {
+        "municipio": "VILLAMANRIQUE TAJO",
+        "n": 16
+      },
+      {
+        "municipio": "ERANDIO",
+        "n": 15
+      },
+      {
+        "municipio": "VILLANUEVA DE CAÑADA",
+        "n": 15
+      },
+      {
+        "municipio": "LA LAGUNA",
+        "n": 15
+      },
+      {
+        "municipio": "DONOSTIA",
+        "n": 14
+      },
+      {
+        "municipio": "GRANADA",
+        "n": 14
+      },
+      {
+        "municipio": "GRANOLLERS",
+        "n": 13
+      },
+      {
+        "municipio": "QUART DE POBLET",
+        "n": 13
+      },
+      {
+        "municipio": "MATARO",
+        "n": 13
+      },
+      {
+        "municipio": "SANTIAGO",
+        "n": 13
+      },
+      {
+        "municipio": "SAN FERNANDO HENARES",
+        "n": 13
+      },
+      {
+        "municipio": "CORDOBA",
+        "n": 12
+      },
+      {
+        "municipio": "ARGANDA DEL REY",
+        "n": 12
+      },
+      {
+        "municipio": "SALT",
+        "n": 12
+      },
+      {
+        "municipio": "COLLADO MEDIANO",
+        "n": 12
+      },
+      {
+        "municipio": "ALBACETE",
+        "n": 11
+      },
+      {
+        "municipio": "VALDEMORO",
+        "n": 11
+      },
+      {
+        "municipio": "LLEIDA",
+        "n": 11
+      },
+      {
+        "municipio": "TOLEDO",
+        "n": 11
+      },
+      {
+        "municipio": "ELCHE",
+        "n": 11
+      },
+      {
+        "municipio": "PARACUELLOS JARAMA",
+        "n": 11
+      },
+      {
+        "municipio": "NAVACERRADA",
+        "n": 11
+      },
+      {
+        "municipio": "BADAJOZ",
+        "n": 10
+      },
+      {
+        "municipio": "COSLADA",
+        "n": 10
+      },
+      {
+        "municipio": "CAMARGO",
+        "n": 10
+      },
+      {
+        "municipio": "EIVISSA",
+        "n": 10
+      },
+      {
+        "municipio": "SIERO",
+        "n": 9
+      },
+      {
+        "municipio": "S BOI DE LLOB",
+        "n": 9
+      },
+      {
+        "municipio": "COLMENAR VIEJO",
+        "n": 9
+      },
+      {
+        "municipio": "SEGOVIA",
+        "n": 9
+      },
+      {
+        "municipio": "COLLADO VILLALBA",
+        "n": 9
+      },
+      {
+        "municipio": "VILLAVICIOSA DE ODON",
+        "n": 9
+      },
+      {
+        "municipio": "CIUDAD REAL",
+        "n": 9
+      },
+      {
+        "municipio": "OLEIROS",
+        "n": 9
+      },
+      {
+        "municipio": "MONTEJAQUE",
+        "n": 9
+      },
+      {
+        "municipio": "LEIOA",
+        "n": 8
+      },
+      {
+        "municipio": "AVILA",
+        "n": 8
+      },
+      {
+        "municipio": "SITGES",
+        "n": 8
+      },
+      {
+        "municipio": "PAMPLONA",
+        "n": 8
+      },
+      {
+        "municipio": "CARTAGENA",
+        "n": 8
+      },
+      {
+        "municipio": "ALGECIRAS",
+        "n": 7
+      },
+      {
+        "municipio": "ARROYOMOLINOS",
+        "n": 7
+      },
+      {
+        "municipio": "SAN ANDRES RABANEDO",
+        "n": 7
+      },
+      {
+        "municipio": "VILA REAL",
+        "n": 7
+      },
+      {
+        "municipio": "GALAPAGAR",
+        "n": 7
+      },
+      {
+        "municipio": "BADALONA",
+        "n": 7
+      },
+      {
+        "municipio": "ALGETE",
+        "n": 7
+      },
+      {
+        "municipio": "CALDES DE MONTBUI",
+        "n": 7
+      },
+      {
+        "municipio": "CALVIA",
+        "n": 7
+      },
+      {
+        "municipio": "CASTELLDEFELS",
+        "n": 7
+      },
+      {
+        "municipio": "LUGO",
+        "n": 7
+      },
+      {
+        "municipio": "OLIAS DEL REY",
+        "n": 7
+      },
+      {
+        "municipio": "BUITRAGO DEL LOZOYA",
+        "n": 7
+      },
+      {
+        "municipio": "VILANOVA I LA GELTRU",
+        "n": 7
+      },
+      {
+        "municipio": "ETXEBARRI",
+        "n": 7
+      },
+      {
+        "municipio": "SANTANDER",
+        "n": 7
+      },
+      {
+        "municipio": "TORREJON DE CALZADA",
+        "n": 6
+      },
+      {
+        "municipio": "TALAVERA DE LA REINA",
+        "n": 6
+      },
+      {
+        "municipio": "VALDEMORILLO",
+        "n": 6
+      },
+      {
+        "municipio": "VILLANUEVA PARDILLO",
+        "n": 6
+      },
+      {
+        "municipio": "MELILLA",
+        "n": 6
+      },
+      {
+        "municipio": "CACERES",
+        "n": 6
+      },
+      {
+        "municipio": "ALBATARREC",
+        "n": 6
+      },
+      {
+        "municipio": "NAVAS DEL REY",
+        "n": 6
+      },
+      {
+        "municipio": "PATERNA",
+        "n": 6
+      },
+      {
+        "municipio": "RUBI",
+        "n": 6
+      },
+      {
+        "municipio": "VIC",
+        "n": 6
+      },
+      {
+        "municipio": "TARRAGONA",
+        "n": 6
+      },
+      {
+        "municipio": "ESTEPONA",
+        "n": 6
+      },
+      {
+        "municipio": "HUERCAL DE ALMERIA",
+        "n": 6
+      },
+      {
+        "municipio": "REDUEÑA",
+        "n": 6
+      },
+      {
+        "municipio": "ALMERIA",
+        "n": 5
+      },
+      {
+        "municipio": "GETXO",
+        "n": 5
+      },
+      {
+        "municipio": "EL CATLLAR",
+        "n": 5
+      },
+      {
+        "municipio": "DAGANZO DE ARRIBA",
+        "n": 5
+      },
+      {
+        "municipio": "VILLALBILLA",
+        "n": 5
+      },
+      {
+        "municipio": "ALPEDRETE",
+        "n": 5
+      },
+      {
+        "municipio": "CASTELLAR DEL VALLES",
+        "n": 5
+      },
+      {
+        "municipio": "ARANJUEZ",
+        "n": 5
+      },
+      {
+        "municipio": "BECERRIL DE SIERRA",
+        "n": 5
+      },
+      {
+        "municipio": "S FRUITOS DE BAGES",
+        "n": 5
+      },
+      {
+        "municipio": "LEON",
+        "n": 5
+      },
+      {
+        "municipio": "HOYO DE MANZANARES",
+        "n": 5
+      },
+      {
+        "municipio": "SALAMANCA",
+        "n": 5
+      },
+      {
+        "municipio": "OYARZUN",
+        "n": 5
+      },
+      {
+        "municipio": "CERDANYOLA VALLES",
+        "n": 5
+      },
+      {
+        "municipio": "CEUTA",
+        "n": 5
+      },
+      {
+        "municipio": "CARDEDEU",
+        "n": 5
+      },
+      {
+        "municipio": "GAVA",
+        "n": 5
+      },
+      {
+        "municipio": "OURENSE",
+        "n": 5
+      },
+      {
+        "municipio": "MARTORELL",
+        "n": 5
+      },
+      {
+        "municipio": "AVILES",
+        "n": 5
+      },
+      {
+        "municipio": "MANRESA",
+        "n": 5
+      },
+      {
+        "municipio": "HUELVA",
+        "n": 5
+      },
+      {
+        "municipio": "BENAHAVIS",
+        "n": 5
+      },
+      {
+        "municipio": "SAN BARTOLOME",
+        "n": 5
+      },
+      {
+        "municipio": "VILLAQUILAMBRE",
+        "n": 4
+      },
+      {
+        "municipio": "HUMANES DE MADRID",
+        "n": 4
+      },
+      {
+        "municipio": "TELDE",
+        "n": 4
+      },
+      {
+        "municipio": "DOS HERMANAS",
+        "n": 4
+      },
+      {
+        "municipio": "CABRILS",
+        "n": 4
+      },
+      {
+        "municipio": "BENICASIM",
+        "n": 4
+      },
+      {
+        "municipio": "CASTRILLON",
+        "n": 4
+      },
+      {
+        "municipio": "TORREVIEJA",
+        "n": 4
+      },
+      {
+        "municipio": "LASARTE ORIA",
+        "n": 4
+      },
+      {
+        "municipio": "TORRENT",
+        "n": 4
+      },
+      {
+        "municipio": "SAN JOSE",
+        "n": 4
+      },
+      {
+        "municipio": "ORIHUELA",
+        "n": 4
+      },
+      {
+        "municipio": "HUESCA",
+        "n": 4
+      },
+      {
+        "municipio": "MEJORADA DEL CAMPO",
+        "n": 4
+      },
+      {
+        "municipio": "PALENCIA",
+        "n": 4
+      },
+      {
+        "municipio": "EL CASAR",
+        "n": 4
+      },
+      {
+        "municipio": "PUEBLA DE SAN MIGUEL",
+        "n": 4
+      },
+      {
+        "municipio": "MOLINA DE SEGURA",
+        "n": 4
+      },
+      {
+        "municipio": "ARROYO",
+        "n": 4
+      },
+      {
+        "municipio": "EL ALAMO",
+        "n": 4
+      },
+      {
+        "municipio": "VILADECANS",
+        "n": 4
+      },
+      {
+        "municipio": "LOGROÑO",
+        "n": 4
+      },
+      {
+        "municipio": "MASSANASSA",
+        "n": 4
+      },
+      {
+        "municipio": "VILLAGONZALO PEDERNA",
+        "n": 4
+      },
+      {
+        "municipio": "ULEA",
+        "n": 4
+      },
+      {
+        "municipio": "SANTA BRIGIDA",
+        "n": 4
+      },
+      {
+        "municipio": "SANTA LUCIA",
+        "n": 4
+      },
+      {
+        "municipio": "TEJEDA",
+        "n": 4
+      },
+      {
+        "municipio": "VILAFRANCA PENEDES",
+        "n": 4
+      },
+      {
+        "municipio": "ALCOY",
+        "n": 4
+      },
+      {
+        "municipio": "PUERTO DEL ROSARIO",
+        "n": 3
+      },
+      {
+        "municipio": "PARLA",
+        "n": 3
+      },
+      {
+        "municipio": "LA ELIANA",
+        "n": 3
+      },
+      {
+        "municipio": "CORBERA DE LLOB",
+        "n": 3
+      },
+      {
+        "municipio": "ARNEDO",
+        "n": 3
+      },
+      {
+        "municipio": "TORRE PACHECO",
+        "n": 3
+      },
+      {
+        "municipio": "CIUTADELLA MENORCA",
+        "n": 3
+      },
+      {
+        "municipio": "ROSES",
+        "n": 3
+      },
+      {
+        "municipio": "PONFERRADA",
+        "n": 3
+      },
+      {
+        "municipio": "LLINARS DEL VALLES",
+        "n": 3
+      },
+      {
+        "municipio": "ASTORGA",
+        "n": 3
+      },
+      {
+        "municipio": "GRADO",
+        "n": 3
+      },
+      {
+        "municipio": "MECO",
+        "n": 3
+      },
+      {
+        "municipio": "GANDIA",
+        "n": 3
+      },
+      {
+        "municipio": "FIGUEROLA",
+        "n": 3
+      },
+      {
+        "municipio": "ZAMORA",
+        "n": 3
+      },
+      {
+        "municipio": "LORCA",
+        "n": 3
+      },
+      {
+        "municipio": "PARETS DEL VALLES",
+        "n": 3
+      },
+      {
+        "municipio": "EL PUERTO STA MARIA",
+        "n": 3
+      },
+      {
+        "municipio": "HONDARRIBIA",
+        "n": 3
+      },
+      {
+        "municipio": "RIBADEO",
+        "n": 3
+      },
+      {
+        "municipio": "CABANILLAS DEL CAMPO",
+        "n": 3
+      },
+      {
+        "municipio": "TACORONTE",
+        "n": 3
+      },
+      {
+        "municipio": "OROPESA",
+        "n": 3
+      },
+      {
+        "municipio": "CASTRO URDIALES",
+        "n": 3
+      },
+      {
+        "municipio": "COLMENAREJO",
+        "n": 3
+      },
+      {
+        "municipio": "MOLLET DEL VALLES",
+        "n": 3
+      },
+      {
+        "municipio": "VILLENA",
+        "n": 3
+      },
+      {
+        "municipio": "REUS",
+        "n": 3
+      },
+      {
+        "municipio": "ZARATAMO",
+        "n": 3
+      },
+      {
+        "municipio": "GUADALAJARA",
+        "n": 3
+      },
+      {
+        "municipio": "SILS",
+        "n": 3
+      },
+      {
+        "municipio": "STA EULALIA DEL RIO",
+        "n": 3
+      },
+      {
+        "municipio": "NIGRAN",
+        "n": 3
+      },
+      {
+        "municipio": "SAN MIGUEL",
+        "n": 3
+      },
+      {
+        "municipio": "FUENSALDAÑA",
+        "n": 3
+      },
+      {
+        "municipio": "SAGUNTO",
+        "n": 3
+      },
+      {
+        "municipio": "MATADEPERA",
+        "n": 3
+      },
+      {
+        "municipio": "MAIRENA DEL ALJARAFE",
+        "n": 3
+      },
+      {
+        "municipio": "COCENTAINA",
+        "n": 3
+      },
+      {
+        "municipio": "S QUIRZE DEL VALLES",
+        "n": 3
+      },
+      {
+        "municipio": "AGUIMES",
+        "n": 3
+      },
+      {
+        "municipio": "SANT FELIU DE GUIXOLS",
+        "n": 3
+      },
+      {
+        "municipio": "CAMAS",
+        "n": 3
+      },
+      {
+        "municipio": "LOECHES",
+        "n": 3
+      },
+      {
+        "municipio": "CULLERA",
+        "n": 3
+      },
+      {
+        "municipio": "YAIZA",
+        "n": 3
+      },
+      {
+        "municipio": "VALLS",
+        "n": 3
+      },
+      {
+        "municipio": "ARANGUREN",
+        "n": 3
+      },
+      {
+        "municipio": "S JUST DESVERN",
+        "n": 3
+      },
+      {
+        "municipio": "CABRERA DE MAR",
+        "n": 3
+      },
+      {
+        "municipio": "BENIDORM",
+        "n": 3
+      },
+      {
+        "municipio": "PELAYOS",
+        "n": 3
+      },
+      {
+        "municipio": "ALTEA",
+        "n": 3
+      },
+      {
+        "municipio": "S MARIA DE GUIA G C",
+        "n": 3
+      },
+      {
+        "municipio": "CALAHORRA",
+        "n": 2
+      },
+      {
+        "municipio": "MANZANARES EL REAL",
+        "n": 2
+      },
+      {
+        "municipio": "COBEÑA",
+        "n": 2
+      },
+      {
+        "municipio": "TORREMOLINOS",
+        "n": 2
+      },
+      {
+        "municipio": "CAMBRILS",
+        "n": 2
+      },
+      {
+        "municipio": "CEHEGIN",
+        "n": 2
+      },
+      {
+        "municipio": "GINES",
+        "n": 2
+      },
+      {
+        "municipio": "TORREJON DE VELASCO",
+        "n": 2
+      },
+      {
+        "municipio": "LAS GABIAS",
+        "n": 2
+      },
+      {
+        "municipio": "BENAVENTE",
+        "n": 2
+      },
+      {
+        "municipio": "BURGUILLOS DE TOLEDO",
+        "n": 2
+      },
+      {
+        "municipio": "ZIZUR MAYOR",
+        "n": 2
+      },
+      {
+        "municipio": "CREVILLENT",
+        "n": 2
+      },
+      {
+        "municipio": "LUCENA",
+        "n": 2
+      },
+      {
+        "municipio": "RIBA ROJA DE TURIA",
+        "n": 2
+      },
+      {
+        "municipio": "CUENCA",
+        "n": 2
+      },
+      {
+        "municipio": "NAVARRETE",
+        "n": 2
+      },
+      {
+        "municipio": "ANTEQUERA",
+        "n": 2
+      },
+      {
+        "municipio": "O BARCO DE VALDEORRAS",
+        "n": 2
+      },
+      {
+        "municipio": "ARONA",
+        "n": 2
+      },
+      {
+        "municipio": "AYAMONTE",
+        "n": 2
+      },
+      {
+        "municipio": "TERUEL",
+        "n": 2
+      },
+      {
+        "municipio": "CORNELLA DE LLOB",
+        "n": 2
+      },
+      {
+        "municipio": "BEGUES",
+        "n": 2
+      },
+      {
+        "municipio": "AVION",
+        "n": 2
+      },
+      {
+        "municipio": "ROQUETAS DE MAR",
+        "n": 2
+      },
+      {
+        "municipio": "MARRATXI",
+        "n": 2
+      },
+      {
+        "municipio": "NAMBROCA",
+        "n": 2
+      },
+      {
+        "municipio": "FORTUNA",
+        "n": 2
+      },
+      {
+        "municipio": "RELLEU",
+        "n": 2
+      },
+      {
+        "municipio": "LA GARRIGA",
+        "n": 2
+      },
+      {
+        "municipio": "SAN VICENTE RASPEIG",
+        "n": 2
+      },
+      {
+        "municipio": "AZUQUECA DE HENARES",
+        "n": 2
+      },
+      {
+        "municipio": "ESPLUGUES DE LLOB",
+        "n": 2
+      },
+      {
+        "municipio": "S FELIU DE LLOB",
+        "n": 2
+      },
+      {
+        "municipio": "BARAKALDO",
+        "n": 2
+      },
+      {
+        "municipio": "ZUMARRAGA",
+        "n": 2
+      },
+      {
+        "municipio": "BEASAIN",
+        "n": 2
+      },
+      {
+        "municipio": "SAN LORENZO ESCORIAL",
+        "n": 2
+      },
+      {
+        "municipio": "TORROX",
+        "n": 2
+      },
+      {
+        "municipio": "ARRECIFE",
+        "n": 2
+      },
+      {
+        "municipio": "ZARAUTZ",
+        "n": 2
+      },
+      {
+        "municipio": "PANTOJA",
+        "n": 2
+      },
+      {
+        "municipio": "IRUN",
+        "n": 2
+      },
+      {
+        "municipio": "PORRERES",
+        "n": 2
+      },
+      {
+        "municipio": "VILASECA",
+        "n": 2
+      },
+      {
+        "municipio": "FINESTRAT",
+        "n": 2
+      },
+      {
+        "municipio": "LLICA D AMUNT",
+        "n": 2
+      },
+      {
+        "municipio": "FUENGIROLA",
+        "n": 2
+      },
+      {
+        "municipio": "RETASCON",
+        "n": 2
+      },
+      {
+        "municipio": "SUBIRATS",
+        "n": 2
+      },
+      {
+        "municipio": "ALCAZAR DE SAN JUAN",
+        "n": 2
+      },
+      {
+        "municipio": "TARREGA",
+        "n": 2
+      },
+      {
+        "municipio": "SARRATELLA",
+        "n": 2
+      },
+      {
+        "municipio": "LAGUNA DE DUERO",
+        "n": 2
+      },
+      {
+        "municipio": "GALDAR",
+        "n": 2
+      },
+      {
+        "municipio": "ILLESCAS",
+        "n": 2
+      },
+      {
+        "municipio": "SANTOMERA",
+        "n": 2
+      },
+      {
+        "municipio": "S JOAN DESPI",
+        "n": 2
+      },
+      {
+        "municipio": "BLANES",
+        "n": 2
+      },
+      {
+        "municipio": "SAN PEDRO PINATAR",
+        "n": 2
+      },
+      {
+        "municipio": "ODENA",
+        "n": 2
+      },
+      {
+        "municipio": "S ADRIA DE BESOS",
+        "n": 2
+      },
+      {
+        "municipio": "MUNGIA",
+        "n": 2
+      },
+      {
+        "municipio": "VALVERDE DEL CAMINO",
+        "n": 2
+      },
+      {
+        "municipio": "RINCON DE VICTORIA",
+        "n": 2
+      },
+      {
+        "municipio": "CASSA DE LA SELVA",
+        "n": 2
+      },
+      {
+        "municipio": "CHURRIANA DE LA VEGA",
+        "n": 2
+      },
+      {
+        "municipio": "MOS",
+        "n": 2
+      },
+      {
+        "municipio": "ALZIRA",
+        "n": 2
+      },
+      {
+        "municipio": "DENIA",
+        "n": 2
+      },
+      {
+        "municipio": "VALDEOLMOS",
+        "n": 2
+      },
+      {
+        "municipio": "TORRELLES DE LLOB",
+        "n": 2
+      },
+      {
+        "municipio": "S COLOMA GRAMENET",
+        "n": 2
+      },
+      {
+        "municipio": "ARANDA DE DUERO",
+        "n": 2
+      },
+      {
+        "municipio": "V.TRAPAGA-TRAPAGARAN",
+        "n": 2
+      },
+      {
+        "municipio": "S ESTEVE SESROVIRES",
+        "n": 2
+      },
+      {
+        "municipio": "MERIDA",
+        "n": 2
+      },
+      {
+        "municipio": "CALPE",
+        "n": 2
+      },
+      {
+        "municipio": "CANYELLES",
+        "n": 2
+      },
+      {
+        "municipio": "JAEN",
+        "n": 2
+      },
+      {
+        "municipio": "LLORET DE MAR",
+        "n": 2
+      },
+      {
+        "municipio": "BANASTAS",
+        "n": 2
+      },
+      {
+        "municipio": "VELEZ MALAGA",
+        "n": 2
+      },
+      {
+        "municipio": "CASTELLO D EMPURIES",
+        "n": 2
+      },
+      {
+        "municipio": "UBEDA",
+        "n": 2
+      },
+      {
+        "municipio": "AMES",
+        "n": 2
+      },
+      {
+        "municipio": "PICASSENT",
+        "n": 2
+      },
+      {
+        "municipio": "A LARACHA",
+        "n": 2
+      },
+      {
+        "municipio": "FORNELLS DE LA SELVA",
+        "n": 2
+      },
+      {
+        "municipio": "SANT ANTONI DE PORTMANY",
+        "n": 2
+      },
+      {
+        "municipio": "MOLINS DE REI",
+        "n": 2
+      },
+      {
+        "municipio": "PALAS DE REI",
+        "n": 2
+      },
+      {
+        "municipio": "ARUCAS",
+        "n": 2
+      },
+      {
+        "municipio": "MURO",
+        "n": 2
+      },
+      {
+        "municipio": "EL SAUZAL",
+        "n": 2
+      },
+      {
+        "municipio": "GALAR",
+        "n": 2
+      },
+      {
+        "municipio": "MONTGAT",
+        "n": 2
+      },
+      {
+        "municipio": "LA BISBAL D EMPORDA",
+        "n": 2
+      },
+      {
+        "municipio": "CALAFELL",
+        "n": 2
+      },
+      {
+        "municipio": "CUNIT",
+        "n": 2
+      },
+      {
+        "municipio": "ALHENDIN",
+        "n": 2
+      },
+      {
+        "municipio": "NAVARCLES",
+        "n": 2
+      },
+      {
+        "municipio": "BEDIA",
+        "n": 2
+      },
+      {
+        "municipio": "S ANDREU DE BARCA",
+        "n": 2
+      },
+      {
+        "municipio": "CAMPELLO",
+        "n": 2
+      },
+      {
+        "municipio": "SES SALINES",
+        "n": 2
+      },
+      {
+        "municipio": "VALDERROBRES",
+        "n": 2
+      },
+      {
+        "municipio": "TUDELA",
+        "n": 2
+      },
+      {
+        "municipio": "BENISSA",
+        "n": 2
+      },
+      {
+        "municipio": "BENALMADENA",
+        "n": 2
+      },
+      {
+        "municipio": "GELVES",
+        "n": 2
+      },
+      {
+        "municipio": "CASTELL PLATJA D ARO",
+        "n": 2
+      },
+      {
+        "municipio": "MAZARRON",
+        "n": 2
+      },
+      {
+        "municipio": "S BARTOLOME TIRAJANA",
+        "n": 2
+      },
+      {
+        "municipio": "S VICENC CASTELLET",
+        "n": 2
+      },
+      {
+        "municipio": "CONIL DE LA FTRA",
+        "n": 2
+      },
+      {
+        "municipio": "LORQUI",
+        "n": 2
+      },
+      {
+        "municipio": "LA OROTAVA",
+        "n": 2
+      },
+      {
+        "municipio": "MANZANARES",
+        "n": 2
+      },
+      {
+        "municipio": "ADEJE",
+        "n": 2
+      },
+      {
+        "municipio": "VACARISSES",
+        "n": 2
+      },
+      {
+        "municipio": "TEROR",
+        "n": 2
+      },
+      {
+        "municipio": "SAN ANTONIO DE BENAGEBER",
+        "n": 2
+      },
+      {
+        "municipio": "CANDELARIA",
+        "n": 2
+      },
+      {
+        "municipio": "CEDEIRA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCORA",
+        "n": 1
+      },
+      {
+        "municipio": "ALHAMA DE ALMERIA",
+        "n": 1
+      },
+      {
+        "municipio": "ARTEIXO",
+        "n": 1
+      },
+      {
+        "municipio": "GUADASSUAR",
+        "n": 1
+      },
+      {
+        "municipio": "BAKIO",
+        "n": 1
+      },
+      {
+        "municipio": "FRESNO DE RIOTIRON",
+        "n": 1
+      },
+      {
+        "municipio": "LA ALGABA",
+        "n": 1
+      },
+      {
+        "municipio": "ELS PLANS DE SIO",
+        "n": 1
+      },
+      {
+        "municipio": "PUERTOLLANO",
+        "n": 1
+      },
+      {
+        "municipio": "UNCITI",
+        "n": 1
+      },
+      {
+        "municipio": "HERNANI",
+        "n": 1
+      },
+      {
+        "municipio": "CONGOSTO",
+        "n": 1
+      },
+      {
+        "municipio": "BOCAIRENT",
+        "n": 1
+      },
+      {
+        "municipio": "SANT PERE PESCADOR",
+        "n": 1
+      },
+      {
+        "municipio": "GOJAR",
+        "n": 1
+      },
+      {
+        "municipio": "JUN",
+        "n": 1
+      },
+      {
+        "municipio": "CASARRUBIOS MONTE",
+        "n": 1
+      },
+      {
+        "municipio": "A RUA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCANTARILLA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCAÑIZ",
+        "n": 1
+      },
+      {
+        "municipio": "VALMOJADO",
+        "n": 1
+      },
+      {
+        "municipio": "ORBANEJA RIOPICO",
+        "n": 1
+      },
+      {
+        "municipio": "TUDELA DE DUERO",
+        "n": 1
+      },
+      {
+        "municipio": "RIPOLL",
+        "n": 1
+      },
+      {
+        "municipio": "MORATA DE TAJUÑA",
+        "n": 1
+      },
+      {
+        "municipio": "DAR BAUAZZA CASABLANCA",
+        "n": 1
+      },
+      {
+        "municipio": "ASPA",
+        "n": 1
+      },
+      {
+        "municipio": "OLULA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "S GUIM DE FREIXENET",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA CRISTINA D ARO",
+        "n": 1
+      },
+      {
+        "municipio": "CORIA DEL RIO",
+        "n": 1
+      },
+      {
+        "municipio": "GALVEZ",
+        "n": 1
+      },
+      {
+        "municipio": "MONTABERNER",
+        "n": 1
+      },
+      {
+        "municipio": "CAMBRE",
+        "n": 1
+      },
+      {
+        "municipio": "AS NOGAIS",
+        "n": 1
+      },
+      {
+        "municipio": "GONDOMAR",
+        "n": 1
+      },
+      {
+        "municipio": "ORDIZIA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLNOU DE BAGES",
+        "n": 1
+      },
+      {
+        "municipio": "SALVATIERRA BARROS",
+        "n": 1
+      },
+      {
+        "municipio": "LA NUCIA",
+        "n": 1
+      },
+      {
+        "municipio": "L AMETLLA DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "BASCARA",
+        "n": 1
+      },
+      {
+        "municipio": "BETERA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLALONGA",
+        "n": 1
+      },
+      {
+        "municipio": "SAN AGUSTIN GUADALIX",
+        "n": 1
+      },
+      {
+        "municipio": "PONTEVEDRA",
+        "n": 1
+      },
+      {
+        "municipio": "ALFAZ DEL PI",
+        "n": 1
+      },
+      {
+        "municipio": "PILAR DE LA HORADADA",
+        "n": 1
+      },
+      {
+        "municipio": "S DOMINGO DE SILOS",
+        "n": 1
+      },
+      {
+        "municipio": "LLICA DE VALL",
+        "n": 1
+      },
+      {
+        "municipio": "IDIAZABAL",
+        "n": 1
+      },
+      {
+        "municipio": "CHIMILLAS",
+        "n": 1
+      },
+      {
+        "municipio": "MIGUELTURRA",
+        "n": 1
+      },
+      {
+        "municipio": "VILANOVA DEL VALLES",
+        "n": 1
+      },
+      {
+        "municipio": "S FOST CAMPSENTELLES",
+        "n": 1
+      },
+      {
+        "municipio": "CALELLA",
+        "n": 1
+      },
+      {
+        "municipio": "PRAVIA",
+        "n": 1
+      },
+      {
+        "municipio": "SEDAVI",
+        "n": 1
+      },
+      {
+        "municipio": "ANCHUELO",
+        "n": 1
+      },
+      {
+        "municipio": "ANTIGUA",
+        "n": 1
+      },
+      {
+        "municipio": "VELILLA SAN ANTONIO",
+        "n": 1
+      },
+      {
+        "municipio": "PORI",
+        "n": 1
+      },
+      {
+        "municipio": "HUARTE",
+        "n": 1
+      },
+      {
+        "municipio": "CADRETE",
+        "n": 1
+      },
+      {
+        "municipio": "ZUERA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA DE TORRE",
+        "n": 1
+      },
+      {
+        "municipio": "CAMARMA ESTERUELAS",
+        "n": 1
+      },
+      {
+        "municipio": "POLOP",
+        "n": 1
+      },
+      {
+        "municipio": "TRIJUEQUE",
+        "n": 1
+      },
+      {
+        "municipio": "COGOLLUDO",
+        "n": 1
+      },
+      {
+        "municipio": "ALCARRAS",
+        "n": 1
+      },
+      {
+        "municipio": "BARREIROS",
+        "n": 1
+      },
+      {
+        "municipio": "MOAÑA",
+        "n": 1
+      },
+      {
+        "municipio": "QUINTANILLA VIVAR",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAJOYOSA",
+        "n": 1
+      },
+      {
+        "municipio": "CULLAR VEGA",
+        "n": 1
+      },
+      {
+        "municipio": "AMOREBIETA-ETXANO",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPO REAL",
+        "n": 1
+      },
+      {
+        "municipio": "MUTRIKU",
+        "n": 1
+      },
+      {
+        "municipio": "PREMIA DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "CULLEREDO",
+        "n": 1
+      },
+      {
+        "municipio": "MOCEJON",
+        "n": 1
+      },
+      {
+        "municipio": "PUERTO CRUZ",
+        "n": 1
+      },
+      {
+        "municipio": "BOLAÑOS DE CALATRAVA",
+        "n": 1
+      },
+      {
+        "municipio": "VALL DE UXO",
+        "n": 1
+      },
+      {
+        "municipio": "VESPELLA",
+        "n": 1
+      },
+      {
+        "municipio": "CARREÑO",
+        "n": 1
+      },
+      {
+        "municipio": "ILLAS",
+        "n": 1
+      },
+      {
+        "municipio": "S PERPETUA DE MOGODA",
+        "n": 1
+      },
+      {
+        "municipio": "PUEBLA DE ALFINDEN",
+        "n": 1
+      },
+      {
+        "municipio": "FORMENTERA",
+        "n": 1
+      },
+      {
+        "municipio": "BARCARROTA",
+        "n": 1
+      },
+      {
+        "municipio": "CALONGE",
+        "n": 1
+      },
+      {
+        "municipio": "LA ZUBIA",
+        "n": 1
+      },
+      {
+        "municipio": "EIBAR",
+        "n": 1
+      },
+      {
+        "municipio": "PIELAGOS",
+        "n": 1
+      },
+      {
+        "municipio": "TALAMANCA DEL JARAMA",
+        "n": 1
+      },
+      {
+        "municipio": "ARTES",
+        "n": 1
+      },
+      {
+        "municipio": "GORLIZ",
+        "n": 1
+      },
+      {
+        "municipio": "CARRION DE CALATRAVA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAFRANCA BARROS",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTE VAQUEROS",
+        "n": 1
+      },
+      {
+        "municipio": "JUMILLA",
+        "n": 1
+      },
+      {
+        "municipio": "ALMAZORA",
+        "n": 1
+      },
+      {
+        "municipio": "ARMILLA",
+        "n": 1
+      },
+      {
+        "municipio": "MONZON",
+        "n": 1
+      },
+      {
+        "municipio": "FIGUERES",
+        "n": 1
+      },
+      {
+        "municipio": "ABRERA",
+        "n": 1
+      },
+      {
+        "municipio": "PADUL",
+        "n": 1
+      },
+      {
+        "municipio": "FUENMAYOR",
+        "n": 1
+      },
+      {
+        "municipio": "URDUÑA-ORDUÑA",
+        "n": 1
+      },
+      {
+        "municipio": "OLESA DE MONTSERRAT",
+        "n": 1
+      },
+      {
+        "municipio": "BELLVIS",
+        "n": 1
+      },
+      {
+        "municipio": "CABANES",
+        "n": 1
+      },
+      {
+        "municipio": "XATIVA",
+        "n": 1
+      },
+      {
+        "municipio": "PALACIOS VILLAFRANCA",
+        "n": 1
+      },
+      {
+        "municipio": "EL MOLAR",
+        "n": 1
+      },
+      {
+        "municipio": "CENTELLES",
+        "n": 1
+      },
+      {
+        "municipio": "ABEGONDO",
+        "n": 1
+      },
+      {
+        "municipio": "UGENA",
+        "n": 1
+      },
+      {
+        "municipio": "MISLATA",
+        "n": 1
+      },
+      {
+        "municipio": "PADRON",
+        "n": 1
+      },
+      {
+        "municipio": "VILLACAÑAS",
+        "n": 1
+      },
+      {
+        "municipio": "ISCAR",
+        "n": 1
+      },
+      {
+        "municipio": "NAVALMORAL DE MATA",
+        "n": 1
+      },
+      {
+        "municipio": "YANCI",
+        "n": 1
+      },
+      {
+        "municipio": "CORIA",
+        "n": 1
+      },
+      {
+        "municipio": "RONDA",
+        "n": 1
+      },
+      {
+        "municipio": "ANDOAIN",
+        "n": 1
+      },
+      {
+        "municipio": "VIDRERES",
+        "n": 1
+      },
+      {
+        "municipio": "LAGUNA DE CAMEROS",
+        "n": 1
+      },
+      {
+        "municipio": "IRUÑA OKA-IRUÑA DE OCA",
+        "n": 1
+      },
+      {
+        "municipio": "EL VISO DEL ALCOR",
+        "n": 1
+      },
+      {
+        "municipio": "S QUIRZE DE SAFAJA",
+        "n": 1
+      },
+      {
+        "municipio": "SEVA",
+        "n": 1
+      },
+      {
+        "municipio": "PEDREZUELA",
+        "n": 1
+      },
+      {
+        "municipio": "CANOVELLES",
+        "n": 1
+      },
+      {
+        "municipio": "FITERO",
+        "n": 1
+      },
+      {
+        "municipio": "LA PUEBLA ARGANZON",
+        "n": 1
+      },
+      {
+        "municipio": "ALBOX",
+        "n": 1
+      },
+      {
+        "municipio": "RIOGORDO",
+        "n": 1
+      },
+      {
+        "municipio": "CERVERA RIO ALHAMA",
+        "n": 1
+      },
+      {
+        "municipio": "OLIVENZA",
+        "n": 1
+      },
+      {
+        "municipio": "LA SELVA DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "BESCANO",
+        "n": 1
+      },
+      {
+        "municipio": "BARGAS",
+        "n": 1
+      },
+      {
+        "municipio": "CABEZON",
+        "n": 1
+      },
+      {
+        "municipio": "PALS",
+        "n": 1
+      },
+      {
+        "municipio": "ALDAIA",
+        "n": 1
+      },
+      {
+        "municipio": "PALAZUELOS DE ERESMA",
+        "n": 1
+      },
+      {
+        "municipio": "GRANADILLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA PERALES",
+        "n": 1
+      },
+      {
+        "municipio": "BARBERA DEL VALLES",
+        "n": 1
+      },
+      {
+        "municipio": "OLIVA DE LA FRONTERA",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLVELL DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "MANISES",
+        "n": 1
+      },
+      {
+        "municipio": "OÑATI",
+        "n": 1
+      },
+      {
+        "municipio": "ARENYS DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "TEIA",
+        "n": 1
+      },
+      {
+        "municipio": "LLIVIA",
+        "n": 1
+      },
+      {
+        "municipio": "ARBUCIES",
+        "n": 1
+      },
+      {
+        "municipio": "AGUILAR",
+        "n": 1
+      },
+      {
+        "municipio": "BUSTURIA",
+        "n": 1
+      },
+      {
+        "municipio": "PASAIA",
+        "n": 1
+      },
+      {
+        "municipio": "ESPARTINAS",
+        "n": 1
+      },
+      {
+        "municipio": "LA UNION",
+        "n": 1
+      },
+      {
+        "municipio": "VILASSAR DE MAR",
+        "n": 1
+      },
+      {
+        "municipio": "ASPE",
+        "n": 1
+      },
+      {
+        "municipio": "LA LASTRILLA",
+        "n": 1
+      },
+      {
+        "municipio": "L OLLERIA",
+        "n": 1
+      },
+      {
+        "municipio": "PREMIA DE DALT",
+        "n": 1
+      },
+      {
+        "municipio": "LA POBLA CLARAMUNT",
+        "n": 1
+      },
+      {
+        "municipio": "BELLVER DE CERDANYA",
+        "n": 1
+      },
+      {
+        "municipio": "VILLANUEVA GALLEGO",
+        "n": 1
+      },
+      {
+        "municipio": "BEARIZ",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTE EL SAZ JARAMA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTERREBOLLO",
+        "n": 1
+      },
+      {
+        "municipio": "S ANDREU LLAVANERES",
+        "n": 1
+      },
+      {
+        "municipio": "ALMONTE",
+        "n": 1
+      },
+      {
+        "municipio": "GODELLA",
+        "n": 1
+      },
+      {
+        "municipio": "CANALS",
+        "n": 1
+      },
+      {
+        "municipio": "SAN JAVIER",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLBISBAL",
+        "n": 1
+      },
+      {
+        "municipio": "CASTALLA",
+        "n": 1
+      },
+      {
+        "municipio": "NUEVA CARTEYA",
+        "n": 1
+      },
+      {
+        "municipio": "TEO",
+        "n": 1
+      },
+      {
+        "municipio": "OBANOS",
+        "n": 1
+      },
+      {
+        "municipio": "ALGAIDA",
+        "n": 1
+      },
+      {
+        "municipio": "TORREMOCHA DE JARAMA",
+        "n": 1
+      },
+      {
+        "municipio": "QUINTANAR DEL REY",
+        "n": 1
+      },
+      {
+        "municipio": "VENTA DE BAÑOS",
+        "n": 1
+      },
+      {
+        "municipio": "TORRES DE LA ALAMEDA",
+        "n": 1
+      },
+      {
+        "municipio": "MONCADA",
+        "n": 1
+      },
+      {
+        "municipio": "ALCUDIA",
+        "n": 1
+      },
+      {
+        "municipio": "NOEZ",
+        "n": 1
+      },
+      {
+        "municipio": "ALEGRIA DULANTZI",
+        "n": 1
+      },
+      {
+        "municipio": "MEDINA DEL CAMPO",
+        "n": 1
+      },
+      {
+        "municipio": "GUILLENA",
+        "n": 1
+      },
+      {
+        "municipio": "TORRELAVEGA",
+        "n": 1
+      },
+      {
+        "municipio": "LLUBI",
+        "n": 1
+      },
+      {
+        "municipio": "MALLEN",
+        "n": 1
+      },
+      {
+        "municipio": "LLUCMAJOR",
+        "n": 1
+      },
+      {
+        "municipio": "MORON DE LA FRONTERA",
+        "n": 1
+      },
+      {
+        "municipio": "MONTORNES DEL VALLES",
+        "n": 1
+      },
+      {
+        "municipio": "MONISTROL DE MONTS",
+        "n": 1
+      },
+      {
+        "municipio": "EL VISO",
+        "n": 1
+      },
+      {
+        "municipio": "MARCHAMALO",
+        "n": 1
+      },
+      {
+        "municipio": "ANSOAIN",
+        "n": 1
+      },
+      {
+        "municipio": "SA POBLA",
+        "n": 1
+      },
+      {
+        "municipio": "VILADECAVALLS",
+        "n": 1
+      },
+      {
+        "municipio": "SAN ROQUE",
+        "n": 1
+      },
+      {
+        "municipio": "LOS REALEJOS",
+        "n": 1
+      },
+      {
+        "municipio": "SAN CARLOS DEL VALLE",
+        "n": 1
+      },
+      {
+        "municipio": "ELGOIBAR",
+        "n": 1
+      },
+      {
+        "municipio": "BIOTA",
+        "n": 1
+      },
+      {
+        "municipio": "FOIOS",
+        "n": 1
+      },
+      {
+        "municipio": "BUENACHE DE ALARCON",
+        "n": 1
+      },
+      {
+        "municipio": "SANTIBAÑEZ EL BAJO",
+        "n": 1
+      },
+      {
+        "municipio": "ALFARA DEL PATRIARCA",
+        "n": 1
+      },
+      {
+        "municipio": "HARIA",
+        "n": 1
+      },
+      {
+        "municipio": "ARCE",
+        "n": 1
+      },
+      {
+        "municipio": "MAO",
+        "n": 1
+      },
+      {
+        "municipio": "OLIVA",
+        "n": 1
+      },
+      {
+        "municipio": "ELS POBLETS",
+        "n": 1
+      },
+      {
+        "municipio": "CERVERA",
+        "n": 1
+      },
+      {
+        "municipio": "MONFORTE DE LEMOS",
+        "n": 1
+      },
+      {
+        "municipio": "SEGURA",
+        "n": 1
+      },
+      {
+        "municipio": "ARGENTONA",
+        "n": 1
+      },
+      {
+        "municipio": "PICANYA",
+        "n": 1
+      },
+      {
+        "municipio": "GUADARRAMA",
+        "n": 1
+      },
+      {
+        "municipio": "CUBELLES",
+        "n": 1
+      },
+      {
+        "municipio": "BARBATE",
+        "n": 1
+      },
+      {
+        "municipio": "SESEÑA",
+        "n": 1
+      },
+      {
+        "municipio": "SELVA",
+        "n": 1
+      },
+      {
+        "municipio": "S PERE SALLAVINERA",
+        "n": 1
+      },
+      {
+        "municipio": "ATARFE",
+        "n": 1
+      },
+      {
+        "municipio": "ULLASTRELL",
+        "n": 1
+      },
+      {
+        "municipio": "PALAU SOLITA I PLEGAMANS",
+        "n": 1
+      },
+      {
+        "municipio": "PELIGROS",
+        "n": 1
+      },
+      {
+        "municipio": "RIBADAVIA",
+        "n": 1
+      },
+      {
+        "municipio": "CARRACEDELO",
+        "n": 1
+      },
+      {
+        "municipio": "S CELONI",
+        "n": 1
+      },
+      {
+        "municipio": "MONTERRUBIO ARMUÑA",
+        "n": 1
+      },
+      {
+        "municipio": "CHICLANA DE LA FTRA",
+        "n": 1
+      },
+      {
+        "municipio": "BOIRO",
+        "n": 1
+      },
+      {
+        "municipio": "PEGO",
+        "n": 1
+      },
+      {
+        "municipio": "JAVEA",
+        "n": 1
+      },
+      {
+        "municipio": "CHILOECHES",
+        "n": 1
+      },
+      {
+        "municipio": "MARIN",
+        "n": 1
+      },
+      {
+        "municipio": "CASTELLVI DE ROSANES",
+        "n": 1
+      },
+      {
+        "municipio": "BRAOJOS",
+        "n": 1
+      },
+      {
+        "municipio": "S FELIU CODINES",
+        "n": 1
+      },
+      {
+        "municipio": "EL BARCO DE AVILA",
+        "n": 1
+      },
+      {
+        "municipio": "PONTEDEUME",
+        "n": 1
+      },
+      {
+        "municipio": "TOMARES",
+        "n": 1
+      },
+      {
+        "municipio": "ELS PALLARESOS",
+        "n": 1
+      },
+      {
+        "municipio": "VILOBI DEL PENEDES",
+        "n": 1
+      },
+      {
+        "municipio": "LLOSETA",
+        "n": 1
+      },
+      {
+        "municipio": "OLIVELLA",
+        "n": 1
+      },
+      {
+        "municipio": "SOMOZAS",
+        "n": 1
+      },
+      {
+        "municipio": "LOS LLANOS A",
+        "n": 1
+      },
+      {
+        "municipio": "MENDAZA",
+        "n": 1
+      },
+      {
+        "municipio": "SANT LLORENC DE MUGA",
+        "n": 1
+      },
+      {
+        "municipio": "TEGUESTE",
+        "n": 1
+      },
+      {
+        "municipio": "ALGINET",
+        "n": 1
+      },
+      {
+        "municipio": "LA HABA",
+        "n": 1
+      },
+      {
+        "municipio": "S PERE DE VILAMAJOR",
+        "n": 1
+      },
+      {
+        "municipio": "DEBA",
+        "n": 1
+      },
+      {
+        "municipio": "GURB",
+        "n": 1
+      },
+      {
+        "municipio": "SANTURTZI",
+        "n": 1
+      },
+      {
+        "municipio": "ALBATERA",
+        "n": 1
+      },
+      {
+        "municipio": "MONESTERIO",
+        "n": 1
+      },
+      {
+        "municipio": "ALELLA",
+        "n": 1
+      },
+      {
+        "municipio": "OYON-OION",
+        "n": 1
+      },
+      {
+        "municipio": "ICOD",
+        "n": 1
+      },
+      {
+        "municipio": "COBISA",
+        "n": 1
+      },
+      {
+        "municipio": "MELIANA",
+        "n": 1
+      },
+      {
+        "municipio": "S VICENC MONTALT",
+        "n": 1
+      },
+      {
+        "municipio": "PUCOL",
+        "n": 1
+      },
+      {
+        "municipio": "XINZO DE LIMIA",
+        "n": 1
+      },
+      {
+        "municipio": "LA CARLOTA",
+        "n": 1
+      },
+      {
+        "municipio": "ORIO",
+        "n": 1
+      },
+      {
+        "municipio": "LA POBLA DE VALLBONA",
+        "n": 1
+      },
+      {
+        "municipio": "PUEBLA DE SANABRIA",
+        "n": 1
+      },
+      {
+        "municipio": "LA ROBLA",
+        "n": 1
+      },
+      {
+        "municipio": "RAFELBUÑOL",
+        "n": 1
+      },
+      {
+        "municipio": "ISLA CRISTINA",
+        "n": 1
+      },
+      {
+        "municipio": "SANLUCAR LA MAYOR",
+        "n": 1
+      },
+      {
+        "municipio": "ALOVERA",
+        "n": 1
+      },
+      {
+        "municipio": "BASAURI",
+        "n": 1
+      },
+      {
+        "municipio": "RIBEIRA",
+        "n": 1
+      },
+      {
+        "municipio": "ANDRATX",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA FE",
+        "n": 1
+      },
+      {
+        "municipio": "CORTES",
+        "n": 1
+      },
+      {
+        "municipio": "SARIÑENA",
+        "n": 1
+      },
+      {
+        "municipio": "ARCOS",
+        "n": 1
+      },
+      {
+        "municipio": "ECIJA",
+        "n": 1
+      },
+      {
+        "municipio": "DILAR",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAHERMOSA",
+        "n": 1
+      },
+      {
+        "municipio": "LA VALL DE BIANYA",
+        "n": 1
+      },
+      {
+        "municipio": "COMILLAS",
+        "n": 1
+      },
+      {
+        "municipio": "PRADILLA DE EBRO",
+        "n": 1
+      },
+      {
+        "municipio": "DON BENITO",
+        "n": 1
+      },
+      {
+        "municipio": "ELDA",
+        "n": 1
+      },
+      {
+        "municipio": "PETRER",
+        "n": 1
+      },
+      {
+        "municipio": "AGULLENT",
+        "n": 1
+      },
+      {
+        "municipio": "REOCIN",
+        "n": 1
+      },
+      {
+        "municipio": "VERIN",
+        "n": 1
+      },
+      {
+        "municipio": "S COLOMA CERVELLO",
+        "n": 1
+      },
+      {
+        "municipio": "VALLIRANA",
+        "n": 1
+      },
+      {
+        "municipio": "FERROL",
+        "n": 1
+      },
+      {
+        "municipio": "COAÑA",
+        "n": 1
+      },
+      {
+        "municipio": "CURTIS",
+        "n": 1
+      },
+      {
+        "municipio": "MELIDE",
+        "n": 1
+      },
+      {
+        "municipio": "PORTOMARIN",
+        "n": 1
+      },
+      {
+        "municipio": "CORBINS",
+        "n": 1
+      },
+      {
+        "municipio": "LERMA",
+        "n": 1
+      },
+      {
+        "municipio": "ONIL",
+        "n": 1
+      },
+      {
+        "municipio": "LA CANONJA",
+        "n": 1
+      },
+      {
+        "municipio": "NUMANCIA DE LA SAGRA",
+        "n": 1
+      },
+      {
+        "municipio": "ARCOS DE LA FTRA",
+        "n": 1
+      },
+      {
+        "municipio": "ALBOLOTE",
+        "n": 1
+      },
+      {
+        "municipio": "FRUIZ",
+        "n": 1
+      },
+      {
+        "municipio": "MERUELO",
+        "n": 1
+      },
+      {
+        "municipio": "BENIJOFAR",
+        "n": 1
+      },
+      {
+        "municipio": "PETEAUX",
+        "n": 1
+      },
+      {
+        "municipio": "ALJARAQUE",
+        "n": 1
+      },
+      {
+        "municipio": "PUIG",
+        "n": 1
+      },
+      {
+        "municipio": "ABADIÑO",
+        "n": 1
+      },
+      {
+        "municipio": "YELES",
+        "n": 1
+      },
+      {
+        "municipio": "SANTA CRUZ BEZANA",
+        "n": 1
+      },
+      {
+        "municipio": "CISTERNIGA",
+        "n": 1
+      },
+      {
+        "municipio": "AZPEITIA",
+        "n": 1
+      },
+      {
+        "municipio": "MOGAN",
+        "n": 1
+      },
+      {
+        "municipio": "ALMONACID DE SIERRA",
+        "n": 1
+      },
+      {
+        "municipio": "HOYOS MIGUEL MUÑOZ",
+        "n": 1
+      },
+      {
+        "municipio": "ABANTO CIERV-ABANTO ZIER",
+        "n": 1
+      },
+      {
+        "municipio": "LES CABANYES",
+        "n": 1
+      },
+      {
+        "municipio": "ALPICAT",
+        "n": 1
+      },
+      {
+        "municipio": "MOTILLA DEL PALANCAR",
+        "n": 1
+      },
+      {
+        "municipio": "EL FRANCO",
+        "n": 1
+      },
+      {
+        "municipio": "PEDROSILLO EL RALO",
+        "n": 1
+      },
+      {
+        "municipio": "ELCIEGO",
+        "n": 1
+      },
+      {
+        "municipio": "CHINCHON",
+        "n": 1
+      },
+      {
+        "municipio": "ORTUELLA",
+        "n": 1
+      },
+      {
+        "municipio": "SAN MIGUEL SALINAS",
+        "n": 1
+      },
+      {
+        "municipio": "ALGEMESI",
+        "n": 1
+      },
+      {
+        "municipio": "BENIFAIRO VALLDIGNA",
+        "n": 1
+      },
+      {
+        "municipio": "AGUILAS",
+        "n": 1
+      },
+      {
+        "municipio": "ANDUJAR",
+        "n": 1
+      },
+      {
+        "municipio": "PELAYOS DE LA PRESA",
+        "n": 1
+      },
+      {
+        "municipio": "ALMENARA",
+        "n": 1
+      },
+      {
+        "municipio": "SOTO DEL REAL",
+        "n": 1
+      },
+      {
+        "municipio": "GARRUCHA",
+        "n": 1
+      },
+      {
+        "municipio": "SANTPEDOR",
+        "n": 1
+      },
+      {
+        "municipio": "ISTAN",
+        "n": 1
+      },
+      {
+        "municipio": "LES FRANQUESES VALLE",
+        "n": 1
+      },
+      {
+        "municipio": "LONDON",
+        "n": 1
+      },
+      {
+        "municipio": "NOAIN",
+        "n": 1
+      },
+      {
+        "municipio": "AZAGRA",
+        "n": 1
+      },
+      {
+        "municipio": "PIEROLA",
+        "n": 1
+      },
+      {
+        "municipio": "BINEFAR",
+        "n": 1
+      },
+      {
+        "municipio": "MIAJADAS",
+        "n": 1
+      },
+      {
+        "municipio": "CIGALES",
+        "n": 1
+      },
+      {
+        "municipio": "MANILVA",
+        "n": 1
+      },
+      {
+        "municipio": "NAVALMORAL",
+        "n": 1
+      },
+      {
+        "municipio": "FONDARELLA",
+        "n": 1
+      },
+      {
+        "municipio": "BERJA",
+        "n": 1
+      },
+      {
+        "municipio": "PALLEJA",
+        "n": 1
+      },
+      {
+        "municipio": "O PORRIÑO",
+        "n": 1
+      },
+      {
+        "municipio": "SIMANCAS",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAFRANCA DE DUERO",
+        "n": 1
+      },
+      {
+        "municipio": "BERGA",
+        "n": 1
+      },
+      {
+        "municipio": "PUEBLA DON FADRIQUE",
+        "n": 1
+      },
+      {
+        "municipio": "SILLA",
+        "n": 1
+      },
+      {
+        "municipio": "BANYERES DEL PENEDES",
+        "n": 1
+      },
+      {
+        "municipio": "CEE",
+        "n": 1
+      },
+      {
+        "municipio": "O CARBALLIÑO",
+        "n": 1
+      },
+      {
+        "municipio": "SANT JOAN LES FONTS",
+        "n": 1
+      },
+      {
+        "municipio": "VALVERDE DE JUCAR",
+        "n": 1
+      },
+      {
+        "municipio": "BENIPARRELL",
+        "n": 1
+      },
+      {
+        "municipio": "SAN JUSTO DE LA VEGA",
+        "n": 1
+      },
+      {
+        "municipio": "SAN MARTIN DE VEGA",
+        "n": 1
+      },
+      {
+        "municipio": "TORREJON DEL REY",
+        "n": 1
+      },
+      {
+        "municipio": "CORCUBION",
+        "n": 1
+      },
+      {
+        "municipio": "LLODIO",
+        "n": 1
+      },
+      {
+        "municipio": "AMURRIO",
+        "n": 1
+      },
+      {
+        "municipio": "MARSEILLE",
+        "n": 1
+      },
+      {
+        "municipio": "VILASSAR DE DALT",
+        "n": 1
+      },
+      {
+        "municipio": "CAMPOS",
+        "n": 1
+      },
+      {
+        "municipio": "CARBONERAS",
+        "n": 1
+      },
+      {
+        "municipio": "SALOU",
+        "n": 1
+      },
+      {
+        "municipio": "PULIANAS",
+        "n": 1
+      },
+      {
+        "municipio": "MONT ROIG DEL CAMP",
+        "n": 1
+      },
+      {
+        "municipio": "NAVAS DE ORO",
+        "n": 1
+      },
+      {
+        "municipio": "SALVATERRA DE MIÑO",
+        "n": 1
+      },
+      {
+        "municipio": "LOZOYUELA N SIETEIGL",
+        "n": 1
+      },
+      {
+        "municipio": "TIVISSA",
+        "n": 1
+      },
+      {
+        "municipio": "PACS DEL PENEDES",
+        "n": 1
+      },
+      {
+        "municipio": "VEDRA",
+        "n": 1
+      },
+      {
+        "municipio": "SAN VICENTE BARQUERA",
+        "n": 1
+      },
+      {
+        "municipio": "FUSTIÑANA",
+        "n": 1
+      },
+      {
+        "municipio": "ARGAMASILLA CALATRAV",
+        "n": 1
+      },
+      {
+        "municipio": "EL EJIDO",
+        "n": 1
+      },
+      {
+        "municipio": "CADIZ",
+        "n": 1
+      },
+      {
+        "municipio": "ONTINYENT",
+        "n": 1
+      },
+      {
+        "municipio": "PEÑAFIEL",
+        "n": 1
+      },
+      {
+        "municipio": "MIERES",
+        "n": 1
+      },
+      {
+        "municipio": "VILLAMARCHANTE",
+        "n": 1
+      },
+      {
+        "municipio": "BERGONDO",
+        "n": 1
+      },
+      {
+        "municipio": "GUIA DE ISORA",
+        "n": 1
+      },
+      {
+        "municipio": "BALAGUER",
+        "n": 1
+      },
+      {
+        "municipio": "ALCALA DE GUADAIRA",
+        "n": 1
+      },
+      {
+        "municipio": "VILAGARCIA DE AROUSA",
+        "n": 1
+      },
+      {
+        "municipio": "GUADALUPE",
+        "n": 1
+      },
+      {
+        "municipio": "SAN MATEO",
+        "n": 1
+      },
+      {
+        "municipio": "SERRANILLOS VALLE",
+        "n": 1
+      },
+      {
+        "municipio": "MOIA",
+        "n": 1
+      },
+      {
+        "municipio": "OLESA DE BONESVALLS",
+        "n": 1
+      },
+      {
+        "municipio": "PUIGCERDA",
+        "n": 1
+      },
+      {
+        "municipio": "URREA DE GAEN",
+        "n": 1
+      },
+      {
+        "municipio": "MEDINA DE POMAR",
+        "n": 1
+      },
+      {
+        "municipio": "DURANGO",
+        "n": 1
+      },
+      {
+        "municipio": "GARGANTILLA LOZOYA",
+        "n": 1
+      },
+      {
+        "municipio": "FUENTE EL FRESNO",
+        "n": 1
+      }
+    ],
+    "cat_homologacion": {
+      "turismo": 7910,
+      "nd": 5,
+      "autobus": 12,
+      "furgoneta": 1,
+      "camion": 1,
+      "especial": 2,
+      "moto_scooter": 1
+    },
+    "carroceria": {
+      "familiar": 5913,
+      "suv_mpv": 556,
+      "berlina": 693,
+      "turismo": 705,
+      "todoterreno": 29,
+      "especial": 10,
+      "nd": 12,
+      "furgoneta": 2,
+      "otros": 2,
+      "cabrio_coupe": 10
+    },
+    "servicio": {
+      "privado": 7620,
+      "comercial": 312
+    },
+    "kw_buckets": {
+      "51-100": 4499,
+      "201+": 2344,
+      "151-200": 305,
+      "101-150": 761,
+      "0-50": 21,
+      "nd": 2
+    },
+    "autonomia_buckets": {
+      "0-200": 7837,
+      "nd": 90,
+      "201-300": 5
+    }
+  }
+}

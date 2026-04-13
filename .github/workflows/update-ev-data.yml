@@ -1,0 +1,49 @@
+name: Actualizar datos EV
+
+on:
+  schedule:
+    # Todos los lunes a las 7am UTC (9am España)
+    - cron: "0 7 * * 1"
+  workflow_dispatch: # permite correrlo manualmente desde GitHub
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Correr scraper
+        run: node scripts/scrape-aedive.mjs
+        timeout-minutes: 5
+
+      - name: Subir screenshots como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ github.run_id }}
+          path: scripts/screenshots/
+          retention-days: 7
+
+      - name: Commitear si hay cambios en los datos
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add app/lib/insights/matriculaciones-data.ts
+          git diff --staged --quiet || git commit -m "data: actualizar matriculaciones EV [bot]"
+          git push

@@ -1,7 +1,7 @@
 // ─── AUTO-GENERADO ─────────────────────────────────────────────────────────
 // Genera: node scripts/dgt-parque.mjs
 // Fuente: DGT - Microdatos de Matriculaciones + Bajas (MATRABA)
-// Última actualización: 2026-04-12
+// Última actualización: 2026-04-13
 // ⚠️  No editar manualmente
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -25,11 +25,14 @@ export type ParqueTipoGrupo = {
 };
 
 export type ParqueMes = {
-  periodo:           string;
-  matriculaciones_mes: ParqueCatEv;
-  bajas_mes:           ParqueCatEv;
-  parque_acumulado:    ParqueCatEv;
-  parque_por_tipo?:    ParqueTipoGrupo;
+  periodo:              string;
+  matriculaciones_mes:  ParqueCatEv;
+  bajas_mes:            ParqueCatEv;
+  total_bajas_mes:      number;
+  parque_acumulado:     ParqueCatEv;
+  parque_total:         number;
+  parque_no_enchufable: number;
+  parque_por_tipo?:     ParqueTipoGrupo;
 };
 
 export type ParqueResumenCat = {
@@ -41,7 +44,13 @@ export type ParqueResumenCat = {
 
 export const dgtParqueMeta = {
   ultimo_periodo:       "2026-02",
-  ultima_actualizacion: "2026-04-12",
+  ultima_actualizacion: "2026-04-13",
+  anchor_periodo:       "2025-03",
+  anchor_fuente:        "DGT Parque Microdatos marzo 2025",
+  anchor_dgt:           {"BEV":343873,"PHEV":277307,"HEV":1724593,"REEV":2250,"FCEV":120},
+  anchor_total:         38143882,
+  anchor_offsets:       {"BEV":41169,"PHEV":19078,"HEV":202725,"REEV":860,"FCEV":3},
+  anchor_offset_total:  41201846,
 } as const;
 
 export const dgtParqueResumen: Record<string, ParqueResumenCat> = {
@@ -225,6 +234,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 13,
       "HEV": 115
     },
+    "total_bajas_mes": 242311,
     "parque_acumulado": {
       "BEV": 41356,
       "PHEV": 19116,
@@ -232,6 +242,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 875,
       "FCEV": 3
     },
+    "parque_total": 41059425,
+    "parque_no_enchufable": 40998953,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31428,
@@ -286,6 +298,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 19,
       "HEV": 84
     },
+    "total_bajas_mes": 98484,
     "parque_acumulado": {
       "BEV": 41434,
       "PHEV": 19108,
@@ -293,6 +306,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 879,
       "FCEV": 3
     },
+    "parque_total": 41053491,
+    "parque_no_enchufable": 40992949,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31471,
@@ -347,6 +362,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 14,
       "HEV": 115
     },
+    "total_bajas_mes": 120613,
     "parque_acumulado": {
       "BEV": 41527,
       "PHEV": 19113,
@@ -354,6 +370,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 884,
       "FCEV": 3
     },
+    "parque_total": 41046542,
+    "parque_no_enchufable": 40985902,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31487,
@@ -408,6 +426,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 7,
       "HEV": 98
     },
+    "total_bajas_mes": 152482,
     "parque_acumulado": {
       "BEV": 41697,
       "PHEV": 19133,
@@ -415,6 +434,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 886,
       "FCEV": 3
     },
+    "parque_total": 41043441,
+    "parque_no_enchufable": 40982611,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31606,
@@ -469,6 +490,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 8,
       "HEV": 167
     },
+    "total_bajas_mes": 120210,
     "parque_acumulado": {
       "BEV": 41788,
       "PHEV": 19169,
@@ -476,6 +498,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 892,
       "FCEV": 3
     },
+    "parque_total": 41039721,
+    "parque_no_enchufable": 40978764,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31651,
@@ -530,6 +554,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 5,
       "HEV": 120
     },
+    "total_bajas_mes": 118244,
     "parque_acumulado": {
       "BEV": 41863,
       "PHEV": 19216,
@@ -537,6 +562,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 905,
       "FCEV": 3
     },
+    "parque_total": 41052447,
+    "parque_no_enchufable": 40991368,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31692,
@@ -592,6 +619,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 129,
       "REEV": 1
     },
+    "total_bajas_mes": 129847,
     "parque_acumulado": {
       "BEV": 41987,
       "PHEV": 19249,
@@ -599,6 +627,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 918,
       "FCEV": 3
     },
+    "parque_total": 41076408,
+    "parque_no_enchufable": 41015172,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31748,
@@ -653,6 +683,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 8,
       "HEV": 127
     },
+    "total_bajas_mes": 128880,
     "parque_acumulado": {
       "BEV": 42186,
       "PHEV": 19334,
@@ -660,6 +691,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 921,
       "FCEV": 3
     },
+    "parque_total": 41095748,
+    "parque_no_enchufable": 41034228,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31826,
@@ -713,6 +746,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 4,
       "HEV": 86
     },
+    "total_bajas_mes": 102689,
     "parque_acumulado": {
       "BEV": 42272,
       "PHEV": 19369,
@@ -720,6 +754,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 921,
       "FCEV": 3
     },
+    "parque_total": 41076268,
+    "parque_no_enchufable": 41014627,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31882,
@@ -775,6 +811,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 113,
       "REEV": 2
     },
+    "total_bajas_mes": 121009,
     "parque_acumulado": {
       "BEV": 42365,
       "PHEV": 19451,
@@ -782,6 +819,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 920,
       "FCEV": 3
     },
+    "parque_total": 41062357,
+    "parque_no_enchufable": 41000541,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 31939,
@@ -835,6 +874,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 14,
       "HEV": 124
     },
+    "total_bajas_mes": 131030,
     "parque_acumulado": {
       "BEV": 42703,
       "PHEV": 19525,
@@ -842,6 +882,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 920,
       "FCEV": 3
     },
+    "parque_total": 41051628,
+    "parque_no_enchufable": 40989400,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32226,
@@ -895,6 +937,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 25,
       "HEV": 116
     },
+    "total_bajas_mes": 140897,
     "parque_acumulado": {
       "BEV": 42927,
       "PHEV": 19559,
@@ -902,6 +945,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 920,
       "FCEV": 3
     },
+    "parque_total": 41027489,
+    "parque_no_enchufable": 40965003,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32410,
@@ -957,6 +1002,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 162,
       "REEV": 2
     },
+    "total_bajas_mes": 235484,
     "parque_acumulado": {
       "BEV": 42999,
       "PHEV": 19591,
@@ -964,6 +1010,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 923,
       "FCEV": 3
     },
+    "parque_total": 40914536,
+    "parque_no_enchufable": 40851946,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32419,
@@ -1018,6 +1066,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 23,
       "HEV": 140
     },
+    "total_bajas_mes": 118108,
     "parque_acumulado": {
       "BEV": 43179,
       "PHEV": 19661,
@@ -1025,6 +1074,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 937,
       "FCEV": 3
     },
+    "parque_total": 40907468,
+    "parque_no_enchufable": 40844628,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32513,
@@ -1080,6 +1131,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 94,
       "REEV": 2
     },
+    "total_bajas_mes": 127113,
     "parque_acumulado": {
       "BEV": 43321,
       "PHEV": 19729,
@@ -1087,6 +1139,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 947,
       "FCEV": 3
     },
+    "parque_total": 40916185,
+    "parque_no_enchufable": 40853135,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32547,
@@ -1141,6 +1195,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 13,
       "HEV": 139
     },
+    "total_bajas_mes": 136443,
     "parque_acumulado": {
       "BEV": 43684,
       "PHEV": 19914,
@@ -1148,6 +1203,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 965,
       "FCEV": 3
     },
+    "parque_total": 40932513,
+    "parque_no_enchufable": 40868915,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32744,
@@ -1202,6 +1259,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 10,
       "HEV": 141
     },
+    "total_bajas_mes": 137787,
     "parque_acumulado": {
       "BEV": 43924,
       "PHEV": 20114,
@@ -1209,6 +1267,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 971,
       "FCEV": 3
     },
+    "parque_total": 40942232,
+    "parque_no_enchufable": 40878194,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 32886,
@@ -1263,6 +1323,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 10,
       "HEV": 141
     },
+    "total_bajas_mes": 137159,
     "parque_acumulado": {
       "BEV": 44288,
       "PHEV": 20263,
@@ -1270,6 +1331,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1003,
       "FCEV": 3
     },
+    "parque_total": 40967039,
+    "parque_no_enchufable": 40902488,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33029,
@@ -1325,6 +1388,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 156,
       "REEV": 1
     },
+    "total_bajas_mes": 138059,
     "parque_acumulado": {
       "BEV": 44432,
       "PHEV": 20385,
@@ -1332,6 +1396,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1020,
       "FCEV": 3
     },
+    "parque_total": 41007871,
+    "parque_no_enchufable": 40943054,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33084,
@@ -1387,6 +1453,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 141,
       "REEV": 1
     },
+    "total_bajas_mes": 129166,
     "parque_acumulado": {
       "BEV": 44705,
       "PHEV": 20490,
@@ -1394,6 +1461,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1035,
       "FCEV": 3
     },
+    "parque_total": 41035951,
+    "parque_no_enchufable": 40970756,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33216,
@@ -1449,6 +1518,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 142,
       "REEV": 1
     },
+    "total_bajas_mes": 120681,
     "parque_acumulado": {
       "BEV": 44808,
       "PHEV": 20570,
@@ -1456,6 +1526,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1040,
       "FCEV": 3
     },
+    "parque_total": 41016946,
+    "parque_no_enchufable": 40951568,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33277,
@@ -1510,6 +1582,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 15,
       "HEV": 197
     },
+    "total_bajas_mes": 128047,
     "parque_acumulado": {
       "BEV": 45078,
       "PHEV": 20700,
@@ -1517,6 +1590,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1046,
       "FCEV": 3
     },
+    "parque_total": 41016191,
+    "parque_no_enchufable": 40950413,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33382,
@@ -1572,6 +1647,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 177,
       "REEV": 1
     },
+    "total_bajas_mes": 130834,
     "parque_acumulado": {
       "BEV": 45325,
       "PHEV": 20780,
@@ -1579,6 +1655,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1053,
       "FCEV": 3
     },
+    "parque_total": 41015736,
+    "parque_no_enchufable": 40949631,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33462,
@@ -1634,6 +1712,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 209,
       "REEV": 10
     },
+    "total_bajas_mes": 152002,
     "parque_acumulado": {
       "BEV": 45785,
       "PHEV": 20889,
@@ -1641,6 +1720,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1051,
       "FCEV": 3
     },
+    "parque_total": 41005190,
+    "parque_no_enchufable": 40938516,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 33827,
@@ -1696,6 +1777,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 262,
       "REEV": 1
     },
+    "total_bajas_mes": 226510,
     "parque_acumulado": {
       "BEV": 46290,
       "PHEV": 20969,
@@ -1703,6 +1785,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1061,
       "FCEV": 3
     },
+    "parque_total": 40926767,
+    "parque_no_enchufable": 40859508,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 34156,
@@ -1757,6 +1841,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 5,
       "HEV": 188
     },
+    "total_bajas_mes": 128293,
     "parque_acumulado": {
       "BEV": 46522,
       "PHEV": 21086,
@@ -1764,6 +1849,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1074,
       "FCEV": 3
     },
+    "parque_total": 40921799,
+    "parque_no_enchufable": 40854191,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 34234,
@@ -1819,6 +1906,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 204,
       "REEV": 1
     },
+    "total_bajas_mes": 124771,
     "parque_acumulado": {
       "BEV": 46823,
       "PHEV": 21180,
@@ -1826,6 +1914,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1090,
       "FCEV": 3
     },
+    "parque_total": 40934898,
+    "parque_no_enchufable": 40866895,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 34411,
@@ -1881,6 +1971,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 241,
       "REEV": 2
     },
+    "total_bajas_mes": 157024,
     "parque_acumulado": {
       "BEV": 47203,
       "PHEV": 21332,
@@ -1888,6 +1979,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1124,
       "FCEV": 3
     },
+    "parque_total": 40955928,
+    "parque_no_enchufable": 40887393,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 34688,
@@ -1943,6 +2036,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 226,
       "REEV": 3
     },
+    "total_bajas_mes": 119724,
     "parque_acumulado": {
       "BEV": 47747,
       "PHEV": 21478,
@@ -1950,6 +2044,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1158,
       "FCEV": 3
     },
+    "parque_total": 40982344,
+    "parque_no_enchufable": 40913119,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 34835,
@@ -2005,6 +2101,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 285,
       "REEV": 3
     },
+    "total_bajas_mes": 145618,
     "parque_acumulado": {
       "BEV": 48178,
       "PHEV": 21704,
@@ -2012,6 +2109,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1190,
       "FCEV": 3
     },
+    "parque_total": 41018413,
+    "parque_no_enchufable": 40948531,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 35014,
@@ -2066,6 +2165,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "PHEV": 14,
       "HEV": 241
     },
+    "total_bajas_mes": 146387,
     "parque_acumulado": {
       "BEV": 48680,
       "PHEV": 22038,
@@ -2073,6 +2173,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1228,
       "FCEV": 3
     },
+    "parque_total": 41061736,
+    "parque_no_enchufable": 40991018,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 35329,
@@ -2128,6 +2230,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 262,
       "REEV": 1
     },
+    "total_bajas_mes": 134679,
     "parque_acumulado": {
       "BEV": 49415,
       "PHEV": 22360,
@@ -2135,6 +2238,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1267,
       "FCEV": 3
     },
+    "parque_total": 41091605,
+    "parque_no_enchufable": 41019830,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 35571,
@@ -2190,6 +2295,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 265,
       "REEV": 1
     },
+    "total_bajas_mes": 124402,
     "parque_acumulado": {
       "BEV": 50107,
       "PHEV": 22679,
@@ -2197,6 +2303,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1277,
       "FCEV": 3
     },
+    "parque_total": 41081081,
+    "parque_no_enchufable": 41008295,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 35876,
@@ -2252,6 +2360,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 283,
       "REEV": 4
     },
+    "total_bajas_mes": 136393,
     "parque_acumulado": {
       "BEV": 51070,
       "PHEV": 22978,
@@ -2259,6 +2368,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1299,
       "FCEV": 3
     },
+    "parque_total": 41075231,
+    "parque_no_enchufable": 41001183,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 36408,
@@ -2314,6 +2425,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 314,
       "REEV": 2
     },
+    "total_bajas_mes": 153365,
     "parque_acumulado": {
       "BEV": 52543,
       "PHEV": 23301,
@@ -2321,6 +2433,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1314,
       "FCEV": 3
     },
+    "parque_total": 41069309,
+    "parque_no_enchufable": 40993465,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 37228,
@@ -2376,6 +2490,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 332,
       "REEV": 2
     },
+    "total_bajas_mes": 168993,
     "parque_acumulado": {
       "BEV": 53508,
       "PHEV": 23658,
@@ -2383,6 +2498,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1339,
       "FCEV": 3
     },
+    "parque_total": 41057212,
+    "parque_no_enchufable": 40980046,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 37480,
@@ -2438,6 +2555,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 435,
       "REEV": 2
     },
+    "total_bajas_mes": 239549,
     "parque_acumulado": {
       "BEV": 54369,
       "PHEV": 24183,
@@ -2445,6 +2563,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1383,
       "FCEV": 3
     },
+    "parque_total": 40965508,
+    "parque_no_enchufable": 40886956,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 37892,
@@ -2500,6 +2620,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 257,
       "REEV": 3
     },
+    "total_bajas_mes": 147050,
     "parque_acumulado": {
       "BEV": 55574,
       "PHEV": 24542,
@@ -2507,6 +2628,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1401,
       "FCEV": 3
     },
+    "parque_total": 40966936,
+    "parque_no_enchufable": 40886820,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 38242,
@@ -2562,6 +2685,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 334,
       "REEV": 9
     },
+    "total_bajas_mes": 142162,
     "parque_acumulado": {
       "BEV": 56221,
       "PHEV": 24883,
@@ -2569,6 +2693,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1419,
       "FCEV": 3
     },
+    "parque_total": 40981577,
+    "parque_no_enchufable": 40900473,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 38595,
@@ -2624,6 +2750,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 307,
       "REEV": 13
     },
+    "total_bajas_mes": 151448,
     "parque_acumulado": {
       "BEV": 57670,
       "PHEV": 25183,
@@ -2631,6 +2758,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1431,
       "FCEV": 3
     },
+    "parque_total": 41009994,
+    "parque_no_enchufable": 40927141,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 39021,
@@ -2686,6 +2815,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 350,
       "REEV": 3
     },
+    "total_bajas_mes": 147956,
     "parque_acumulado": {
       "BEV": 58620,
       "PHEV": 25441,
@@ -2693,6 +2823,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1454,
       "FCEV": 3
     },
+    "parque_total": 41031783,
+    "parque_no_enchufable": 40947722,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 39447,
@@ -2748,6 +2880,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 342,
       "REEV": 9
     },
+    "total_bajas_mes": 163558,
     "parque_acumulado": {
       "BEV": 59492,
       "PHEV": 25884,
@@ -2755,6 +2888,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1473,
       "FCEV": 3
     },
+    "parque_total": 41064051,
+    "parque_no_enchufable": 40978675,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 39733,
@@ -2810,6 +2945,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 338,
       "REEV": 5
     },
+    "total_bajas_mes": 159529,
     "parque_acumulado": {
       "BEV": 60680,
       "PHEV": 26783,
@@ -2817,6 +2953,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1516,
       "FCEV": 3
     },
+    "parque_total": 41108209,
+    "parque_no_enchufable": 41020746,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 40062,
@@ -2872,6 +3010,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 349,
       "REEV": 5
     },
+    "total_bajas_mes": 153597,
     "parque_acumulado": {
       "BEV": 61441,
       "PHEV": 27243,
@@ -2879,6 +3018,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1538,
       "FCEV": 3
     },
+    "parque_total": 41144254,
+    "parque_no_enchufable": 41055570,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 40406,
@@ -2934,6 +3075,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 338,
       "REEV": 9
     },
+    "total_bajas_mes": 138090,
     "parque_acumulado": {
       "BEV": 62048,
       "PHEV": 27647,
@@ -2941,6 +3083,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1568,
       "FCEV": 3
     },
+    "parque_total": 41159610,
+    "parque_no_enchufable": 41069915,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 40685,
@@ -2997,6 +3141,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 343,
       "REEV": 6
     },
+    "total_bajas_mes": 151651,
     "parque_acumulado": {
       "BEV": 63609,
       "PHEV": 28010,
@@ -3004,6 +3149,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1593,
       "FCEV": 4
     },
+    "parque_total": 41124264,
+    "parque_no_enchufable": 41032645,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 41157,
@@ -3059,6 +3206,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 513,
       "REEV": 18
     },
+    "total_bajas_mes": 181832,
     "parque_acumulado": {
       "BEV": 64955,
       "PHEV": 28410,
@@ -3066,6 +3214,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1626,
       "FCEV": 4
     },
+    "parque_total": 41087396,
+    "parque_no_enchufable": 40994031,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 41718,
@@ -3121,6 +3271,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 617,
       "REEV": 8
     },
+    "total_bajas_mes": 188598,
     "parque_acumulado": {
       "BEV": 66341,
       "PHEV": 28897,
@@ -3128,6 +3279,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1655,
       "FCEV": 4
     },
+    "parque_total": 41040497,
+    "parque_no_enchufable": 40945259,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 42382,
@@ -3183,6 +3336,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 622,
       "REEV": 11
     },
+    "total_bajas_mes": 257247,
     "parque_acumulado": {
       "BEV": 68507,
       "PHEV": 29729,
@@ -3190,6 +3344,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1671,
       "FCEV": 4
     },
+    "parque_total": 40931338,
+    "parque_no_enchufable": 40833102,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 43760,
@@ -3245,6 +3401,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 413,
       "REEV": 19
     },
+    "total_bajas_mes": 163252,
     "parque_acumulado": {
       "BEV": 69795,
       "PHEV": 30249,
@@ -3252,6 +3409,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1683,
       "FCEV": 4
     },
+    "parque_total": 40912497,
+    "parque_no_enchufable": 40812453,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 44381,
@@ -3307,6 +3466,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 393,
       "REEV": 14
     },
+    "total_bajas_mes": 151831,
     "parque_acumulado": {
       "BEV": 71394,
       "PHEV": 30721,
@@ -3314,6 +3474,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1705,
       "FCEV": 4
     },
+    "parque_total": 40909222,
+    "parque_no_enchufable": 40807107,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 45251,
@@ -3369,6 +3531,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 486,
       "REEV": 6
     },
+    "total_bajas_mes": 167756,
     "parque_acumulado": {
       "BEV": 73296,
       "PHEV": 31520,
@@ -3376,6 +3539,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1726,
       "FCEV": 4
     },
+    "parque_total": 40920229,
+    "parque_no_enchufable": 40815413,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 46549,
@@ -3431,6 +3596,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 458,
       "REEV": 6
     },
+    "total_bajas_mes": 149842,
     "parque_acumulado": {
       "BEV": 74410,
       "PHEV": 32198,
@@ -3438,6 +3604,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1746,
       "FCEV": 4
     },
+    "parque_total": 40945067,
+    "parque_no_enchufable": 40838459,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 47194,
@@ -3494,6 +3662,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 12,
       "FCEV": 1
     },
+    "total_bajas_mes": 172876,
     "parque_acumulado": {
       "BEV": 76232,
       "PHEV": 32869,
@@ -3501,6 +3670,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1764,
       "FCEV": 3
     },
+    "parque_total": 40960311,
+    "parque_no_enchufable": 40851210,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 48184,
@@ -3556,6 +3727,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 541,
       "REEV": 7
     },
+    "total_bajas_mes": 156286,
     "parque_acumulado": {
       "BEV": 78879,
       "PHEV": 33328,
@@ -3563,6 +3735,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1776,
       "FCEV": 3
     },
+    "parque_total": 40995619,
+    "parque_no_enchufable": 40883412,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 49328,
@@ -3618,6 +3792,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 626,
       "REEV": 7
     },
+    "total_bajas_mes": 167053,
     "parque_acumulado": {
       "BEV": 81399,
       "PHEV": 33813,
@@ -3625,6 +3800,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1800,
       "FCEV": 3
     },
+    "parque_total": 41008686,
+    "parque_no_enchufable": 40893474,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 50002,
@@ -3680,6 +3857,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 549,
       "REEV": 6
     },
+    "total_bajas_mes": 133483,
     "parque_acumulado": {
       "BEV": 81973,
       "PHEV": 34253,
@@ -3687,6 +3865,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1809,
       "FCEV": 3
     },
+    "parque_total": 40993642,
+    "parque_no_enchufable": 40877416,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 50464,
@@ -3742,6 +3922,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 734,
       "REEV": 6
     },
+    "total_bajas_mes": 157642,
     "parque_acumulado": {
       "BEV": 83693,
       "PHEV": 34763,
@@ -3749,6 +3930,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1823,
       "FCEV": 3
     },
+    "parque_total": 40965774,
+    "parque_no_enchufable": 40847318,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 51171,
@@ -3804,6 +3987,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1002,
       "REEV": 9
     },
+    "total_bajas_mes": 193886,
     "parque_acumulado": {
       "BEV": 85393,
       "PHEV": 35534,
@@ -3811,6 +3995,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1843,
       "FCEV": 3
     },
+    "parque_total": 40925333,
+    "parque_no_enchufable": 40804406,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 51927,
@@ -3867,6 +4053,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 759,
       "REEV": 1
     },
+    "total_bajas_mes": 180030,
     "parque_acumulado": {
       "BEV": 88342,
       "PHEV": 36360,
@@ -3874,6 +4061,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1858,
       "FCEV": 4
     },
+    "parque_total": 40889990,
+    "parque_no_enchufable": 40765288,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 52669,
@@ -3929,6 +4118,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 950,
       "REEV": 10
     },
+    "total_bajas_mes": 269508,
     "parque_acumulado": {
       "BEV": 90485,
       "PHEV": 37174,
@@ -3936,6 +4126,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1859,
       "FCEV": 4
     },
+    "parque_total": 40771823,
+    "parque_no_enchufable": 40644164,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 53577,
@@ -3991,6 +4183,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 654,
       "REEV": 10
     },
+    "total_bajas_mes": 163678,
     "parque_acumulado": {
       "BEV": 93138,
       "PHEV": 38610,
@@ -3998,6 +4191,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1869,
       "FCEV": 4
     },
+    "parque_total": 40741705,
+    "parque_no_enchufable": 40609957,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 55131,
@@ -4054,6 +4249,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 787,
       "REEV": 8
     },
+    "total_bajas_mes": 162201,
     "parque_acumulado": {
       "BEV": 96038,
       "PHEV": 39832,
@@ -4061,6 +4257,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1891,
       "FCEV": 5
     },
+    "parque_total": 40723662,
+    "parque_no_enchufable": 40587792,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 56631,
@@ -4116,6 +4314,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 821,
       "REEV": 6
     },
+    "total_bajas_mes": 104738,
     "parque_acumulado": {
       "BEV": 97823,
       "PHEV": 40434,
@@ -4123,6 +4322,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1895,
       "FCEV": 5
     },
+    "parque_total": 40683142,
+    "parque_no_enchufable": 40544885,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 57156,
@@ -4178,6 +4379,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 245,
       "REEV": 4
     },
+    "total_bajas_mes": 23964,
     "parque_acumulado": {
       "BEV": 97437,
       "PHEV": 40494,
@@ -4185,6 +4387,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1893,
       "FCEV": 5
     },
+    "parque_total": 40669860,
+    "parque_no_enchufable": 40531929,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 57214,
@@ -4240,6 +4444,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 389,
       "REEV": 2
     },
+    "total_bajas_mes": 70441,
     "parque_acumulado": {
       "BEV": 99351,
       "PHEV": 41223,
@@ -4247,6 +4452,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1901,
       "FCEV": 5
     },
+    "parque_total": 40660951,
+    "parque_no_enchufable": 40520377,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 57405,
@@ -4302,6 +4509,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1012,
       "REEV": 6
     },
+    "total_bajas_mes": 146146,
     "parque_acumulado": {
       "BEV": 101124,
       "PHEV": 42667,
@@ -4309,6 +4517,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1915,
       "FCEV": 5
     },
+    "parque_total": 40654876,
+    "parque_no_enchufable": 40511085,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 58155,
@@ -4364,6 +4574,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1239,
       "REEV": 6
     },
+    "total_bajas_mes": 182746,
     "parque_acumulado": {
       "BEV": 103854,
       "PHEV": 45001,
@@ -4371,6 +4582,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1931,
       "FCEV": 5
     },
+    "parque_total": 40658911,
+    "parque_no_enchufable": 40510056,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 59443,
@@ -4426,6 +4639,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 988,
       "REEV": 1
     },
+    "total_bajas_mes": 149791,
     "parque_acumulado": {
       "BEV": 105469,
       "PHEV": 46275,
@@ -4433,6 +4647,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1942,
       "FCEV": 5
     },
+    "parque_total": 40621015,
+    "parque_no_enchufable": 40469271,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 60356,
@@ -4488,6 +4704,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1558,
       "REEV": 4
     },
+    "total_bajas_mes": 176014,
     "parque_acumulado": {
       "BEV": 108499,
       "PHEV": 48197,
@@ -4495,6 +4712,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1953,
       "FCEV": 5
     },
+    "parque_total": 40566792,
+    "parque_no_enchufable": 40410096,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 62286,
@@ -4550,6 +4769,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1346,
       "REEV": 4
     },
+    "total_bajas_mes": 180374,
     "parque_acumulado": {
       "BEV": 111088,
       "PHEV": 50644,
@@ -4557,6 +4777,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1973,
       "FCEV": 5
     },
+    "parque_total": 40514460,
+    "parque_no_enchufable": 40352728,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 63959,
@@ -4613,6 +4835,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1481,
       "REEV": 5
     },
+    "total_bajas_mes": 176873,
     "parque_acumulado": {
       "BEV": 113598,
       "PHEV": 53530,
@@ -4620,6 +4843,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1989,
       "FCEV": 6
     },
+    "parque_total": 40461409,
+    "parque_no_enchufable": 40294281,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 65561,
@@ -4676,6 +4901,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1737,
       "REEV": 16
     },
+    "total_bajas_mes": 263318,
     "parque_acumulado": {
       "BEV": 118140,
       "PHEV": 59910,
@@ -4683,6 +4909,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1991,
       "FCEV": 11
     },
+    "parque_total": 40354811,
+    "parque_no_enchufable": 40176761,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 69308,
@@ -4738,6 +4966,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1182,
       "REEV": 7
     },
+    "total_bajas_mes": 122728,
     "parque_acumulado": {
       "BEV": 118799,
       "PHEV": 61288,
@@ -4745,6 +4974,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 1991,
       "FCEV": 11
     },
+    "parque_total": 40307418,
+    "parque_no_enchufable": 40127331,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 69605,
@@ -4801,6 +5032,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1541,
       "REEV": 5
     },
+    "total_bajas_mes": 133612,
     "parque_acumulado": {
       "BEV": 119289,
       "PHEV": 63392,
@@ -4808,6 +5040,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2002,
       "FCEV": 14
     },
+    "parque_total": 40274725,
+    "parque_no_enchufable": 40092044,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 70120,
@@ -4863,6 +5097,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2619,
       "REEV": 10
     },
+    "total_bajas_mes": 164472,
     "parque_acumulado": {
       "BEV": 122252,
       "PHEV": 66864,
@@ -4870,6 +5105,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2012,
       "FCEV": 14
     },
+    "parque_total": 40250841,
+    "parque_no_enchufable": 40061725,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 71865,
@@ -4926,6 +5163,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1632,
       "REEV": 9
     },
+    "total_bajas_mes": 141778,
     "parque_acumulado": {
       "BEV": 124557,
       "PHEV": 69868,
@@ -4933,6 +5171,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2019,
       "FCEV": 15
     },
+    "parque_total": 40238136,
+    "parque_no_enchufable": 40043711,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 73041,
@@ -4988,6 +5228,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2022,
       "REEV": 8
     },
+    "total_bajas_mes": 154797,
     "parque_acumulado": {
       "BEV": 127027,
       "PHEV": 74180,
@@ -4995,6 +5236,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2022,
       "FCEV": 15
     },
+    "parque_total": 40231928,
+    "parque_no_enchufable": 40030721,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 74649,
@@ -5051,6 +5294,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2268,
       "REEV": 8
     },
+    "total_bajas_mes": 162834,
     "parque_acumulado": {
       "BEV": 131162,
       "PHEV": 78455,
@@ -5058,6 +5302,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2026,
       "FCEV": 16
     },
+    "parque_total": 40222838,
+    "parque_no_enchufable": 40013221,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 76836,
@@ -5113,6 +5359,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2066,
       "REEV": 6
     },
+    "total_bajas_mes": 154003,
     "parque_acumulado": {
       "BEV": 133442,
       "PHEV": 82224,
@@ -5120,6 +5367,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2042,
       "FCEV": 16
     },
+    "parque_total": 40206879,
+    "parque_no_enchufable": 39991213,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 78204,
@@ -5176,6 +5425,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 8,
       "FCEV": 1
     },
+    "total_bajas_mes": 128510,
     "parque_acumulado": {
       "BEV": 135374,
       "PHEV": 84708,
@@ -5183,6 +5433,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2050,
       "FCEV": 15
     },
+    "parque_total": 40163453,
+    "parque_no_enchufable": 39943371,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 79381,
@@ -5239,6 +5491,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2256,
       "REEV": 9
     },
+    "total_bajas_mes": 158021,
     "parque_acumulado": {
       "BEV": 138985,
       "PHEV": 88409,
@@ -5246,6 +5499,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2050,
       "FCEV": 16
     },
+    "parque_total": 40112374,
+    "parque_no_enchufable": 39884980,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 81977,
@@ -5302,6 +5557,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2088,
       "REEV": 5
     },
+    "total_bajas_mes": 153952,
     "parque_acumulado": {
       "BEV": 140617,
       "PHEV": 92301,
@@ -5309,6 +5565,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2065,
       "FCEV": 17
     },
+    "parque_total": 40065647,
+    "parque_no_enchufable": 39832729,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 84168,
@@ -5365,6 +5623,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2441,
       "REEV": 6
     },
+    "total_bajas_mes": 172029,
     "parque_acumulado": {
       "BEV": 143995,
       "PHEV": 96368,
@@ -5372,6 +5631,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2072,
       "FCEV": 19
     },
+    "parque_total": 40008795,
+    "parque_no_enchufable": 39768432,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 86709,
@@ -5428,6 +5689,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3142,
       "REEV": 4
     },
+    "total_bajas_mes": 250648,
     "parque_acumulado": {
       "BEV": 148682,
       "PHEV": 100830,
@@ -5435,6 +5697,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2087,
       "FCEV": 21
     },
+    "parque_total": 39891200,
+    "parque_no_enchufable": 39641688,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 89869,
@@ -5491,6 +5755,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1648,
       "REEV": 8
     },
+    "total_bajas_mes": 118901,
     "parque_acumulado": {
       "BEV": 150696,
       "PHEV": 103797,
@@ -5498,6 +5763,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2095,
       "FCEV": 23
     },
+    "parque_total": 39852619,
+    "parque_no_enchufable": 39598126,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 91294,
@@ -5554,6 +5821,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1743,
       "REEV": 7
     },
+    "total_bajas_mes": 133884,
     "parque_acumulado": {
       "BEV": 153238,
       "PHEV": 107480,
@@ -5561,6 +5829,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2100,
       "FCEV": 24
     },
+    "parque_total": 39824691,
+    "parque_no_enchufable": 39563973,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 93382,
@@ -5617,6 +5887,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2639,
       "REEV": 9
     },
+    "total_bajas_mes": 156706,
     "parque_acumulado": {
       "BEV": 157235,
       "PHEV": 110493,
@@ -5624,6 +5895,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2106,
       "FCEV": 31
     },
+    "parque_total": 39777169,
+    "parque_no_enchufable": 39509441,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 96224,
@@ -5679,6 +5952,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1462,
       "REEV": 6
     },
+    "total_bajas_mes": 122486,
     "parque_acumulado": {
       "BEV": 159702,
       "PHEV": 114370,
@@ -5686,6 +5960,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2111,
       "FCEV": 31
     },
+    "parque_total": 39768542,
+    "parque_no_enchufable": 39494470,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 97755,
@@ -5741,6 +6017,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2247,
       "REEV": 13
     },
+    "total_bajas_mes": 142635,
     "parque_acumulado": {
       "BEV": 162179,
       "PHEV": 118871,
@@ -5748,6 +6025,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2119,
       "FCEV": 31
     },
+    "parque_total": 39765444,
+    "parque_no_enchufable": 39484394,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 99311,
@@ -5803,6 +6082,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1765,
       "REEV": 8
     },
+    "total_bajas_mes": 140379,
     "parque_acumulado": {
       "BEV": 166532,
       "PHEV": 122711,
@@ -5810,6 +6090,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2127,
       "FCEV": 31
     },
+    "parque_total": 39768940,
+    "parque_no_enchufable": 39479697,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 102097,
@@ -5865,6 +6147,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1585,
       "REEV": 9
     },
+    "total_bajas_mes": 126215,
     "parque_acumulado": {
       "BEV": 169946,
       "PHEV": 126047,
@@ -5872,6 +6155,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2136,
       "FCEV": 31
     },
+    "parque_total": 39766444,
+    "parque_no_enchufable": 39470451,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 103850,
@@ -5927,6 +6212,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1531,
       "REEV": 7
     },
+    "total_bajas_mes": 117444,
     "parque_acumulado": {
       "BEV": 172246,
       "PHEV": 128538,
@@ -5934,6 +6220,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2139,
       "FCEV": 31
     },
+    "parque_total": 39741219,
+    "parque_no_enchufable": 39440435,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 104887,
@@ -5989,6 +6277,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 1854,
       "REEV": 3
     },
+    "total_bajas_mes": 137307,
     "parque_acumulado": {
       "BEV": 176514,
       "PHEV": 132332,
@@ -5996,6 +6285,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2157,
       "FCEV": 31
     },
+    "parque_total": 39718454,
+    "parque_no_enchufable": 39409608,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 107912,
@@ -6051,6 +6342,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2858,
       "REEV": 11
     },
+    "total_bajas_mes": 137372,
     "parque_acumulado": {
       "BEV": 180470,
       "PHEV": 136025,
@@ -6058,6 +6350,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2169,
       "FCEV": 31
     },
+    "parque_total": 39695125,
+    "parque_no_enchufable": 39378630,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 110441,
@@ -6113,6 +6407,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4260,
       "REEV": 7
     },
+    "total_bajas_mes": 154338,
     "parque_acumulado": {
       "BEV": 185251,
       "PHEV": 140492,
@@ -6120,6 +6415,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2174,
       "FCEV": 31
     },
+    "parque_total": 39663077,
+    "parque_no_enchufable": 39337334,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 113616,
@@ -6176,6 +6473,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4738,
       "REEV": 7
     },
+    "total_bajas_mes": 223129,
     "parque_acumulado": {
       "BEV": 189435,
       "PHEV": 144645,
@@ -6183,6 +6481,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2178,
       "FCEV": 32
     },
+    "parque_total": 39559193,
+    "parque_no_enchufable": 39225113,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 116848,
@@ -6239,6 +6539,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2654,
       "REEV": 4
     },
+    "total_bajas_mes": 116586,
     "parque_acumulado": {
       "BEV": 193386,
       "PHEV": 148464,
@@ -6246,6 +6547,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2184,
       "FCEV": 36
     },
+    "parque_total": 39550099,
+    "parque_no_enchufable": 39208249,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 120040,
@@ -6301,6 +6604,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3420,
       "REEV": 5
     },
+    "total_bajas_mes": 125631,
     "parque_acumulado": {
       "BEV": 197120,
       "PHEV": 152929,
@@ -6308,6 +6612,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2189,
       "FCEV": 36
     },
+    "parque_total": 39543458,
+    "parque_no_enchufable": 39193409,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 123348,
@@ -6364,6 +6670,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3116,
       "REEV": 6
     },
+    "total_bajas_mes": 152018,
     "parque_acumulado": {
       "BEV": 202655,
       "PHEV": 158571,
@@ -6371,6 +6678,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2191,
       "FCEV": 43
     },
+    "parque_total": 39547748,
+    "parque_no_enchufable": 39186522,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 127817,
@@ -6427,6 +6736,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2415,
       "REEV": 6
     },
+    "total_bajas_mes": 113655,
     "parque_acumulado": {
       "BEV": 207506,
       "PHEV": 162676,
@@ -6434,6 +6744,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2198,
       "FCEV": 44
     },
+    "parque_total": 39554663,
+    "parque_no_enchufable": 39184481,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 131347,
@@ -6489,6 +6801,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3407,
       "REEV": 6
     },
+    "total_bajas_mes": 155639,
     "parque_acumulado": {
       "BEV": 213139,
       "PHEV": 168362,
@@ -6496,6 +6809,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2197,
       "FCEV": 44
     },
+    "parque_total": 39549558,
+    "parque_no_enchufable": 39168057,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 135748,
@@ -6551,6 +6866,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3140,
       "REEV": 4
     },
+    "total_bajas_mes": 144004,
     "parque_acumulado": {
       "BEV": 220034,
       "PHEV": 174562,
@@ -6558,6 +6874,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2205,
       "FCEV": 44
     },
+    "parque_total": 39567887,
+    "parque_no_enchufable": 39173291,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 141551,
@@ -6614,6 +6932,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3443,
       "REEV": 4
     },
+    "total_bajas_mes": 209097,
     "parque_acumulado": {
       "BEV": 225287,
       "PHEV": 179284,
@@ -6621,6 +6940,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2217,
       "FCEV": 47
     },
+    "parque_total": 39497207,
+    "parque_no_enchufable": 39092636,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 145003,
@@ -6676,6 +6997,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2626,
       "REEV": 4
     },
+    "total_bajas_mes": 114741,
     "parque_acumulado": {
       "BEV": 230338,
       "PHEV": 182252,
@@ -6683,6 +7005,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2219,
       "FCEV": 47
     },
+    "parque_total": 39482256,
+    "parque_no_enchufable": 39069666,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 148593,
@@ -6739,6 +7063,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 2989,
       "REEV": 7
     },
+    "total_bajas_mes": 166173,
     "parque_acumulado": {
       "BEV": 235091,
       "PHEV": 186551,
@@ -6746,6 +7071,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2218,
       "FCEV": 49
     },
+    "parque_total": 39428808,
+    "parque_no_enchufable": 39007166,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 152252,
@@ -6802,6 +7129,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3887,
       "REEV": 3
     },
+    "total_bajas_mes": 145575,
     "parque_acumulado": {
       "BEV": 242388,
       "PHEV": 191792,
@@ -6809,6 +7137,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2219,
       "FCEV": 51
     },
+    "parque_total": 39424278,
+    "parque_no_enchufable": 38990098,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 157686,
@@ -6865,6 +7195,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4780,
       "REEV": 5
     },
+    "total_bajas_mes": 158594,
     "parque_acumulado": {
       "BEV": 249894,
       "PHEV": 197197,
@@ -6872,6 +7203,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2226,
       "FCEV": 53
     },
+    "parque_total": 39399886,
+    "parque_no_enchufable": 38952795,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 163799,
@@ -6928,6 +7261,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4364,
       "REEV": 10
     },
+    "total_bajas_mes": 412836,
     "parque_acumulado": {
       "BEV": 256185,
       "PHEV": 203554,
@@ -6935,6 +7269,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2222,
       "FCEV": 56
     },
+    "parque_total": 39114708,
+    "parque_no_enchufable": 38654969,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 169617,
@@ -6991,6 +7327,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3626,
       "REEV": 5
     },
+    "total_bajas_mes": 127515,
     "parque_acumulado": {
       "BEV": 260265,
       "PHEV": 207925,
@@ -6998,6 +7335,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2227,
       "FCEV": 57
     },
+    "parque_total": 39104229,
+    "parque_no_enchufable": 38636039,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 172834,
@@ -7054,6 +7393,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4724,
       "REEV": 4
     },
+    "total_bajas_mes": 826153,
     "parque_acumulado": {
       "BEV": 264758,
       "PHEV": 213256,
@@ -7061,6 +7401,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2231,
       "FCEV": 58
     },
+    "parque_total": 38412094,
+    "parque_no_enchufable": 37934080,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 176472,
@@ -7116,6 +7458,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4358,
       "REEV": 4
     },
+    "total_bajas_mes": 127017,
     "parque_acumulado": {
       "BEV": 269739,
       "PHEV": 218474,
@@ -7123,6 +7466,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2235,
       "FCEV": 58
     },
+    "parque_total": 38433873,
+    "parque_no_enchufable": 37945660,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 180512,
@@ -7179,6 +7524,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4361,
       "REEV": 3
     },
+    "total_bajas_mes": 145382,
     "parque_acumulado": {
       "BEV": 273458,
       "PHEV": 223270,
@@ -7186,6 +7532,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2245,
       "FCEV": 59
     },
+    "parque_total": 38442495,
+    "parque_no_enchufable": 37945767,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 184203,
@@ -7242,6 +7590,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3295,
       "REEV": 6
     },
+    "total_bajas_mes": 146018,
     "parque_acumulado": {
       "BEV": 278837,
       "PHEV": 227891,
@@ -7249,6 +7598,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2248,
       "FCEV": 72
     },
+    "parque_total": 38455266,
+    "parque_no_enchufable": 37948538,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 188446,
@@ -7305,6 +7656,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3056,
       "REEV": 4
     },
+    "total_bajas_mes": 127830,
     "parque_acumulado": {
       "BEV": 285090,
       "PHEV": 232583,
@@ -7312,6 +7664,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2249,
       "FCEV": 79
     },
+    "parque_total": 38493457,
+    "parque_no_enchufable": 37975784,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 193856,
@@ -7368,6 +7722,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 4096,
       "REEV": 4
     },
+    "total_bajas_mes": 141191,
     "parque_acumulado": {
       "BEV": 289909,
       "PHEV": 236608,
@@ -7375,6 +7730,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2258,
       "FCEV": 103
     },
+    "parque_total": 38502481,
+    "parque_no_enchufable": 37975964,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 197329,
@@ -7431,6 +7788,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 3593,
       "REEV": 8
     },
+    "total_bajas_mes": 116271,
     "parque_acumulado": {
       "BEV": 293571,
       "PHEV": 239412,
@@ -7438,6 +7796,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2259,
       "FCEV": 113
     },
+    "parque_total": 38484100,
+    "parque_no_enchufable": 37951117,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 199968,
@@ -7494,6 +7854,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 5312,
       "REEV": 3
     },
+    "total_bajas_mes": 140917,
     "parque_acumulado": {
       "BEV": 300625,
       "PHEV": 242887,
@@ -7501,6 +7862,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2268,
       "FCEV": 116
     },
+    "parque_total": 38473550,
+    "parque_no_enchufable": 37930038,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 206158,
@@ -7557,6 +7920,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 6861,
       "REEV": 7
     },
+    "total_bajas_mes": 170100,
     "parque_acumulado": {
       "BEV": 306646,
       "PHEV": 247339,
@@ -7564,6 +7928,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2272,
       "FCEV": 120
     },
+    "parque_total": 38454998,
+    "parque_no_enchufable": 37901013,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 210801,
@@ -7619,6 +7985,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 10949,
       "REEV": 17
     },
+    "total_bajas_mes": 265702,
     "parque_acumulado": {
       "BEV": 312539,
       "PHEV": 251170,
@@ -7626,6 +7993,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2264,
       "FCEV": 120
     },
+    "parque_total": 38330272,
+    "parque_no_enchufable": 37766563,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 215832,
@@ -7681,6 +8050,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 9138,
       "REEV": 16
     },
+    "total_bajas_mes": 264448,
     "parque_acumulado": {
       "BEV": 322689,
       "PHEV": 257194,
@@ -7688,6 +8058,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2254,
       "FCEV": 120
     },
+    "parque_total": 38232514,
+    "parque_no_enchufable": 37652631,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 224236,
@@ -7743,6 +8115,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 8083,
       "REEV": 6
     },
+    "total_bajas_mes": 176111,
     "parque_acumulado": {
       "BEV": 328607,
       "PHEV": 262351,
@@ -7750,6 +8123,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2255,
       "FCEV": 120
     },
+    "parque_total": 38181828,
+    "parque_no_enchufable": 37590870,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 228967,
@@ -7805,6 +8180,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 7867,
       "REEV": 16
     },
+    "total_bajas_mes": 183167,
     "parque_acumulado": {
       "BEV": 335485,
       "PHEV": 269201,
@@ -7812,6 +8188,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2250,
       "FCEV": 120
     },
+    "parque_total": 38145746,
+    "parque_no_enchufable": 37541060,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 234802,
@@ -7867,6 +8245,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 7956,
       "REEV": 11
     },
+    "total_bajas_mes": 181209,
     "parque_acumulado": {
       "BEV": 343873,
       "PHEV": 277307,
@@ -7874,6 +8253,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2250,
       "FCEV": 120
     },
+    "parque_total": 38143882,
+    "parque_no_enchufable": 37522702,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 242763,
@@ -7929,6 +8310,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 6344,
       "REEV": 8
     },
+    "total_bajas_mes": 148080,
     "parque_acumulado": {
       "BEV": 350230,
       "PHEV": 286716,
@@ -7936,6 +8318,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2251,
       "FCEV": 120
     },
+    "parque_total": 38158352,
+    "parque_no_enchufable": 37521406,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 249742,
@@ -7991,6 +8375,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 6664,
       "REEV": 5
     },
+    "total_bajas_mes": 158891,
     "parque_acumulado": {
       "BEV": 359693,
       "PHEV": 300057,
@@ -7998,6 +8383,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2252,
       "FCEV": 120
     },
+    "parque_total": 38185211,
+    "parque_no_enchufable": 37525461,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 258613,
@@ -8055,6 +8442,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 5,
       "FCEV": 1
     },
+    "total_bajas_mes": 151195,
     "parque_acumulado": {
       "BEV": 372497,
       "PHEV": 314096,
@@ -8062,6 +8450,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2253,
       "FCEV": 120
     },
+    "parque_total": 38228037,
+    "parque_no_enchufable": 37541444,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 269794,
@@ -8117,6 +8507,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 7195,
       "REEV": 3
     },
+    "total_bajas_mes": 159294,
     "parque_acumulado": {
       "BEV": 382837,
       "PHEV": 326660,
@@ -8124,6 +8515,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2253,
       "FCEV": 120
     },
+    "parque_total": 38247782,
+    "parque_no_enchufable": 37538285,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 278379,
@@ -8179,6 +8572,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 5353,
       "REEV": 4
     },
+    "total_bajas_mes": 116984,
     "parque_acumulado": {
       "BEV": 390669,
       "PHEV": 334810,
@@ -8186,6 +8580,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2260,
       "FCEV": 120
     },
+    "parque_total": 38243936,
+    "parque_no_enchufable": 37518457,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 285178,
@@ -8242,6 +8638,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 8074,
       "REEV": 5
     },
+    "total_bajas_mes": 161702,
     "parque_acumulado": {
       "BEV": 401415,
       "PHEV": 344833,
@@ -8249,6 +8646,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2366,
       "FCEV": 121
     },
+    "parque_total": 38236597,
+    "parque_no_enchufable": 37490349,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 294820,
@@ -8306,6 +8705,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 10,
       "FCEV": 1
     },
+    "total_bajas_mes": 200864,
     "parque_acumulado": {
       "BEV": 411418,
       "PHEV": 357627,
@@ -8313,6 +8713,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2492,
       "FCEV": 122
     },
+    "parque_total": 38212603,
+    "parque_no_enchufable": 37443558,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 303307,
@@ -8370,6 +8772,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 10,
       "FCEV": 4
     },
+    "total_bajas_mes": 170701,
     "parque_acumulado": {
       "BEV": 422134,
       "PHEV": 369195,
@@ -8377,6 +8780,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2624,
       "FCEV": 136
     },
+    "parque_total": 38202600,
+    "parque_no_enchufable": 37411271,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 312119,
@@ -8433,6 +8838,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 13363,
       "REEV": 10
     },
+    "total_bajas_mes": 462441,
     "parque_acumulado": {
       "BEV": 432443,
       "PHEV": 381267,
@@ -8440,6 +8846,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2723,
       "FCEV": 138
     },
+    "parque_total": 37906305,
+    "parque_no_enchufable": 37092595,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 321937,
@@ -8495,6 +8903,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 6867,
       "REEV": 15
     },
+    "total_bajas_mes": 121938,
     "parque_acumulado": {
       "BEV": 438995,
       "PHEV": 388985,
@@ -8502,6 +8911,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2776,
       "FCEV": 138
     },
+    "parque_total": 37914910,
+    "parque_no_enchufable": 37086930,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 327969,
@@ -8558,6 +8969,7 @@ export const dgtParqueMensual: ParqueMes[] = [
       "HEV": 7788,
       "REEV": 7
     },
+    "total_bajas_mes": 140532,
     "parque_acumulado": {
       "BEV": 447171,
       "PHEV": 400928,
@@ -8565,6 +8977,8 @@ export const dgtParqueMensual: ParqueMes[] = [
       "REEV": 2843,
       "FCEV": 139
     },
+    "parque_total": 37936060,
+    "parque_no_enchufable": 37087961,
     "parque_por_tipo": {
       "turismo": {
         "BEV": 336195,

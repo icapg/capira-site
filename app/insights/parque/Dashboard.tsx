@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as echarts from "echarts";
 import {
   dgtParqueMeta,
@@ -10,34 +10,75 @@ import {
 } from "../../lib/insights/dgt-parque-data";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PRE-COMPUTED
+// TIPOS DE VEHÍCULO — exactamente los mismos que matriculaciones DGT
+// Los tipo_grupo del JSON de parque (turismo, suv_todo_terreno, furgoneta_van,
+// moto, especial…) se mapean aquí a los keys canónicos de matriculaciones.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const PERIODOS  = dgtParqueMensual.map((m) => m.periodo);
-const PAR_BEV   = dgtParqueMensual.map((m) => m.parque_acumulado.BEV  ?? 0);
-const PAR_PHEV  = dgtParqueMensual.map((m) => m.parque_acumulado.PHEV ?? 0);
-const PAR_HEV   = dgtParqueMensual.map((m) => m.parque_acumulado.HEV  ?? 0);
-const MAT_BEV   = dgtParqueMensual.map((m) => m.matriculaciones_mes.BEV  ?? 0);
-const MAT_PHEV  = dgtParqueMensual.map((m) => m.matriculaciones_mes.PHEV ?? 0);
-const MAT_HEV   = dgtParqueMensual.map((m) => m.matriculaciones_mes.HEV  ?? 0);
-const BAJA_BEV  = dgtParqueMensual.map((m) => m.bajas_mes.BEV  ?? 0);
-const BAJA_PHEV = dgtParqueMensual.map((m) => m.bajas_mes.PHEV ?? 0);
-const BAJA_HEV  = dgtParqueMensual.map((m) => m.bajas_mes.HEV  ?? 0);
+type ParqueFiltroTipo = "turismo" | "furgoneta" | "moto_scooter" | "microcar" | "camion" | "autobus" | "otros";
 
-// Saldo neto mensual
-const NET_BEV  = dgtParqueMensual.map((m) =>
-  (m.matriculaciones_mes.BEV ?? 0) - (m.bajas_mes.BEV ?? 0));
-const NET_PHEV = dgtParqueMensual.map((m) =>
-  (m.matriculaciones_mes.PHEV ?? 0) - (m.bajas_mes.PHEV ?? 0));
+const TIPO_LABELS: Record<ParqueFiltroTipo, string> = {
+  turismo:      "Turismo",
+  furgoneta:    "Furgoneta",
+  moto_scooter: "Moto / Scooter",
+  microcar:     "Microcar",
+  camion:       "Camión",
+  autobus:      "Autobús",
+  otros:        "Otros",
+};
 
-// Resumen por tipo_grupo (último mes)
-const tipoEntries = Object.entries(dgtParqueResumenPorTipo).map(([tg, cats]) => ({
-  tipo: tg,
-  BEV:  cats.BEV?.parque_activo  ?? 0,
-  PHEV: cats.PHEV?.parque_activo ?? 0,
-  HEV:  cats.HEV?.parque_activo  ?? 0,
-  total: (cats.BEV?.parque_activo ?? 0) + (cats.PHEV?.parque_activo ?? 0) + (cats.HEV?.parque_activo ?? 0),
-})).sort((a, b) => b.total - a.total);
+const TIPOS_ORDER: ParqueFiltroTipo[] = ["turismo", "furgoneta", "moto_scooter", "microcar", "camion", "autobus", "otros"];
+const TIPOS_DEFAULT: ParqueFiltroTipo[] = TIPOS_ORDER.filter((t) => t !== "otros");
+
+// Mapeo de filtro-key → tipo_grupo(s) reales en el JSON de parque
+const FILTRO_TO_PARQUE_TIPOS: Record<ParqueFiltroTipo, string[]> = {
+  turismo:      ["turismo", "suv_todo_terreno"],
+  furgoneta:    ["furgoneta_van"],
+  moto_scooter: ["moto"],
+  microcar:     [],           // no existe como tipo_grupo separado en parque
+  camion:       ["camion"],
+  autobus:      ["autobus"],
+  otros:        ["especial", "otros"],
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PRE-COMPUTED (módulo — no cambian)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const PERIODOS = dgtParqueMensual.map((m) => m.periodo);
+const MAT_BEV  = dgtParqueMensual.map((m) => m.matriculaciones_mes.BEV ?? 0);
+const BAJA_BEV = dgtParqueMensual.map((m) => m.bajas_mes.BEV ?? 0);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS DE FILTRADO
+// ─────────────────────────────────────────────────────────────────────────────
+
+function filtroToParqueTipos(filtros: ParqueFiltroTipo[]): string[] {
+  return filtros.flatMap((f) => FILTRO_TO_PARQUE_TIPOS[f]);
+}
+
+function filtrarParqueBev(filtros: ParqueFiltroTipo[]): number[] {
+  const parqueTipos = filtroToParqueTipos(filtros);
+  const isAll = parqueTipos.length === 0 || filtros.length === TIPOS_ORDER.length;
+  return dgtParqueMensual.map((m) => {
+    if (isAll || !m.parque_por_tipo) return m.parque_acumulado.BEV ?? 0;
+    return parqueTipos.reduce((s, t) => s + ((m.parque_por_tipo as any)[t]?.BEV ?? 0), 0);
+  });
+}
+
+function filtrarParquePhev(filtros: ParqueFiltroTipo[]): number[] {
+  const parqueTipos = filtroToParqueTipos(filtros);
+  const isAll = parqueTipos.length === 0 || filtros.length === TIPOS_ORDER.length;
+  return dgtParqueMensual.map((m) => {
+    if (isAll || !m.parque_por_tipo) return m.parque_acumulado.PHEV ?? 0;
+    return parqueTipos.reduce((s, t) => s + ((m.parque_por_tipo as any)[t]?.PHEV ?? 0), 0);
+  });
+}
+
+/** No enchufables = total parque − BEV − PHEV (combustión + HEV + todo lo que no es enchufable) */
+function filtrarParqueNoEnchufable(): number[] {
+  return dgtParqueMensual.map((m) => m.parque_no_enchufable);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DESIGN TOKENS
@@ -49,7 +90,6 @@ const C = {
   border: "rgba(255,255,255,0.07)",
   bev:    "#38bdf8",
   phev:   "#fb923c",
-  hev:    "#a78bfa",
   green:  "#34d399",
   red:    "#f87171",
   text:   "#f1f5f9",
@@ -86,22 +126,23 @@ function kLabel(n: number) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// HOOK
+// HOOK — react a cambios en deps
 // ─────────────────────────────────────────────────────────────────────────────
 
 function useChart(
   ref: React.RefObject<HTMLDivElement | null>,
-  build: () => Record<string, any>
+  build: () => Record<string, any>,
+  deps: React.DependencyList = []
 ) {
   useEffect(() => {
     if (!ref.current) return;
     const chart = echarts.init(ref.current, undefined, { renderer: "svg" });
-    chart.setOption(build());
+    chart.setOption(build(), true);
     const ro = new ResizeObserver(() => chart.resize());
     ro.observe(ref.current);
     return () => { chart.dispose(); ro.disconnect(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, deps);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -138,7 +179,9 @@ function KpiCard({
 // CHARTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-function ChartParqueEvolucion() {
+const C_NOENCH = "#94a3b8"; // color para no enchufables
+
+function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]; parPhev: number[]; parNoEnch: number[] }) {
   const ref = useRef<HTMLDivElement>(null);
   useChart(ref, () => ({
     backgroundColor: "transparent",
@@ -154,7 +197,16 @@ function ChartParqueEvolucion() {
           ).join("")
       }
     },
-    legend: { top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 } },
+    legend: {
+      top: 0, right: 0,
+      textStyle: { color: C.muted, fontSize: 12 },
+      itemWidth: 18, itemHeight: 4,
+      data: [
+        { name: "No enchufables", icon: "path://M0,1 L5,1 L5,3 L0,3 Z M8,1 L13,1 L13,3 L8,3 Z M16,1 L21,1 L21,3 L16,3 Z" },
+        { name: "PHEV",           icon: "roundRect" },
+        { name: "BEV",            icon: "roundRect" },
+      ],
+    },
     xAxis: { type: "category", data: PERIODOS,
       axisLabel: { color: C.muted, fontSize: 11,
         formatter: (v: string) => {
@@ -165,38 +217,46 @@ function ChartParqueEvolucion() {
       axisLine: { lineStyle: { color: C.grid } },
       splitLine: { show: false },
     },
-    yAxis: { type: "value",
-      axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => kLabel(v) },
-      splitLine: { lineStyle: { color: C.grid } },
-    },
+    yAxis: [
+      { type: "value",
+        axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => kLabel(v) },
+        splitLine: { lineStyle: { color: C.grid } },
+      },
+      { type: "value",
+        axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => kLabel(v) },
+        splitLine: { show: false },
+      },
+    ],
     series: [
       {
-        name: "HEV", type: "line", data: PAR_HEV, smooth: true, symbol: "none",
-        lineStyle: { color: C.hev, width: 2 },
-        areaStyle: { color: linGrad(C.hev, 0.25, 0.02) },
+        name: "No enchufables", color: C_NOENCH, type: "line", data: parNoEnch, smooth: true, symbol: "none",
+        yAxisIndex: 1,
+        lineStyle: { color: C_NOENCH, width: 1.5, type: "dashed" },
+        areaStyle: { color: linGrad(C_NOENCH, 0.08, 0.01) },
       },
       {
-        name: "PHEV", type: "line", data: PAR_PHEV, smooth: true, symbol: "none",
+        name: "PHEV", color: C.phev, type: "line", data: parPhev, smooth: true, symbol: "none",
+        yAxisIndex: 0,
         lineStyle: { color: C.phev, width: 2 },
         areaStyle: { color: linGrad(C.phev, 0.25, 0.02) },
       },
       {
-        name: "BEV", type: "line", data: PAR_BEV, smooth: true, symbol: "none",
+        name: "BEV", color: C.bev, type: "line", data: parBev, smooth: true, symbol: "none",
+        yAxisIndex: 0,
         lineStyle: { color: C.bev, width: 2 },
         areaStyle: { color: linGrad(C.bev, 0.25, 0.02) },
       },
     ],
-  }));
-  return <div ref={ref} style={{ width: "100%", height: 320 }} />;
+  }), [parBev, parPhev, parNoEnch]);
+  return <div ref={ref} style={{ width: "100%", height: 340 }} />;
 }
 
-function ChartSaldoNeto() {
+function ChartSaldoNeto({ netBev, netPhev }: { netBev: number[]; netPhev: number[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  // Show only from 2019 onwards for readability
   const from = PERIODOS.findIndex((p) => p >= "2019-01");
-  const periodos = PERIODOS.slice(from);
-  const netBev   = NET_BEV.slice(from);
-  const netPhev  = NET_PHEV.slice(from);
+  const periodos  = PERIODOS.slice(from);
+  const slicedBev  = netBev.slice(from);
+  const slicedPhev = netPhev.slice(from);
 
   useChart(ref, () => ({
     backgroundColor: "transparent",
@@ -229,15 +289,15 @@ function ChartSaldoNeto() {
     },
     series: [
       {
-        name: "BEV neto", type: "bar", data: netBev, barMaxWidth: 10,
+        name: "BEV neto", type: "bar", data: slicedBev, barMaxWidth: 10,
         itemStyle: { color: (p: any) => p.value >= 0 ? C.bev : C.red, borderRadius: 2 },
       },
       {
-        name: "PHEV neto", type: "bar", data: netPhev, barMaxWidth: 10,
+        name: "PHEV neto", type: "bar", data: slicedPhev, barMaxWidth: 10,
         itemStyle: { color: (p: any) => p.value >= 0 ? C.phev : C.red, borderRadius: 2 },
       },
     ],
-  }));
+  }), [netBev, netPhev]);
   return <div ref={ref} style={{ width: "100%", height: 280 }} />;
 }
 
@@ -245,8 +305,8 @@ function ChartMatVsBajas() {
   const ref = useRef<HTMLDivElement>(null);
   const from = PERIODOS.findIndex((p) => p >= "2020-01");
   const periodos = PERIODOS.slice(from);
-  const matBev  = MAT_BEV.slice(from);
-  const bajBev  = BAJA_BEV.slice(from).map((v) => -v);
+  const matBev   = MAT_BEV.slice(from);
+  const bajBev   = BAJA_BEV.slice(from).map((v) => -v);
 
   useChart(ref, () => ({
     backgroundColor: "transparent",
@@ -285,16 +345,15 @@ function ChartMatVsBajas() {
         itemStyle: { color: C.red, opacity: 0.8, borderRadius: [0, 0, 2, 2] },
       },
     ],
-  }));
+  }), []);
   return <div ref={ref} style={{ width: "100%", height: 260 }} />;
 }
 
-function ChartPorTipo() {
+function ChartPorTipo({ entries }: { entries: { tipo: string; BEV: number; PHEV: number }[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const tipos   = tipoEntries.map((t) => t.tipo.replace("_", " "));
-  const bevData  = tipoEntries.map((t) => t.BEV);
-  const phevData = tipoEntries.map((t) => Math.max(t.PHEV, 0));
-  const hevData  = tipoEntries.map((t) => t.HEV);
+  const tipos    = entries.map((t) => TIPO_LABELS[t.tipo as ParqueFiltroTipo] ?? t.tipo.replace(/_/g, " "));
+  const bevData  = entries.map((t) => t.BEV);
+  const phevData = entries.map((t) => Math.max(t.PHEV, 0));
 
   useChart(ref, () => ({
     backgroundColor: "transparent",
@@ -321,14 +380,12 @@ function ChartPorTipo() {
     },
     series: [
       { name: "BEV",  type: "bar", data: bevData.slice().reverse(),  stack: "t", barMaxWidth: 24,
-        itemStyle: { color: C.bev,  borderRadius: 0 } },
+        itemStyle: { color: C.bev, borderRadius: 0 } },
       { name: "PHEV", type: "bar", data: phevData.slice().reverse(), stack: "t", barMaxWidth: 24,
-        itemStyle: { color: C.phev, borderRadius: 0 } },
-      { name: "HEV",  type: "bar", data: hevData.slice().reverse(),  stack: "t", barMaxWidth: 24,
-        itemStyle: { color: C.hev,  borderRadius: [0, 3, 3, 0] } },
+        itemStyle: { color: C.phev, borderRadius: [0, 3, 3, 0] } },
     ],
-  }));
-  return <div ref={ref} style={{ width: "100%", height: 280 }} />;
+  }), [entries]);
+  return <div ref={ref} style={{ width: "100%", height: Math.max(200, entries.length * 44) }} />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -350,9 +407,64 @@ const sDesc: React.CSSProperties = {
 export function Dashboard() {
   const R = dgtParqueResumen;
 
-  const totalEv = (R.BEV?.parque_activo ?? 0) + (R.PHEV?.parque_activo ?? 0) +
-                  (R.HEV?.parque_activo ?? 0) + (R.REEV?.parque_activo ?? 0) +
-                  (R.FCEV?.parque_activo ?? 0);
+  // ── Filtro por tipo de vehículo ─────────────────────────────────────────
+  const [tiposVehiculo, setTiposVehiculo] = useState<ParqueFiltroTipo[]>(TIPOS_DEFAULT);
+
+  const isAllDefault = tiposVehiculo.length === TIPOS_DEFAULT.length &&
+    TIPOS_DEFAULT.every((t) => tiposVehiculo.includes(t));
+  const otrosSelected = tiposVehiculo.includes("otros");
+
+  function toggleTipo(t: ParqueFiltroTipo) {
+    if (t === "otros") {
+      setTiposVehiculo((prev) =>
+        prev.includes("otros") ? prev.filter((x) => x !== "otros") : [...prev, "otros"]
+      );
+      return;
+    }
+    setTiposVehiculo((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
+    );
+  }
+
+  function selectTodos() {
+    setTiposVehiculo(TIPOS_DEFAULT);
+  }
+
+  // ── Series filtradas ────────────────────────────────────────────────────
+  const parBev     = useMemo(() => filtrarParqueBev(tiposVehiculo),  [tiposVehiculo]);
+  const parPhev    = useMemo(() => filtrarParquePhev(tiposVehiculo), [tiposVehiculo]);
+  const parNoEnch  = useMemo(() => filtrarParqueNoEnchufable(), []);
+
+  // Saldo neto mensual derivado del parque filtrado (diff entre periodos)
+  const netBev  = useMemo(() => parBev.map((v, i)  => i === 0 ? v : v - parBev[i-1]),  [parBev]);
+  const netPhev = useMemo(() => parPhev.map((v, i) => i === 0 ? v : v - parPhev[i-1]), [parPhev]);
+
+  // ── KPIs filtrados (via mapeo filtro → tipo_grupo) ─────────────────────
+  const parqueTiposActivos = useMemo(() => filtroToParqueTipos(tiposVehiculo), [tiposVehiculo]);
+
+  const filteredBev  = useMemo(() =>
+    parqueTiposActivos.reduce((s, t) => s + (dgtParqueResumenPorTipo[t]?.BEV?.parque_activo  ?? 0), 0),
+    [parqueTiposActivos]
+  );
+  const filteredPhev = useMemo(() =>
+    parqueTiposActivos.reduce((s, t) => s + (dgtParqueResumenPorTipo[t]?.PHEV?.parque_activo ?? 0), 0),
+    [parqueTiposActivos]
+  );
+
+  // ── Entradas para ChartPorTipo ──────────────────────────────────────────
+  const tipoEntries = useMemo(() =>
+    TIPOS_ORDER
+      .filter((t) => tiposVehiculo.includes(t))
+      .map((t) => {
+        const parqueTipos = FILTRO_TO_PARQUE_TIPOS[t];
+        const bev  = parqueTipos.reduce((s, pt) => s + (dgtParqueResumenPorTipo[pt]?.BEV?.parque_activo  ?? 0), 0);
+        const phev = parqueTipos.reduce((s, pt) => s + (dgtParqueResumenPorTipo[pt]?.PHEV?.parque_activo ?? 0), 0);
+        return { tipo: t, BEV: bev, PHEV: phev };
+      })
+      .filter((e) => e.BEV + e.PHEV > 0)
+      .sort((a, b) => (b.BEV + b.PHEV) - (a.BEV + a.PHEV)),
+    [tiposVehiculo]
+  );
 
   const lastMes = dgtParqueMensual[dgtParqueMensual.length - 1];
   const lastNetBev = (lastMes.matriculaciones_mes.BEV ?? 0) - (lastMes.bajas_mes.BEV ?? 0);
@@ -362,45 +474,93 @@ export function Dashboard() {
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "32px 24px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 32 }}>
+        <div style={{ marginBottom: 24 }}>
           <h1 style={{ fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: "-0.02em" }}>
             Parque activo EV — España
           </h1>
           <p style={{ color: C.muted, fontSize: 14, margin: "6px 0 0" }}>
-            Vehículos electrificados en circulación.
+            Vehículos electrificados en circulación (BEV + PHEV, sin HEV).
             Datos DGT microdatos MATRABA · Hasta {dgtParqueMeta.ultimo_periodo}
           </p>
+        </div>
+
+        {/* ── Filtro tipo de vehículo ───────────────────────────────────── */}
+        <div style={{ marginBottom: 28, display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ fontSize: 11, color: C.dim, marginRight: 4 }}>Vehículo:</span>
+
+          {/* Todos */}
+          <button
+            onClick={selectTodos}
+            style={{
+              padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
+              border: isAllDefault && !otrosSelected ? `1px solid ${C.text}44` : "1px solid transparent",
+              background: isAllDefault && !otrosSelected ? "rgba(241,245,249,0.1)" : "rgba(255,255,255,0.04)",
+              color: isAllDefault && !otrosSelected ? C.text : C.muted,
+              transition: "all 0.15s",
+            }}
+          >
+            Todos
+          </button>
+
+          {/* Tipos individuales */}
+          {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as ParqueFiltroTipo[]).map((t) => {
+            const active = tiposVehiculo.includes(t);
+            const col = t === "turismo"      ? "#38bdf8"
+              : t === "furgoneta"            ? "#a78bfa"
+              : t === "moto_scooter"         ? "#fb923c"
+              : t === "microcar"             ? "#34d399"
+              : t === "camion"               ? "#fbbf24"
+              : t === "autobus"              ? "#f87171"
+              : "#94a3b8";
+            const isOtros = t === "otros";
+            const otrosExcluido = isOtros && !active;
+            const tooltip = isOtros
+              ? "Incluye: vehículos especiales industriales, quads/ATV, carretillas y otras categorías no clasificadas"
+              : undefined;
+            return (
+              <button key={t} title={tooltip} onClick={() => toggleTipo(t)} style={{
+                padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
+                border: active ? `1px solid ${col}55` : "1px solid transparent",
+                background: active ? `${col}18` : "rgba(255,255,255,0.04)",
+                color: active ? col : "rgba(241,245,249,0.25)",
+                textDecoration: otrosExcluido ? "line-through" : "none",
+                transition: "all 0.15s",
+              }}>
+                {TIPO_LABELS[t]}
+              </button>
+            );
+          })}
         </div>
 
         {/* KPI row */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
           <KpiCard
-            label="Parque total electrificado"
-            value={kLabel(totalEv)}
-            sub={`${fmtN(totalEv)} vehículos`}
+            label="Parque total enchufable"
+            value={kLabel(filteredBev + filteredPhev)}
+            sub={`${fmtN(filteredBev + filteredPhev)} vehículos`}
             color={C.green}
-            badge="BEV+PHEV+HEV"
+            badge="BEV+PHEV"
           />
           <KpiCard
             label="Parque BEV"
-            value={fmtN(R.BEV?.parque_activo ?? 0)}
-            sub={`${R.BEV?.tasa_baja_pct}% tasa de baja acumulada`}
+            value={fmtN(filteredBev)}
+            sub={`${((filteredBev / (R.BEV?.matriculadas ?? 1)) * 100).toFixed(1)}% tasa de retención`}
             color={C.bev}
             badge="100% eléctrico"
           />
           <KpiCard
             label="Parque PHEV"
-            value={fmtN(R.PHEV?.parque_activo ?? 0)}
-            sub={`${R.PHEV?.tasa_baja_pct}% tasa de baja`}
+            value={fmtN(filteredPhev)}
+            sub={`${((filteredPhev / (R.PHEV?.matriculadas ?? 1)) * 100).toFixed(1)}% tasa de retención`}
             color={C.phev}
             badge="Enchufable"
           />
           <KpiCard
-            label="Parque HEV"
-            value={fmtN(R.HEV?.parque_activo ?? 0)}
-            sub={`${R.HEV?.tasa_baja_pct}% tasa de baja`}
-            color={C.hev}
-            badge="Híbrido"
+            label="No enchufables"
+            value={kLabel(lastMes.parque_no_enchufable)}
+            sub={`${fmtN(lastMes.parque_no_enchufable)} vehículos · combustión + HEV`}
+            color={C_NOENCH}
+            badge="Diésel · Gasolina · HEV"
           />
           <KpiCard
             label="Saldo neto BEV (último mes)"
@@ -414,19 +574,19 @@ export function Dashboard() {
         <div style={{ ...sec, marginBottom: 20 }}>
           <div style={sTitle}>Evolución del parque activo</div>
           <div style={sDesc}>Vehículos en circulación cada mes (matriculaciones acumuladas − bajas acumuladas)</div>
-          <ChartParqueEvolucion />
+          <ChartParqueEvolucion parBev={parBev} parPhev={parPhev} parNoEnch={parNoEnch} />
         </div>
 
         {/* 2-col row: saldo neto + mat vs bajas */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
           <div style={sec}>
             <div style={sTitle}>Saldo neto mensual BEV + PHEV</div>
-            <div style={sDesc}>Matriculaciones menos bajas. Verde = creció el parque, rojo = se redujo</div>
-            <ChartSaldoNeto />
+            <div style={sDesc}>Variación mensual del parque filtrado. Verde = creció, rojo = se redujo</div>
+            <ChartSaldoNeto netBev={netBev} netPhev={netPhev} />
           </div>
           <div style={sec}>
             <div style={sTitle}>Matriculaciones vs bajas BEV (desde 2020)</div>
-            <div style={sDesc}>Nuevas altas en verde, bajas en rojo</div>
+            <div style={sDesc}>Total BEV — sin filtro por tipo (no disponible a nivel mensual)</div>
             <ChartMatVsBajas />
           </div>
         </div>
@@ -434,13 +594,13 @@ export function Dashboard() {
         {/* Por tipo de vehículo */}
         <div style={{ ...sec, marginBottom: 20 }}>
           <div style={sTitle}>Parque activo por tipo de vehículo</div>
-          <div style={sDesc}>Turismo, furgoneta, moto, camión… desglosado por BEV/PHEV/HEV</div>
-          <ChartPorTipo />
+          <div style={sDesc}>Desglose BEV/PHEV según los tipos seleccionados</div>
+          <ChartPorTipo entries={tipoEntries} />
         </div>
 
         {/* Tabla resumen */}
         <div style={sec}>
-          <div style={sTitle}>Resumen por categoría</div>
+          <div style={sTitle}>Resumen por categoría EV</div>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${C.border}` }}>
@@ -450,8 +610,10 @@ export function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {Object.entries(R).map(([cat, d]) => {
-                const color = cat === "BEV" ? C.bev : cat === "PHEV" ? C.phev : cat === "HEV" ? C.hev : C.muted;
+              {/* BEV y PHEV */}
+              {(["BEV", "PHEV"] as const).filter((cat) => R[cat]).map((cat) => {
+                const d = R[cat]!;
+                const color = cat === "BEV" ? C.bev : C.phev;
                 return (
                   <tr key={cat} style={{ borderBottom: `1px solid ${C.border}` }}>
                     <td style={{ padding: "10px 12px" }}>
@@ -464,6 +626,17 @@ export function Dashboard() {
                   </tr>
                 );
               })}
+              {/* No enchufables = total − BEV − PHEV (combustión + HEV + todo lo demás) */}
+              <tr style={{ borderBottom: `1px solid ${C.border}` }}>
+                <td style={{ padding: "10px 12px" }}>
+                  <span style={{ background: `rgba(${hex2rgb(C_NOENCH)},0.12)`, color: C_NOENCH, borderRadius: 4, padding: "2px 8px", fontWeight: 600, fontSize: 12 }}>No enchufables</span>
+                  <span style={{ fontSize: 10, color: C.dim, marginLeft: 6 }}>Gasolina · Diésel · HEV · otros</span>
+                </td>
+                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
+                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
+                <td style={{ padding: "10px 12px", textAlign: "right", color: C_NOENCH, fontWeight: 700 }}>{fmtN(lastMes.parque_no_enchufable)}</td>
+                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
+              </tr>
             </tbody>
           </table>
           <div style={{ marginTop: 16, fontSize: 11, color: C.dim }}>
