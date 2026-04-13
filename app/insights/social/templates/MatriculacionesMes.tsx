@@ -173,7 +173,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
 
       {/* Banda blanca */}
-      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', flexShrink: 0 }}>
+      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
             {periodoFull ?? periodo}
@@ -184,10 +184,8 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
           </div>
           <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos matriculados</span>
         </div>
-        <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo sin padding.png" alt="Capira" width={120} style={{ objectFit: 'contain', display: 'block' }} />
-          <span style={{ fontSize: 28, color: '#94a3b8', fontWeight: 500 }}>capirapower.com</span>
+        <div style={{ marginLeft: 32, flexShrink: 0 }}>
+          <LogoBlock logoW={126} logoH={40} urlSize={30} autoHeight />
         </div>
       </div>
 
