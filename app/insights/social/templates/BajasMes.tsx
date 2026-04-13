@@ -159,8 +159,9 @@ function DonutChartBajas({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; 
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
       <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(248,113,113,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(enchuf)}</div>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+        <div style={{ fontSize: Math.round(innerSize * 0.22), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1, whiteSpace: 'nowrap' }}>{fmt(enchuf)}</div>
+        <div style={{ fontSize: Math.round(innerSize * 0.12), fontWeight: 600, color: 'rgba(248,113,113,0.6)', letterSpacing: '0.03em', textTransform: 'uppercase', lineHeight: 1 }}>bajas EV</div>
       </div>
     </div>
   )
