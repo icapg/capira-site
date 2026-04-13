@@ -152,11 +152,39 @@ function DesktopV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado, 
   )
 }
 
+function DonutChartBajas({ enchuf, noEnch, size, bg = C.bg }: { enchuf: number; noEnch: number; size: number; bg?: string }) {
+  const total = enchuf + noEnch
+  const frac = total > 0 ? enchuf / total : 0
+  const innerSize = Math.round(size * 0.52)
+  return (
+    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
+      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(rgba(248,113,113,0.92) 0% ${frac * 100}%, #94a3b8 ${frac * 100}% 100%)` }} />
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: innerSize, height: innerSize, borderRadius: '50%', background: bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: Math.round(innerSize * 0.28), fontWeight: 900, color: C.red, letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(enchuf)}</div>
+      </div>
+    </div>
+  )
+}
+
 function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const evBajas = bevBajas + phevBajas
   const noEnchBajas = Math.max(0, totalBajasMercado - bevBajas - phevBajas)
   const total = totalBajasMercado
+  const noEnchColor = '#94a3b8'
+  const subColor = 'rgba(148,163,184,0.65)'
   const v1TotalYoyMarginTop = 30
+
+  const innerW = 944
+  const boxW = (innerW - 32) / 3
+  const gap1CenterX = boxW + 8
+  const gap2CenterX = boxW * 2 + 24
+  const pieSize = 260
+  const pieLeftX = Math.round(gap1CenterX - pieSize / 2)
+  const pieRightX = Math.round(gap1CenterX + pieSize / 2)
+  const frac = total > 0 ? evBajas / total : 0
+  const midAngleRad = (frac / 2) * 2 * Math.PI
+  const greenExitDY = Math.round(-Math.cos(midAngleRad) * (pieSize / 2))
+  const noEnchCenterX = Math.round(boxW / 2)
 
   return (
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
@@ -179,53 +207,83 @@ function PortraitV1({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado,
       </div>
 
       {/* Sección oscura */}
-      <div style={{ flex: 1, padding: '28px 68px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
-        <div style={{ position: 'absolute', bottom: -60, right: -60, width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle,rgba(248,113,113,0.07),transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ flex: 1, padding: '28px 68px 28px', display: 'flex', flexDirection: 'column' }}>
 
-        {/* Cards */}
-        <div style={{ display: 'flex', gap: 16 }}>
-          {[
-            { label: 'Cuota bajas EV', value: pct(evBajas, total) + '%',  color: C.red,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
-            { label: 'BEV',            value: pct(bevBajas, total) + '%',  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)' },
-            { label: 'PHEV',           value: pct(phevBajas, total) + '%', color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)' },
-          ].map(card => (
-            <div key={card.label} style={{ flex: 1, background: card.bg, border: `1px solid ${card.border}`, borderRadius: 14, padding: '18px 22px' }}>
-              <div style={{ fontSize: 28, color: C.muted, marginBottom: 8, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{card.label}</div>
-              <div style={{ fontSize: 76, fontWeight: 900, color: card.color, letterSpacing: '-0.04em', lineHeight: 1 }}>{card.value}</div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', marginBottom: 24 }}>
+
+          {/* Pie row */}
+          <div style={{ height: 300, flexShrink: 0, position: 'relative' }}>
+            {/* Gray callout */}
+            <div style={{ position: 'absolute', left: pieLeftX - 5, top: `calc(50% + ${-greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX, top: `calc(50% + ${-greenExitDY}px)`, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: `calc(50% + ${-greenExitDY}px)`, width: 2, height: `calc(50% - ${-greenExitDY}px)`, background: noEnchColor, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+              <DonutChartBajas enchuf={evBajas} noEnch={noEnchBajas} size={pieSize} bg={C.bg} />
             </div>
-          ))}
-        </div>
+            {/* Red callout */}
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.red, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.red, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+          </div>
 
-        {/* Filas */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-          {[
-            { label: 'BEV',     value: bevBajas,    color: C.bev,  yoy: bevYoy  },
-            { label: 'PHEV',    value: phevBajas,   color: C.phev, yoy: phevYoy },
-            { label: 'No Ench', value: noEnchBajas, color: C.dim,  yoy: undefined },
-          ].map(row => {
-            const barW = noEnchBajas > 0 ? Math.max(4, (row.value / noEnchBajas) * 100) : 0
-            return (
-              <div key={row.label}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-                  <span style={{ fontSize: 36, fontWeight: 800, color: row.color, whiteSpace: 'nowrap', marginRight: 18, letterSpacing: '0.03em' }}>{row.label}</span>
-                  <span style={{ fontSize: 36, fontWeight: 700, color: C.text, marginRight: 'auto' }}>{fmt(row.value)}</span>
-                  <span style={{ fontSize: 33, color: C.muted, marginRight: 16 }}>{pct(row.value, total)}%</span>
-                  <YoyBadge value={row.yoy} size={28} />
-                </div>
-                <div style={{ height: 8, borderRadius: 4, background: 'rgba(255,255,255,0.07)' }}>
-                  <div style={{ height: '100%', width: `${barW}%`, background: row.color, borderRadius: 4 }} />
-                </div>
+          {/* 3 boxes */}
+          <div style={{ flex: 1, display: 'flex', gap: 16 }}>
+            <div style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 14, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>No Enchufable</div>
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
+                <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(noEnchBajas, total)}%</div>
               </div>
-            )
-          })}
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Unidades</div>
+                <div style={{ fontSize: 67, fontWeight: 800, color: noEnchColor, letterSpacing: '-0.02em', lineHeight: 1 }}>{(noEnchBajas / 1000).toFixed(1)}k</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                <span style={{ fontSize: 31, color: subColor }}>—</span>
+              </div>
+            </div>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.red}`, borderRadius: 14, padding: 6 }}>
+              {[
+                { label: 'BEV',  value: bevBajas,  color: C.bev,  yoy: bevYoy  },
+                { label: 'PHEV', value: phevBajas, color: C.phev, yoy: phevYoy },
+              ].map(box => (
+                <div key={box.label} style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 10, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>{box.label}</div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
+                    <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(box.value, total)}%</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Unidades</div>
+                    <div style={{ fontSize: 67, fontWeight: 800, color: box.color, letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(box.value)}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                    {box.yoy != null
+                      ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: box.yoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: box.yoy >= 0 ? C.green : C.red }}>{box.yoy >= 0 ? '▲' : '▼'} {Math.abs(box.yoy).toFixed(1)}%</span>
+                      : <span style={{ fontSize: 31, color: subColor }}>—</span>
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Red vertical line */}
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.red, pointerEvents: 'none' }} />
+
+          {/* Red annotation */}
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.red, lineHeight: 1.15 }}>{pct(evBajas, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.red, lineHeight: 1.15 }}>bajas EV</div>
+          </div>
         </div>
 
         {/* Footer */}
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
-          <div style={{ fontSize: 18, color: C.dim, marginBottom: 6 }}>* vs mismo mes año anterior</div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 20, color: C.dim }}>Fuente: DGT Microdatos MATRABA</span>
-            <span style={{ fontSize: 20, color: C.dim }}>eMobility Insights by Capira</span>
+            <span style={{ fontSize: 20, color: subColor }}>Fuente: DGT Microdatos MATRABA</span>
+            <span style={{ fontSize: 20, color: subColor }}>eMobility Insights by Capira</span>
           </div>
         </div>
       </div>
