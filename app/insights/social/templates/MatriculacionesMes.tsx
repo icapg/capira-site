@@ -169,6 +169,8 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
   const midAngleRad = (frac / 2) * 2 * Math.PI
   const greenExitDY = Math.round(-Math.cos(midAngleRad) * (pieSize / 2))
   const noEnchCenterX = Math.round(boxW / 2)
+  const origDownH = 150 + greenExitDY
+  const noEnchTopY = 150 - greenExitDY - origDownH * 2
 
   return (
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
@@ -196,11 +198,11 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', marginBottom: 24 }}>
 
           {/* Pie row */}
-          <div style={{ height: 300, flexShrink: 0, position: 'relative', overflow: 'visible' }}>
+          <div style={{ height: 300, flexShrink: 0, position: 'relative' }}>
             {/* Gray callout */}
-            <div style={{ position: 'absolute', left: pieLeftX - 5, top: `calc(50% + ${-greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: noEnchCenterX, top: `calc(50% + ${-greenExitDY}px)`, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: `calc(50% + ${-greenExitDY}px)`, width: 2, height: `${(150 + greenExitDY) * 2}px`, background: noEnchColor, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieLeftX - 5, top: noEnchTopY, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX, top: noEnchTopY, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: noEnchTopY, width: 2, height: origDownH * 3, background: noEnchColor, pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
