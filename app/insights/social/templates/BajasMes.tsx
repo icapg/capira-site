@@ -368,63 +368,129 @@ function DesktopV2({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado }
   )
 }
 
-function PortraitV2({ periodo, bevBajas, phevBajas, hevBajas, totalBajasMercado }: Omit<Props, 'format' | 'variant'>) {
+function PortraitV2({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, hevBajas, totalBajasMercado, bevYoy, phevYoy, evYoy, noEnchYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const evBajas = bevBajas + phevBajas
   const noEnchBajas = Math.max(0, totalBajasMercado - bevBajas - phevBajas)
   const total = totalBajasMercado
+  const noEnchColor = '#94a3b8'
+  const subColor = 'rgba(148,163,184,0.65)'
+  const v1TotalYoyMarginTop = 30
+
+  const innerW = 944
+  const boxW = (innerW - 32) / 3
+  const gap1CenterX = boxW + 8
+  const gap2CenterX = boxW * 2 + 24
+  const pieSize = 260
+  const pieLeftX = Math.round(gap1CenterX - pieSize / 2)
+  const pieRightX = Math.round(gap1CenterX + pieSize / 2)
+  const frac = total > 0 ? evBajas / total : 0
+  const midAngleRad = (frac / 2) * 2 * Math.PI
+  const greenExitDY = Math.round(-Math.cos(midAngleRad) * (pieSize / 2))
+  const noEnchCenterX = Math.round(boxW / 2)
+  const origDownH = 150 + greenExitDY
+  const noEnchTopY = 150 - greenExitDY - origDownH * 2
 
   return (
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
 
-      <div style={{ background: '#fff', padding: '32px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <div>
-          <div style={{ fontSize: 33, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
-            Bajas · {periodo}
+      {/* Banda blanca */}
+      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', flexShrink: 0 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 35, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+            {periodoFull ?? periodo}
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
-            <span style={{ fontSize: 39, fontWeight: 500, color: '#64748b' }}>vehículos dados de baja</span>
+            {totalYoy != null && <div style={{ marginTop: v1TotalYoyMarginTop }}><YoyBadgeLight value={totalYoy} size={34} flushTop /></div>}
           </div>
+          <span style={{ fontSize: 36, fontWeight: 500, color: C.red, display: 'block', marginTop: 6 }}>vehículos dados de baja</span>
         </div>
-        <LogoBlock logoW={140} logoH={44} urlSize={33} />
+        <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', alignItems: 'flex-end' }}>
+          <LogoBlock logoW={113} logoH={40} urlSize={34} autoHeight />
+        </div>
       </div>
 
-      <div style={{ flex: 1, padding: '28px 68px 32px', display: 'flex', flexDirection: 'column', gap: 24, position: 'relative' }}>
-        <div style={{ position: 'absolute', bottom: -60, right: -60, width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle,rgba(251,146,60,0.07),transparent 70%)', pointerEvents: 'none' }} />
+      {/* Sección oscura */}
+      <div style={{ flex: 1, padding: '28px 68px 28px', display: 'flex', flexDirection: 'column' }}>
 
-        <div style={{ display: 'flex', gap: 14 }}>
-          {[
-            { label: 'Bajas EV', value: fmt(evBajas),   color: C.ev,  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)' },
-            { label: 'BEV',      value: fmt(bevBajas),  color: C.bev,  bg: 'rgba(56,189,248,0.08)',  border: 'rgba(56,189,248,0.25)'  },
-            { label: 'PHEV',     value: fmt(phevBajas), color: C.phev, bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.25)'  },
-          ].map(card => (
-            <div key={card.label} style={{ flex: 1, background: card.bg, border: `1px solid ${card.border}`, borderRadius: 14, padding: '18px 22px' }}>
-              <div style={{ fontSize: 33, color: C.muted, marginBottom: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{card.label}</div>
-              <div style={{ fontSize: 84, fontWeight: 900, color: card.color, letterSpacing: '-0.04em', lineHeight: 1 }}>{card.value}</div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', marginBottom: 24 }}>
+
+          {/* Pie row */}
+          <div style={{ height: 300, flexShrink: 0, position: 'relative' }}>
+            {/* Gray callout */}
+            <div style={{ position: 'absolute', left: pieLeftX - 5, top: noEnchTopY, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX, top: noEnchTopY, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: noEnchTopY, width: 2, height: origDownH * 3, background: noEnchColor, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+              <DonutChartBajas enchuf={evBajas} noEnch={noEnchBajas} size={pieSize} bg={C.bg} />
             </div>
-          ))}
+            {/* Red callout */}
+            <div style={{ position: 'absolute', left: pieRightX - 5, top: `calc(50% + ${greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: C.ev, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieRightX + 5, top: `calc(50% + ${greenExitDY}px)`, width: gap2CenterX - pieRightX - 5, height: 2, background: C.ev, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+          </div>
+
+          {/* 3 boxes */}
+          <div style={{ flex: 1, display: 'flex', gap: 16 }}>
+            <div style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 14, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>No<br />Enchufable</div>
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
+                <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(noEnchBajas, total)}%</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Unidades</div>
+                <div style={{ fontSize: 67, fontWeight: 800, color: noEnchColor, letterSpacing: '-0.02em', lineHeight: 1 }}>{(noEnchBajas / 1000).toFixed(1)}k</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
+                {noEnchYoy != null
+                  ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: noEnchYoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: noEnchYoy >= 0 ? C.green : C.red }}>{noEnchYoy >= 0 ? '▲' : '▼'} {Math.abs(noEnchYoy).toFixed(1)}%</span>
+                  : <span style={{ fontSize: 31, color: subColor }}>—</span>
+                }
+              </div>
+            </div>
+            <div style={{ flex: 2, display: 'flex', gap: 12, border: `2px solid ${C.ev}`, borderRadius: 14, padding: 6 }}>
+              {[
+                { label: 'BEV',  value: bevBajas,  color: C.bev,  yoy: bevYoy  },
+                { label: 'PHEV', value: phevBajas, color: C.phev, yoy: phevYoy },
+              ].map(box => (
+                <div key={box.label} style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 10, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>{box.label}</div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
+                    <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(box.value, total)}%</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Unidades</div>
+                    <div style={{ fontSize: 67, fontWeight: 800, color: box.color, letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(box.value)}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
+                    {box.yoy != null
+                      ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: box.yoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: box.yoy >= 0 ? C.green : C.red }}>{box.yoy >= 0 ? '▲' : '▼'} {Math.abs(box.yoy).toFixed(1)}%</span>
+                      : <span style={{ fontSize: 31, color: subColor }}>—</span>
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Red vertical line */}
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) - 1, top: `${150 + greenExitDY}px`, width: 2, height: `${150 - greenExitDY}px`, background: C.ev, pointerEvents: 'none' }} />
+
+          {/* Red annotation */}
+          <div style={{ position: 'absolute', left: Math.round(gap2CenterX) + 14, top: `${150 + greenExitDY + 14}px`, pointerEvents: 'none' }}>
+            <div style={{ fontSize: 44, fontWeight: 900, color: C.ev, lineHeight: 1.15 }}>{pct(evBajas, total)}%</div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.ev, lineHeight: 1.15 }}>enchufables</div>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flex: 1, justifyContent: 'center' }}>
-          {[
-            { label: 'BEV',      value: bevBajas,    color: C.bev  },
-            { label: 'PHEV',     value: phevBajas,   color: C.phev },
-            { label: 'No Ench',  value: noEnchBajas, color: C.dim  },
-          ].map(row => (
-            <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 110, fontSize: 36, fontWeight: 800, color: row.color, letterSpacing: '0.04em' }}>{row.label}</div>
-              <div style={{ width: 130, fontSize: 36, fontWeight: 700, color: C.text, textAlign: 'right' }}>{fmt(row.value)}</div>
-              <Bar value={row.value} max={total} color={row.color} height={9} />
-              <div style={{ width: 72, fontSize: 33, color: C.muted, textAlign: 'right' }}>{pct(row.value, total)}%</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
-          <div style={{ fontSize: 18, color: C.dim, marginBottom: 6 }}>* vs mismo mes año anterior</div>
+        {/* Footer */}
+        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 20, color: C.dim }}>Fuente: DGT Microdatos MATRABA</span>
-            <span style={{ fontSize: 20, color: C.dim }}>eMobility Insights by Capira</span>
+            <span style={{ fontSize: 20, color: subColor }}>Fuente: DGT Microdatos MATRABA</span>
+            <span style={{ fontSize: 20, color: subColor }}>eMobility Insights by Capira</span>
           </div>
         </div>
       </div>
