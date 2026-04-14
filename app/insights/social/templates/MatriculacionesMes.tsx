@@ -185,7 +185,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
             {totalYoy != null && <div style={{ marginTop: v1TotalYoyMarginTop }}><YoyBadgeLight value={totalYoy} size={34} flushTop /></div>}
           </div>
-          <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos matriculados</span>
+          <span style={{ fontSize: 36, fontWeight: 500, color: C.green, display: 'block', marginTop: 6 }}>vehículos matriculados</span>
         </div>
         <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', alignItems: 'flex-end' }}>
           <LogoBlock logoW={113} logoH={40} urlSize={34} autoHeight />
