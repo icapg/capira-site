@@ -196,7 +196,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
       {/* Banda blanca */}
       <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+          <div style={{ fontSize: 35, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
             {periodoFull ?? periodo}
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
@@ -216,11 +216,11 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bevBajas, phevBajas, he
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', marginBottom: 24 }}>
 
           {/* Pie row */}
-          <div style={{ height: 300, flexShrink: 0, position: 'relative' }}>
+          <div style={{ height: 300, flexShrink: 0, position: 'relative', overflow: 'visible' }}>
             {/* Gray callout */}
             <div style={{ position: 'absolute', left: pieLeftX - 5, top: `calc(50% + ${-greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', left: noEnchCenterX, top: `calc(50% + ${-greenExitDY}px)`, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: `calc(50% + ${-greenExitDY}px)`, width: 2, height: `calc(50% - ${-greenExitDY}px)`, background: noEnchColor, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: `calc(50% + ${-greenExitDY}px)`, width: 2, height: `${(150 + greenExitDY) * 2}px`, background: noEnchColor, pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
               <DonutChartBajas enchuf={evBajas} noEnch={noEnchBajas} size={pieSize} bg={C.bg} />
             </div>
