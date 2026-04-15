@@ -159,7 +159,7 @@ export default function B2CPage() {
 
       {/* FAQ */}
       <section className="bg-white border-t border-zinc-200">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-8">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-8 sm:py-20">
           <h2 className="text-2xl font-semibold text-zinc-900">Preguntas frecuentes</h2>
 
           <div className="mt-8 space-y-4">

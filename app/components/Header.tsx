@@ -102,6 +102,7 @@ export function Header() {
               <Link
                 key={i.href}
                 href={i.href}
+                onClick={() => setOpen(false)}
                 className={[
                   "rounded-md px-3 py-2 transition",
                   "hover:bg-zinc-50 active:bg-zinc-100",

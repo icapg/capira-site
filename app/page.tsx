@@ -178,7 +178,7 @@ export default function Home() {
       </Section>
 
       <Section className="py-10 sm:py-14">
-        <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm sm:p-10">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-10">
           <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
