@@ -14,14 +14,26 @@
  */
 
 import Database from 'better-sqlite3';
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DB_FILE  = join(__dirname, '..', 'data', 'dgt-matriculaciones.db');
-const OUT_FILE = join(__dirname, '..', 'data', 'dgt-parque.json');
-const TS_FILE  = join(__dirname, '..', 'app', 'lib', 'insights', 'dgt-parque-data.ts');
+const DB_FILE          = join(__dirname, '..', 'data', 'dgt-matriculaciones.db');
+const OUT_FILE         = join(__dirname, '..', 'data', 'dgt-parque.json');
+const TS_FILE          = join(__dirname, '..', 'app', 'lib', 'insights', 'dgt-parque-data.ts');
+const ANCHOR_TIPOS_FILE = join(__dirname, '..', 'data', 'dgt-parque-anchor-tipos.json');
+
+// ─── Anchor por tipo (generado por dgt-parque-anchor-tipos.mjs) ─────────────
+// Conteo real de todos los vehículos activos por tipo_grupo en marzo 2025
+// usando los microdatos parque_vehiculos_202503.zip de la DGT.
+const anchorTiposJson = existsSync(ANCHOR_TIPOS_FILE)
+  ? JSON.parse(readFileSync(ANCHOR_TIPOS_FILE, 'utf8'))
+  : null;
+const ANCHOR_TIPOS = anchorTiposJson?.por_tipo ?? {};
+if (!anchorTiposJson) {
+  console.warn('⚠️  Sin anchor por tipo — ejecutar primero: node scripts/dgt-parque-anchor-tipos.mjs');
+}
 
 const EV_CATS = ['BEV', 'PHEV', 'HEV', 'REEV', 'FCEV'];
 const TIPO_GRUPOS = ['turismo', 'suv_todo_terreno', 'furgoneta_van', 'moto', 'camion', 'autobus', 'especial', 'otros'];
@@ -114,6 +126,26 @@ const bajasPorPeriodoTipo = db.prepare(`
   ORDER BY periodo
 `).all();
 
+// ─── Total matriculaciones por período y tipo_grupo (todos los combustibles) ──
+console.log('Calculando total matriculaciones mensuales por tipo_grupo (todos fuels)...');
+const totalMatPorPeriodoTipo = db.prepare(`
+  SELECT periodo, tipo_grupo, COUNT(*) as n
+  FROM matriculaciones
+  WHERE tipo_grupo IN ('turismo','suv_todo_terreno','furgoneta_van','moto','camion','autobus','especial','otros')
+  GROUP BY periodo, tipo_grupo
+  ORDER BY periodo
+`).all();
+
+// ─── Total bajas por período y tipo_grupo (todos los combustibles) ────────────
+console.log('Calculando total bajas mensuales por tipo_grupo (todos fuels)...');
+const totalBajasPorPeriodoTipo = db.prepare(`
+  SELECT periodo, tipo_grupo, COUNT(*) as n
+  FROM bajas
+  WHERE tipo_grupo IN ('turismo','suv_todo_terreno','furgoneta_van','moto','camion','autobus','especial','otros')
+  GROUP BY periodo, tipo_grupo
+  ORDER BY periodo
+`).all();
+
 db.close();
 
 // ─── Indexar por periodo ──────────────────────────────────────────────────────
@@ -144,6 +176,18 @@ for (const row of bajasPorPeriodoTipo) {
   bajasTipoIdx[row.periodo][row.tipo_grupo][row.cat_vehiculo_ev] = row.n;
 }
 
+// total por periodo+tipo_grupo (todos los combustibles): [periodo][tipo_grupo] = n
+const totalMatTipoIdx = {};
+for (const row of totalMatPorPeriodoTipo) {
+  if (!totalMatTipoIdx[row.periodo]) totalMatTipoIdx[row.periodo] = {};
+  totalMatTipoIdx[row.periodo][row.tipo_grupo] = row.n;
+}
+const totalBajasTipoIdx = {};
+for (const row of totalBajasPorPeriodoTipo) {
+  if (!totalBajasTipoIdx[row.periodo]) totalBajasTipoIdx[row.periodo] = {};
+  totalBajasTipoIdx[row.periodo][row.tipo_grupo] = row.n;
+}
+
 // ─── Calcular parque acumulado mes a mes ──────────────────────────────────────
 console.log('Calculando parque acumulado...');
 
@@ -154,13 +198,17 @@ const cumBaja = Object.fromEntries(EV_CATS.map(c => [c, 0]));
 let cumTotalMat  = 0;
 let cumTotalBaja = 0;
 
-// tipo_grupo cumulative: { turismo: { BEV: 0, ... }, ... }
+// tipo_grupo cumulative EV: { turismo: { BEV: 0, ... }, ... }
 const cumMatTipo  = {};
 const cumBajaTipo = {};
 for (const tg of TIPO_GRUPOS) {
   cumMatTipo[tg]  = Object.fromEntries(['BEV','PHEV','HEV'].map(c => [c, 0]));
   cumBajaTipo[tg] = Object.fromEntries(['BEV','PHEV','HEV'].map(c => [c, 0]));
 }
+
+// tipo_grupo cumulative TOTAL (todos los combustibles)
+const cumMatTipoTotal  = Object.fromEntries(TIPO_GRUPOS.map(tg => [tg, 0]));
+const cumBajaTipoTotal = Object.fromEntries(TIPO_GRUPOS.map(tg => [tg, 0]));
 
 // First pass: compute raw series and capture raw value at anchor period
 const rawMensual = [];
@@ -183,6 +231,8 @@ for (const periodo of periodos) {
       cumMatTipo[tg][cat]  += matTipoIdx[periodo]?.[tg]?.[cat]  || 0;
       cumBajaTipo[tg][cat] += bajasTipoIdx[periodo]?.[tg]?.[cat] || 0;
     }
+    cumMatTipoTotal[tg]  += totalMatTipoIdx[periodo]?.[tg]  || 0;
+    cumBajaTipoTotal[tg] += totalBajasTipoIdx[periodo]?.[tg] || 0;
   }
 
   const parque_cat_raw = {};
@@ -198,6 +248,12 @@ for (const periodo of periodos) {
     }
   }
 
+  // Total por tipo (todos los combustibles) — raw
+  const parque_total_tipo_raw = {};
+  for (const tg of TIPO_GRUPOS) {
+    parque_total_tipo_raw[tg] = cumMatTipoTotal[tg] - cumBajaTipoTotal[tg];
+  }
+
   const parque_total_raw = cumTotalMat - cumTotalBaja;
 
   rawMensual.push({
@@ -206,6 +262,7 @@ for (const periodo of periodos) {
     bajaCat: { ...bajaCat },
     parque_cat_raw: { ...parque_cat_raw },
     parque_tipo_raw: JSON.parse(JSON.stringify(parque_tipo_raw)),
+    parque_total_tipo_raw: { ...parque_total_tipo_raw },
     parque_total_raw,
   });
 
@@ -249,10 +306,31 @@ for (const tg of TIPO_GRUPOS) {
   }
 }
 
+// Offset total por tipo: ANCHOR_TIPOS[tg] - rawTotalTipoAtAnchor[tg]
+// Usa el conteo real del ZIP de parque, no una distribución proporcional
+const rawTotalTipoAtAnchor = anchorRaw.parque_total_tipo_raw;
+const tipoTotalOffsets = {};
+for (const tg of TIPO_GRUPOS) {
+  if (ANCHOR_TIPOS[tg]) {
+    tipoTotalOffsets[tg] = ANCHOR_TIPOS[tg] - (rawTotalTipoAtAnchor[tg] || 0);
+  } else {
+    // fallback proporcional si no hay anchor para este tipo
+    const sumRaw = TIPO_GRUPOS.reduce((s, t) => s + (rawTotalTipoAtAnchor[t] || 0), 0);
+    const share  = sumRaw > 0 ? (rawTotalTipoAtAnchor[tg] || 0) / sumRaw : 0;
+    tipoTotalOffsets[tg] = Math.round(offsetTotal * share);
+  }
+}
+console.log('Offsets por tipo_grupo (total):');
+for (const tg of TIPO_GRUPOS) {
+  const raw = rawTotalTipoAtAnchor[tg] || 0;
+  const anchor = ANCHOR_TIPOS[tg] || 0;
+  console.log(`  ${tg.padEnd(20)} raw=${raw.toLocaleString().padStart(10)}, anchor=${anchor.toLocaleString().padStart(10)}, offset=${tipoTotalOffsets[tg] >= 0 ? '+' : ''}${tipoTotalOffsets[tg].toLocaleString()}`);
+}
+
 // Second pass: build final mensual array with anchored values
 const mensual = [];
 for (const raw of rawMensual) {
-  const { periodo, matCat, bajaCat, parque_cat_raw, parque_tipo_raw, parque_total_raw } = raw;
+  const { periodo, matCat, bajaCat, parque_cat_raw, parque_tipo_raw, parque_total_tipo_raw, parque_total_raw } = raw;
 
   // Apply offset to cat parque
   const parque_cat = {};
@@ -276,6 +354,13 @@ for (const raw of rawMensual) {
         tgData[cat] = Math.max(0, rawVal + (tipoOffsets[tg]?.[cat] || 0));
         hayDatos = true;
       }
+    }
+    // Total por tipo (anchored) y no_enchufable derivado
+    const totalTipoAnchored = Math.max(0, (parque_total_tipo_raw[tg] || 0) + (tipoTotalOffsets[tg] || 0));
+    if (totalTipoAnchored > 0) {
+      tgData.total = totalTipoAnchored;
+      tgData.no_enchufable = Math.max(0, totalTipoAnchored - (tgData.BEV || 0) - (tgData.PHEV || 0));
+      hayDatos = true;
     }
     if (hayDatos) parque_tipo[tg] = tgData;
   }
@@ -368,22 +453,24 @@ const tsLines = [
   `// ────────────────────────────────────────────────────────────────────────────`,
   ``,
   `export type ParqueCatEv = {`,
-  `  BEV?:  number;`,
-  `  PHEV?: number;`,
-  `  HEV?:  number;`,
-  `  REEV?: number;`,
-  `  FCEV?: number;`,
+  `  BEV?:          number;`,
+  `  PHEV?:         number;`,
+  `  HEV?:          number;`,
+  `  REEV?:         number;`,
+  `  FCEV?:         number;`,
+  `  total?:        number;`,
+  `  no_enchufable?: number;`,
   `};`,
   ``,
   `export type ParqueTipoGrupo = {`,
-  `  turismo?:         ParqueCatEv;`,
+  `  turismo?:          ParqueCatEv;`,
   `  suv_todo_terreno?: ParqueCatEv;`,
-  `  furgoneta_van?:   ParqueCatEv;`,
-  `  moto?:            ParqueCatEv;`,
-  `  camion?:          ParqueCatEv;`,
-  `  autobus?:         ParqueCatEv;`,
-  `  especial?:        ParqueCatEv;`,
-  `  otros?:           ParqueCatEv;`,
+  `  furgoneta_van?:    ParqueCatEv;`,
+  `  moto?:             ParqueCatEv;`,
+  `  camion?:           ParqueCatEv;`,
+  `  autobus?:          ParqueCatEv;`,
+  `  especial?:         ParqueCatEv;`,
+  `  otros?:            ParqueCatEv;`,
   `};`,
   ``,
   `export type ParqueMes = {`,

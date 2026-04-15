@@ -75,9 +75,24 @@ function filtrarParquePhev(filtros: ParqueFiltroTipo[]): number[] {
   });
 }
 
-/** No enchufables = total parque − BEV − PHEV (combustión + HEV + todo lo que no es enchufable) */
-function filtrarParqueNoEnchufable(): number[] {
-  return dgtParqueMensual.map((m) => m.parque_no_enchufable);
+/** No enchufables filtrados por tipo. Si no hay desglose por tipo usa el global. */
+function filtrarParqueNoEnchufable(filtros: ParqueFiltroTipo[]): number[] {
+  const parqueTipos = filtroToParqueTipos(filtros);
+  const isAll = parqueTipos.length === 0 || filtros.length === TIPOS_ORDER.length;
+  return dgtParqueMensual.map((m) => {
+    if (isAll || !m.parque_por_tipo) return m.parque_no_enchufable;
+    return parqueTipos.reduce((s, t) => s + ((m.parque_por_tipo as any)[t]?.no_enchufable ?? 0), 0);
+  });
+}
+
+/** Total parque filtrado por tipo (enchufables + no enchufables). */
+function filtrarParqueTotal(filtros: ParqueFiltroTipo[]): number[] {
+  const parqueTipos = filtroToParqueTipos(filtros);
+  const isAll = parqueTipos.length === 0 || filtros.length === TIPOS_ORDER.length;
+  return dgtParqueMensual.map((m) => {
+    if (isAll || !m.parque_por_tipo) return m.parque_total;
+    return parqueTipos.reduce((s, t) => s + ((m.parque_por_tipo as any)[t]?.total ?? 0), 0);
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -149,28 +164,60 @@ function useChart(
 // CARD
 // ─────────────────────────────────────────────────────────────────────────────
 
+function YoyBadge({ pct }: { pct: number }) {
+  const up = pct >= 0;
+  const col = up ? C.green : C.red;
+  return (
+    <span style={{
+      fontSize: 12, fontWeight: 700,
+      color: col,
+      background: up ? "rgba(52,211,153,0.12)" : "rgba(248,113,113,0.12)",
+      borderRadius: 6, padding: "2px 8px",
+      display: "inline-flex", alignItems: "center", gap: 3,
+    }}>
+      {up ? "▲" : "▼"} {Math.abs(pct).toFixed(1)}% vs año ant.
+    </span>
+  );
+}
+
 function KpiCard({
-  label, value, sub, color, badge,
-}: { label: string; value: string; sub?: string; color: string; badge?: string }) {
+  emoji, label, value, sub, color, badge, yoyPct,
+}: { emoji: string; label: string; value: string; sub?: string; color: string; badge?: string; yoyPct?: number }) {
   return (
     <div style={{
-      background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
-      padding: "20px 24px", display: "flex", flexDirection: "column", gap: 6,
+      background: `linear-gradient(135deg, rgba(${hex2rgb(color)},0.07) 0%, rgba(${hex2rgb(color)},0.02) 100%)`,
+      border: `1px solid rgba(${hex2rgb(color)},0.18)`,
+      borderRadius: 16,
+      padding: "22px 24px",
+      display: "flex", flexDirection: "column", gap: 8,
+      position: "relative", overflow: "hidden",
     }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <span style={{ fontSize: 12, color: C.muted, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <div style={{
+        position: "absolute", right: 16, top: 10,
+        fontSize: 48, opacity: 0.1, lineHeight: 1, userSelect: "none",
+      }}>{emoji}</div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ fontSize: 20 }}>{emoji}</span>
+        <span style={{ fontSize: 11, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600 }}>
           {label}
         </span>
+      </div>
+
+      <span style={{ fontSize: 30, fontWeight: 800, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>
+        {value}
+      </span>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        {yoyPct !== undefined && <YoyBadge pct={yoyPct} />}
         {badge && (
-          <span style={{ fontSize: 11, background: `rgba(${hex2rgb(color)},0.15)`, color, borderRadius: 4, padding: "2px 7px" }}>
+          <span style={{ fontSize: 11, background: `rgba(${hex2rgb(color)},0.15)`, color, borderRadius: 5, padding: "2px 8px", fontWeight: 600 }}>
             {badge}
           </span>
         )}
       </div>
-      <span style={{ fontSize: 28, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>
-        {value}
-      </span>
-      {sub && <span style={{ fontSize: 12, color: C.muted }}>{sub}</span>}
+
+      {sub && <span style={{ fontSize: 11, color: C.dim, lineHeight: 1.4 }}>{sub}</span>}
     </div>
   );
 }
@@ -183,6 +230,8 @@ const C_NOENCH = "#94a3b8"; // color para no enchufables
 
 function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]; parPhev: number[]; parNoEnch: number[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const parEnch = parBev.map((v, i) => v + parPhev[i]);
+
   useChart(ref, () => ({
     backgroundColor: "transparent",
     grid: { top: 28, right: 24, bottom: 48, left: 64 },
@@ -205,6 +254,7 @@ function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]
         { name: "No enchufables", icon: "path://M0,1 L5,1 L5,3 L0,3 Z M8,1 L13,1 L13,3 L8,3 Z M16,1 L21,1 L21,3 L16,3 Z" },
         { name: "PHEV",           icon: "roundRect" },
         { name: "BEV",            icon: "roundRect" },
+        { name: "Enchufables",    icon: "roundRect" },
       ],
     },
     xAxis: { type: "category", data: PERIODOS,
@@ -245,6 +295,12 @@ function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]
         yAxisIndex: 0,
         lineStyle: { color: C.bev, width: 2 },
         areaStyle: { color: linGrad(C.bev, 0.25, 0.02) },
+      },
+      {
+        name: "Enchufables", color: C.green, type: "line", data: parEnch, smooth: true, symbol: "none",
+        yAxisIndex: 0,
+        lineStyle: { color: C.green, width: 2.5 },
+        areaStyle: { color: linGrad(C.green, 0.18, 0.02) },
       },
     ],
   }), [parBev, parPhev, parNoEnch]);
@@ -431,25 +487,14 @@ export function Dashboard() {
   }
 
   // ── Series filtradas ────────────────────────────────────────────────────
-  const parBev     = useMemo(() => filtrarParqueBev(tiposVehiculo),  [tiposVehiculo]);
-  const parPhev    = useMemo(() => filtrarParquePhev(tiposVehiculo), [tiposVehiculo]);
-  const parNoEnch  = useMemo(() => filtrarParqueNoEnchufable(), []);
+  const parBev     = useMemo(() => filtrarParqueBev(tiposVehiculo),        [tiposVehiculo]);
+  const parPhev    = useMemo(() => filtrarParquePhev(tiposVehiculo),       [tiposVehiculo]);
+  const parNoEnch  = useMemo(() => filtrarParqueNoEnchufable(tiposVehiculo), [tiposVehiculo]);
+  const parTotal   = useMemo(() => filtrarParqueTotal(tiposVehiculo),      [tiposVehiculo]);
 
   // Saldo neto mensual derivado del parque filtrado (diff entre periodos)
   const netBev  = useMemo(() => parBev.map((v, i)  => i === 0 ? v : v - parBev[i-1]),  [parBev]);
   const netPhev = useMemo(() => parPhev.map((v, i) => i === 0 ? v : v - parPhev[i-1]), [parPhev]);
-
-  // ── KPIs filtrados (via mapeo filtro → tipo_grupo) ─────────────────────
-  const parqueTiposActivos = useMemo(() => filtroToParqueTipos(tiposVehiculo), [tiposVehiculo]);
-
-  const filteredBev  = useMemo(() =>
-    parqueTiposActivos.reduce((s, t) => s + (dgtParqueResumenPorTipo[t]?.BEV?.parque_activo  ?? 0), 0),
-    [parqueTiposActivos]
-  );
-  const filteredPhev = useMemo(() =>
-    parqueTiposActivos.reduce((s, t) => s + (dgtParqueResumenPorTipo[t]?.PHEV?.parque_activo ?? 0), 0),
-    [parqueTiposActivos]
-  );
 
   // ── Entradas para ChartPorTipo ──────────────────────────────────────────
   const tipoEntries = useMemo(() =>
@@ -466,8 +511,30 @@ export function Dashboard() {
     [tiposVehiculo]
   );
 
-  const lastMes = dgtParqueMensual[dgtParqueMensual.length - 1];
-  const lastNetBev = (lastMes.matriculaciones_mes.BEV ?? 0) - (lastMes.bajas_mes.BEV ?? 0);
+  const lastMes  = dgtParqueMensual[dgtParqueMensual.length - 1];
+  const lastIdx  = parBev.length - 1;
+
+  // ── YoY: mismo período hace 12 meses ───────────────────────────────────
+  const yoyPeriodo = `${parseInt(lastMes.periodo.slice(0, 4)) - 1}${lastMes.periodo.slice(4)}`;
+  const yoyIdx     = PERIODOS.findIndex((p) => p === yoyPeriodo);
+
+  // Todas las series filtradas — valores del último mes y del mes YoY
+  const curEnch    = parBev[lastIdx]    + parPhev[lastIdx];
+  const curNoEnch  = parNoEnch[lastIdx];
+  const curTotal   = parTotal[lastIdx];
+
+  const prevEnch   = yoyIdx >= 0 ? parBev[yoyIdx]   + parPhev[yoyIdx]   : undefined;
+  const prevNoEnch = yoyIdx >= 0 ? parNoEnch[yoyIdx] : undefined;
+  const prevTotal  = yoyIdx >= 0 ? parTotal[yoyIdx]  : undefined;
+
+  // Ratio: enchufables / no enchufables (ambos filtrados)
+  const curRatio   = curNoEnch  > 0 ? curEnch  / curNoEnch  : 0;
+  const prevRatio  = prevNoEnch && prevNoEnch > 0 && prevEnch !== undefined ? prevEnch / prevNoEnch : undefined;
+
+  const yoyEnch   = prevEnch   !== undefined && prevEnch   > 0 ? ((curEnch   / prevEnch)   - 1) * 100 : undefined;
+  const yoyNoEnch = prevNoEnch !== undefined && prevNoEnch > 0 ? ((curNoEnch / prevNoEnch) - 1) * 100 : undefined;
+  const yoyTotal  = prevTotal  !== undefined && prevTotal  > 0 ? ((curTotal  / prevTotal)  - 1) * 100 : undefined;
+  const yoyRatio  = prevRatio  !== undefined                   ? ((curRatio  / prevRatio)  - 1) * 100 : undefined;
 
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,sans-serif" }}>
@@ -533,40 +600,41 @@ export function Dashboard() {
         </div>
 
         {/* KPI row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 28 }}>
           <KpiCard
-            label="Parque total enchufable"
-            value={kLabel(filteredBev + filteredPhev)}
-            sub={`${fmtN(filteredBev + filteredPhev)} vehículos`}
-            color={C.green}
-            badge="BEV+PHEV"
+            emoji="🚗"
+            label="Parque total España"
+            value={kLabel(curTotal)}
+            sub={`${fmtN(curTotal)} vehículos en circulación · ${lastMes.periodo}`}
+            color={C.text}
+            badge="Total"
+            yoyPct={yoyTotal}
           />
           <KpiCard
-            label="Parque BEV"
-            value={fmtN(filteredBev)}
-            sub={`${((filteredBev / (R.BEV?.matriculadas ?? 1)) * 100).toFixed(1)}% tasa de retención`}
-            color={C.bev}
-            badge="100% eléctrico"
-          />
-          <KpiCard
-            label="Parque PHEV"
-            value={fmtN(filteredPhev)}
-            sub={`${((filteredPhev / (R.PHEV?.matriculadas ?? 1)) * 100).toFixed(1)}% tasa de retención`}
-            color={C.phev}
-            badge="Enchufable"
-          />
-          <KpiCard
+            emoji="⛽"
             label="No enchufables"
-            value={kLabel(lastMes.parque_no_enchufable)}
-            sub={`${fmtN(lastMes.parque_no_enchufable)} vehículos · combustión + HEV`}
+            value={kLabel(curNoEnch)}
+            sub={`${fmtN(curNoEnch)} vehículos · Gasolina · Diésel · HEV`}
             color={C_NOENCH}
-            badge="Diésel · Gasolina · HEV"
+            badge="Combustión + HEV"
+            yoyPct={yoyNoEnch}
           />
           <KpiCard
-            label="Saldo neto BEV (último mes)"
-            value={`${lastNetBev >= 0 ? "+" : ""}${fmtN(lastNetBev)}`}
-            sub={`${lastMes.periodo} · mats ${fmtN(lastMes.matriculaciones_mes.BEV ?? 0)} · bajas ${fmtN(lastMes.bajas_mes.BEV ?? 0)}`}
-            color={lastNetBev >= 0 ? C.green : C.red}
+            emoji="⚡"
+            label="Enchufables (BEV + PHEV)"
+            value={kLabel(curEnch)}
+            sub={`BEV ${fmtN(parBev[lastIdx])} · PHEV ${fmtN(parPhev[lastIdx])}`}
+            color={C.green}
+            badge="BEV + PHEV"
+            yoyPct={yoyEnch}
+          />
+          <KpiCard
+            emoji="📊"
+            label="Ratio enchufables / no enchufables"
+            value={`${(curRatio * 100).toFixed(2)}%`}
+            sub={`1 enchufable por cada ${Math.round(1 / curRatio)} no enchufables`}
+            color={C.bev}
+            yoyPct={yoyRatio}
           />
         </div>
 

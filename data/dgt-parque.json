@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-13T11:56:14.599Z",
+  "generado_en": "2026-04-14T16:13:37.927Z",
   "ultimo_periodo": "2026-02",
   "anchor": {
     "periodo": "2025-03",
@@ -214,25 +214,35 @@
         "turismo": {
           "BEV": 31428,
           "PHEV": 16286,
-          "HEV": 193596
+          "HEV": 193596,
+          "total": 28401437,
+          "no_enchufable": 28353723
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1069,
+          "no_enchufable": 1061
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2753,
-          "HEV": 7545
+          "HEV": 7545,
+          "total": 1240749,
+          "no_enchufable": 1237988
         },
         "moto": {
           "BEV": 5457,
-          "HEV": 43
+          "HEV": 43,
+          "total": 4015583,
+          "no_enchufable": 4010126
         },
         "camion": {
           "BEV": 2679,
           "PHEV": 36,
-          "HEV": 1074
+          "HEV": 1074,
+          "total": 1562668,
+          "no_enchufable": 1559953
         },
         "autobus": {
           "BEV": 311,
@@ -247,7 +257,9 @@
         "otros": {
           "BEV": 374,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5761218,
+          "no_enchufable": 5760802
         }
       }
     },
@@ -278,25 +290,35 @@
         "turismo": {
           "BEV": 31471,
           "PHEV": 16274,
-          "HEV": 194048
+          "HEV": 194048,
+          "total": 28398276,
+          "no_enchufable": 28350531
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1069,
+          "no_enchufable": 1061
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2755,
-          "HEV": 7549
+          "HEV": 7549,
+          "total": 1240446,
+          "no_enchufable": 1237683
         },
         "moto": {
           "BEV": 5470,
-          "HEV": 43
+          "HEV": 43,
+          "total": 4017836,
+          "no_enchufable": 4012366
         },
         "camion": {
           "BEV": 2686,
           "PHEV": 36,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1562459,
+          "no_enchufable": 1559737
         },
         "autobus": {
           "BEV": 312,
@@ -311,7 +333,9 @@
         "otros": {
           "BEV": 374,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5757274,
+          "no_enchufable": 5756858
         }
       }
     },
@@ -342,25 +366,35 @@
         "turismo": {
           "BEV": 31487,
           "PHEV": 16275,
-          "HEV": 194360
+          "HEV": 194360,
+          "total": 28397093,
+          "no_enchufable": 28349331
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1068,
+          "no_enchufable": 1060
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2759,
-          "HEV": 7552
+          "HEV": 7552,
+          "total": 1239518,
+          "no_enchufable": 1236751
         },
         "moto": {
           "BEV": 5531,
-          "HEV": 43
+          "HEV": 43,
+          "total": 4019302,
+          "no_enchufable": 4013771
         },
         "camion": {
           "BEV": 2693,
           "PHEV": 36,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1562094,
+          "no_enchufable": 1559365
         },
         "autobus": {
           "BEV": 315,
@@ -375,7 +409,9 @@
         "otros": {
           "BEV": 374,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5752681,
+          "no_enchufable": 5752265
         }
       }
     },
@@ -406,25 +442,35 @@
         "turismo": {
           "BEV": 31606,
           "PHEV": 16291,
-          "HEV": 194800
+          "HEV": 194800,
+          "total": 28397062,
+          "no_enchufable": 28349165
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1077,
+          "no_enchufable": 1069
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2761,
-          "HEV": 7552
+          "HEV": 7552,
+          "total": 1238564,
+          "no_enchufable": 1235795
         },
         "moto": {
           "BEV": 5539,
-          "HEV": 43
+          "HEV": 43,
+          "total": 4023840,
+          "no_enchufable": 4018301
         },
         "camion": {
           "BEV": 2710,
           "PHEV": 38,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1561432,
+          "no_enchufable": 1558684
         },
         "autobus": {
           "BEV": 316,
@@ -439,7 +485,9 @@
         "otros": {
           "BEV": 377,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5748848,
+          "no_enchufable": 5748429
         }
       }
     },
@@ -470,25 +518,35 @@
         "turismo": {
           "BEV": 31651,
           "PHEV": 16323,
-          "HEV": 195163
+          "HEV": 195163,
+          "total": 28394377,
+          "no_enchufable": 28346403
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1078,
+          "no_enchufable": 1070
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2765,
-          "HEV": 7549
+          "HEV": 7549,
+          "total": 1237739,
+          "no_enchufable": 1234966
         },
         "moto": {
           "BEV": 5549,
-          "HEV": 43
+          "HEV": 43,
+          "total": 4029022,
+          "no_enchufable": 4023473
         },
         "camion": {
           "BEV": 2738,
           "PHEV": 38,
-          "HEV": 1074
+          "HEV": 1074,
+          "total": 1562002,
+          "no_enchufable": 1559226
         },
         "autobus": {
           "BEV": 320,
@@ -503,7 +561,9 @@
         "otros": {
           "BEV": 376,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5744942,
+          "no_enchufable": 5744524
         }
       }
     },
@@ -534,25 +594,35 @@
         "turismo": {
           "BEV": 31692,
           "PHEV": 16365,
-          "HEV": 195553
+          "HEV": 195553,
+          "total": 28405479,
+          "no_enchufable": 28357422
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1070,
+          "no_enchufable": 1062
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2770,
-          "HEV": 7550
+          "HEV": 7550,
+          "total": 1237374,
+          "no_enchufable": 1234596
         },
         "moto": {
           "BEV": 5572,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4036014,
+          "no_enchufable": 4030442
         },
         "camion": {
           "BEV": 2746,
           "PHEV": 39,
-          "HEV": 1074
+          "HEV": 1074,
+          "total": 1562673,
+          "no_enchufable": 1559888
         },
         "autobus": {
           "BEV": 325,
@@ -567,7 +637,9 @@
         "otros": {
           "BEV": 376,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5741169,
+          "no_enchufable": 5740751
         }
       }
     },
@@ -599,25 +671,35 @@
         "turismo": {
           "BEV": 31748,
           "PHEV": 16395,
-          "HEV": 196127
+          "HEV": 196127,
+          "total": 28424331,
+          "no_enchufable": 28376188
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1070,
+          "no_enchufable": 1062
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2775,
-          "HEV": 7550
+          "HEV": 7550,
+          "total": 1237283,
+          "no_enchufable": 1234500
         },
         "moto": {
           "BEV": 5605,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4044809,
+          "no_enchufable": 4039204
         },
         "camion": {
           "BEV": 2762,
           "PHEV": 39,
-          "HEV": 1074
+          "HEV": 1074,
+          "total": 1563958,
+          "no_enchufable": 1561157
         },
         "autobus": {
           "BEV": 326,
@@ -632,7 +714,9 @@
         "otros": {
           "BEV": 377,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5736943,
+          "no_enchufable": 5736524
         }
       }
     },
@@ -663,25 +747,35 @@
         "turismo": {
           "BEV": 31826,
           "PHEV": 16472,
-          "HEV": 196986
+          "HEV": 196986,
+          "total": 28434924,
+          "no_enchufable": 28386626
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1053,
+          "no_enchufable": 1045
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2784,
-          "HEV": 7555
+          "HEV": 7555,
+          "total": 1237352,
+          "no_enchufable": 1234560
         },
         "moto": {
           "BEV": 5612,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4056007,
+          "no_enchufable": 4050395
         },
         "camion": {
           "BEV": 2803,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1565494,
+          "no_enchufable": 1562652
         },
         "autobus": {
           "BEV": 342,
@@ -696,7 +790,9 @@
         "otros": {
           "BEV": 406,
           "PHEV": 42,
-          "HEV": 735
+          "HEV": 735,
+          "total": 5732910,
+          "no_enchufable": 5732462
         }
       }
     },
@@ -726,25 +822,35 @@
         "turismo": {
           "BEV": 31882,
           "PHEV": 16506,
-          "HEV": 197568
+          "HEV": 197568,
+          "total": 28417039,
+          "no_enchufable": 28368651
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1053,
+          "no_enchufable": 1045
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2786,
-          "HEV": 7557
+          "HEV": 7557,
+          "total": 1236466,
+          "no_enchufable": 1233672
         },
         "moto": {
           "BEV": 5609,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4060561,
+          "no_enchufable": 4054952
         },
         "camion": {
           "BEV": 2815,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1565092,
+          "no_enchufable": 1562238
         },
         "autobus": {
           "BEV": 345,
@@ -759,7 +865,9 @@
         "otros": {
           "BEV": 413,
           "PHEV": 42,
-          "HEV": 736
+          "HEV": 736,
+          "total": 5729659,
+          "no_enchufable": 5729204
         }
       }
     },
@@ -791,25 +899,35 @@
         "turismo": {
           "BEV": 31939,
           "PHEV": 16581,
-          "HEV": 198251
+          "HEV": 198251,
+          "total": 28402982,
+          "no_enchufable": 28354462
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1050,
+          "no_enchufable": 1042
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2792,
-          "HEV": 7558
+          "HEV": 7558,
+          "total": 1235376,
+          "no_enchufable": 1232576
         },
         "moto": {
           "BEV": 5603,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4067111,
+          "no_enchufable": 4061508
         },
         "camion": {
           "BEV": 2831,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1565109,
+          "no_enchufable": 1562239
         },
         "autobus": {
           "BEV": 351,
@@ -824,7 +942,9 @@
         "otros": {
           "BEV": 420,
           "PHEV": 42,
-          "HEV": 736
+          "HEV": 736,
+          "total": 5725324,
+          "no_enchufable": 5724862
         }
       }
     },
@@ -854,25 +974,35 @@
         "turismo": {
           "BEV": 32226,
           "PHEV": 16648,
-          "HEV": 198668
+          "HEV": 198668,
+          "total": 28391191,
+          "no_enchufable": 28342317
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1048,
+          "no_enchufable": 1040
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2800,
-          "HEV": 7562
+          "HEV": 7562,
+          "total": 1234439,
+          "no_enchufable": 1231631
         },
         "moto": {
           "BEV": 5597,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4071465,
+          "no_enchufable": 4065868
         },
         "camion": {
           "BEV": 2854,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1566699,
+          "no_enchufable": 1563806
         },
         "autobus": {
           "BEV": 362,
@@ -887,7 +1017,9 @@
         "otros": {
           "BEV": 421,
           "PHEV": 42,
-          "HEV": 737
+          "HEV": 737,
+          "total": 5720364,
+          "no_enchufable": 5719901
         }
       }
     },
@@ -917,25 +1049,35 @@
         "turismo": {
           "BEV": 32410,
           "PHEV": 16676,
-          "HEV": 198646
+          "HEV": 198646,
+          "total": 28371985,
+          "no_enchufable": 28322899
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 56
+          "HEV": 56,
+          "total": 1048,
+          "no_enchufable": 1040
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2806,
-          "HEV": 7564
+          "HEV": 7564,
+          "total": 1233394,
+          "no_enchufable": 1230580
         },
         "moto": {
           "BEV": 5609,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4073151,
+          "no_enchufable": 4067542
         },
         "camion": {
           "BEV": 2862,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1567421,
+          "no_enchufable": 1564520
         },
         "autobus": {
           "BEV": 365,
@@ -950,7 +1092,9 @@
         "otros": {
           "BEV": 431,
           "PHEV": 42,
-          "HEV": 737
+          "HEV": 737,
+          "total": 5715018,
+          "no_enchufable": 5714545
         }
       }
     },
@@ -982,25 +1126,35 @@
         "turismo": {
           "BEV": 32419,
           "PHEV": 16706,
-          "HEV": 199915
+          "HEV": 199915,
+          "total": 28294611,
+          "no_enchufable": 28245486
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1080,
+          "no_enchufable": 1072
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2809,
-          "HEV": 7571
+          "HEV": 7571,
+          "total": 1229477,
+          "no_enchufable": 1226660
         },
         "moto": {
           "BEV": 5592,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4067877,
+          "no_enchufable": 4062285
         },
         "camion": {
           "BEV": 2913,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1561791,
+          "no_enchufable": 1558839
         },
         "autobus": {
           "BEV": 365,
@@ -1015,7 +1169,9 @@
         "otros": {
           "BEV": 448,
           "PHEV": 42,
-          "HEV": 737
+          "HEV": 737,
+          "total": 5700092,
+          "no_enchufable": 5699602
         }
       }
     },
@@ -1046,25 +1202,35 @@
         "turismo": {
           "BEV": 32513,
           "PHEV": 16750,
-          "HEV": 201894
+          "HEV": 201894,
+          "total": 28293063,
+          "no_enchufable": 28243800
         },
         "suv_todo_terreno": {
           "BEV": 8,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1095,
+          "no_enchufable": 1087
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2835,
-          "HEV": 7573
+          "HEV": 7573,
+          "total": 1228589,
+          "no_enchufable": 1225746
         },
         "moto": {
           "BEV": 5625,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4069275,
+          "no_enchufable": 4063650
         },
         "camion": {
           "BEV": 2924,
           "PHEV": 39,
-          "HEV": 1075
+          "HEV": 1075,
+          "total": 1560755,
+          "no_enchufable": 1557792
         },
         "autobus": {
           "BEV": 366,
@@ -1079,7 +1245,9 @@
         "otros": {
           "BEV": 458,
           "PHEV": 42,
-          "HEV": 737
+          "HEV": 737,
+          "total": 5694736,
+          "no_enchufable": 5694236
         }
       }
     },
@@ -1111,25 +1279,35 @@
         "turismo": {
           "BEV": 32547,
           "PHEV": 16803,
-          "HEV": 203842
+          "HEV": 203842,
+          "total": 28303495,
+          "no_enchufable": 28254145
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1093,
+          "no_enchufable": 1083
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2852,
-          "HEV": 7576
+          "HEV": 7576,
+          "total": 1227888,
+          "no_enchufable": 1225028
         },
         "moto": {
           "BEV": 5619,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4071988,
+          "no_enchufable": 4066369
         },
         "camion": {
           "BEV": 2940,
           "PHEV": 39,
-          "HEV": 1076
+          "HEV": 1076,
+          "total": 1560559,
+          "no_enchufable": 1557580
         },
         "autobus": {
           "BEV": 367,
@@ -1144,7 +1322,9 @@
         "otros": {
           "BEV": 464,
           "PHEV": 42,
-          "HEV": 738
+          "HEV": 738,
+          "total": 5690268,
+          "no_enchufable": 5689762
         }
       }
     },
@@ -1175,25 +1355,35 @@
         "turismo": {
           "BEV": 32744,
           "PHEV": 16958,
-          "HEV": 205803
+          "HEV": 205803,
+          "total": 28322142,
+          "no_enchufable": 28272440
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1093,
+          "no_enchufable": 1083
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2882,
-          "HEV": 7581
+          "HEV": 7581,
+          "total": 1227108,
+          "no_enchufable": 1224218
         },
         "moto": {
           "BEV": 5631,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4075731,
+          "no_enchufable": 4070100
         },
         "camion": {
           "BEV": 2985,
           "PHEV": 39,
-          "HEV": 1076
+          "HEV": 1076,
+          "total": 1560576,
+          "no_enchufable": 1557552
         },
         "autobus": {
           "BEV": 378,
@@ -1208,7 +1398,9 @@
         "otros": {
           "BEV": 471,
           "PHEV": 42,
-          "HEV": 738
+          "HEV": 738,
+          "total": 5685929,
+          "no_enchufable": 5685416
         }
       }
     },
@@ -1239,25 +1431,35 @@
         "turismo": {
           "BEV": 32886,
           "PHEV": 17141,
-          "HEV": 207721
+          "HEV": 207721,
+          "total": 28330100,
+          "no_enchufable": 28280073
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1096,
+          "no_enchufable": 1086
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2901,
-          "HEV": 7583
+          "HEV": 7583,
+          "total": 1226792,
+          "no_enchufable": 1223883
         },
         "moto": {
           "BEV": 5631,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4081161,
+          "no_enchufable": 4075530
         },
         "camion": {
           "BEV": 3028,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1561290,
+          "no_enchufable": 1558223
         },
         "autobus": {
           "BEV": 381,
@@ -1272,7 +1474,9 @@
         "otros": {
           "BEV": 472,
           "PHEV": 42,
-          "HEV": 738
+          "HEV": 738,
+          "total": 5680899,
+          "no_enchufable": 5680385
         }
       }
     },
@@ -1303,25 +1507,35 @@
         "turismo": {
           "BEV": 33029,
           "PHEV": 17239,
-          "HEV": 210214
+          "HEV": 210214,
+          "total": 28351194,
+          "no_enchufable": 28300926
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1092,
+          "no_enchufable": 1082
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 2953,
-          "HEV": 7588
+          "HEV": 7588,
+          "total": 1226482,
+          "no_enchufable": 1223521
         },
         "moto": {
           "BEV": 5632,
-          "HEV": 44
+          "HEV": 44,
+          "total": 4087394,
+          "no_enchufable": 4081762
         },
         "camion": {
           "BEV": 3105,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1562065,
+          "no_enchufable": 1558921
         },
         "autobus": {
           "BEV": 386,
@@ -1336,7 +1550,9 @@
         "otros": {
           "BEV": 480,
           "PHEV": 42,
-          "HEV": 738
+          "HEV": 738,
+          "total": 5676891,
+          "no_enchufable": 5676369
         }
       }
     },
@@ -1368,25 +1584,35 @@
         "turismo": {
           "BEV": 33084,
           "PHEV": 17300,
-          "HEV": 212733
+          "HEV": 212733,
+          "total": 28382376,
+          "no_enchufable": 28331992
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1089,
+          "no_enchufable": 1079
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3014,
-          "HEV": 7594
+          "HEV": 7594,
+          "total": 1226385,
+          "no_enchufable": 1223363
         },
         "moto": {
           "BEV": 5609,
-          "HEV": 45
+          "HEV": 45,
+          "total": 4097260,
+          "no_enchufable": 4091651
         },
         "camion": {
           "BEV": 3153,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1563911,
+          "no_enchufable": 1560719
         },
         "autobus": {
           "BEV": 391,
@@ -1401,7 +1627,9 @@
         "otros": {
           "BEV": 495,
           "PHEV": 42,
-          "HEV": 738
+          "HEV": 738,
+          "total": 5672442,
+          "no_enchufable": 5671905
         }
       }
     },
@@ -1433,25 +1661,35 @@
         "turismo": {
           "BEV": 33216,
           "PHEV": 17368,
-          "HEV": 215498
+          "HEV": 215498,
+          "total": 28400442,
+          "no_enchufable": 28349858
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1077,
+          "no_enchufable": 1067
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3051,
-          "HEV": 7599
+          "HEV": 7599,
+          "total": 1226150,
+          "no_enchufable": 1223091
         },
         "moto": {
           "BEV": 5621,
-          "HEV": 48
+          "HEV": 48,
+          "total": 4106393,
+          "no_enchufable": 4100772
         },
         "camion": {
           "BEV": 3209,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1565060,
+          "no_enchufable": 1561812
         },
         "autobus": {
           "BEV": 398,
@@ -1466,7 +1704,9 @@
         "otros": {
           "BEV": 510,
           "PHEV": 42,
-          "HEV": 739
+          "HEV": 739,
+          "total": 5669633,
+          "no_enchufable": 5669081
         }
       }
     },
@@ -1498,25 +1738,35 @@
         "turismo": {
           "BEV": 33277,
           "PHEV": 17429,
-          "HEV": 217677
+          "HEV": 217677,
+          "total": 28378902,
+          "no_enchufable": 28328196
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1076,
+          "no_enchufable": 1066
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3070,
-          "HEV": 7601
+          "HEV": 7601,
+          "total": 1225632,
+          "no_enchufable": 1222554
         },
         "moto": {
           "BEV": 5612,
-          "HEV": 47
+          "HEV": 47,
+          "total": 4111439,
+          "no_enchufable": 4105827
         },
         "camion": {
           "BEV": 3238,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1565297,
+          "no_enchufable": 1562020
         },
         "autobus": {
           "BEV": 398,
@@ -1531,7 +1781,9 @@
         "otros": {
           "BEV": 518,
           "PHEV": 42,
-          "HEV": 739
+          "HEV": 739,
+          "total": 5666223,
+          "no_enchufable": 5665663
         }
       }
     },
@@ -1562,25 +1814,35 @@
         "turismo": {
           "BEV": 33382,
           "PHEV": 17529,
-          "HEV": 219894
+          "HEV": 219894,
+          "total": 28371401,
+          "no_enchufable": 28320490
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1078,
+          "no_enchufable": 1068
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3099,
-          "HEV": 7605
+          "HEV": 7605,
+          "total": 1225337,
+          "no_enchufable": 1222230
         },
         "moto": {
           "BEV": 5639,
-          "HEV": 48
+          "HEV": 48,
+          "total": 4118695,
+          "no_enchufable": 4113056
         },
         "camion": {
           "BEV": 3290,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1566188,
+          "no_enchufable": 1562859
         },
         "autobus": {
           "BEV": 398,
@@ -1595,7 +1857,9 @@
         "otros": {
           "BEV": 533,
           "PHEV": 42,
-          "HEV": 740
+          "HEV": 740,
+          "total": 5662403,
+          "no_enchufable": 5661828
         }
       }
     },
@@ -1627,25 +1891,35 @@
         "turismo": {
           "BEV": 33462,
           "PHEV": 17596,
-          "HEV": 222467
+          "HEV": 222467,
+          "total": 28365701,
+          "no_enchufable": 28314643
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1088,
+          "no_enchufable": 1078
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3113,
-          "HEV": 7608
+          "HEV": 7608,
+          "total": 1224985,
+          "no_enchufable": 1221864
         },
         "moto": {
           "BEV": 5629,
-          "HEV": 48
+          "HEV": 48,
+          "total": 4123613,
+          "no_enchufable": 4117984
         },
         "camion": {
           "BEV": 3386,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1567008,
+          "no_enchufable": 1563583
         },
         "autobus": {
           "BEV": 399,
@@ -1660,7 +1934,9 @@
         "otros": {
           "BEV": 540,
           "PHEV": 42,
-          "HEV": 740
+          "HEV": 740,
+          "total": 5658520,
+          "no_enchufable": 5657938
         }
       }
     },
@@ -1692,25 +1968,35 @@
         "turismo": {
           "BEV": 33827,
           "PHEV": 17669,
-          "HEV": 225432
+          "HEV": 225432,
+          "total": 28354319,
+          "no_enchufable": 28302823
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 71
+          "HEV": 71,
+          "total": 1091,
+          "no_enchufable": 1081
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3150,
-          "HEV": 7610
+          "HEV": 7610,
+          "total": 1224177,
+          "no_enchufable": 1221019
         },
         "moto": {
           "BEV": 5632,
-          "HEV": 46
+          "HEV": 46,
+          "total": 4127409,
+          "no_enchufable": 4121777
         },
         "camion": {
           "BEV": 3416,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1567961,
+          "no_enchufable": 1564506
         },
         "autobus": {
           "BEV": 403,
@@ -1725,7 +2011,9 @@
         "otros": {
           "BEV": 540,
           "PHEV": 42,
-          "HEV": 741
+          "HEV": 741,
+          "total": 5652505,
+          "no_enchufable": 5651923
         }
       }
     },
@@ -1757,25 +2045,35 @@
         "turismo": {
           "BEV": 34156,
           "PHEV": 17716,
-          "HEV": 228291
+          "HEV": 228291,
+          "total": 28293283,
+          "no_enchufable": 28241411
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 104
+          "HEV": 104,
+          "total": 1177,
+          "no_enchufable": 1167
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3184,
-          "HEV": 7618
+          "HEV": 7618,
+          "total": 1221259,
+          "no_enchufable": 1218067
         },
         "moto": {
           "BEV": 5659,
-          "HEV": 46
+          "HEV": 46,
+          "total": 4130915,
+          "no_enchufable": 4125256
         },
         "camion": {
           "BEV": 3472,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1563633,
+          "no_enchufable": 1560122
         },
         "autobus": {
           "BEV": 403,
@@ -1790,7 +2088,9 @@
         "otros": {
           "BEV": 544,
           "PHEV": 42,
-          "HEV": 742
+          "HEV": 742,
+          "total": 5639997,
+          "no_enchufable": 5639411
         }
       }
     },
@@ -1821,25 +2121,35 @@
         "turismo": {
           "BEV": 34234,
           "PHEV": 17809,
-          "HEV": 232374
+          "HEV": 232374,
+          "total": 28292358,
+          "no_enchufable": 28240315
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1181,
+          "no_enchufable": 1171
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3208,
-          "HEV": 7622
+          "HEV": 7622,
+          "total": 1220846,
+          "no_enchufable": 1217630
         },
         "moto": {
           "BEV": 5675,
-          "HEV": 47
+          "HEV": 47,
+          "total": 4130761,
+          "no_enchufable": 4125086
         },
         "camion": {
           "BEV": 3500,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1563420,
+          "no_enchufable": 1559881
         },
         "autobus": {
           "BEV": 404,
@@ -1854,7 +2164,9 @@
         "otros": {
           "BEV": 541,
           "PHEV": 42,
-          "HEV": 742
+          "HEV": 742,
+          "total": 5635415,
+          "no_enchufable": 5634832
         }
       }
     },
@@ -1886,25 +2198,35 @@
         "turismo": {
           "BEV": 34411,
           "PHEV": 17885,
-          "HEV": 236119
+          "HEV": 236119,
+          "total": 28307192,
+          "no_enchufable": 28254896
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1178,
+          "no_enchufable": 1168
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3227,
-          "HEV": 7626
+          "HEV": 7626,
+          "total": 1220016,
+          "no_enchufable": 1216781
         },
         "moto": {
           "BEV": 5696,
-          "HEV": 51
+          "HEV": 51,
+          "total": 4131377,
+          "no_enchufable": 4125681
         },
         "camion": {
           "BEV": 3531,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1563234,
+          "no_enchufable": 1559664
         },
         "autobus": {
           "BEV": 404,
@@ -1919,7 +2241,9 @@
         "otros": {
           "BEV": 546,
           "PHEV": 42,
-          "HEV": 745
+          "HEV": 745,
+          "total": 5632350,
+          "no_enchufable": 5631762
         }
       }
     },
@@ -1951,25 +2275,35 @@
         "turismo": {
           "BEV": 34688,
           "PHEV": 18010,
-          "HEV": 240389
+          "HEV": 240389,
+          "total": 28328040,
+          "no_enchufable": 28275342
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1167,
+          "no_enchufable": 1157
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3255,
-          "HEV": 7630
+          "HEV": 7630,
+          "total": 1219360,
+          "no_enchufable": 1216097
         },
         "moto": {
           "BEV": 5682,
-          "HEV": 51
+          "HEV": 51,
+          "total": 4133833,
+          "no_enchufable": 4128151
         },
         "camion": {
           "BEV": 3598,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1564024,
+          "no_enchufable": 1560387
         },
         "autobus": {
           "BEV": 411,
@@ -1984,7 +2318,9 @@
         "otros": {
           "BEV": 546,
           "PHEV": 42,
-          "HEV": 745
+          "HEV": 745,
+          "total": 5627922,
+          "no_enchufable": 5627334
         }
       }
     },
@@ -2016,25 +2352,35 @@
         "turismo": {
           "BEV": 34835,
           "PHEV": 18134,
-          "HEV": 243834
+          "HEV": 243834,
+          "total": 28350063,
+          "no_enchufable": 28297094
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1164,
+          "no_enchufable": 1154
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3277,
-          "HEV": 7635
+          "HEV": 7635,
+          "total": 1219076,
+          "no_enchufable": 1215791
         },
         "moto": {
           "BEV": 5979,
-          "HEV": 54
+          "HEV": 54,
+          "total": 4138078,
+          "no_enchufable": 4132099
         },
         "camion": {
           "BEV": 3620,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1565085,
+          "no_enchufable": 1561426
         },
         "autobus": {
           "BEV": 413,
@@ -2049,7 +2395,9 @@
         "otros": {
           "BEV": 547,
           "PHEV": 42,
-          "HEV": 745
+          "HEV": 745,
+          "total": 5625289,
+          "no_enchufable": 5624700
         }
       }
     },
@@ -2081,25 +2429,35 @@
         "turismo": {
           "BEV": 35014,
           "PHEV": 18324,
-          "HEV": 248527
+          "HEV": 248527,
+          "total": 28380249,
+          "no_enchufable": 28326911
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1176,
+          "no_enchufable": 1166
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3311,
-          "HEV": 7637
+          "HEV": 7637,
+          "total": 1218650,
+          "no_enchufable": 1215331
         },
         "moto": {
           "BEV": 6124,
-          "HEV": 56
+          "HEV": 56,
+          "total": 4144305,
+          "no_enchufable": 4138181
         },
         "camion": {
           "BEV": 3678,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1566606,
+          "no_enchufable": 1562889
         },
         "autobus": {
           "BEV": 435,
@@ -2114,7 +2472,9 @@
         "otros": {
           "BEV": 542,
           "PHEV": 42,
-          "HEV": 750
+          "HEV": 750,
+          "total": 5621685,
+          "no_enchufable": 5621101
         }
       }
     },
@@ -2145,25 +2505,35 @@
         "turismo": {
           "BEV": 35329,
           "PHEV": 18623,
-          "HEV": 253876
+          "HEV": 253876,
+          "total": 28413089,
+          "no_enchufable": 28359137
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1189,
+          "no_enchufable": 1179
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3348,
-          "HEV": 7646
+          "HEV": 7646,
+          "total": 1218670,
+          "no_enchufable": 1215314
         },
         "moto": {
           "BEV": 6194,
-          "HEV": 56
+          "HEV": 56,
+          "total": 4153000,
+          "no_enchufable": 4146806
         },
         "camion": {
           "BEV": 3716,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1568073,
+          "no_enchufable": 1564318
         },
         "autobus": {
           "BEV": 443,
@@ -2178,7 +2548,9 @@
         "otros": {
           "BEV": 552,
           "PHEV": 42,
-          "HEV": 751
+          "HEV": 751,
+          "total": 5618559,
+          "no_enchufable": 5617965
         }
       }
     },
@@ -2210,25 +2582,35 @@
         "turismo": {
           "BEV": 35571,
           "PHEV": 18900,
-          "HEV": 258721
+          "HEV": 258721,
+          "total": 28431083,
+          "no_enchufable": 28376612
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1174,
+          "no_enchufable": 1164
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3394,
-          "HEV": 7651
+          "HEV": 7651,
+          "total": 1218748,
+          "no_enchufable": 1215346
         },
         "moto": {
           "BEV": 6566,
-          "HEV": 55
+          "HEV": 55,
+          "total": 4161149,
+          "no_enchufable": 4154583
         },
         "camion": {
           "BEV": 3743,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1570002,
+          "no_enchufable": 1566220
         },
         "autobus": {
           "BEV": 445,
@@ -2243,7 +2625,9 @@
         "otros": {
           "BEV": 554,
           "PHEV": 42,
-          "HEV": 751
+          "HEV": 751,
+          "total": 5616387,
+          "no_enchufable": 5615791
         }
       }
     },
@@ -2275,25 +2659,35 @@
         "turismo": {
           "BEV": 35876,
           "PHEV": 19204,
-          "HEV": 262842
+          "HEV": 262842,
+          "total": 28416357,
+          "no_enchufable": 28361277
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1144,
+          "no_enchufable": 1134
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3409,
-          "HEV": 7655
+          "HEV": 7655,
+          "total": 1218067,
+          "no_enchufable": 1214650
         },
         "moto": {
           "BEV": 6712,
-          "HEV": 56
+          "HEV": 56,
+          "total": 4165729,
+          "no_enchufable": 4159017
         },
         "camion": {
           "BEV": 3781,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1570607,
+          "no_enchufable": 1566787
         },
         "autobus": {
           "BEV": 451,
@@ -2308,7 +2702,9 @@
         "otros": {
           "BEV": 574,
           "PHEV": 42,
-          "HEV": 753
+          "HEV": 753,
+          "total": 5613796,
+          "no_enchufable": 5613180
         }
       }
     },
@@ -2340,25 +2736,35 @@
         "turismo": {
           "BEV": 36408,
           "PHEV": 19469,
-          "HEV": 266771
+          "HEV": 266771,
+          "total": 28405123,
+          "no_enchufable": 28349246
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1139,
+          "no_enchufable": 1129
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3442,
-          "HEV": 7663
+          "HEV": 7663,
+          "total": 1217847,
+          "no_enchufable": 1214397
         },
         "moto": {
           "BEV": 6934,
-          "HEV": 57
+          "HEV": 57,
+          "total": 4171048,
+          "no_enchufable": 4164114
         },
         "camion": {
           "BEV": 3826,
           "PHEV": 39,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1571708,
+          "no_enchufable": 1567843
         },
         "autobus": {
           "BEV": 477,
@@ -2373,7 +2779,9 @@
         "otros": {
           "BEV": 574,
           "PHEV": 42,
-          "HEV": 753
+          "HEV": 753,
+          "total": 5610341,
+          "no_enchufable": 5609725
         }
       }
     },
@@ -2405,25 +2813,35 @@
         "turismo": {
           "BEV": 37228,
           "PHEV": 19771,
-          "HEV": 271384
+          "HEV": 271384,
+          "total": 28392726,
+          "no_enchufable": 28335727
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1131,
+          "no_enchufable": 1121
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3462,
-          "HEV": 7668
+          "HEV": 7668,
+          "total": 1217013,
+          "no_enchufable": 1213543
         },
         "moto": {
           "BEV": 7285,
-          "HEV": 61
+          "HEV": 61,
+          "total": 4175655,
+          "no_enchufable": 4168370
         },
         "camion": {
           "BEV": 3964,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1573725,
+          "no_enchufable": 1569721
         },
         "autobus": {
           "BEV": 490,
@@ -2438,7 +2856,9 @@
         "otros": {
           "BEV": 585,
           "PHEV": 42,
-          "HEV": 754
+          "HEV": 754,
+          "total": 5606583,
+          "no_enchufable": 5605956
         }
       }
     },
@@ -2470,25 +2890,35 @@
         "turismo": {
           "BEV": 37480,
           "PHEV": 20095,
-          "HEV": 276562
+          "HEV": 276562,
+          "total": 28378359,
+          "no_enchufable": 28320784
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 111
+          "HEV": 111,
+          "total": 1128,
+          "no_enchufable": 1118
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3495,
-          "HEV": 7672
+          "HEV": 7672,
+          "total": 1216152,
+          "no_enchufable": 1212649
         },
         "moto": {
           "BEV": 7715,
-          "HEV": 66
+          "HEV": 66,
+          "total": 4178664,
+          "no_enchufable": 4170949
         },
         "camion": {
           "BEV": 3997,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1575088,
+          "no_enchufable": 1571051
         },
         "autobus": {
           "BEV": 490,
@@ -2503,7 +2933,9 @@
         "otros": {
           "BEV": 598,
           "PHEV": 42,
-          "HEV": 756
+          "HEV": 756,
+          "total": 5602223,
+          "no_enchufable": 5601583
         }
       }
     },
@@ -2535,25 +2967,35 @@
         "turismo": {
           "BEV": 37892,
           "PHEV": 20539,
-          "HEV": 280763
+          "HEV": 280763,
+          "total": 28308470,
+          "no_enchufable": 28250039
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 144
+          "HEV": 144,
+          "total": 1173,
+          "no_enchufable": 1163
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3578,
-          "HEV": 7676
+          "HEV": 7676,
+          "total": 1212964,
+          "no_enchufable": 1209378
         },
         "moto": {
           "BEV": 7822,
-          "HEV": 66
+          "HEV": 66,
+          "total": 4174094,
+          "no_enchufable": 4166272
         },
         "camion": {
           "BEV": 4053,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1571621,
+          "no_enchufable": 1567528
         },
         "autobus": {
           "BEV": 494,
@@ -2568,7 +3010,9 @@
         "otros": {
           "BEV": 594,
           "PHEV": 42,
-          "HEV": 756
+          "HEV": 756,
+          "total": 5590842,
+          "no_enchufable": 5590206
         }
       }
     },
@@ -2600,25 +3044,35 @@
         "turismo": {
           "BEV": 38242,
           "PHEV": 20866,
-          "HEV": 286466
+          "HEV": 286466,
+          "total": 28308410,
+          "no_enchufable": 28249302
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 155
+          "HEV": 155,
+          "total": 1184,
+          "no_enchufable": 1174
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3610,
-          "HEV": 7682
+          "HEV": 7682,
+          "total": 1212454,
+          "no_enchufable": 1208836
         },
         "moto": {
           "BEV": 8421,
-          "HEV": 74
+          "HEV": 74,
+          "total": 4177761,
+          "no_enchufable": 4169340
         },
         "camion": {
           "BEV": 4144,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1572735,
+          "no_enchufable": 1568551
         },
         "autobus": {
           "BEV": 519,
@@ -2633,7 +3087,9 @@
         "otros": {
           "BEV": 600,
           "PHEV": 42,
-          "HEV": 756
+          "HEV": 756,
+          "total": 5585904,
+          "no_enchufable": 5585262
         }
       }
     },
@@ -2665,25 +3121,35 @@
         "turismo": {
           "BEV": 38595,
           "PHEV": 21172,
-          "HEV": 291468
+          "HEV": 291468,
+          "total": 28319120,
+          "no_enchufable": 28259353
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 155
+          "HEV": 155,
+          "total": 1178,
+          "no_enchufable": 1168
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3645,
-          "HEV": 7685
+          "HEV": 7685,
+          "total": 1212113,
+          "no_enchufable": 1208460
         },
         "moto": {
           "BEV": 8571,
-          "HEV": 82
+          "HEV": 82,
+          "total": 4180744,
+          "no_enchufable": 4172173
         },
         "camion": {
           "BEV": 4188,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1574228,
+          "no_enchufable": 1570000
         },
         "autobus": {
           "BEV": 530,
@@ -2698,7 +3164,9 @@
         "otros": {
           "BEV": 626,
           "PHEV": 42,
-          "HEV": 756
+          "HEV": 756,
+          "total": 5583564,
+          "no_enchufable": 5582896
         }
       }
     },
@@ -2730,25 +3198,35 @@
         "turismo": {
           "BEV": 39021,
           "PHEV": 21439,
-          "HEV": 296572
+          "HEV": 296572,
+          "total": 28341027,
+          "no_enchufable": 28280567
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 165
+          "HEV": 165,
+          "total": 1188,
+          "no_enchufable": 1178
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3679,
-          "HEV": 7687
+          "HEV": 7687,
+          "total": 1212201,
+          "no_enchufable": 1208514
         },
         "moto": {
           "BEV": 8725,
-          "HEV": 82
+          "HEV": 82,
+          "total": 4185380,
+          "no_enchufable": 4176655
         },
         "camion": {
           "BEV": 4275,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1575567,
+          "no_enchufable": 1571252
         },
         "autobus": {
           "BEV": 546,
@@ -2763,7 +3241,9 @@
         "otros": {
           "BEV": 625,
           "PHEV": 42,
-          "HEV": 758
+          "HEV": 758,
+          "total": 5581328,
+          "no_enchufable": 5580661
         }
       }
     },
@@ -2795,25 +3275,35 @@
         "turismo": {
           "BEV": 39447,
           "PHEV": 21666,
-          "HEV": 302294
+          "HEV": 302294,
+          "total": 28354520,
+          "no_enchufable": 28293407
         },
         "suv_todo_terreno": {
           "BEV": 10,
-          "HEV": 165
+          "HEV": 165,
+          "total": 1190,
+          "no_enchufable": 1180
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3710,
-          "HEV": 7693
+          "HEV": 7693,
+          "total": 1212258,
+          "no_enchufable": 1208540
         },
         "moto": {
           "BEV": 8978,
-          "HEV": 85
+          "HEV": 85,
+          "total": 4191972,
+          "no_enchufable": 4182994
         },
         "camion": {
           "BEV": 4365,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1577093,
+          "no_enchufable": 1572688
         },
         "autobus": {
           "BEV": 556,
@@ -2828,7 +3318,9 @@
         "otros": {
           "BEV": 632,
           "PHEV": 42,
-          "HEV": 759
+          "HEV": 759,
+          "total": 5579234,
+          "no_enchufable": 5578560
         }
       }
     },
@@ -2860,25 +3352,35 @@
         "turismo": {
           "BEV": 39733,
           "PHEV": 22058,
-          "HEV": 308913
+          "HEV": 308913,
+          "total": 28376429,
+          "no_enchufable": 28314638
         },
         "suv_todo_terreno": {
           "BEV": 11,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1197,
+          "no_enchufable": 1186
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3761,
-          "HEV": 7694
+          "HEV": 7694,
+          "total": 1212703,
+          "no_enchufable": 1208934
         },
         "moto": {
           "BEV": 9074,
-          "HEV": 98
+          "HEV": 98,
+          "total": 4200512,
+          "no_enchufable": 4191438
         },
         "camion": {
           "BEV": 4405,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1578944,
+          "no_enchufable": 1574499
         },
         "autobus": {
           "BEV": 558,
@@ -2893,7 +3395,9 @@
         "otros": {
           "BEV": 634,
           "PHEV": 42,
-          "HEV": 762
+          "HEV": 762,
+          "total": 5576403,
+          "no_enchufable": 5575727
         }
       }
     },
@@ -2925,25 +3429,35 @@
         "turismo": {
           "BEV": 40062,
           "PHEV": 22897,
-          "HEV": 316635
+          "HEV": 316635,
+          "total": 28406712,
+          "no_enchufable": 28343753
         },
         "suv_todo_terreno": {
           "BEV": 11,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1199,
+          "no_enchufable": 1188
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3819,
-          "HEV": 7699
+          "HEV": 7699,
+          "total": 1213691,
+          "no_enchufable": 1209864
         },
         "moto": {
           "BEV": 9234,
-          "HEV": 113
+          "HEV": 113,
+          "total": 4209430,
+          "no_enchufable": 4200196
         },
         "camion": {
           "BEV": 4469,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1581466,
+          "no_enchufable": 1576957
         },
         "autobus": {
           "BEV": 574,
@@ -2958,7 +3472,9 @@
         "otros": {
           "BEV": 646,
           "PHEV": 43,
-          "HEV": 766
+          "HEV": 766,
+          "total": 5574254,
+          "no_enchufable": 5573565
         }
       }
     },
@@ -2990,25 +3506,35 @@
         "turismo": {
           "BEV": 40406,
           "PHEV": 23261,
-          "HEV": 323813
+          "HEV": 323813,
+          "total": 28427798,
+          "no_enchufable": 28364131
         },
         "suv_todo_terreno": {
           "BEV": 15,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1202,
+          "no_enchufable": 1187
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 3916,
-          "HEV": 7700
+          "HEV": 7700,
+          "total": 1215548,
+          "no_enchufable": 1211624
         },
         "moto": {
           "BEV": 9291,
-          "HEV": 114
+          "HEV": 114,
+          "total": 4219295,
+          "no_enchufable": 4210004
         },
         "camion": {
           "BEV": 4495,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1582953,
+          "no_enchufable": 1578418
         },
         "autobus": {
           "BEV": 607,
@@ -3023,7 +3549,9 @@
         "otros": {
           "BEV": 657,
           "PHEV": 43,
-          "HEV": 767
+          "HEV": 767,
+          "total": 5572442,
+          "no_enchufable": 5571742
         }
       }
     },
@@ -3055,25 +3583,35 @@
         "turismo": {
           "BEV": 40685,
           "PHEV": 23524,
-          "HEV": 329605
+          "HEV": 329605,
+          "total": 28434339,
+          "no_enchufable": 28370130
         },
         "suv_todo_terreno": {
           "BEV": 18,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1191,
+          "no_enchufable": 1173
         },
         "furgoneta_van": {
           "BEV": 8,
           "PHEV": 4056,
-          "HEV": 7715
+          "HEV": 7715,
+          "total": 1217196,
+          "no_enchufable": 1213132
         },
         "moto": {
           "BEV": 9429,
-          "HEV": 116
+          "HEV": 116,
+          "total": 4225259,
+          "no_enchufable": 4215830
         },
         "camion": {
           "BEV": 4549,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1583501,
+          "no_enchufable": 1578912
         },
         "autobus": {
           "BEV": 617,
@@ -3088,7 +3626,9 @@
         "otros": {
           "BEV": 658,
           "PHEV": 43,
-          "HEV": 770
+          "HEV": 770,
+          "total": 5571110,
+          "no_enchufable": 5570409
         }
       }
     },
@@ -3121,25 +3661,35 @@
         "turismo": {
           "BEV": 41157,
           "PHEV": 23812,
-          "HEV": 334706
+          "HEV": 334706,
+          "total": 28392911,
+          "no_enchufable": 28327942
         },
         "suv_todo_terreno": {
           "BEV": 18,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1186,
+          "no_enchufable": 1168
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4129,
-          "HEV": 7750
+          "HEV": 7750,
+          "total": 1216453,
+          "no_enchufable": 1212315
         },
         "moto": {
           "BEV": 10106,
-          "HEV": 127
+          "HEV": 127,
+          "total": 4233246,
+          "no_enchufable": 4223140
         },
         "camion": {
           "BEV": 4622,
           "PHEV": 40,
-          "HEV": 1077
+          "HEV": 1077,
+          "total": 1584691,
+          "no_enchufable": 1580029
         },
         "autobus": {
           "BEV": 638,
@@ -3154,7 +3704,9 @@
         "otros": {
           "BEV": 672,
           "PHEV": 43,
-          "HEV": 770
+          "HEV": 770,
+          "total": 5567035,
+          "no_enchufable": 5566320
         }
       }
     },
@@ -3186,25 +3738,35 @@
         "turismo": {
           "BEV": 41718,
           "PHEV": 24134,
-          "HEV": 340978
+          "HEV": 340978,
+          "total": 28349290,
+          "no_enchufable": 28283438
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1225,
+          "no_enchufable": 1209
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4207,
-          "HEV": 7799
+          "HEV": 7799,
+          "total": 1215158,
+          "no_enchufable": 1210942
         },
         "moto": {
           "BEV": 10384,
-          "HEV": 135
+          "HEV": 135,
+          "total": 4238947,
+          "no_enchufable": 4228563
         },
         "camion": {
           "BEV": 4711,
           "PHEV": 40,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1586888,
+          "no_enchufable": 1582137
         },
         "autobus": {
           "BEV": 668,
@@ -3219,7 +3781,9 @@
         "otros": {
           "BEV": 710,
           "PHEV": 43,
-          "HEV": 771
+          "HEV": 771,
+          "total": 5562968,
+          "no_enchufable": 5562215
         }
       }
     },
@@ -3251,25 +3815,35 @@
         "turismo": {
           "BEV": 42382,
           "PHEV": 24503,
-          "HEV": 346658
+          "HEV": 346658,
+          "total": 28304234,
+          "no_enchufable": 28237349
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1247,
+          "no_enchufable": 1231
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4323,
-          "HEV": 7824
+          "HEV": 7824,
+          "total": 1213681,
+          "no_enchufable": 1209349
         },
         "moto": {
           "BEV": 10591,
-          "HEV": 137
+          "HEV": 137,
+          "total": 4240195,
+          "no_enchufable": 4229604
         },
         "camion": {
           "BEV": 4797,
           "PHEV": 40,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1588256,
+          "no_enchufable": 1583419
         },
         "autobus": {
           "BEV": 681,
@@ -3284,7 +3858,9 @@
         "otros": {
           "BEV": 749,
           "PHEV": 43,
-          "HEV": 774
+          "HEV": 774,
+          "total": 5557272,
+          "no_enchufable": 5556480
         }
       }
     },
@@ -3316,25 +3892,35 @@
         "turismo": {
           "BEV": 43760,
           "PHEV": 25212,
-          "HEV": 352066
+          "HEV": 352066,
+          "total": 28216272,
+          "no_enchufable": 28147300
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1250,
+          "no_enchufable": 1234
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4446,
-          "HEV": 7868
+          "HEV": 7868,
+          "total": 1210142,
+          "no_enchufable": 1205687
         },
         "moto": {
           "BEV": 10653,
-          "HEV": 136
+          "HEV": 136,
+          "total": 4236537,
+          "no_enchufable": 4225884
         },
         "camion": {
           "BEV": 5023,
           "PHEV": 40,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1585921,
+          "no_enchufable": 1580858
         },
         "autobus": {
           "BEV": 696,
@@ -3349,7 +3935,9 @@
         "otros": {
           "BEV": 771,
           "PHEV": 43,
-          "HEV": 776
+          "HEV": 776,
+          "total": 5544305,
+          "no_enchufable": 5543491
         }
       }
     },
@@ -3381,25 +3969,35 @@
         "turismo": {
           "BEV": 44381,
           "PHEV": 25580,
-          "HEV": 359239
+          "HEV": 359239,
+          "total": 28195152,
+          "no_enchufable": 28125191
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 175
+          "HEV": 175,
+          "total": 1250,
+          "no_enchufable": 1234
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4598,
-          "HEV": 7976
+          "HEV": 7976,
+          "total": 1209287,
+          "no_enchufable": 1204680
         },
         "moto": {
           "BEV": 10699,
-          "HEV": 142
+          "HEV": 142,
+          "total": 4239804,
+          "no_enchufable": 4229105
         },
         "camion": {
           "BEV": 5105,
           "PHEV": 40,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1587008,
+          "no_enchufable": 1581863
         },
         "autobus": {
           "BEV": 714,
@@ -3414,7 +4012,9 @@
         "otros": {
           "BEV": 778,
           "PHEV": 43,
-          "HEV": 776
+          "HEV": 776,
+          "total": 5538772,
+          "no_enchufable": 5537951
         }
       }
     },
@@ -3446,25 +4046,35 @@
         "turismo": {
           "BEV": 45251,
           "PHEV": 25916,
-          "HEV": 365824
+          "HEV": 365824,
+          "total": 28188270,
+          "no_enchufable": 28117103
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 193
+          "HEV": 193,
+          "total": 1267,
+          "no_enchufable": 1251
         },
         "furgoneta_van": {
           "BEV": 9,
           "PHEV": 4733,
-          "HEV": 8061
+          "HEV": 8061,
+          "total": 1208705,
+          "no_enchufable": 1203963
         },
         "moto": {
           "BEV": 10814,
-          "HEV": 150
+          "HEV": 150,
+          "total": 4243711,
+          "no_enchufable": 4232897
         },
         "camion": {
           "BEV": 5192,
           "PHEV": 41,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1588144,
+          "no_enchufable": 1582911
         },
         "autobus": {
           "BEV": 721,
@@ -3479,7 +4089,9 @@
         "otros": {
           "BEV": 792,
           "PHEV": 43,
-          "HEV": 777
+          "HEV": 777,
+          "total": 5535626,
+          "no_enchufable": 5534791
         }
       }
     },
@@ -3511,25 +4123,35 @@
         "turismo": {
           "BEV": 46549,
           "PHEV": 26565,
-          "HEV": 373178
+          "HEV": 373178,
+          "total": 28192943,
+          "no_enchufable": 28119829
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 194
+          "HEV": 194,
+          "total": 1267,
+          "no_enchufable": 1251
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 4883,
-          "HEV": 8205
+          "HEV": 8205,
+          "total": 1208283,
+          "no_enchufable": 1203390
         },
         "moto": {
           "BEV": 11032,
-          "HEV": 151
+          "HEV": 151,
+          "total": 4250956,
+          "no_enchufable": 4239924
         },
         "camion": {
           "BEV": 5296,
           "PHEV": 41,
-          "HEV": 1078
+          "HEV": 1078,
+          "total": 1589461,
+          "no_enchufable": 1584124
         },
         "autobus": {
           "BEV": 726,
@@ -3544,7 +4166,9 @@
         "otros": {
           "BEV": 813,
           "PHEV": 44,
-          "HEV": 780
+          "HEV": 780,
+          "total": 5532042,
+          "no_enchufable": 5531185
         }
       }
     },
@@ -3576,25 +4200,35 @@
         "turismo": {
           "BEV": 47194,
           "PHEV": 27126,
-          "HEV": 380446
+          "HEV": 380446,
+          "total": 28209717,
+          "no_enchufable": 28135397
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 200
+          "HEV": 200,
+          "total": 1271,
+          "no_enchufable": 1255
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5000,
-          "HEV": 8417
+          "HEV": 8417,
+          "total": 1207797,
+          "no_enchufable": 1202787
         },
         "moto": {
           "BEV": 11071,
-          "HEV": 158
+          "HEV": 158,
+          "total": 4257980,
+          "no_enchufable": 4246909
         },
         "camion": {
           "BEV": 5368,
           "PHEV": 41,
-          "HEV": 1080
+          "HEV": 1080,
+          "total": 1590734,
+          "no_enchufable": 1585325
         },
         "autobus": {
           "BEV": 735,
@@ -3609,7 +4243,9 @@
         "otros": {
           "BEV": 823,
           "PHEV": 44,
-          "HEV": 782
+          "HEV": 782,
+          "total": 5529618,
+          "no_enchufable": 5528751
         }
       }
     },
@@ -3642,25 +4278,35 @@
         "turismo": {
           "BEV": 48184,
           "PHEV": 27721,
-          "HEV": 390288
+          "HEV": 390288,
+          "total": 28214983,
+          "no_enchufable": 28139078
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 232
+          "HEV": 232,
+          "total": 1300,
+          "no_enchufable": 1284
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5076,
-          "HEV": 8695
+          "HEV": 8695,
+          "total": 1207313,
+          "no_enchufable": 1202227
         },
         "moto": {
           "BEV": 11508,
-          "HEV": 167
+          "HEV": 167,
+          "total": 4267530,
+          "no_enchufable": 4256022
         },
         "camion": {
           "BEV": 5491,
           "PHEV": 41,
-          "HEV": 1083
+          "HEV": 1083,
+          "total": 1592717,
+          "no_enchufable": 1587185
         },
         "autobus": {
           "BEV": 738,
@@ -3675,7 +4321,9 @@
         "otros": {
           "BEV": 835,
           "PHEV": 44,
-          "HEV": 786
+          "HEV": 786,
+          "total": 5525657,
+          "no_enchufable": 5524778
         }
       }
     },
@@ -3707,25 +4355,35 @@
         "turismo": {
           "BEV": 49328,
           "PHEV": 28112,
-          "HEV": 398996
+          "HEV": 398996,
+          "total": 28235250,
+          "no_enchufable": 28157810
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 232
+          "HEV": 232,
+          "total": 1296,
+          "no_enchufable": 1280
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5143,
-          "HEV": 8993
+          "HEV": 8993,
+          "total": 1207103,
+          "no_enchufable": 1201950
         },
         "moto": {
           "BEV": 12597,
-          "HEV": 198
+          "HEV": 198,
+          "total": 4278754,
+          "no_enchufable": 4266157
         },
         "camion": {
           "BEV": 5619,
           "PHEV": 41,
-          "HEV": 1091
+          "HEV": 1091,
+          "total": 1595119,
+          "no_enchufable": 1589459
         },
         "autobus": {
           "BEV": 761,
@@ -3740,7 +4398,9 @@
         "otros": {
           "BEV": 871,
           "PHEV": 44,
-          "HEV": 787
+          "HEV": 787,
+          "total": 5523551,
+          "no_enchufable": 5522636
         }
       }
     },
@@ -3772,25 +4432,35 @@
         "turismo": {
           "BEV": 50002,
           "PHEV": 28508,
-          "HEV": 408093
+          "HEV": 408093,
+          "total": 28233871,
+          "no_enchufable": 28155361
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 250
+          "HEV": 250,
+          "total": 1312,
+          "no_enchufable": 1296
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5231,
-          "HEV": 9384
+          "HEV": 9384,
+          "total": 1206939,
+          "no_enchufable": 1201698
         },
         "moto": {
           "BEV": 13533,
-          "HEV": 199
+          "HEV": 199,
+          "total": 4290815,
+          "no_enchufable": 4277282
         },
         "camion": {
           "BEV": 5696,
           "PHEV": 41,
-          "HEV": 1097
+          "HEV": 1097,
+          "total": 1597055,
+          "no_enchufable": 1591318
         },
         "autobus": {
           "BEV": 771,
@@ -3805,7 +4475,9 @@
         "otros": {
           "BEV": 896,
           "PHEV": 44,
-          "HEV": 791
+          "HEV": 791,
+          "total": 5520219,
+          "no_enchufable": 5519279
         }
       }
     },
@@ -3837,25 +4509,35 @@
         "turismo": {
           "BEV": 50464,
           "PHEV": 28853,
-          "HEV": 414333
+          "HEV": 414333,
+          "total": 28212847,
+          "no_enchufable": 28133530
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1322,
+          "no_enchufable": 1306
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5325,
-          "HEV": 9595
+          "HEV": 9595,
+          "total": 1206600,
+          "no_enchufable": 1201265
         },
         "moto": {
           "BEV": 13387,
-          "HEV": 203
+          "HEV": 203,
+          "total": 4296009,
+          "no_enchufable": 4282622
         },
         "camion": {
           "BEV": 5796,
           "PHEV": 41,
-          "HEV": 1100
+          "HEV": 1100,
+          "total": 1599565,
+          "no_enchufable": 1593728
         },
         "autobus": {
           "BEV": 778,
@@ -3870,7 +4552,9 @@
         "otros": {
           "BEV": 917,
           "PHEV": 44,
-          "HEV": 822
+          "HEV": 822,
+          "total": 5517524,
+          "no_enchufable": 5516563
         }
       }
     },
@@ -3902,25 +4586,35 @@
         "turismo": {
           "BEV": 51171,
           "PHEV": 29185,
-          "HEV": 421630
+          "HEV": 421630,
+          "total": 28180967,
+          "no_enchufable": 28100611
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1322,
+          "no_enchufable": 1306
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5502,
-          "HEV": 10023
+          "HEV": 10023,
+          "total": 1206024,
+          "no_enchufable": 1200512
         },
         "moto": {
           "BEV": 13452,
-          "HEV": 205
+          "HEV": 205,
+          "total": 4303052,
+          "no_enchufable": 4289600
         },
         "camion": {
           "BEV": 5881,
           "PHEV": 42,
-          "HEV": 1131
+          "HEV": 1131,
+          "total": 1599643,
+          "no_enchufable": 1593720
         },
         "autobus": {
           "BEV": 792,
@@ -3935,7 +4629,9 @@
         "otros": {
           "BEV": 941,
           "PHEV": 44,
-          "HEV": 852
+          "HEV": 852,
+          "total": 5513083,
+          "no_enchufable": 5512098
         }
       }
     },
@@ -3967,25 +4663,35 @@
         "turismo": {
           "BEV": 51927,
           "PHEV": 29668,
-          "HEV": 430292
+          "HEV": 430292,
+          "total": 28137004,
+          "no_enchufable": 28055409
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1323,
+          "no_enchufable": 1307
         },
         "furgoneta_van": {
           "BEV": 10,
           "PHEV": 5790,
-          "HEV": 10653
+          "HEV": 10653,
+          "total": 1205226,
+          "no_enchufable": 1199426
         },
         "moto": {
           "BEV": 13977,
-          "HEV": 206
+          "HEV": 206,
+          "total": 4309217,
+          "no_enchufable": 4295240
         },
         "camion": {
           "BEV": 5999,
           "PHEV": 42,
-          "HEV": 1177
+          "HEV": 1177,
+          "total": 1600245,
+          "no_enchufable": 1594204
         },
         "autobus": {
           "BEV": 797,
@@ -4000,7 +4706,9 @@
         "otros": {
           "BEV": 993,
           "PHEV": 44,
-          "HEV": 895
+          "HEV": 895,
+          "total": 5506689,
+          "no_enchufable": 5505652
         }
       }
     },
@@ -4033,25 +4741,35 @@
         "turismo": {
           "BEV": 52669,
           "PHEV": 30243,
-          "HEV": 440754
+          "HEV": 440754,
+          "total": 28102295,
+          "no_enchufable": 28019383
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1331,
+          "no_enchufable": 1315
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6043,
-          "HEV": 11201
+          "HEV": 11201,
+          "total": 1204632,
+          "no_enchufable": 1198578
         },
         "moto": {
           "BEV": 15694,
-          "HEV": 208
+          "HEV": 208,
+          "total": 4313143,
+          "no_enchufable": 4297449
         },
         "camion": {
           "BEV": 6082,
           "PHEV": 42,
-          "HEV": 1227
+          "HEV": 1227,
+          "total": 1601196,
+          "no_enchufable": 1595072
         },
         "autobus": {
           "BEV": 806,
@@ -4066,7 +4784,9 @@
         "otros": {
           "BEV": 1007,
           "PHEV": 44,
-          "HEV": 935
+          "HEV": 935,
+          "total": 5499843,
+          "no_enchufable": 5498792
         }
       }
     },
@@ -4098,25 +4818,35 @@
         "turismo": {
           "BEV": 53577,
           "PHEV": 30788,
-          "HEV": 450508
+          "HEV": 450508,
+          "total": 28011931,
+          "no_enchufable": 27927566
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1334,
+          "no_enchufable": 1318
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6312,
-          "HEV": 11747
+          "HEV": 11747,
+          "total": 1201367,
+          "no_enchufable": 1195044
         },
         "moto": {
           "BEV": 16184,
-          "HEV": 210
+          "HEV": 210,
+          "total": 4309574,
+          "no_enchufable": 4293390
         },
         "camion": {
           "BEV": 6138,
           "PHEV": 42,
-          "HEV": 1320
+          "HEV": 1320,
+          "total": 1597385,
+          "no_enchufable": 1591205
         },
         "autobus": {
           "BEV": 814,
@@ -4131,7 +4861,9 @@
         "otros": {
           "BEV": 1005,
           "PHEV": 44,
-          "HEV": 1011
+          "HEV": 1011,
+          "total": 5484602,
+          "no_enchufable": 5483553
         }
       }
     },
@@ -4163,25 +4895,35 @@
         "turismo": {
           "BEV": 55131,
           "PHEV": 32035,
-          "HEV": 461154
+          "HEV": 461154,
+          "total": 27982512,
+          "no_enchufable": 27895346
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1338,
+          "no_enchufable": 1322
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6501,
-          "HEV": 12250
+          "HEV": 12250,
+          "total": 1200533,
+          "no_enchufable": 1194021
         },
         "moto": {
           "BEV": 16275,
-          "HEV": 213
+          "HEV": 213,
+          "total": 4313972,
+          "no_enchufable": 4297697
         },
         "camion": {
           "BEV": 6255,
           "PHEV": 42,
-          "HEV": 1397
+          "HEV": 1397,
+          "total": 1597418,
+          "no_enchufable": 1591121
         },
         "autobus": {
           "BEV": 822,
@@ -4196,7 +4938,9 @@
         "otros": {
           "BEV": 1033,
           "PHEV": 44,
-          "HEV": 1087
+          "HEV": 1087,
+          "total": 5477788,
+          "no_enchufable": 5476711
         }
       }
     },
@@ -4229,25 +4973,35 @@
         "turismo": {
           "BEV": 56631,
           "PHEV": 33072,
-          "HEV": 471806
+          "HEV": 471806,
+          "total": 27961968,
+          "no_enchufable": 27872265
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1336,
+          "no_enchufable": 1320
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6687,
-          "HEV": 12878
+          "HEV": 12878,
+          "total": 1199778,
+          "no_enchufable": 1193080
         },
         "moto": {
           "BEV": 16764,
-          "HEV": 216
+          "HEV": 216,
+          "total": 4318928,
+          "no_enchufable": 4302164
         },
         "camion": {
           "BEV": 6321,
           "PHEV": 42,
-          "HEV": 1520
+          "HEV": 1520,
+          "total": 1598485,
+          "no_enchufable": 1592122
         },
         "autobus": {
           "BEV": 842,
@@ -4262,7 +5016,9 @@
         "otros": {
           "BEV": 1050,
           "PHEV": 44,
-          "HEV": 1186
+          "HEV": 1186,
+          "total": 5472413,
+          "no_enchufable": 5471319
         }
       }
     },
@@ -4294,25 +5050,35 @@
         "turismo": {
           "BEV": 57156,
           "PHEV": 33568,
-          "HEV": 476573
+          "HEV": 476573,
+          "total": 27923167,
+          "no_enchufable": 27832443
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1333,
+          "no_enchufable": 1317
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6794,
-          "HEV": 13121
+          "HEV": 13121,
+          "total": 1198726,
+          "no_enchufable": 1191921
         },
         "moto": {
           "BEV": 17354,
-          "HEV": 223
+          "HEV": 223,
+          "total": 4321749,
+          "no_enchufable": 4304395
         },
         "camion": {
           "BEV": 6367,
           "PHEV": 42,
-          "HEV": 1574
+          "HEV": 1574,
+          "total": 1597711,
+          "no_enchufable": 1591302
         },
         "autobus": {
           "BEV": 846,
@@ -4327,7 +5093,9 @@
         "otros": {
           "BEV": 1053,
           "PHEV": 44,
-          "HEV": 1218
+          "HEV": 1218,
+          "total": 5467880,
+          "no_enchufable": 5466783
         }
       }
     },
@@ -4359,25 +5127,35 @@
         "turismo": {
           "BEV": 57214,
           "PHEV": 33615,
-          "HEV": 476599
+          "HEV": 476599,
+          "total": 27911927,
+          "no_enchufable": 27821098
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1323,
+          "no_enchufable": 1307
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6807,
-          "HEV": 13166
+          "HEV": 13166,
+          "total": 1198393,
+          "no_enchufable": 1191575
         },
         "moto": {
           "BEV": 17625,
-          "HEV": 224
+          "HEV": 224,
+          "total": 4321223,
+          "no_enchufable": 4303598
         },
         "camion": {
           "BEV": 6373,
           "PHEV": 42,
-          "HEV": 1594
+          "HEV": 1594,
+          "total": 1597537,
+          "no_enchufable": 1591122
         },
         "autobus": {
           "BEV": 846,
@@ -4392,7 +5170,9 @@
         "otros": {
           "BEV": 1052,
           "PHEV": 44,
-          "HEV": 1229
+          "HEV": 1229,
+          "total": 5466574,
+          "no_enchufable": 5465478
         }
       }
     },
@@ -4424,25 +5204,35 @@
         "turismo": {
           "BEV": 57405,
           "PHEV": 34220,
-          "HEV": 480624
+          "HEV": 480624,
+          "total": 27896491,
+          "no_enchufable": 27804866
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 251
+          "HEV": 251,
+          "total": 1317,
+          "no_enchufable": 1301
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 6930,
-          "HEV": 13450
+          "HEV": 13450,
+          "total": 1198667,
+          "no_enchufable": 1191726
         },
         "moto": {
           "BEV": 19224,
-          "HEV": 228
+          "HEV": 228,
+          "total": 4327760,
+          "no_enchufable": 4308536
         },
         "camion": {
           "BEV": 6418,
           "PHEV": 42,
-          "HEV": 1636
+          "HEV": 1636,
+          "total": 1598258,
+          "no_enchufable": 1591798
         },
         "autobus": {
           "BEV": 848,
@@ -4457,7 +5247,9 @@
         "otros": {
           "BEV": 1053,
           "PHEV": 44,
-          "HEV": 1245
+          "HEV": 1245,
+          "total": 5463688,
+          "no_enchufable": 5462591
         }
       }
     },
@@ -4489,25 +5281,35 @@
         "turismo": {
           "BEV": 58155,
           "PHEV": 35385,
-          "HEV": 490805
+          "HEV": 490805,
+          "total": 27876904,
+          "no_enchufable": 27783364
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 261
+          "HEV": 261,
+          "total": 1314,
+          "no_enchufable": 1298
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 7211,
-          "HEV": 14096
+          "HEV": 14096,
+          "total": 1198871,
+          "no_enchufable": 1191649
         },
         "moto": {
           "BEV": 19896,
-          "HEV": 238
+          "HEV": 238,
+          "total": 4340957,
+          "no_enchufable": 4321061
         },
         "camion": {
           "BEV": 6483,
           "PHEV": 42,
-          "HEV": 1747
+          "HEV": 1747,
+          "total": 1599663,
+          "no_enchufable": 1593138
         },
         "autobus": {
           "BEV": 852,
@@ -4522,7 +5324,9 @@
         "otros": {
           "BEV": 1066,
           "PHEV": 44,
-          "HEV": 1289
+          "HEV": 1289,
+          "total": 5459285,
+          "no_enchufable": 5458175
         }
       }
     },
@@ -4554,25 +5358,35 @@
         "turismo": {
           "BEV": 59443,
           "PHEV": 37399,
-          "HEV": 507155
+          "HEV": 507155,
+          "total": 27862519,
+          "no_enchufable": 27765677
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 278
+          "HEV": 278,
+          "total": 1326,
+          "no_enchufable": 1310
         },
         "furgoneta_van": {
           "BEV": 11,
           "PHEV": 7532,
-          "HEV": 14834
+          "HEV": 14834,
+          "total": 1198562,
+          "no_enchufable": 1191019
         },
         "moto": {
           "BEV": 21072,
-          "HEV": 243
+          "HEV": 243,
+          "total": 4356143,
+          "no_enchufable": 4335071
         },
         "camion": {
           "BEV": 6558,
           "PHEV": 42,
-          "HEV": 1910
+          "HEV": 1910,
+          "total": 1602053,
+          "no_enchufable": 1595453
         },
         "autobus": {
           "BEV": 858,
@@ -4587,7 +5401,9 @@
         "otros": {
           "BEV": 1082,
           "PHEV": 44,
-          "HEV": 1373
+          "HEV": 1373,
+          "total": 5454959,
+          "no_enchufable": 5453833
         }
       }
     },
@@ -4619,25 +5435,35 @@
         "turismo": {
           "BEV": 60356,
           "PHEV": 38427,
-          "HEV": 516162
+          "HEV": 516162,
+          "total": 27819290,
+          "no_enchufable": 27720507
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 281
+          "HEV": 281,
+          "total": 1322,
+          "no_enchufable": 1306
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 7779,
-          "HEV": 15180
+          "HEV": 15180,
+          "total": 1197762,
+          "no_enchufable": 1189971
         },
         "moto": {
           "BEV": 21280,
-          "HEV": 252
+          "HEV": 252,
+          "total": 4362982,
+          "no_enchufable": 4341702
         },
         "camion": {
           "BEV": 6669,
           "PHEV": 42,
-          "HEV": 1978
+          "HEV": 1978,
+          "total": 1602381,
+          "no_enchufable": 1595670
         },
         "autobus": {
           "BEV": 870,
@@ -4652,7 +5478,9 @@
         "otros": {
           "BEV": 1102,
           "PHEV": 44,
-          "HEV": 1445
+          "HEV": 1445,
+          "total": 5450239,
+          "no_enchufable": 5449093
         }
       }
     },
@@ -4684,25 +5512,35 @@
         "turismo": {
           "BEV": 62286,
           "PHEV": 40019,
-          "HEV": 526267
+          "HEV": 526267,
+          "total": 27763476,
+          "no_enchufable": 27661171
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 284
+          "HEV": 284,
+          "total": 1325,
+          "no_enchufable": 1309
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 8109,
-          "HEV": 15617
+          "HEV": 15617,
+          "total": 1196535,
+          "no_enchufable": 1188414
         },
         "moto": {
           "BEV": 21726,
-          "HEV": 253
+          "HEV": 253,
+          "total": 4369597,
+          "no_enchufable": 4347871
         },
         "camion": {
           "BEV": 6924,
           "PHEV": 42,
-          "HEV": 2126
+          "HEV": 2126,
+          "total": 1604069,
+          "no_enchufable": 1597103
         },
         "autobus": {
           "BEV": 887,
@@ -4717,7 +5555,9 @@
         "otros": {
           "BEV": 1101,
           "PHEV": 44,
-          "HEV": 1570
+          "HEV": 1570,
+          "total": 5443287,
+          "no_enchufable": 5442142
         }
       }
     },
@@ -4749,25 +5589,35 @@
         "turismo": {
           "BEV": 63959,
           "PHEV": 42190,
-          "HEV": 537511
+          "HEV": 537511,
+          "total": 27710096,
+          "no_enchufable": 27603947
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 284
+          "HEV": 284,
+          "total": 1321,
+          "no_enchufable": 1305
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 8379,
-          "HEV": 16315
+          "HEV": 16315,
+          "total": 1195365,
+          "no_enchufable": 1186974
         },
         "moto": {
           "BEV": 22060,
-          "HEV": 257
+          "HEV": 257,
+          "total": 4373425,
+          "no_enchufable": 4351365
         },
         "camion": {
           "BEV": 7096,
           "PHEV": 46,
-          "HEV": 2355
+          "HEV": 2355,
+          "total": 1606135,
+          "no_enchufable": 1598993
         },
         "autobus": {
           "BEV": 888,
@@ -4782,7 +5632,9 @@
         "otros": {
           "BEV": 1146,
           "PHEV": 44,
-          "HEV": 1724
+          "HEV": 1724,
+          "total": 5436419,
+          "no_enchufable": 5435229
         }
       }
     },
@@ -4815,25 +5667,35 @@
         "turismo": {
           "BEV": 65561,
           "PHEV": 44705,
-          "HEV": 550814
+          "HEV": 550814,
+          "total": 27661884,
+          "no_enchufable": 27551618
         },
         "suv_todo_terreno": {
           "BEV": 16,
-          "HEV": 284
+          "HEV": 284,
+          "total": 1325,
+          "no_enchufable": 1309
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 8748,
-          "HEV": 16991
+          "HEV": 16991,
+          "total": 1194043,
+          "no_enchufable": 1185283
         },
         "moto": {
           "BEV": 22387,
-          "HEV": 258
+          "HEV": 258,
+          "total": 4375103,
+          "no_enchufable": 4352716
         },
         "camion": {
           "BEV": 7268,
           "PHEV": 50,
-          "HEV": 2652
+          "HEV": 2652,
+          "total": 1607355,
+          "no_enchufable": 1600037
         },
         "autobus": {
           "BEV": 890,
@@ -4848,7 +5710,9 @@
         "otros": {
           "BEV": 1135,
           "PHEV": 46,
-          "HEV": 1920
+          "HEV": 1920,
+          "total": 5428329,
+          "no_enchufable": 5427148
         }
       }
     },
@@ -4881,25 +5745,35 @@
         "turismo": {
           "BEV": 69308,
           "PHEV": 50452,
-          "HEV": 570755
+          "HEV": 570755,
+          "total": 27582947,
+          "no_enchufable": 27463187
         },
         "suv_todo_terreno": {
           "BEV": 30,
-          "HEV": 284
+          "HEV": 284,
+          "total": 1369,
+          "no_enchufable": 1339
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 9381,
-          "HEV": 18211
+          "HEV": 18211,
+          "total": 1191125,
+          "no_enchufable": 1181732
         },
         "moto": {
           "BEV": 22861,
-          "HEV": 261
+          "HEV": 261,
+          "total": 4372123,
+          "no_enchufable": 4349262
         },
         "camion": {
           "BEV": 7430,
           "PHEV": 50,
-          "HEV": 2816
+          "HEV": 2816,
+          "total": 1603271,
+          "no_enchufable": 1595791
         },
         "autobus": {
           "BEV": 894,
@@ -4914,7 +5788,9 @@
         "otros": {
           "BEV": 1157,
           "PHEV": 46,
-          "HEV": 2081
+          "HEV": 2081,
+          "total": 5412004,
+          "no_enchufable": 5410801
         }
       }
     },
@@ -4946,25 +5822,35 @@
         "turismo": {
           "BEV": 69605,
           "PHEV": 51601,
-          "HEV": 578268
+          "HEV": 578268,
+          "total": 27540405,
+          "no_enchufable": 27419199
         },
         "suv_todo_terreno": {
           "BEV": 30,
-          "HEV": 283
+          "HEV": 283,
+          "total": 1367,
+          "no_enchufable": 1337
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 9609,
-          "HEV": 18681
+          "HEV": 18681,
+          "total": 1189518,
+          "no_enchufable": 1179897
         },
         "moto": {
           "BEV": 23148,
-          "HEV": 263
+          "HEV": 263,
+          "total": 4373349,
+          "no_enchufable": 4350201
         },
         "camion": {
           "BEV": 7471,
           "PHEV": 50,
-          "HEV": 2892
+          "HEV": 2892,
+          "total": 1603062,
+          "no_enchufable": 1595541
         },
         "autobus": {
           "BEV": 902,
@@ -4979,7 +5865,9 @@
         "otros": {
           "BEV": 1163,
           "PHEV": 46,
-          "HEV": 2178
+          "HEV": 2178,
+          "total": 5406265,
+          "no_enchufable": 5405056
         }
       }
     },
@@ -5012,25 +5900,35 @@
         "turismo": {
           "BEV": 70120,
           "PHEV": 53394,
-          "HEV": 589324
+          "HEV": 589324,
+          "total": 27506328,
+          "no_enchufable": 27382814
         },
         "suv_todo_terreno": {
           "BEV": 30,
-          "HEV": 294
+          "HEV": 294,
+          "total": 1389,
+          "no_enchufable": 1359
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 9920,
-          "HEV": 19414
+          "HEV": 19414,
+          "total": 1188757,
+          "no_enchufable": 1178825
         },
         "moto": {
           "BEV": 22837,
-          "HEV": 266
+          "HEV": 266,
+          "total": 4376420,
+          "no_enchufable": 4353583
         },
         "camion": {
           "BEV": 7560,
           "PHEV": 50,
-          "HEV": 3051
+          "HEV": 3051,
+          "total": 1604374,
+          "no_enchufable": 1596764
         },
         "autobus": {
           "BEV": 921,
@@ -5045,7 +5943,9 @@
         "otros": {
           "BEV": 1184,
           "PHEV": 46,
-          "HEV": 2323
+          "HEV": 2323,
+          "total": 5401267,
+          "no_enchufable": 5400037
         }
       }
     },
@@ -5077,25 +5977,35 @@
         "turismo": {
           "BEV": 71865,
           "PHEV": 56300,
-          "HEV": 604767
+          "HEV": 604767,
+          "total": 27478398,
+          "no_enchufable": 27350233
         },
         "suv_todo_terreno": {
           "BEV": 30,
-          "HEV": 301
+          "HEV": 301,
+          "total": 1409,
+          "no_enchufable": 1379
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 10488,
-          "HEV": 20341
+          "HEV": 20341,
+          "total": 1187815,
+          "no_enchufable": 1177315
         },
         "moto": {
           "BEV": 23557,
-          "HEV": 266
+          "HEV": 266,
+          "total": 4383041,
+          "no_enchufable": 4359484
         },
         "camion": {
           "BEV": 7668,
           "PHEV": 50,
-          "HEV": 3270
+          "HEV": 3270,
+          "total": 1605611,
+          "no_enchufable": 1597893
         },
         "autobus": {
           "BEV": 943,
@@ -5110,7 +6020,9 @@
         "otros": {
           "BEV": 1193,
           "PHEV": 46,
-          "HEV": 2505
+          "HEV": 2505,
+          "total": 5395297,
+          "no_enchufable": 5394058
         }
       }
     },
@@ -5143,25 +6055,35 @@
         "turismo": {
           "BEV": 73041,
           "PHEV": 58852,
-          "HEV": 620427
+          "HEV": 620427,
+          "total": 27460709,
+          "no_enchufable": 27328816
         },
         "suv_todo_terreno": {
           "BEV": 30,
-          "HEV": 301
+          "HEV": 301,
+          "total": 1409,
+          "no_enchufable": 1379
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 10940,
-          "HEV": 21408
+          "HEV": 21408,
+          "total": 1187398,
+          "no_enchufable": 1176446
         },
         "moto": {
           "BEV": 23915,
-          "HEV": 267
+          "HEV": 267,
+          "total": 4389071,
+          "no_enchufable": 4365156
         },
         "camion": {
           "BEV": 7928,
           "PHEV": 50,
-          "HEV": 3513
+          "HEV": 3513,
+          "total": 1607091,
+          "no_enchufable": 1599113
         },
         "autobus": {
           "BEV": 969,
@@ -5176,7 +6098,9 @@
         "otros": {
           "BEV": 1201,
           "PHEV": 46,
-          "HEV": 2674
+          "HEV": 2674,
+          "total": 5390479,
+          "no_enchufable": 5389232
         }
       }
     },
@@ -5208,25 +6132,35 @@
         "turismo": {
           "BEV": 74649,
           "PHEV": 62577,
-          "HEV": 640048
+          "HEV": 640048,
+          "total": 27450897,
+          "no_enchufable": 27313671
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 313
+          "HEV": 313,
+          "total": 1421,
+          "no_enchufable": 1390
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 11527,
-          "HEV": 22205
+          "HEV": 22205,
+          "total": 1186427,
+          "no_enchufable": 1174888
         },
         "moto": {
           "BEV": 24538,
-          "HEV": 270
+          "HEV": 270,
+          "total": 4395571,
+          "no_enchufable": 4371033
         },
         "camion": {
           "BEV": 8007,
           "PHEV": 50,
-          "HEV": 3678
+          "HEV": 3678,
+          "total": 1608593,
+          "no_enchufable": 1600536
         },
         "autobus": {
           "BEV": 978,
@@ -5241,7 +6175,9 @@
         "otros": {
           "BEV": 1229,
           "PHEV": 46,
-          "HEV": 2790
+          "HEV": 2790,
+          "total": 5384596,
+          "no_enchufable": 5383321
         }
       }
     },
@@ -5274,25 +6210,35 @@
         "turismo": {
           "BEV": 76836,
           "PHEV": 65990,
-          "HEV": 663257
+          "HEV": 663257,
+          "total": 27434307,
+          "no_enchufable": 27291481
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 337
+          "HEV": 337,
+          "total": 1441,
+          "no_enchufable": 1410
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 12387,
-          "HEV": 23295
+          "HEV": 23295,
+          "total": 1185678,
+          "no_enchufable": 1173279
         },
         "moto": {
           "BEV": 25160,
-          "HEV": 271
+          "HEV": 271,
+          "total": 4404378,
+          "no_enchufable": 4379218
         },
         "camion": {
           "BEV": 8146,
           "PHEV": 50,
-          "HEV": 3785
+          "HEV": 3785,
+          "total": 1609498,
+          "no_enchufable": 1601302
         },
         "autobus": {
           "BEV": 999,
@@ -5307,7 +6253,9 @@
         "otros": {
           "BEV": 1237,
           "PHEV": 47,
-          "HEV": 2808
+          "HEV": 2808,
+          "total": 5379412,
+          "no_enchufable": 5378128
         }
       }
     },
@@ -5339,25 +6287,35 @@
         "turismo": {
           "BEV": 78204,
           "PHEV": 69120,
-          "HEV": 680947
+          "HEV": 680947,
+          "total": 27411286,
+          "no_enchufable": 27263962
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 337
+          "HEV": 337,
+          "total": 1436,
+          "no_enchufable": 1405
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 13027,
-          "HEV": 24387
+          "HEV": 24387,
+          "total": 1185199,
+          "no_enchufable": 1172160
         },
         "moto": {
           "BEV": 25454,
-          "HEV": 272
+          "HEV": 272,
+          "total": 4412389,
+          "no_enchufable": 4386935
         },
         "camion": {
           "BEV": 8432,
           "PHEV": 50,
-          "HEV": 3907
+          "HEV": 3907,
+          "total": 1610158,
+          "no_enchufable": 1601676
         },
         "autobus": {
           "BEV": 1021,
@@ -5372,7 +6330,9 @@
         "otros": {
           "BEV": 1270,
           "PHEV": 48,
-          "HEV": 2883
+          "HEV": 2883,
+          "total": 5374869,
+          "no_enchufable": 5373551
         }
       }
     },
@@ -5405,25 +6365,35 @@
         "turismo": {
           "BEV": 79381,
           "PHEV": 71184,
-          "HEV": 692234
+          "HEV": 692234,
+          "total": 27368603,
+          "no_enchufable": 27218038
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 337
+          "HEV": 337,
+          "total": 1432,
+          "no_enchufable": 1401
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 13446,
-          "HEV": 25038
+          "HEV": 25038,
+          "total": 1184056,
+          "no_enchufable": 1170598
         },
         "moto": {
           "BEV": 25911,
-          "HEV": 272
+          "HEV": 272,
+          "total": 4416319,
+          "no_enchufable": 4390408
         },
         "camion": {
           "BEV": 8504,
           "PHEV": 51,
-          "HEV": 3981
+          "HEV": 3981,
+          "total": 1610343,
+          "no_enchufable": 1601788
         },
         "autobus": {
           "BEV": 1027,
@@ -5438,7 +6408,9 @@
         "otros": {
           "BEV": 1300,
           "PHEV": 48,
-          "HEV": 2919
+          "HEV": 2919,
+          "total": 5369942,
+          "no_enchufable": 5368594
         }
       }
     },
@@ -5471,25 +6443,35 @@
         "turismo": {
           "BEV": 81977,
           "PHEV": 74252,
-          "HEV": 705572
+          "HEV": 705572,
+          "total": 27317581,
+          "no_enchufable": 27161352
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 337
+          "HEV": 337,
+          "total": 1438,
+          "no_enchufable": 1407
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 14078,
-          "HEV": 25937
+          "HEV": 25937,
+          "total": 1182757,
+          "no_enchufable": 1168667
         },
         "moto": {
           "BEV": 26387,
-          "HEV": 274
+          "HEV": 274,
+          "total": 4422216,
+          "no_enchufable": 4395829
         },
         "camion": {
           "BEV": 8587,
           "PHEV": 51,
-          "HEV": 4079
+          "HEV": 4079,
+          "total": 1611123,
+          "no_enchufable": 1602485
         },
         "autobus": {
           "BEV": 1047,
@@ -5504,7 +6486,9 @@
         "otros": {
           "BEV": 1333,
           "PHEV": 48,
-          "HEV": 3000
+          "HEV": 3000,
+          "total": 5362956,
+          "no_enchufable": 5361575
         }
       }
     },
@@ -5537,25 +6521,35 @@
         "turismo": {
           "BEV": 84168,
           "PHEV": 77555,
-          "HEV": 720240
+          "HEV": 720240,
+          "total": 27272800,
+          "no_enchufable": 27111077
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 346
+          "HEV": 346,
+          "total": 1453,
+          "no_enchufable": 1422
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 14669,
-          "HEV": 26834
+          "HEV": 26834,
+          "total": 1181470,
+          "no_enchufable": 1166789
         },
         "moto": {
           "BEV": 25344,
-          "HEV": 275
+          "HEV": 275,
+          "total": 4424746,
+          "no_enchufable": 4399402
         },
         "camion": {
           "BEV": 8709,
           "PHEV": 51,
-          "HEV": 4196
+          "HEV": 4196,
+          "total": 1612193,
+          "no_enchufable": 1603433
         },
         "autobus": {
           "BEV": 1058,
@@ -5570,7 +6564,9 @@
         "otros": {
           "BEV": 1324,
           "PHEV": 48,
-          "HEV": 3081
+          "HEV": 3081,
+          "total": 5355596,
+          "no_enchufable": 5354224
         }
       }
     },
@@ -5603,25 +6599,35 @@
         "turismo": {
           "BEV": 86709,
           "PHEV": 81102,
-          "HEV": 735911
+          "HEV": 735911,
+          "total": 27223634,
+          "no_enchufable": 27055823
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 346
+          "HEV": 346,
+          "total": 1452,
+          "no_enchufable": 1421
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 15187,
-          "HEV": 27715
+          "HEV": 27715,
+          "total": 1179524,
+          "no_enchufable": 1164325
         },
         "moto": {
           "BEV": 25697,
-          "HEV": 275
+          "HEV": 275,
+          "total": 4426267,
+          "no_enchufable": 4400570
         },
         "camion": {
           "BEV": 8868,
           "PHEV": 52,
-          "HEV": 4346
+          "HEV": 4346,
+          "total": 1611991,
+          "no_enchufable": 1603071
         },
         "autobus": {
           "BEV": 1071,
@@ -5636,7 +6642,9 @@
         "otros": {
           "BEV": 1341,
           "PHEV": 48,
-          "HEV": 3192
+          "HEV": 3192,
+          "total": 5346685,
+          "no_enchufable": 5345296
         }
       }
     },
@@ -5669,25 +6677,35 @@
         "turismo": {
           "BEV": 89869,
           "PHEV": 84908,
-          "HEV": 757085
+          "HEV": 757085,
+          "total": 27136866,
+          "no_enchufable": 26962089
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 348
+          "HEV": 348,
+          "total": 1449,
+          "no_enchufable": 1418
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 15844,
-          "HEV": 28773
+          "HEV": 28773,
+          "total": 1175315,
+          "no_enchufable": 1159459
         },
         "moto": {
           "BEV": 26362,
-          "HEV": 276
+          "HEV": 276,
+          "total": 4421885,
+          "no_enchufable": 4395523
         },
         "camion": {
           "BEV": 9225,
           "PHEV": 52,
-          "HEV": 4485
+          "HEV": 4485,
+          "total": 1608014,
+          "no_enchufable": 1598737
         },
         "autobus": {
           "BEV": 1092,
@@ -5702,7 +6720,9 @@
         "otros": {
           "BEV": 1365,
           "PHEV": 50,
-          "HEV": 3247
+          "HEV": 3247,
+          "total": 5330163,
+          "no_enchufable": 5328748
         }
       }
     },
@@ -5735,25 +6755,35 @@
         "turismo": {
           "BEV": 91294,
           "PHEV": 87503,
-          "HEV": 768509
+          "HEV": 768509,
+          "total": 27101026,
+          "no_enchufable": 26922229
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 348
+          "HEV": 348,
+          "total": 1447,
+          "no_enchufable": 1416
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 16213,
-          "HEV": 29209
+          "HEV": 29209,
+          "total": 1173647,
+          "no_enchufable": 1157422
         },
         "moto": {
           "BEV": 26343,
-          "HEV": 276
+          "HEV": 276,
+          "total": 4424814,
+          "no_enchufable": 4398471
         },
         "camion": {
           "BEV": 9375,
           "PHEV": 52,
-          "HEV": 4582
+          "HEV": 4582,
+          "total": 1606834,
+          "no_enchufable": 1597407
         },
         "autobus": {
           "BEV": 1203,
@@ -5768,7 +6798,9 @@
         "otros": {
           "BEV": 1383,
           "PHEV": 53,
-          "HEV": 3310
+          "HEV": 3310,
+          "total": 5324559,
+          "no_enchufable": 5323123
         }
       }
     },
@@ -5801,25 +6833,35 @@
         "turismo": {
           "BEV": 93382,
           "PHEV": 90439,
-          "HEV": 783558
+          "HEV": 783558,
+          "total": 27073942,
+          "no_enchufable": 26890121
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 348
+          "HEV": 348,
+          "total": 1447,
+          "no_enchufable": 1416
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 16942,
-          "HEV": 29874
+          "HEV": 29874,
+          "total": 1172600,
+          "no_enchufable": 1155646
         },
         "moto": {
           "BEV": 26060,
-          "HEV": 276
+          "HEV": 276,
+          "total": 4427731,
+          "no_enchufable": 4401671
         },
         "camion": {
           "BEV": 9571,
           "PHEV": 52,
-          "HEV": 4701
+          "HEV": 4701,
+          "total": 1606459,
+          "no_enchufable": 1596836
         },
         "autobus": {
           "BEV": 1216,
@@ -5834,7 +6876,9 @@
         "otros": {
           "BEV": 1400,
           "PHEV": 71,
-          "HEV": 3428
+          "HEV": 3428,
+          "total": 5319304,
+          "no_enchufable": 5317833
         }
       }
     },
@@ -5867,25 +6911,35 @@
         "turismo": {
           "BEV": 96224,
           "PHEV": 92946,
-          "HEV": 797228
+          "HEV": 797228,
+          "total": 27030829,
+          "no_enchufable": 26841659
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 348
+          "HEV": 348,
+          "total": 1445,
+          "no_enchufable": 1414
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 17421,
-          "HEV": 30420
+          "HEV": 30420,
+          "total": 1170501,
+          "no_enchufable": 1153068
         },
         "moto": {
           "BEV": 26846,
-          "HEV": 276
+          "HEV": 276,
+          "total": 4431358,
+          "no_enchufable": 4404512
         },
         "camion": {
           "BEV": 9653,
           "PHEV": 53,
-          "HEV": 4876
+          "HEV": 4876,
+          "total": 1605446,
+          "no_enchufable": 1595740
         },
         "autobus": {
           "BEV": 1245,
@@ -5900,7 +6954,9 @@
         "otros": {
           "BEV": 1449,
           "PHEV": 96,
-          "HEV": 3507
+          "HEV": 3507,
+          "total": 5311653,
+          "no_enchufable": 5310108
         }
       }
     },
@@ -5932,25 +6988,35 @@
         "turismo": {
           "BEV": 97755,
           "PHEV": 96123,
-          "HEV": 813816
+          "HEV": 813816,
+          "total": 27020315,
+          "no_enchufable": 26826437
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 348
+          "HEV": 348,
+          "total": 1442,
+          "no_enchufable": 1411
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 18108,
-          "HEV": 31488
+          "HEV": 31488,
+          "total": 1170190,
+          "no_enchufable": 1152070
         },
         "moto": {
           "BEV": 27467,
-          "HEV": 276
+          "HEV": 276,
+          "total": 4436431,
+          "no_enchufable": 4408964
         },
         "camion": {
           "BEV": 9744,
           "PHEV": 54,
-          "HEV": 5034
+          "HEV": 5034,
+          "total": 1605780,
+          "no_enchufable": 1595982
         },
         "autobus": {
           "BEV": 1275,
@@ -5965,7 +7031,9 @@
         "otros": {
           "BEV": 1464,
           "PHEV": 106,
-          "HEV": 3598
+          "HEV": 3598,
+          "total": 5305792,
+          "no_enchufable": 5304222
         }
       }
     },
@@ -5997,25 +7065,35 @@
         "turismo": {
           "BEV": 99311,
           "PHEV": 99741,
-          "HEV": 835442
+          "HEV": 835442,
+          "total": 27010330,
+          "no_enchufable": 26811278
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 367
+          "HEV": 367,
+          "total": 1457,
+          "no_enchufable": 1426
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 18970,
-          "HEV": 32668
+          "HEV": 32668,
+          "total": 1169872,
+          "no_enchufable": 1150890
         },
         "moto": {
           "BEV": 27906,
-          "HEV": 277
+          "HEV": 277,
+          "total": 4444733,
+          "no_enchufable": 4416827
         },
         "camion": {
           "BEV": 9924,
           "PHEV": 54,
-          "HEV": 5356
+          "HEV": 5356,
+          "total": 1606636,
+          "no_enchufable": 1596658
         },
         "autobus": {
           "BEV": 1307,
@@ -6030,7 +7108,9 @@
         "otros": {
           "BEV": 1459,
           "PHEV": 127,
-          "HEV": 3751
+          "HEV": 3751,
+          "total": 5300251,
+          "no_enchufable": 5298665
         }
       }
     },
@@ -6062,25 +7142,35 @@
         "turismo": {
           "BEV": 102097,
           "PHEV": 102761,
-          "HEV": 857931
+          "HEV": 857931,
+          "total": 27005111,
+          "no_enchufable": 26800253
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 367
+          "HEV": 367,
+          "total": 1456,
+          "no_enchufable": 1425
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 19777,
-          "HEV": 33745
+          "HEV": 33745,
+          "total": 1169261,
+          "no_enchufable": 1149472
         },
         "moto": {
           "BEV": 28665,
-          "HEV": 277
+          "HEV": 277,
+          "total": 4454684,
+          "no_enchufable": 4426019
         },
         "camion": {
           "BEV": 10110,
           "PHEV": 54,
-          "HEV": 5580
+          "HEV": 5580,
+          "total": 1606948,
+          "no_enchufable": 1596784
         },
         "autobus": {
           "BEV": 1325,
@@ -6095,7 +7185,9 @@
         "otros": {
           "BEV": 1471,
           "PHEV": 138,
-          "HEV": 3878
+          "HEV": 3878,
+          "total": 5295180,
+          "no_enchufable": 5293571
         }
       }
     },
@@ -6127,25 +7219,35 @@
         "turismo": {
           "BEV": 103850,
           "PHEV": 105399,
-          "HEV": 875847
+          "HEV": 875847,
+          "total": 26994656,
+          "no_enchufable": 26785407
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 370
+          "HEV": 370,
+          "total": 1447,
+          "no_enchufable": 1416
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 20473,
-          "HEV": 34725
+          "HEV": 34725,
+          "total": 1168842,
+          "no_enchufable": 1148357
         },
         "moto": {
           "BEV": 29567,
-          "HEV": 278
+          "HEV": 278,
+          "total": 4462268,
+          "no_enchufable": 4432701
         },
         "camion": {
           "BEV": 10334,
           "PHEV": 54,
-          "HEV": 5731
+          "HEV": 5731,
+          "total": 1608178,
+          "no_enchufable": 1597790
         },
         "autobus": {
           "BEV": 1381,
@@ -6160,7 +7262,9 @@
         "otros": {
           "BEV": 1535,
           "PHEV": 138,
-          "HEV": 3958
+          "HEV": 3958,
+          "total": 5291255,
+          "no_enchufable": 5289582
         }
       }
     },
@@ -6192,25 +7296,35 @@
         "turismo": {
           "BEV": 104887,
           "PHEV": 107585,
-          "HEV": 889567
+          "HEV": 889567,
+          "total": 26967339,
+          "no_enchufable": 26754867
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1463,
+          "no_enchufable": 1432
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 20776,
-          "HEV": 35417
+          "HEV": 35417,
+          "total": 1167746,
+          "no_enchufable": 1146958
         },
         "moto": {
           "BEV": 30241,
-          "HEV": 279
+          "HEV": 279,
+          "total": 4466171,
+          "no_enchufable": 4435930
         },
         "camion": {
           "BEV": 10528,
           "PHEV": 54,
-          "HEV": 5840
+          "HEV": 5840,
+          "total": 1608873,
+          "no_enchufable": 1598291
         },
         "autobus": {
           "BEV": 1422,
@@ -6225,7 +7339,9 @@
         "otros": {
           "BEV": 1573,
           "PHEV": 140,
-          "HEV": 4020
+          "HEV": 4020,
+          "total": 5287486,
+          "no_enchufable": 5285773
         }
       }
     },
@@ -6257,25 +7373,35 @@
         "turismo": {
           "BEV": 107912,
           "PHEV": 110864,
-          "HEV": 908118
+          "HEV": 908118,
+          "total": 26942435,
+          "no_enchufable": 26723659
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1467,
+          "no_enchufable": 1436
         },
         "furgoneta_van": {
           "BEV": 12,
           "PHEV": 21282,
-          "HEV": 36262
+          "HEV": 36262,
+          "total": 1166696,
+          "no_enchufable": 1145402
         },
         "moto": {
           "BEV": 30851,
-          "HEV": 279
+          "HEV": 279,
+          "total": 4472015,
+          "no_enchufable": 4441164
         },
         "camion": {
           "BEV": 10795,
           "PHEV": 55,
-          "HEV": 5973
+          "HEV": 5973,
+          "total": 1609824,
+          "no_enchufable": 1598974
         },
         "autobus": {
           "BEV": 1478,
@@ -6290,7 +7416,9 @@
         "otros": {
           "BEV": 1592,
           "PHEV": 147,
-          "HEV": 4088
+          "HEV": 4088,
+          "total": 5282155,
+          "no_enchufable": 5280416
         }
       }
     },
@@ -6322,25 +7450,35 @@
         "turismo": {
           "BEV": 110441,
           "PHEV": 114008,
-          "HEV": 925269
+          "HEV": 925269,
+          "total": 26916457,
+          "no_enchufable": 26692008
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1471,
+          "no_enchufable": 1440
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 21833,
-          "HEV": 37129
+          "HEV": 37129,
+          "total": 1165895,
+          "no_enchufable": 1144048
         },
         "moto": {
           "BEV": 31473,
-          "HEV": 279
+          "HEV": 279,
+          "total": 4476168,
+          "no_enchufable": 4444695
         },
         "camion": {
           "BEV": 11052,
           "PHEV": 55,
-          "HEV": 6091
+          "HEV": 6091,
+          "total": 1610802,
+          "no_enchufable": 1599695
         },
         "autobus": {
           "BEV": 1511,
@@ -6355,7 +7493,9 @@
         "otros": {
           "BEV": 1642,
           "PHEV": 145,
-          "HEV": 4184
+          "HEV": 4184,
+          "total": 5276942,
+          "no_enchufable": 5275155
         }
       }
     },
@@ -6387,25 +7527,35 @@
         "turismo": {
           "BEV": 113616,
           "PHEV": 117931,
-          "HEV": 945165
+          "HEV": 945165,
+          "total": 26887308,
+          "no_enchufable": 26655761
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1478,
+          "no_enchufable": 1447
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 22375,
-          "HEV": 38138
+          "HEV": 38138,
+          "total": 1164724,
+          "no_enchufable": 1142335
         },
         "moto": {
           "BEV": 32235,
-          "HEV": 278
+          "HEV": 278,
+          "total": 4478946,
+          "no_enchufable": 4446711
         },
         "camion": {
           "BEV": 11317,
           "PHEV": 55,
-          "HEV": 6186
+          "HEV": 6186,
+          "total": 1611165,
+          "no_enchufable": 1599793
         },
         "autobus": {
           "BEV": 1576,
@@ -6420,7 +7570,9 @@
         "otros": {
           "BEV": 1684,
           "PHEV": 147,
-          "HEV": 4253
+          "HEV": 4253,
+          "total": 5270483,
+          "no_enchufable": 5268652
         }
       }
     },
@@ -6453,25 +7605,35 @@
         "turismo": {
           "BEV": 116848,
           "PHEV": 121625,
-          "HEV": 961903
+          "HEV": 961903,
+          "total": 26809086,
+          "no_enchufable": 26570613
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1475,
+          "no_enchufable": 1444
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 22836,
-          "HEV": 39519
+          "HEV": 39519,
+          "total": 1161112,
+          "no_enchufable": 1138262
         },
         "moto": {
           "BEV": 32734,
-          "HEV": 274
+          "HEV": 274,
+          "total": 4473688,
+          "no_enchufable": 4440954
         },
         "camion": {
           "BEV": 11692,
           "PHEV": 55,
-          "HEV": 6279
+          "HEV": 6279,
+          "total": 1609448,
+          "no_enchufable": 1597701
         },
         "autobus": {
           "BEV": 1604,
@@ -6486,7 +7648,9 @@
         "otros": {
           "BEV": 1697,
           "PHEV": 146,
-          "HEV": 4297
+          "HEV": 4297,
+          "total": 5257806,
+          "no_enchufable": 5255963
         }
       }
     },
@@ -6519,25 +7683,35 @@
         "turismo": {
           "BEV": 120040,
           "PHEV": 124789,
-          "HEV": 979594
+          "HEV": 979594,
+          "total": 26795749,
+          "no_enchufable": 26550920
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 382
+          "HEV": 382,
+          "total": 1474,
+          "no_enchufable": 1443
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 23491,
-          "HEV": 40425
+          "HEV": 40425,
+          "total": 1160613,
+          "no_enchufable": 1137108
         },
         "moto": {
           "BEV": 32854,
-          "HEV": 273
+          "HEV": 273,
+          "total": 4478494,
+          "no_enchufable": 4445640
         },
         "camion": {
           "BEV": 12092,
           "PHEV": 55,
-          "HEV": 6330
+          "HEV": 6330,
+          "total": 1610345,
+          "no_enchufable": 1598198
         },
         "autobus": {
           "BEV": 1619,
@@ -6552,7 +7726,9 @@
         "otros": {
           "BEV": 1734,
           "PHEV": 146,
-          "HEV": 4328
+          "HEV": 4328,
+          "total": 5254575,
+          "no_enchufable": 5252695
         }
       }
     },
@@ -6584,25 +7760,35 @@
         "turismo": {
           "BEV": 123348,
           "PHEV": 128548,
-          "HEV": 998530
+          "HEV": 998530,
+          "total": 26786581,
+          "no_enchufable": 26534685
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 395
+          "HEV": 395,
+          "total": 1484,
+          "no_enchufable": 1453
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 24191,
-          "HEV": 41202
+          "HEV": 41202,
+          "total": 1160014,
+          "no_enchufable": 1135809
         },
         "moto": {
           "BEV": 32761,
-          "HEV": 298
+          "HEV": 298,
+          "total": 4481237,
+          "no_enchufable": 4448476
         },
         "camion": {
           "BEV": 12500,
           "PHEV": 56,
-          "HEV": 6443
+          "HEV": 6443,
+          "total": 1611513,
+          "no_enchufable": 1598957
         },
         "autobus": {
           "BEV": 1656,
@@ -6617,7 +7803,9 @@
         "otros": {
           "BEV": 1725,
           "PHEV": 152,
-          "HEV": 4364
+          "HEV": 4364,
+          "total": 5251938,
+          "no_enchufable": 5250061
         }
       }
     },
@@ -6650,25 +7838,35 @@
         "turismo": {
           "BEV": 127817,
           "PHEV": 133532,
-          "HEV": 1023963
+          "HEV": 1023963,
+          "total": 26784327,
+          "no_enchufable": 26522978
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 410
+          "HEV": 410,
+          "total": 1524,
+          "no_enchufable": 1493
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 24838,
-          "HEV": 42116
+          "HEV": 42116,
+          "total": 1158600,
+          "no_enchufable": 1133749
         },
         "moto": {
           "BEV": 32751,
-          "HEV": 298
+          "HEV": 298,
+          "total": 4487924,
+          "no_enchufable": 4455173
         },
         "camion": {
           "BEV": 13122,
           "PHEV": 56,
-          "HEV": 6674
+          "HEV": 6674,
+          "total": 1613163,
+          "no_enchufable": 1599985
         },
         "autobus": {
           "BEV": 1701,
@@ -6683,7 +7881,9 @@
         "otros": {
           "BEV": 1815,
           "PHEV": 163,
-          "HEV": 4456
+          "HEV": 4456,
+          "total": 5248092,
+          "no_enchufable": 5246114
         }
       }
     },
@@ -6716,25 +7916,35 @@
         "turismo": {
           "BEV": 131347,
           "PHEV": 137045,
-          "HEV": 1043157
+          "HEV": 1043157,
+          "total": 26783470,
+          "no_enchufable": 26515078
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 414
+          "HEV": 414,
+          "total": 1526,
+          "no_enchufable": 1495
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 25423,
-          "HEV": 42930
+          "HEV": 42930,
+          "total": 1157733,
+          "no_enchufable": 1132297
         },
         "moto": {
           "BEV": 33402,
-          "HEV": 319
+          "HEV": 319,
+          "total": 4494593,
+          "no_enchufable": 4461191
         },
         "camion": {
           "BEV": 13381,
           "PHEV": 56,
-          "HEV": 6797
+          "HEV": 6797,
+          "total": 1615063,
+          "no_enchufable": 1601626
         },
         "autobus": {
           "BEV": 1721,
@@ -6749,7 +7959,9 @@
         "otros": {
           "BEV": 1878,
           "PHEV": 170,
-          "HEV": 4539
+          "HEV": 4539,
+          "total": 5245417,
+          "no_enchufable": 5243369
         }
       }
     },
@@ -6781,25 +7993,35 @@
         "turismo": {
           "BEV": 135748,
           "PHEV": 142051,
-          "HEV": 1066482
+          "HEV": 1066482,
+          "total": 26775466,
+          "no_enchufable": 26497667
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 418
+          "HEV": 418,
+          "total": 1523,
+          "no_enchufable": 1492
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 26061,
-          "HEV": 43883
+          "HEV": 43883,
+          "total": 1156825,
+          "no_enchufable": 1130751
         },
         "moto": {
           "BEV": 32968,
-          "HEV": 336
+          "HEV": 336,
+          "total": 4501639,
+          "no_enchufable": 4468671
         },
         "camion": {
           "BEV": 13638,
           "PHEV": 56,
-          "HEV": 6900
+          "HEV": 6900,
+          "total": 1616392,
+          "no_enchufable": 1602698
         },
         "autobus": {
           "BEV": 1781,
@@ -6814,7 +8036,9 @@
         "otros": {
           "BEV": 1910,
           "PHEV": 213,
-          "HEV": 4628
+          "HEV": 4628,
+          "total": 5240607,
+          "no_enchufable": 5238484
         }
       }
     },
@@ -6846,25 +8070,35 @@
         "turismo": {
           "BEV": 141551,
           "PHEV": 147432,
-          "HEV": 1093240
+          "HEV": 1093240,
+          "total": 26783257,
+          "no_enchufable": 26494274
         },
         "suv_todo_terreno": {
           "BEV": 31,
-          "HEV": 418
+          "HEV": 418,
+          "total": 1515,
+          "no_enchufable": 1484
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 26873,
-          "HEV": 44919
+          "HEV": 44919,
+          "total": 1156276,
+          "no_enchufable": 1129390
         },
         "moto": {
           "BEV": 33171,
-          "HEV": 349
+          "HEV": 349,
+          "total": 4510421,
+          "no_enchufable": 4477250
         },
         "camion": {
           "BEV": 14035,
           "PHEV": 56,
-          "HEV": 7085
+          "HEV": 7085,
+          "total": 1619559,
+          "no_enchufable": 1605468
         },
         "autobus": {
           "BEV": 1850,
@@ -6879,7 +8113,9 @@
         "otros": {
           "BEV": 1953,
           "PHEV": 220,
-          "HEV": 4745
+          "HEV": 4745,
+          "total": 5237799,
+          "no_enchufable": 5235626
         }
       }
     },
@@ -6912,25 +8148,35 @@
         "turismo": {
           "BEV": 145003,
           "PHEV": 151618,
-          "HEV": 1115458
+          "HEV": 1115458,
+          "total": 26714013,
+          "no_enchufable": 26417392
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 430
+          "HEV": 430,
+          "total": 1513,
+          "no_enchufable": 1481
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 27397,
-          "HEV": 45938
+          "HEV": 45938,
+          "total": 1151800,
+          "no_enchufable": 1124390
         },
         "moto": {
           "BEV": 33702,
-          "HEV": 350
+          "HEV": 350,
+          "total": 4515136,
+          "no_enchufable": 4481434
         },
         "camion": {
           "BEV": 14357,
           "PHEV": 56,
-          "HEV": 7402
+          "HEV": 7402,
+          "total": 1619788,
+          "no_enchufable": 1605375
         },
         "autobus": {
           "BEV": 1871,
@@ -6945,7 +8191,9 @@
         "otros": {
           "BEV": 2017,
           "PHEV": 233,
-          "HEV": 4849
+          "HEV": 4849,
+          "total": 5231435,
+          "no_enchufable": 5229185
         }
       }
     },
@@ -6977,25 +8225,35 @@
         "turismo": {
           "BEV": 148593,
           "PHEV": 154209,
-          "HEV": 1131296
+          "HEV": 1131296,
+          "total": 26693163,
+          "no_enchufable": 26390361
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 432
+          "HEV": 432,
+          "total": 1513,
+          "no_enchufable": 1481
         },
         "furgoneta_van": {
           "BEV": 13,
           "PHEV": 27769,
-          "HEV": 46696
+          "HEV": 46696,
+          "total": 1150947,
+          "no_enchufable": 1123165
         },
         "moto": {
           "BEV": 34244,
-          "HEV": 350
+          "HEV": 350,
+          "total": 4520639,
+          "no_enchufable": 4486395
         },
         "camion": {
           "BEV": 14555,
           "PHEV": 56,
-          "HEV": 7584
+          "HEV": 7584,
+          "total": 1620747,
+          "no_enchufable": 1606136
         },
         "autobus": {
           "BEV": 1914,
@@ -7010,7 +8268,9 @@
         "otros": {
           "BEV": 2065,
           "PHEV": 238,
-          "HEV": 4979
+          "HEV": 4979,
+          "total": 5229503,
+          "no_enchufable": 5227200
         }
       }
     },
@@ -7043,25 +8303,35 @@
         "turismo": {
           "BEV": 152252,
           "PHEV": 157905,
-          "HEV": 1149817
+          "HEV": 1149817,
+          "total": 26638689,
+          "no_enchufable": 26328532
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 435
+          "HEV": 435,
+          "total": 1514,
+          "no_enchufable": 1482
         },
         "furgoneta_van": {
           "BEV": 14,
           "PHEV": 28368,
-          "HEV": 47771
+          "HEV": 47771,
+          "total": 1149976,
+          "no_enchufable": 1121594
         },
         "moto": {
           "BEV": 34987,
-          "HEV": 350
+          "HEV": 350,
+          "total": 4526313,
+          "no_enchufable": 4491326
         },
         "camion": {
           "BEV": 14854,
           "PHEV": 56,
-          "HEV": 7794
+          "HEV": 7794,
+          "total": 1619454,
+          "no_enchufable": 1604544
         },
         "autobus": {
           "BEV": 1936,
@@ -7076,7 +8346,9 @@
         "otros": {
           "BEV": 2076,
           "PHEV": 243,
-          "HEV": 5158
+          "HEV": 5158,
+          "total": 5225380,
+          "no_enchufable": 5223061
         }
       }
     },
@@ -7109,25 +8381,35 @@
         "turismo": {
           "BEV": 157686,
           "PHEV": 162170,
-          "HEV": 1174546
+          "HEV": 1174546,
+          "total": 26625263,
+          "no_enchufable": 26305407
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 439
+          "HEV": 439,
+          "total": 1513,
+          "no_enchufable": 1481
         },
         "furgoneta_van": {
           "BEV": 15,
           "PHEV": 29318,
-          "HEV": 48720
+          "HEV": 48720,
+          "total": 1149216,
+          "no_enchufable": 1119883
         },
         "moto": {
           "BEV": 36049,
-          "HEV": 349
+          "HEV": 349,
+          "total": 4533257,
+          "no_enchufable": 4497208
         },
         "camion": {
           "BEV": 15312,
           "PHEV": 68,
-          "HEV": 7947
+          "HEV": 7947,
+          "total": 1621653,
+          "no_enchufable": 1606273
         },
         "autobus": {
           "BEV": 1958,
@@ -7142,7 +8424,9 @@
         "otros": {
           "BEV": 2145,
           "PHEV": 257,
-          "HEV": 5388
+          "HEV": 5388,
+          "total": 5223085,
+          "no_enchufable": 5220683
         }
       }
     },
@@ -7175,25 +8459,35 @@
         "turismo": {
           "BEV": 163799,
           "PHEV": 166879,
-          "HEV": 1196073
+          "HEV": 1196073,
+          "total": 26599803,
+          "no_enchufable": 26269125
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 439
+          "HEV": 439,
+          "total": 1522,
+          "no_enchufable": 1490
         },
         "furgoneta_van": {
           "BEV": 15,
           "PHEV": 30011,
-          "HEV": 49831
+          "HEV": 49831,
+          "total": 1147966,
+          "no_enchufable": 1117940
         },
         "moto": {
           "BEV": 36593,
-          "HEV": 348
+          "HEV": 348,
+          "total": 4536127,
+          "no_enchufable": 4499534
         },
         "camion": {
           "BEV": 15852,
           "PHEV": 69,
-          "HEV": 8141
+          "HEV": 8141,
+          "total": 1624087,
+          "no_enchufable": 1608166
         },
         "autobus": {
           "BEV": 1975,
@@ -7208,7 +8502,9 @@
         "otros": {
           "BEV": 2213,
           "PHEV": 260,
-          "HEV": 5554
+          "HEV": 5554,
+          "total": 5218959,
+          "no_enchufable": 5216486
         }
       }
     },
@@ -7241,25 +8537,35 @@
         "turismo": {
           "BEV": 169617,
           "PHEV": 172504,
-          "HEV": 1219070
+          "HEV": 1219070,
+          "total": 26338053,
+          "no_enchufable": 25995932
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 439
+          "HEV": 439,
+          "total": 1512,
+          "no_enchufable": 1480
         },
         "furgoneta_van": {
           "BEV": 15,
           "PHEV": 30739,
-          "HEV": 50922
+          "HEV": 50922,
+          "total": 1144503,
+          "no_enchufable": 1113749
         },
         "moto": {
           "BEV": 36552,
-          "HEV": 347
+          "HEV": 347,
+          "total": 4531132,
+          "no_enchufable": 4494580
         },
         "camion": {
           "BEV": 16293,
           "PHEV": 74,
-          "HEV": 8273
+          "HEV": 8273,
+          "total": 1622383,
+          "no_enchufable": 1606016
         },
         "autobus": {
           "BEV": 1982,
@@ -7274,7 +8580,9 @@
         "otros": {
           "BEV": 2243,
           "PHEV": 260,
-          "HEV": 5673
+          "HEV": 5673,
+          "total": 5207811,
+          "no_enchufable": 5205308
         }
       }
     },
@@ -7307,25 +8615,35 @@
         "turismo": {
           "BEV": 172834,
           "PHEV": 176119,
-          "HEV": 1241423
+          "HEV": 1241423,
+          "total": 26321735,
+          "no_enchufable": 25972782
         },
         "suv_todo_terreno": {
           "BEV": 32,
-          "HEV": 439
+          "HEV": 439,
+          "total": 1514,
+          "no_enchufable": 1482
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 31486,
-          "HEV": 51946
+          "HEV": 51946,
+          "total": 1143890,
+          "no_enchufable": 1112388
         },
         "moto": {
           "BEV": 36866,
-          "HEV": 349
+          "HEV": 349,
+          "total": 4536065,
+          "no_enchufable": 4499199
         },
         "camion": {
           "BEV": 16516,
           "PHEV": 78,
-          "HEV": 8361
+          "HEV": 8361,
+          "total": 1624140,
+          "no_enchufable": 1607546
         },
         "autobus": {
           "BEV": 2007,
@@ -7340,7 +8658,9 @@
         "otros": {
           "BEV": 2304,
           "PHEV": 265,
-          "HEV": 5715
+          "HEV": 5715,
+          "total": 5204431,
+          "no_enchufable": 5201862
         }
       }
     },
@@ -7373,25 +8693,35 @@
         "turismo": {
           "BEV": 176472,
           "PHEV": 180753,
-          "HEV": 1265108
+          "HEV": 1265108,
+          "total": 25795389,
+          "no_enchufable": 25438164
         },
         "suv_todo_terreno": {
           "BEV": 43,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1533,
+          "no_enchufable": 1490
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 32176,
-          "HEV": 52719
+          "HEV": 52719,
+          "total": 1143026,
+          "no_enchufable": 1110834
         },
         "moto": {
           "BEV": 37060,
-          "HEV": 364
+          "HEV": 364,
+          "total": 4541707,
+          "no_enchufable": 4504647
         },
         "camion": {
           "BEV": 16817,
           "PHEV": 78,
-          "HEV": 8462
+          "HEV": 8462,
+          "total": 1626097,
+          "no_enchufable": 1609202
         },
         "autobus": {
           "BEV": 2031,
@@ -7406,7 +8736,9 @@
         "otros": {
           "BEV": 2340,
           "PHEV": 272,
-          "HEV": 5749
+          "HEV": 5749,
+          "total": 5200824,
+          "no_enchufable": 5198212
         }
       }
     },
@@ -7438,25 +8770,35 @@
         "turismo": {
           "BEV": 180512,
           "PHEV": 185267,
-          "HEV": 1294712
+          "HEV": 1294712,
+          "total": 25808581,
+          "no_enchufable": 25442802
         },
         "suv_todo_terreno": {
           "BEV": 43,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1529,
+          "no_enchufable": 1486
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 32850,
-          "HEV": 53589
+          "HEV": 53589,
+          "total": 1142243,
+          "no_enchufable": 1109377
         },
         "moto": {
           "BEV": 37309,
-          "HEV": 366
+          "HEV": 366,
+          "total": 4548155,
+          "no_enchufable": 4510846
         },
         "camion": {
           "BEV": 17171,
           "PHEV": 78,
-          "HEV": 8512
+          "HEV": 8512,
+          "total": 1628129,
+          "no_enchufable": 1610880
         },
         "autobus": {
           "BEV": 2057,
@@ -7471,7 +8813,9 @@
         "otros": {
           "BEV": 2378,
           "PHEV": 302,
-          "HEV": 5786
+          "HEV": 5786,
+          "total": 5198440,
+          "no_enchufable": 5195760
         }
       }
     },
@@ -7504,25 +8848,35 @@
         "turismo": {
           "BEV": 184203,
           "PHEV": 189348,
-          "HEV": 1320545
+          "HEV": 1320545,
+          "total": 25808571,
+          "no_enchufable": 25435020
         },
         "suv_todo_terreno": {
           "BEV": 43,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1522,
+          "no_enchufable": 1479
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 33544,
-          "HEV": 54626
+          "HEV": 54626,
+          "total": 1141541,
+          "no_enchufable": 1107981
         },
         "moto": {
           "BEV": 37639,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4555691,
+          "no_enchufable": 4518052
         },
         "camion": {
           "BEV": 17453,
           "PHEV": 78,
-          "HEV": 8732
+          "HEV": 8732,
+          "total": 1630563,
+          "no_enchufable": 1613032
         },
         "autobus": {
           "BEV": 2079,
@@ -7537,7 +8891,9 @@
         "otros": {
           "BEV": 2424,
           "PHEV": 325,
-          "HEV": 5834
+          "HEV": 5834,
+          "total": 5195635,
+          "no_enchufable": 5192886
         }
       }
     },
@@ -7570,25 +8926,35 @@
         "turismo": {
           "BEV": 188446,
           "PHEV": 193274,
-          "HEV": 1351128
+          "HEV": 1351128,
+          "total": 25811599,
+          "no_enchufable": 25429879
         },
         "suv_todo_terreno": {
           "BEV": 43,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1518,
+          "no_enchufable": 1475
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 34196,
-          "HEV": 55548
+          "HEV": 55548,
+          "total": 1140531,
+          "no_enchufable": 1106319
         },
         "moto": {
           "BEV": 38117,
-          "HEV": 380
+          "HEV": 380,
+          "total": 4564511,
+          "no_enchufable": 4526394
         },
         "camion": {
           "BEV": 17703,
           "PHEV": 78,
-          "HEV": 8816
+          "HEV": 8816,
+          "total": 1632934,
+          "no_enchufable": 1615153
         },
         "autobus": {
           "BEV": 2114,
@@ -7603,7 +8969,9 @@
         "otros": {
           "BEV": 2463,
           "PHEV": 367,
-          "HEV": 5900
+          "HEV": 5900,
+          "total": 5192183,
+          "no_enchufable": 5189353
         }
       }
     },
@@ -7636,25 +9004,35 @@
         "turismo": {
           "BEV": 193856,
           "PHEV": 197206,
-          "HEV": 1385124
+          "HEV": 1385124,
+          "total": 25833195,
+          "no_enchufable": 25442133
         },
         "suv_todo_terreno": {
           "BEV": 55,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1537,
+          "no_enchufable": 1482
         },
         "furgoneta_van": {
           "BEV": 16,
           "PHEV": 34871,
-          "HEV": 56616
+          "HEV": 56616,
+          "total": 1140148,
+          "no_enchufable": 1105261
         },
         "moto": {
           "BEV": 38417,
-          "HEV": 384
+          "HEV": 384,
+          "total": 4574774,
+          "no_enchufable": 4536357
         },
         "camion": {
           "BEV": 17954,
           "PHEV": 78,
-          "HEV": 8889
+          "HEV": 8889,
+          "total": 1636544,
+          "no_enchufable": 1618512
         },
         "autobus": {
           "BEV": 2138,
@@ -7669,7 +9047,9 @@
         "otros": {
           "BEV": 2504,
           "PHEV": 450,
-          "HEV": 5970
+          "HEV": 5970,
+          "total": 5191063,
+          "no_enchufable": 5188109
         }
       }
     },
@@ -7702,25 +9082,35 @@
         "turismo": {
           "BEV": 197329,
           "PHEV": 200500,
-          "HEV": 1415305
+          "HEV": 1415305,
+          "total": 25825776,
+          "no_enchufable": 25427947
         },
         "suv_todo_terreno": {
           "BEV": 55,
-          "HEV": 443
+          "HEV": 443,
+          "total": 1529,
+          "no_enchufable": 1474
         },
         "furgoneta_van": {
           "BEV": 17,
           "PHEV": 35593,
-          "HEV": 57603
+          "HEV": 57603,
+          "total": 1139447,
+          "no_enchufable": 1103837
         },
         "moto": {
           "BEV": 39090,
-          "HEV": 380
+          "HEV": 380,
+          "total": 4585811,
+          "no_enchufable": 4546721
         },
         "camion": {
           "BEV": 18177,
           "PHEV": 81,
-          "HEV": 8931
+          "HEV": 8931,
+          "total": 1638585,
+          "no_enchufable": 1620327
         },
         "autobus": {
           "BEV": 2177,
@@ -7735,7 +9125,9 @@
         "otros": {
           "BEV": 2601,
           "PHEV": 456,
-          "HEV": 6057
+          "HEV": 6057,
+          "total": 5189794,
+          "no_enchufable": 5186737
         }
       }
     },
@@ -7768,25 +9160,35 @@
         "turismo": {
           "BEV": 199968,
           "PHEV": 202946,
-          "HEV": 1433039
+          "HEV": 1433039,
+          "total": 25802758,
+          "no_enchufable": 25399844
         },
         "suv_todo_terreno": {
           "BEV": 55,
-          "HEV": 448
+          "HEV": 448,
+          "total": 1533,
+          "no_enchufable": 1478
         },
         "furgoneta_van": {
           "BEV": 17,
           "PHEV": 35937,
-          "HEV": 58135
+          "HEV": 58135,
+          "total": 1138255,
+          "no_enchufable": 1102301
         },
         "moto": {
           "BEV": 39618,
-          "HEV": 379
+          "HEV": 379,
+          "total": 4591820,
+          "no_enchufable": 4552202
         },
         "camion": {
           "BEV": 18293,
           "PHEV": 89,
-          "HEV": 8973
+          "HEV": 8973,
+          "total": 1639317,
+          "no_enchufable": 1620935
         },
         "autobus": {
           "BEV": 2199,
@@ -7801,7 +9203,9 @@
         "otros": {
           "BEV": 2631,
           "PHEV": 462,
-          "HEV": 6070
+          "HEV": 6070,
+          "total": 5187708,
+          "no_enchufable": 5184615
         }
       }
     },
@@ -7834,25 +9238,35 @@
         "turismo": {
           "BEV": 206158,
           "PHEV": 206033,
-          "HEV": 1457510
+          "HEV": 1457510,
+          "total": 25783880,
+          "no_enchufable": 25371689
         },
         "suv_todo_terreno": {
           "BEV": 55,
-          "HEV": 449
+          "HEV": 449,
+          "total": 1540,
+          "no_enchufable": 1485
         },
         "furgoneta_van": {
           "BEV": 17,
           "PHEV": 36286,
-          "HEV": 58951
+          "HEV": 58951,
+          "total": 1136874,
+          "no_enchufable": 1100571
         },
         "moto": {
           "BEV": 40041,
-          "HEV": 382
+          "HEV": 382,
+          "total": 4600753,
+          "no_enchufable": 4560712
         },
         "camion": {
           "BEV": 18413,
           "PHEV": 105,
-          "HEV": 9023
+          "HEV": 9023,
+          "total": 1641356,
+          "no_enchufable": 1622838
         },
         "autobus": {
           "BEV": 2220,
@@ -7867,7 +9281,9 @@
         "otros": {
           "BEV": 2670,
           "PHEV": 484,
-          "HEV": 6110
+          "HEV": 6110,
+          "total": 5184587,
+          "no_enchufable": 5181433
         }
       }
     },
@@ -7900,40 +9316,56 @@
         "turismo": {
           "BEV": 210801,
           "PHEV": 209867,
-          "HEV": 1485716
+          "HEV": 1485716,
+          "total": 25756817,
+          "no_enchufable": 25336149
         },
         "suv_todo_terreno": {
           "BEV": 61,
-          "HEV": 451
+          "HEV": 451,
+          "total": 1528,
+          "no_enchufable": 1467
         },
         "furgoneta_van": {
           "BEV": 23,
           "PHEV": 36853,
-          "HEV": 59929
+          "HEV": 59929,
+          "total": 1135581,
+          "no_enchufable": 1098705
         },
         "moto": {
           "BEV": 40878,
-          "HEV": 379
+          "HEV": 379,
+          "total": 4607534,
+          "no_enchufable": 4566656
         },
         "camion": {
           "BEV": 18668,
           "PHEV": 132,
-          "HEV": 9085
+          "HEV": 9085,
+          "total": 1642425,
+          "no_enchufable": 1623625
         },
         "autobus": {
           "BEV": 2257,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 96,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 7883,
           "PHEV": 21,
-          "HEV": 464
+          "HEV": 464,
+          "total": 1743,
+          "no_enchufable": 0
         },
         "otros": {
           "BEV": 2730,
           "PHEV": 507,
-          "HEV": 6166
+          "HEV": 6166,
+          "total": 5181086,
+          "no_enchufable": 5177849
         }
       }
     },
@@ -7965,40 +9397,56 @@
         "turismo": {
           "BEV": 215832,
           "PHEV": 213118,
-          "HEV": 1509713
+          "HEV": 1509713,
+          "total": 25652829,
+          "no_enchufable": 25223879
         },
         "suv_todo_terreno": {
           "BEV": 61,
-          "HEV": 450
+          "HEV": 450,
+          "total": 1525,
+          "no_enchufable": 1464
         },
         "furgoneta_van": {
           "BEV": 32,
           "PHEV": 37411,
-          "HEV": 60930
+          "HEV": 60930,
+          "total": 1132938,
+          "no_enchufable": 1095495
         },
         "moto": {
           "BEV": 41264,
-          "HEV": 372
+          "HEV": 372,
+          "total": 4602585,
+          "no_enchufable": 4561321
         },
         "camion": {
           "BEV": 18864,
           "PHEV": 162,
-          "HEV": 9053
+          "HEV": 9053,
+          "total": 1639460,
+          "no_enchufable": 1620434
         },
         "autobus": {
           "BEV": 2279,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 352,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 7974,
           "PHEV": 22,
-          "HEV": 472
+          "HEV": 472,
+          "total": 3214,
+          "no_enchufable": 0
         },
         "otros": {
           "BEV": 2750,
           "PHEV": 499,
-          "HEV": 6174
+          "HEV": 6174,
+          "total": 5169654,
+          "no_enchufable": 5166405
         }
       }
     },
@@ -8030,40 +9478,56 @@
         "turismo": {
           "BEV": 224236,
           "PHEV": 218430,
-          "HEV": 1545335
+          "HEV": 1545335,
+          "total": 25583376,
+          "no_enchufable": 25140710
         },
         "suv_todo_terreno": {
           "BEV": 61,
-          "HEV": 455
+          "HEV": 455,
+          "total": 1524,
+          "no_enchufable": 1463
         },
         "furgoneta_van": {
           "BEV": 41,
           "PHEV": 37960,
-          "HEV": 62081
+          "HEV": 62081,
+          "total": 1129064,
+          "no_enchufable": 1091063
         },
         "moto": {
           "BEV": 42012,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4600132,
+          "no_enchufable": 4558120
         },
         "camion": {
           "BEV": 19177,
           "PHEV": 317,
-          "HEV": 9078
+          "HEV": 9078,
+          "total": 1634847,
+          "no_enchufable": 1615353
         },
         "autobus": {
           "BEV": 2305,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 560,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8059,
           "PHEV": 22,
-          "HEV": 480
+          "HEV": 480,
+          "total": 3915,
+          "no_enchufable": 0
         },
         "otros": {
           "BEV": 2783,
           "PHEV": 508,
-          "HEV": 6194
+          "HEV": 6194,
+          "total": 5155275,
+          "no_enchufable": 5151984
         }
       }
     },
@@ -8095,40 +9559,56 @@
         "turismo": {
           "BEV": 228967,
           "PHEV": 222885,
-          "HEV": 1570236
+          "HEV": 1570236,
+          "total": 25533211,
+          "no_enchufable": 25081359
         },
         "suv_todo_terreno": {
           "BEV": 61,
-          "HEV": 457
+          "HEV": 457,
+          "total": 1525,
+          "no_enchufable": 1464
         },
         "furgoneta_van": {
           "BEV": 49,
           "PHEV": 38574,
-          "HEV": 62626
+          "HEV": 62626,
+          "total": 1127522,
+          "no_enchufable": 1088899
         },
         "moto": {
           "BEV": 42473,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4601680,
+          "no_enchufable": 4559207
         },
         "camion": {
           "BEV": 19529,
           "PHEV": 374,
-          "HEV": 9093
+          "HEV": 9093,
+          "total": 1635186,
+          "no_enchufable": 1615283
         },
         "autobus": {
           "BEV": 2345,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 855,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8135,
           "PHEV": 25,
-          "HEV": 489
+          "HEV": 489,
+          "total": 6739,
+          "no_enchufable": 0
         },
         "otros": {
           "BEV": 2818,
           "PHEV": 537,
-          "HEV": 6233
+          "HEV": 6233,
+          "total": 5151211,
+          "no_enchufable": 5147856
         }
       }
     },
@@ -8160,40 +9640,56 @@
         "turismo": {
           "BEV": 234802,
           "PHEV": 229029,
-          "HEV": 1602609
+          "HEV": 1602609,
+          "total": 25497154,
+          "no_enchufable": 25033323
         },
         "suv_todo_terreno": {
           "BEV": 62,
-          "HEV": 476
+          "HEV": 476,
+          "total": 1544,
+          "no_enchufable": 1482
         },
         "furgoneta_van": {
           "BEV": 53,
           "PHEV": 39170,
-          "HEV": 63149
+          "HEV": 63149,
+          "total": 1125900,
+          "no_enchufable": 1086677
         },
         "moto": {
           "BEV": 42702,
-          "HEV": 365
+          "HEV": 365,
+          "total": 4602455,
+          "no_enchufable": 4559753
         },
         "camion": {
           "BEV": 19815,
           "PHEV": 462,
-          "HEV": 9075
+          "HEV": 9075,
+          "total": 1636686,
+          "no_enchufable": 1616409
         },
         "autobus": {
           "BEV": 2367,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 1086,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8291,
           "PHEV": 27,
-          "HEV": 500
+          "HEV": 500,
+          "total": 9537,
+          "no_enchufable": 1219
         },
         "otros": {
           "BEV": 2841,
           "PHEV": 558,
-          "HEV": 6263
+          "HEV": 6263,
+          "total": 5147352,
+          "no_enchufable": 5143953
         }
       }
     },
@@ -8225,40 +9721,56 @@
         "turismo": {
           "BEV": 242763,
           "PHEV": 236259,
-          "HEV": 1643625
+          "HEV": 1643625,
+          "total": 25495349,
+          "no_enchufable": 25016327
         },
         "suv_todo_terreno": {
           "BEV": 62,
-          "HEV": 480
+          "HEV": 480,
+          "total": 1540,
+          "no_enchufable": 1478
         },
         "furgoneta_van": {
           "BEV": 59,
           "PHEV": 39929,
-          "HEV": 64193
+          "HEV": 64193,
+          "total": 1124700,
+          "no_enchufable": 1084712
         },
         "moto": {
           "BEV": 42267,
-          "HEV": 364
+          "HEV": 364,
+          "total": 4605138,
+          "no_enchufable": 4562871
         },
         "camion": {
           "BEV": 20331,
           "PHEV": 526,
-          "HEV": 9136
+          "HEV": 9136,
+          "total": 1637148,
+          "no_enchufable": 1616291
         },
         "autobus": {
           "BEV": 2399,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 1412,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8461,
           "PHEV": 27,
-          "HEV": 513
+          "HEV": 513,
+          "total": 12506,
+          "no_enchufable": 4018
         },
         "otros": {
           "BEV": 2892,
           "PHEV": 611,
-          "HEV": 6252
+          "HEV": 6252,
+          "total": 5142107,
+          "no_enchufable": 5138604
         }
       }
     },
@@ -8290,40 +9802,56 @@
         "turismo": {
           "BEV": 249742,
           "PHEV": 244665,
-          "HEV": 1677969
+          "HEV": 1677969,
+          "total": 25501158,
+          "no_enchufable": 25006751
         },
         "suv_todo_terreno": {
           "BEV": 62,
-          "HEV": 487
+          "HEV": 487,
+          "total": 1547,
+          "no_enchufable": 1485
         },
         "furgoneta_van": {
           "BEV": 62,
           "PHEV": 40603,
-          "HEV": 65156
+          "HEV": 65156,
+          "total": 1123927,
+          "no_enchufable": 1083262
         },
         "moto": {
           "BEV": 41077,
-          "HEV": 368
+          "HEV": 368,
+          "total": 4610149,
+          "no_enchufable": 4569072
         },
         "camion": {
           "BEV": 20564,
           "PHEV": 755,
-          "HEV": 9142
+          "HEV": 9142,
+          "total": 1640193,
+          "no_enchufable": 1618874
         },
         "autobus": {
           "BEV": 2424,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 1626,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8550,
           "PHEV": 29,
-          "HEV": 518
+          "HEV": 518,
+          "total": 15775,
+          "no_enchufable": 7196
         },
         "otros": {
           "BEV": 2943,
           "PHEV": 711,
-          "HEV": 6286
+          "HEV": 6286,
+          "total": 5139943,
+          "no_enchufable": 5136289
         }
       }
     },
@@ -8355,40 +9883,56 @@
         "turismo": {
           "BEV": 258613,
           "PHEV": 256990,
-          "HEV": 1716414
+          "HEV": 1716414,
+          "total": 25514543,
+          "no_enchufable": 24998940
         },
         "suv_todo_terreno": {
           "BEV": 62,
-          "HEV": 492
+          "HEV": 492,
+          "total": 1550,
+          "no_enchufable": 1488
         },
         "furgoneta_van": {
           "BEV": 67,
           "PHEV": 41179,
-          "HEV": 65987
+          "HEV": 65987,
+          "total": 1122635,
+          "no_enchufable": 1081389
         },
         "moto": {
           "BEV": 40969,
-          "HEV": 365
+          "HEV": 365,
+          "total": 4618661,
+          "no_enchufable": 4577692
         },
         "camion": {
           "BEV": 20859,
           "PHEV": 1019,
-          "HEV": 9148
+          "HEV": 9148,
+          "total": 1643414,
+          "no_enchufable": 1621536
         },
         "autobus": {
           "BEV": 2445,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 1889,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8646,
           "PHEV": 28,
-          "HEV": 533
+          "HEV": 533,
+          "total": 19364,
+          "no_enchufable": 10690
         },
         "otros": {
           "BEV": 2998,
           "PHEV": 888,
-          "HEV": 6296
+          "HEV": 6296,
+          "total": 5138559,
+          "no_enchufable": 5134673
         }
       }
     },
@@ -8422,40 +9966,56 @@
         "turismo": {
           "BEV": 269794,
           "PHEV": 269925,
-          "HEV": 1756086
+          "HEV": 1756086,
+          "total": 25537788,
+          "no_enchufable": 24998069
         },
         "suv_todo_terreno": {
           "BEV": 63,
-          "HEV": 495
+          "HEV": 495,
+          "total": 1547,
+          "no_enchufable": 1484
         },
         "furgoneta_van": {
           "BEV": 73,
           "PHEV": 41883,
-          "HEV": 66784
+          "HEV": 66784,
+          "total": 1121698,
+          "no_enchufable": 1079742
         },
         "moto": {
           "BEV": 41119,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4630078,
+          "no_enchufable": 4588959
         },
         "camion": {
           "BEV": 21864,
           "PHEV": 1209,
-          "HEV": 9155
+          "HEV": 9155,
+          "total": 1648419,
+          "no_enchufable": 1625346
         },
         "autobus": {
           "BEV": 2482,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 2176,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8774,
           "PHEV": 30,
-          "HEV": 541
+          "HEV": 541,
+          "total": 23343,
+          "no_enchufable": 14539
         },
         "otros": {
           "BEV": 3103,
           "PHEV": 1097,
-          "HEV": 6343
+          "HEV": 6343,
+          "total": 5137737,
+          "no_enchufable": 5133537
         }
       }
     },
@@ -8487,40 +10047,56 @@
         "turismo": {
           "BEV": 278379,
           "PHEV": 281356,
-          "HEV": 1789356
+          "HEV": 1789356,
+          "total": 25535992,
+          "no_enchufable": 24976257
         },
         "suv_todo_terreno": {
           "BEV": 71,
-          "HEV": 503
+          "HEV": 503,
+          "total": 1556,
+          "no_enchufable": 1485
         },
         "furgoneta_van": {
           "BEV": 76,
           "PHEV": 42718,
-          "HEV": 67682
+          "HEV": 67682,
+          "total": 1120918,
+          "no_enchufable": 1078124
         },
         "moto": {
           "BEV": 41636,
-          "HEV": 368
+          "HEV": 368,
+          "total": 4644209,
+          "no_enchufable": 4602573
         },
         "camion": {
           "BEV": 22453,
           "PHEV": 1351,
-          "HEV": 9152
+          "HEV": 9152,
+          "total": 1651635,
+          "no_enchufable": 1627831
         },
         "autobus": {
           "BEV": 2516,
           "PHEV": 3,
-          "HEV": 26
+          "HEV": 26,
+          "total": 2494,
+          "no_enchufable": 0
         },
         "especial": {
           "BEV": 8909,
           "PHEV": 31,
-          "HEV": 546
+          "HEV": 546,
+          "total": 27252,
+          "no_enchufable": 18312
         },
         "otros": {
           "BEV": 3276,
           "PHEV": 1252,
-          "HEV": 6361
+          "HEV": 6361,
+          "total": 5137015,
+          "no_enchufable": 5132487
         }
       }
     },
@@ -8552,40 +10128,56 @@
         "turismo": {
           "BEV": 285178,
           "PHEV": 288786,
-          "HEV": 1810126
+          "HEV": 1810126,
+          "total": 25522347,
+          "no_enchufable": 24948383
         },
         "suv_todo_terreno": {
           "BEV": 72,
-          "HEV": 502
+          "HEV": 502,
+          "total": 1560,
+          "no_enchufable": 1488
         },
         "furgoneta_van": {
           "BEV": 78,
           "PHEV": 43237,
-          "HEV": 68140
+          "HEV": 68140,
+          "total": 1119992,
+          "no_enchufable": 1076677
         },
         "moto": {
           "BEV": 42078,
-          "HEV": 369
+          "HEV": 369,
+          "total": 4650522,
+          "no_enchufable": 4608444
         },
         "camion": {
           "BEV": 22746,
           "PHEV": 1455,
-          "HEV": 9177
+          "HEV": 9177,
+          "total": 1653476,
+          "no_enchufable": 1629275
         },
         "autobus": {
           "BEV": 2535,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 2675,
+          "no_enchufable": 137
         },
         "especial": {
           "BEV": 9017,
           "PHEV": 32,
-          "HEV": 549
+          "HEV": 549,
+          "total": 30203,
+          "no_enchufable": 21154
         },
         "otros": {
           "BEV": 3360,
           "PHEV": 1348,
-          "HEV": 6402
+          "HEV": 6402,
+          "total": 5136326,
+          "no_enchufable": 5131618
         }
       }
     },
@@ -8618,40 +10210,56 @@
         "turismo": {
           "BEV": 294820,
           "PHEV": 297930,
-          "HEV": 1837908
+          "HEV": 1837908,
+          "total": 25503282,
+          "no_enchufable": 24910532
         },
         "suv_todo_terreno": {
           "BEV": 83,
-          "HEV": 504
+          "HEV": 504,
+          "total": 1571,
+          "no_enchufable": 1488
         },
         "furgoneta_van": {
           "BEV": 82,
           "PHEV": 43780,
-          "HEV": 68746
+          "HEV": 68746,
+          "total": 1118485,
+          "no_enchufable": 1074623
         },
         "moto": {
           "BEV": 42390,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4659619,
+          "no_enchufable": 4617229
         },
         "camion": {
           "BEV": 23194,
           "PHEV": 1622,
-          "HEV": 9185
+          "HEV": 9185,
+          "total": 1656684,
+          "no_enchufable": 1631868
         },
         "autobus": {
           "BEV": 2545,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 2880,
+          "no_enchufable": 332
         },
         "especial": {
           "BEV": 9110,
           "PHEV": 33,
-          "HEV": 552
+          "HEV": 552,
+          "total": 33123,
+          "no_enchufable": 23980
         },
         "otros": {
           "BEV": 3458,
           "PHEV": 1516,
-          "HEV": 6458
+          "HEV": 6458,
+          "total": 5133527,
+          "no_enchufable": 5128553
         }
       }
     },
@@ -8685,40 +10293,56 @@
         "turismo": {
           "BEV": 303307,
           "PHEV": 309621,
-          "HEV": 1870032
+          "HEV": 1870032,
+          "total": 25474804,
+          "no_enchufable": 24861876
         },
         "suv_todo_terreno": {
           "BEV": 90,
-          "HEV": 516
+          "HEV": 516,
+          "total": 1580,
+          "no_enchufable": 1490
         },
         "furgoneta_van": {
           "BEV": 88,
           "PHEV": 44420,
-          "HEV": 69332
+          "HEV": 69332,
+          "total": 1116439,
+          "no_enchufable": 1071931
         },
         "moto": {
           "BEV": 42971,
-          "HEV": 367
+          "HEV": 367,
+          "total": 4664913,
+          "no_enchufable": 4621942
         },
         "camion": {
           "BEV": 23584,
           "PHEV": 1852,
-          "HEV": 9240
+          "HEV": 9240,
+          "total": 1658226,
+          "no_enchufable": 1632790
         },
         "autobus": {
           "BEV": 2604,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 3319,
+          "no_enchufable": 712
         },
         "especial": {
           "BEV": 9249,
           "PHEV": 35,
-          "HEV": 571
+          "HEV": 571,
+          "total": 37134,
+          "no_enchufable": 27850
         },
         "otros": {
           "BEV": 3520,
           "PHEV": 1747,
-          "HEV": 6510
+          "HEV": 6510,
+          "total": 5127506,
+          "no_enchufable": 5122239
         }
       }
     },
@@ -8752,40 +10376,56 @@
         "turismo": {
           "BEV": 312119,
           "PHEV": 320240,
-          "HEV": 1900243
+          "HEV": 1900243,
+          "total": 25461430,
+          "no_enchufable": 24829071
         },
         "suv_todo_terreno": {
           "BEV": 98,
-          "HEV": 526
+          "HEV": 526,
+          "total": 1589,
+          "no_enchufable": 1491
         },
         "furgoneta_van": {
           "BEV": 90,
           "PHEV": 45035,
-          "HEV": 70041
+          "HEV": 70041,
+          "total": 1114740,
+          "no_enchufable": 1069615
         },
         "moto": {
           "BEV": 43159,
-          "HEV": 359
+          "HEV": 359,
+          "total": 4668739,
+          "no_enchufable": 4625580
         },
         "camion": {
           "BEV": 24111,
           "PHEV": 2038,
-          "HEV": 9240
+          "HEV": 9240,
+          "total": 1660313,
+          "no_enchufable": 1634164
         },
         "autobus": {
           "BEV": 2645,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 3663,
+          "no_enchufable": 1015
         },
         "especial": {
           "BEV": 9397,
           "PHEV": 36,
-          "HEV": 576
+          "HEV": 576,
+          "total": 40433,
+          "no_enchufable": 31000
         },
         "otros": {
           "BEV": 3721,
           "PHEV": 1893,
-          "HEV": 6595
+          "HEV": 6595,
+          "total": 5121219,
+          "no_enchufable": 5115605
         }
       }
     },
@@ -8818,40 +10458,56 @@
         "turismo": {
           "BEV": 321937,
           "PHEV": 331220,
-          "HEV": 1932896
+          "HEV": 1932896,
+          "total": 25278353,
+          "no_enchufable": 24625196
         },
         "suv_todo_terreno": {
           "BEV": 102,
-          "HEV": 531
+          "HEV": 531,
+          "total": 1590,
+          "no_enchufable": 1488
         },
         "furgoneta_van": {
           "BEV": 101,
           "PHEV": 45636,
-          "HEV": 70622
+          "HEV": 70622,
+          "total": 1107993,
+          "no_enchufable": 1062256
         },
         "moto": {
           "BEV": 42719,
-          "HEV": 355
+          "HEV": 355,
+          "total": 4632069,
+          "no_enchufable": 4589350
         },
         "camion": {
           "BEV": 24515,
           "PHEV": 2277,
-          "HEV": 9229
+          "HEV": 9229,
+          "total": 1631090,
+          "no_enchufable": 1604298
         },
         "autobus": {
           "BEV": 2688,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 4002,
+          "no_enchufable": 1311
         },
         "especial": {
           "BEV": 9546,
           "PHEV": 36,
-          "HEV": 582
+          "HEV": 582,
+          "total": 41860,
+          "no_enchufable": 32278
         },
         "otros": {
           "BEV": 3866,
           "PHEV": 2145,
-          "HEV": 6645
+          "HEV": 6645,
+          "total": 5090368,
+          "no_enchufable": 5084357
         }
       }
     },
@@ -8883,40 +10539,56 @@
         "turismo": {
           "BEV": 327969,
           "PHEV": 338142,
-          "HEV": 1962125
+          "HEV": 1962125,
+          "total": 25275960,
+          "no_enchufable": 24609849
         },
         "suv_todo_terreno": {
           "BEV": 104,
-          "HEV": 531
+          "HEV": 531,
+          "total": 1589,
+          "no_enchufable": 1485
         },
         "furgoneta_van": {
           "BEV": 102,
           "PHEV": 46227,
-          "HEV": 71116
+          "HEV": 71116,
+          "total": 1107104,
+          "no_enchufable": 1060775
         },
         "moto": {
           "BEV": 42495,
-          "HEV": 355
+          "HEV": 355,
+          "total": 4637597,
+          "no_enchufable": 4595102
         },
         "camion": {
           "BEV": 24880,
           "PHEV": 2408,
-          "HEV": 9231
+          "HEV": 9231,
+          "total": 1634053,
+          "no_enchufable": 1606765
         },
         "autobus": {
           "BEV": 2734,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 4327,
+          "no_enchufable": 1590
         },
         "especial": {
           "BEV": 9627,
           "PHEV": 38,
-          "HEV": 588
+          "HEV": 588,
+          "total": 45744,
+          "no_enchufable": 36079
         },
         "otros": {
           "BEV": 4002,
           "PHEV": 2216,
-          "HEV": 6677
+          "HEV": 6677,
+          "total": 5089262,
+          "no_enchufable": 5083044
         }
       }
     },
@@ -8949,40 +10621,56 @@
         "turismo": {
           "BEV": 336195,
           "PHEV": 349053,
-          "HEV": 2001718
+          "HEV": 2001718,
+          "total": 25286925,
+          "no_enchufable": 24601677
         },
         "suv_todo_terreno": {
           "BEV": 104,
-          "HEV": 532
+          "HEV": 532,
+          "total": 1592,
+          "no_enchufable": 1488
         },
         "furgoneta_van": {
           "BEV": 104,
           "PHEV": 46930,
-          "HEV": 71571
+          "HEV": 71571,
+          "total": 1106154,
+          "no_enchufable": 1059120
         },
         "moto": {
           "BEV": 41275,
-          "HEV": 356
+          "HEV": 356,
+          "total": 4641646,
+          "no_enchufable": 4600371
         },
         "camion": {
           "BEV": 25480,
           "PHEV": 2536,
-          "HEV": 9252
+          "HEV": 9252,
+          "total": 1637431,
+          "no_enchufable": 1609415
         },
         "autobus": {
           "BEV": 2795,
           "PHEV": 3,
-          "HEV": 27
+          "HEV": 27,
+          "total": 4627,
+          "no_enchufable": 1829
         },
         "especial": {
           "BEV": 9846,
           "PHEV": 40,
-          "HEV": 592
+          "HEV": 592,
+          "total": 50075,
+          "no_enchufable": 40189
         },
         "otros": {
           "BEV": 4105,
           "PHEV": 2413,
-          "HEV": 6743
+          "HEV": 6743,
+          "total": 5087956,
+          "no_enchufable": 5081438
         }
       }
     }

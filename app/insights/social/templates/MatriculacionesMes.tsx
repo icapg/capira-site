@@ -185,7 +185,7 @@ function PortraitV1({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMe
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
             {totalYoy != null && <div style={{ marginTop: v1TotalYoyMarginTop }}><YoyBadgeLight value={totalYoy} size={34} flushTop /></div>}
           </div>
-          <span style={{ fontSize: 36, fontWeight: 500, color: C.green, display: 'block', marginTop: 6 }}>vehículos matriculados</span>
+          <span style={{ fontSize: 36, fontWeight: 700, color: '#fff', background: '#16a34a', display: 'inline-block', marginTop: 8, padding: '4px 14px', borderRadius: 7 }}>vehículos matriculados</span>
         </div>
         <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', alignItems: 'flex-end' }}>
           <LogoBlock logoW={113} logoH={40} urlSize={34} autoHeight />
@@ -418,14 +418,14 @@ function DesktopV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evY
   )
 }
 
-function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, evYoy, noElecYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
+function PortraitV2({ periodo, periodoFull, periodoPrev, bev, phev, hev, totalMercado, bevYoy, phevYoy, evYoy, noElecYoy, totalYoy }: Omit<Props, 'format' | 'variant'>) {
   const ev = bev + phev
   const noEnch = Math.max(0, totalMercado - bev - phev)
   const total = totalMercado
   const noEnchColor = '#94a3b8'
   const subColor = 'rgba(148,163,184,0.65)'
+  const v1TotalYoyMarginTop = 30
 
-  // Layout: pie centered at gap between NoEnch and BEV boxes
   const innerW = 944
   const boxW = (innerW - 32) / 3
   const gap1CenterX = boxW + 8
@@ -437,24 +437,26 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
   const midAngleRad = (frac / 2) * 2 * Math.PI
   const greenExitDY = Math.round(-Math.cos(midAngleRad) * (pieSize / 2))
   const noEnchCenterX = Math.round(boxW / 2)
+  const origDownH = 150 + greenExitDY
+  const noEnchTopY = 150 - greenExitDY - origDownH * 2
 
   return (
     <div style={{ width: 1080, height: 1350, background: C.bg, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,-apple-system,sans-serif', overflow: 'hidden' }}>
 
       {/* Banda blanca */}
-      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+      <div style={{ background: '#fff', padding: '28px 68px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 30, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
-            Matriculaciones · {periodo}
+          <div style={{ fontSize: 35, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+            {periodoFull ?? periodo}
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
             <span style={{ fontSize: 132, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.04em', lineHeight: 1 }}>{fmt(total)}</span>
-            {totalYoy != null && <YoyBadgeLight value={totalYoy} size={26} flushTop />}
+            {totalYoy != null && <div style={{ marginTop: v1TotalYoyMarginTop }}><YoyBadgeLight value={totalYoy} size={34} flushTop /></div>}
           </div>
-          <span style={{ fontSize: 36, fontWeight: 500, color: '#64748b', display: 'block', marginTop: 6 }}>vehículos</span>
+          <span style={{ fontSize: 36, fontWeight: 700, color: '#fff', background: '#16a34a', display: 'inline-block', marginTop: 8, padding: '4px 14px', borderRadius: 7 }}>vehículos matriculados</span>
         </div>
-        <div style={{ marginLeft: 32, flexShrink: 0 }}>
-          <LogoBlock logoW={126} logoH={40} urlSize={30} autoHeight />
+        <div style={{ marginLeft: 32, flexShrink: 0, display: 'flex', alignItems: 'flex-end' }}>
+          <LogoBlock logoW={113} logoH={40} urlSize={34} autoHeight />
         </div>
       </div>
 
@@ -466,9 +468,9 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
           {/* Pie row */}
           <div style={{ height: 300, flexShrink: 0, position: 'relative' }}>
             {/* Gray callout */}
-            <div style={{ position: 'absolute', left: pieLeftX - 5, top: `calc(50% + ${-greenExitDY}px)`, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: noEnchCenterX, top: `calc(50% + ${-greenExitDY}px)`, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: `calc(50% + ${-greenExitDY}px)`, width: 2, height: `calc(50% - ${-greenExitDY}px)`, background: noEnchColor, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: pieLeftX - 5, top: noEnchTopY, width: 10, height: 10, borderRadius: '50%', background: noEnchColor, transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX, top: noEnchTopY, width: pieLeftX - 5 - noEnchCenterX, height: 2, background: noEnchColor, transform: 'translateY(-1px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: noEnchCenterX - 1, top: noEnchTopY, width: 2, height: origDownH * 3, background: noEnchColor, pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', left: pieLeftX, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
               <DonutChart2 enchuf={ev} noEnch={noEnch} size={pieSize} bg={C.bg} />
             </div>
@@ -480,7 +482,7 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
           {/* 3 boxes — NoEnch separate, BEV+PHEV inside green border wrapper */}
           <div style={{ flex: 1, display: 'flex', gap: 16 }}>
             <div style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 14, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>No Enchufable</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: noEnchColor, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>No<br />Enchufable</div>
               <div>
                 <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                 <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(noEnch, total)}%</div>
@@ -490,7 +492,7 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                 <div style={{ fontSize: 67, fontWeight: 800, color: noEnchColor, letterSpacing: '-0.02em', lineHeight: 1 }}>{(noEnch / 1000).toFixed(1)}k</div>
               </div>
               <div>
-                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                 {noElecYoy != null
                   ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: noElecYoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: noElecYoy >= 0 ? C.green : C.red }}>{noElecYoy >= 0 ? '▲' : '▼'} {Math.abs(noElecYoy).toFixed(1)}%</span>
                   : <span style={{ fontSize: 31, color: subColor }}>—</span>
@@ -503,7 +505,7 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                 { label: 'PHEV', value: phev, color: C.phev, yoy: phevYoy },
               ].map(box => (
                 <div key={box.label} style={{ flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.16)', borderRadius: 10, padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2 }}>{box.label}</div>
+                  <div style={{ fontSize: 42, fontWeight: 800, color: box.color, letterSpacing: '0.05em', textTransform: 'uppercase', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.12)', lineHeight: 1.2, minHeight: 82, boxSizing: 'border-box' }}>{box.label}</div>
                   <div>
                     <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>% del total</div>
                     <div style={{ fontSize: 76, fontWeight: 900, color: C.text, letterSpacing: '-0.03em', lineHeight: 1 }}>{pct(box.value, total)}%</div>
@@ -513,7 +515,7 @@ function PortraitV2({ periodo, bev, phev, hev, totalMercado, bevYoy, phevYoy, ev
                     <div style={{ fontSize: 67, fontWeight: 800, color: box.color, letterSpacing: '-0.02em', lineHeight: 1 }}>{(box.value / 1000).toFixed(1)}k</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs año ant.</div>
+                    <div style={{ fontSize: 25, color: 'rgba(241,245,249,0.65)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>vs {periodoPrev ?? 'año ant.'}</div>
                     {box.yoy != null
                       ? <span style={{ fontSize: 40, fontWeight: 700, padding: '4px 12px', borderRadius: 7, whiteSpace: 'nowrap', background: box.yoy >= 0 ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)', color: box.yoy >= 0 ? C.green : C.red }}>{box.yoy >= 0 ? '▲' : '▼'} {Math.abs(box.yoy).toFixed(1)}%</span>
                       : <span style={{ fontSize: 31, color: subColor }}>—</span>

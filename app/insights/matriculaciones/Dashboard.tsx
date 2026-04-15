@@ -10,6 +10,8 @@ import { dgtPorAño, dgtPorAñoCompleto, dgtPorAñoTipos, TIPO_LABELS, dgtHistor
 import { anfacPorAño, anfacHistoricoPre2020 } from "../../lib/insights/anfac-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { useInsights } from "../../insights/InsightsContext";
+import type { Fuente } from "../../insights/InsightsContext";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PRE-COMPUTED ANALYTICS (module level — runs once)
@@ -326,132 +328,6 @@ function NoData({ height = 200, label = "Sin datos para esta fuente" }: { height
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LINKEDIN EXPORT CARD
-// ─────────────────────────────────────────────────────────────────────────────
-
-function LinkedInCard({ onClose }: { onClose: () => void }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  return (
-    <div style={{
-      position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 200,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      backdropFilter: "blur(6px)",
-    }}
-      onClick={onClose}
-    >
-      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-        {/* The card itself */}
-        <div ref={cardRef} style={{
-          width: 800, background: "#050810",
-          border: "1px solid rgba(56,189,248,0.2)",
-          borderRadius: 20, padding: "36px 40px",
-          boxShadow: "0 0 80px rgba(56,189,248,0.12), 0 0 160px rgba(139,92,246,0.08)",
-          position: "relative", overflow: "hidden",
-        }}>
-          {/* BG glow */}
-          <div style={{ position: "absolute", top: -80, left: -80, width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(56,189,248,0.12),transparent 70%)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: -60, right: -60, width: 250, height: 250, borderRadius: "50%", background: "radial-gradient(circle,rgba(139,92,246,0.1),transparent 70%)", pointerEvents: "none" }} />
-
-          {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: "linear-gradient(135deg,#38bdf8,#8b5cf6)" }} />
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: C.muted, textTransform: "uppercase" }}>
-                  eMobility Insights by Capira
-                </span>
-              </div>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, letterSpacing: "-0.03em", margin: 0 }}>
-                Mercado EV España · {LAST_FULL.año}
-              </h2>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 10, color: C.dim }}>Fuente: AEDIVE</p>
-              <p style={{ fontSize: 10, color: C.dim }}>capirapower.com</p>
-            </div>
-          </div>
-
-          {/* Big stat */}
-          <div style={{ display: "flex", gap: 32, marginBottom: 28, alignItems: "flex-end" }}>
-            <div>
-              <p style={{ fontSize: 11, color: C.muted, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>Total matriculaciones EV</p>
-              <p style={{ fontSize: 52, fontWeight: 900, color: C.text, letterSpacing: "-0.05em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
-                {fmtN(LAST_FULL.total)}
-              </p>
-            </div>
-            <div style={{ paddingBottom: 8 }}>
-              <span style={{ fontSize: 26, fontWeight: 800, color: C.green }}>
-                +{YOY[YOY.length - 1].totalYoy}%
-              </span>
-              <p style={{ fontSize: 11, color: C.muted }}>vs {LAST_FULL.año - 1}</p>
-            </div>
-          </div>
-
-          {/* Stats grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginBottom: 24 }}>
-            {[
-              { label: "BEV puro",          value: fmtN(LAST_FULL.bev),      color: C.bev   },
-              { label: "PHEV enchufable",   value: fmtN(LAST_FULL.phev),     color: C.phev  },
-              { label: `CAGR ${FIRST.año}–${LAST_FULL.año}`, value: `${CAGR_TOTAL}%`,  color: C.green },
-              { label: "Total acumulado",   value: fmtN(TOTAL_ACUM),    color: C.amber },
-            ].map((s) => (
-              <div key={s.label} style={{ background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 14px", border: `1px solid ${s.color}20` }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: C.muted, textTransform: "uppercase", marginBottom: 4 }}>{s.label}</p>
-                <p style={{ fontSize: 18, fontWeight: 800, color: s.color, letterSpacing: "-0.03em", fontVariantNumeric: "tabular-nums" }}>{s.value}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Sparkline bar */}
-          <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: 10, color: C.dim, marginBottom: 8, letterSpacing: "0.06em", textTransform: "uppercase" }}>Evolución anual</p>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 48 }}>
-              {ANNUAL.map((y) => {
-                const maxVal = Math.max(...ANNUAL.map((a) => a.total));
-                const pct = (y.total / maxVal) * 100;
-                return (
-                  <div key={y.año} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                    <div style={{
-                      width: "100%",
-                      height: `${pct}%`,
-                      minHeight: 4,
-                      background: y.año === LAST.año
-                        ? "linear-gradient(180deg,#38bdf8,#3b82f6)"
-                        : "rgba(56,189,248,0.3)",
-                      borderRadius: "3px 3px 0 0",
-                    }} />
-                    <span style={{ fontSize: 9, color: C.dim }}>{y.año}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
-            <p style={{ fontSize: 10, color: C.dim }}>
-              Pico mensual: {PEAK_MONTH.label} · {fmtN(PEAK_MONTH.bev + PEAK_MONTH.phev)} uds
-            </p>
-            <p style={{ fontSize: 10, color: "#38bdf8", fontWeight: 700 }}>
-              capirapower.com/insights ⚡
-            </p>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 10 }}>
-          <p style={{ fontSize: 12, color: C.muted, textAlign: "center" }}>
-            Hacé screenshot a la tarjeta para LinkedIn
-          </p>
-          <button onClick={onClose} style={{ fontSize: 12, color: C.red, background: "transparent", border: `1px solid ${C.red}44`, borderRadius: 6, padding: "4px 12px", cursor: "pointer" }}>
-            Cerrar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // ANALYTICS FACTORY — same derivations for any data source
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -506,7 +382,6 @@ function computeAnalytics(porAño: YearData[]) {
 // MAIN DASHBOARD
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Fuente = "aedive" | "dgt" | "anfac";
 const currentYear = new Date().getFullYear();
 
 // "Todos" selecciona estas categorías — "otros" excluido por defecto (tractores, quads, industriales)
@@ -520,7 +395,7 @@ const FUENTE_META: Record<Fuente, { label: string; tag: string; color: string; d
 
 export function Dashboard() {
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
-  const [fuente, setFuente] = useState<Fuente>("dgt");
+  const { fuente } = useInsights();
   const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(TIPOS_DEFAULT);
 
   const analytics = useMemo(() => {
@@ -547,10 +422,16 @@ export function Dashboard() {
     : [];
 
   const [añoActivo, setAñoActivo] = useState<number | "todos">(LAST_FULL.año);
-  const [linkedin, setLinkedin] = useState(false);
   const [marcaMixPage, setMarcaMixPage] = useState(0);
   const [heatPage, setHeatPage] = useState(0);
   const [marcaMixYear, setMarcaMixYear] = useState<"todos" | number>("todos");
+  const [winW, setWinW] = useState(() => typeof window !== "undefined" ? window.innerWidth : 1280);
+
+  useEffect(() => {
+    const onResize = () => setWinW(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // Reset selected year when source changes; reset tipo filter when leaving DGT
   useEffect(() => {
@@ -1071,6 +952,7 @@ export function Dashboard() {
     y.meses.map((m, mi) => [mi, yi, filtro === "bev" ? m.bev : filtro === "phev" ? m.phev : m.bev + m.phev])
   );
   const heatMax = Math.max(...heatData.map((d) => d[2]));
+  const heatLabelSize = winW < 480 ? 7 : winW < 768 ? 9 : winW < 1024 ? 10 : 11;
 
   const heatmapOpt: Record<string, any> = {
     backgroundColor: "transparent",
@@ -1120,7 +1002,7 @@ export function Dashboard() {
           if (!v) return "";
           return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
-        fontSize: 11,
+        fontSize: heatLabelSize,
       },
       emphasis: { itemStyle: { shadowBlur: 10, shadowColor: filtroColor } },
     }],
@@ -1531,65 +1413,59 @@ export function Dashboard() {
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
 
-      {linkedin && <LinkedInCard onClose={() => setLinkedin(false)} />}
-
       {/* Controls */}
       <div style={{ borderBottom: `1px solid ${C.border}`, background: "rgba(5,8,16,0.88)", backdropFilter: "blur(16px)", position: "sticky", top: 52, zIndex: 40 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 50, gap: 16, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 11, color: C.dim, letterSpacing: "0.06em", textTransform: "uppercase" }}>España</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: C.text, letterSpacing: "-0.01em" }}>Mercado Vehículos Eléctricos</span>
+            {/* Left: Mercado buttons */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Mercado:</span>
+              <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2 }}>
+                <button
+                  style={{
+                    padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                    border: "1px solid transparent",
+                    background: "transparent",
+                    color: C.dim, opacity: 0.5, transition: "all 0.15s",
+                  }}
+                  disabled
+                  title="Próximamente"
+                >
+                  Total
+                </button>
+                <button
+                  style={{
+                    padding: "5px 14px", borderRadius: 7, cursor: "default", fontSize: 12, fontWeight: 700,
+                    border: `1px solid ${C.bev}44`,
+                    background: `${C.bev}18`,
+                    color: C.bev, transition: "all 0.15s",
+                  }}
+                >
+                  Vehículos Eléctricos
+                </button>
+              </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 11, color: C.dim }}>Fuente:</span>
-              <Toggle
-                options={(["aedive","dgt","anfac"] as Fuente[]).map((f) => ({
-                  label: FUENTE_META[f].label,
-                  value: f,
-                  color: FUENTE_META[f].color,
-                }))}
-                value={fuente}
-                onChange={(v) => setFuente(v as Fuente)}
-              />
-              <span style={{ fontSize: 11, color: C.dim, marginLeft: 4 }}>Tipo:</span>
+
+            {/* Right: Tipo */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Tipo:</span>
               <Toggle
                 options={[
                   { label: <><span style={{ color: C.bev }}>BEV</span><span style={{ color: C.text }}> + </span><span style={{ color: C.phev }}>PHEV</span></>, value: "ambos" },
-                  { label: "BEV",        value: "bev",   color: C.bev  },
-                  { label: "PHEV",       value: "phev",  color: C.phev },
+                  { label: "BEV",  value: "bev",  color: C.bev  },
+                  { label: "PHEV", value: "phev", color: C.phev },
                 ]}
                 value={filtro}
                 onChange={(v) => setFiltro(v as "ambos"|"bev"|"phev")}
               />
-              <button
-                onClick={() => setLinkedin(true)}
-                style={{ padding: "5px 14px", borderRadius: 7, border: `1px solid rgba(56,189,248,0.3)`, cursor: "pointer", fontSize: 12, fontWeight: 700, background: "rgba(56,189,248,0.08)", color: C.bev, transition: "all 0.15s" }}
-              >
-                📸 LinkedIn
-              </button>
             </div>
           </div>
 
           {/* Vehicle type filter — only shown when DGT source is active */}
           {fuente === "dgt" && (
             <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 8, borderTop: `1px solid ${C.border}`, paddingTop: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 11, color: C.dim }}>Vehículo:</span>
+              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Vehículo:</span>
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                {/* "Todos" clears the selection */}
-                {(() => {
-                  const todosActive = TIPOS_DEFAULT.every((t) => tiposVehiculo.includes(t)) && !tiposVehiculo.includes("otros");
-                  return (
-                    <button onClick={() => setTiposVehiculo(TIPOS_DEFAULT)} style={{
-                      padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
-                      border: todosActive ? `1px solid ${C.text}44` : "1px solid transparent",
-                      background: todosActive ? "rgba(241,245,249,0.1)" : "rgba(255,255,255,0.04)",
-                      color: todosActive ? C.text : C.muted, transition: "all 0.15s",
-                    }}>
-                      Todos
-                    </button>
-                  );
-                })()}
                 {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as TipoVehiculo[]).map((t) => {
                   const active = tiposVehiculo.includes(t);
                   const col = t === "turismo" ? "#38bdf8"
@@ -1965,121 +1841,6 @@ export function Dashboard() {
                 : <NoData height={200} />}
             </div>
           </div>
-        </Card>
-
-        {/* ── Corredores principales — solo AEDIVE (usa datos provinciales acumulados AEDIVE) ── */}
-        <Card style={{ marginBottom: GAP }}>
-          <SectionTitle sub={
-            fuente === "aedive"
-              ? `EVs por provincia · Carg/100km estimado (MITMA/IDAE) · Total nacional: 53.072 puntos públicos (ANFAC dic 2025, +37% vs 2024)`
-              : "Disponible solo con fuente AEDIVE"
-          }>
-            Tráfico EV en principales corredores viales
-          </SectionTitle>
-          {fuente !== "aedive" ? <NoData height={260} /> : <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, alignItems: "start" }}>
-
-            {/* Scatter: EVs vs cargadores/100km */}
-            <EChart
-              option={{
-                backgroundColor: "transparent",
-                tooltip: {
-                  ...TT,
-                  trigger: "item",
-                  formatter: (p: Record<string, any>) => {
-                    const c = CORREDORES[p.dataIndex];
-                    return `<b>${c.nombre}</b><br/>EVs en corredor: <b>${fmtN(c.evs)}</b><br/>Cargadores/100km: <b>${c.cargP100}</b><br/>IMD: <b>${fmtN(c.imd)} veh/día</b><br/>Tramo crítico: ${c.critico}`;
-                  },
-                },
-                grid: { top: 24, right: 24, bottom: 48, left: 64 },
-                xAxis: {
-                  type: "value",
-                  name: "Cargadores / 100km",
-                  nameTextStyle: { color: C.muted, fontSize: 10 },
-                  nameLocation: "center", nameGap: 30,
-                  splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-                  axisLabel: { color: C.muted, fontSize: 10 },
-                  min: 2, max: 11,
-                },
-                yAxis: {
-                  type: "value",
-                  name: "EVs en corredor (acum.)",
-                  nameTextStyle: { color: C.muted, fontSize: 10 },
-                  nameLocation: "center", nameGap: 56,
-                  splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-                  axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => `${(v/1000).toFixed(0)}k` },
-                },
-                series: [{
-                  type: "scatter",
-                  data: CORREDORES.map((c) => ({
-                    value: [c.cargP100, c.evs],
-                    symbolSize: Math.sqrt(c.imd / 1000) * 5 + 10,
-                    itemStyle: {
-                      color: c.color,
-                      opacity: 0.85,
-                      borderColor: c.color,
-                      borderWidth: 1,
-                    },
-                    label: {
-                      show: true,
-                      formatter: c.alias,
-                      position: "right",
-                      color: C.muted,
-                      fontSize: 10,
-                    },
-                  })),
-                  label: { show: true },
-                  emphasis: { scale: 1.3 },
-                }],
-              }}
-              style={{ height: 280 }}
-            />
-
-            {/* Tabla de corredores */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {/* Header */}
-              <div style={{ display: "flex", gap: 8, padding: "6px 0", borderBottom: `1px solid ${C.border}`, marginBottom: 4 }}>
-                <span style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", flex: 1 }}>Corredor</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", width: 56, textAlign: "right" }}>EVs</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", width: 56, textAlign: "right" }}>Carg/100*</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", width: 48, textAlign: "right" }}>IMD</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", width: 48, textAlign: "center" }}>Cobert.</span>
-              </div>
-
-              {[...CORREDORES].sort((a, b) => b.evs - a.evs).map((c) => {
-                const coverColor = c.cargP100 >= 7 ? C.green : c.cargP100 >= 5 ? C.amber : C.red;
-                const coverLabel = c.cargP100 >= 7 ? "Alta" : c.cargP100 >= 5 ? "Media" : "Baja";
-                return (
-                  <div key={c.alias} style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 0", borderBottom: `1px solid ${C.border}` }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <div style={{ width: 8, height: 8, borderRadius: "50%", background: c.color, flexShrink: 0 }} />
-                        <span style={{ fontSize: 12, fontWeight: 700, color: C.text }}>{c.alias}</span>
-                        <span style={{ fontSize: 10, color: C.muted }}>{c.km}km</span>
-                      </div>
-                      <p style={{ fontSize: 10, color: C.dim, marginTop: 2, marginLeft: 14 }}>⚠ {c.critico}</p>
-                    </div>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: C.text, width: 56, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
-                      {c.evs >= 1000 ? `${(c.evs/1000).toFixed(0)}k` : c.evs}
-                    </span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: coverColor, width: 56, textAlign: "right" }}>
-                      {c.cargP100}
-                    </span>
-                    <span style={{ fontSize: 11, color: C.muted, width: 48, textAlign: "right" }}>
-                      {(c.imd/1000).toFixed(0)}k/d
-                    </span>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: coverColor, background: `${coverColor}15`, borderRadius: 5, padding: "2px 6px", width: 48, textAlign: "center" }}>
-                      {coverLabel}
-                    </span>
-                  </div>
-                );
-              })}
-
-              <p style={{ fontSize: 10, color: C.dim, marginTop: 10, lineHeight: 1.5 }}>
-                Tamaño del punto = intensidad de tráfico (IMD). Tramo crítico = gap de infraestructura de carga más relevante.<br/>
-                * Carg/100km = estimación basada en MITMA/IDAE (no dato oficial en tiempo real)
-              </p>
-            </div>
-          </div>}
         </Card>
 
         {/* ── Provincias ───────────────────────────────────────────────────── */}

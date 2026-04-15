@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useInsights, FUENTE_OPTIONS } from "./InsightsContext";
 
 const navItems = [
   { href: "/insights/matriculaciones", label: "Matriculaciones" },
@@ -12,6 +14,7 @@ const navItems = [
 
 export function InsightsNav() {
   const pathname = usePathname();
+  const { fuente, setFuente } = useInsights();
 
   return (
     <div
@@ -25,17 +28,17 @@ export function InsightsNav() {
       }}
     >
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 32, height: 52 }}>
-          <Link href="/insights" style={{ textDecoration: "none" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 24, height: 52 }}>
+
+          {/* Logo + Brand */}
+          <Link href="/insights" style={{ textDecoration: "none", flexShrink: 0 }}>
             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-                  display: "inline-block",
-                }}
+              <Image
+                src="/logo sin padding.png"
+                alt="Capira"
+                width={22}
+                height={22}
+                style={{ filter: "brightness(0) invert(1)", objectFit: "contain" }}
               />
               <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em", color: "#f4f4f5" }}>
                 eMobility Insights
@@ -43,7 +46,27 @@ export function InsightsNav() {
             </span>
           </Link>
 
-          <div style={{ display: "flex", gap: 4, marginLeft: 8 }}>
+          {/* País selector */}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(244,244,245,0.35)" }}>
+              País
+            </span>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 5,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.13)",
+              borderRadius: 7,
+              padding: "4px 10px",
+              cursor: "default",
+            }}>
+              <span style={{ fontSize: 16, lineHeight: 1 }}>🇪🇸</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#f4f4f5" }}>España</span>
+              <span style={{ fontSize: 9, color: "rgba(244,244,245,0.35)", marginLeft: 2 }}>▼</span>
+            </div>
+          </div>
+
+          {/* Nav links */}
+          <div style={{ display: "flex", gap: 4 }}>
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
               return (
@@ -67,22 +90,33 @@ export function InsightsNav() {
             })}
           </div>
 
-          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontSize: 11, color: "rgba(244,244,245,0.3)", fontFamily: "monospace" }}>
-              Fuente: AEDIVE · ANFAC
+          {/* Fuente selector */}
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(244,244,245,0.55)" }}>
+              Fuente
             </span>
-            <Link
-              href="/"
-              style={{
-                fontSize: 12,
-                color: "#3b82f6",
-                textDecoration: "none",
-                fontWeight: 500,
-              }}
-            >
-              capirapower.com →
-            </Link>
+            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3, gap: 2 }}>
+              {FUENTE_OPTIONS.map((o) => {
+                const active = fuente === o.value;
+                return (
+                  <button
+                    key={o.value}
+                    onClick={() => setFuente(o.value)}
+                    style={{
+                      padding: "4px 12px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                      border: active ? `1px solid ${o.color}44` : "1px solid transparent",
+                      background: active ? `${o.color}18` : "transparent",
+                      color: active ? o.color : "rgba(244,244,245,0.45)",
+                      transition: "all 0.15s",
+                    }}
+                  >
+                    {o.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
         </div>
       </div>
     </div>
