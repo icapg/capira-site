@@ -79,7 +79,7 @@ export default function Home() {
                 , que reducen costos y aceleran tu transición energética.
               </p>
 
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+              <div className="mt-8 grid grid-cols-[3fr_2fr] gap-2 sm:flex sm:flex-wrap">
                 <Button href="/contacto" className="w-full sm:w-fit">
                   Solicita tu presupuesto gratis
                 </Button>

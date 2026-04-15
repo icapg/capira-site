@@ -77,7 +77,7 @@ export function Header() {
             aria-controls="mobile-menu"
             aria-label={open ? "Cerrar menu" : "Abrir menu"}
           >
-            <span className="inline-block w-5 text-center">{open ? "X" : "="}</span>
+            <span className="inline-block text-center">{open ? "✕" : "Menú"}</span>
           </button>
         </div>
       </div>
