@@ -75,11 +75,11 @@ function classNames(...xs: Array<string | boolean | undefined>) {
 
 function MetaPill({ k, v }: { k: string; v: string }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-center shadow-sm sm:px-4 sm:py-3">
-      <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+    <div className="rounded-2xl border border-zinc-200 bg-white px-2 py-2 text-center shadow-sm sm:px-4 sm:py-3">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500 sm:text-[11px]">
         {k}
       </p>
-      <p className="mt-1 text-sm font-semibold text-zinc-900">{v}</p>
+      <p className="mt-1 break-words text-xs font-semibold text-zinc-900 sm:text-sm">{v}</p>
     </div>
   );
 }
