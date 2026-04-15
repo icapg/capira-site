@@ -13,14 +13,15 @@ export const FUENTE_OPTIONS: { value: Fuente; label: string; color: string }[] =
 interface InsightsCtx {
   fuente: Fuente;
   setFuente: (f: Fuente) => void;
+  isAdmin: boolean;
 }
 
-const InsightsContext = createContext<InsightsCtx>({ fuente: "dgt", setFuente: () => {} });
+const InsightsContext = createContext<InsightsCtx>({ fuente: "dgt", setFuente: () => {}, isAdmin: false });
 
-export function InsightsProvider({ children }: { children: React.ReactNode }) {
+export function InsightsProvider({ children, isAdmin }: { children: React.ReactNode; isAdmin: boolean }) {
   const [fuente, setFuente] = useState<Fuente>("dgt");
   return (
-    <InsightsContext.Provider value={{ fuente, setFuente }}>
+    <InsightsContext.Provider value={{ fuente, setFuente, isAdmin }}>
       {children}
     </InsightsContext.Provider>
   );

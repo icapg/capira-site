@@ -6,7 +6,7 @@ import { Footer } from "./Footer";
 
 export function ConditionalNav({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLanding = pathname?.startsWith("/landing");
+  const isLanding = pathname?.startsWith("/landing") || pathname?.startsWith("/insights");
 
   return (
     <>
