@@ -572,10 +572,10 @@ export function Dashboard() {
           {/* Tipos individuales */}
           {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as ParqueFiltroTipo[]).map((t) => {
             const active = tiposVehiculo.includes(t);
-            const col = t === "turismo"      ? "#38bdf8"
+            const col = t === "turismo"      ? "#f472b6"
               : t === "furgoneta"            ? "#a78bfa"
-              : t === "moto_scooter"         ? "#fb923c"
-              : t === "microcar"             ? "#34d399"
+              : t === "moto_scooter"         ? "#a3e635"
+              : t === "microcar"             ? "#e879f9"
               : t === "camion"               ? "#fbbf24"
               : t === "autobus"              ? "#f87171"
               : "#94a3b8";

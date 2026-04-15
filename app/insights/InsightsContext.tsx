@@ -14,14 +14,21 @@ interface InsightsCtx {
   fuente: Fuente;
   setFuente: (f: Fuente) => void;
   isAdmin: boolean;
+  countryName: string;
+  setCountryName: (name: string) => void;
 }
 
-const InsightsContext = createContext<InsightsCtx>({ fuente: "dgt", setFuente: () => {}, isAdmin: false });
+const InsightsContext = createContext<InsightsCtx>({
+  fuente: "dgt", setFuente: () => {},
+  isAdmin: false,
+  countryName: "España", setCountryName: () => {},
+});
 
 export function InsightsProvider({ children, isAdmin }: { children: React.ReactNode; isAdmin: boolean }) {
   const [fuente, setFuente] = useState<Fuente>("dgt");
+  const [countryName, setCountryName] = useState("España");
   return (
-    <InsightsContext.Provider value={{ fuente, setFuente, isAdmin }}>
+    <InsightsContext.Provider value={{ fuente, setFuente, isAdmin, countryName, setCountryName }}>
       {children}
     </InsightsContext.Provider>
   );

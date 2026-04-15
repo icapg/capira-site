@@ -395,7 +395,7 @@ const FUENTE_META: Record<Fuente, { label: string; tag: string; color: string; d
 
 export function Dashboard() {
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
-  const { fuente } = useInsights();
+  const { fuente, countryName } = useInsights();
   const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(TIPOS_DEFAULT);
 
   const analytics = useMemo(() => {
@@ -1413,94 +1413,99 @@ export function Dashboard() {
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
 
+      {/* Título */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0" }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0 }}>
+          Matriculaciones de vehículos en {countryName}
+          <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(244,244,245,0.35)", marginLeft: 10 }}>(Todas)</span>
+        </h1>
+      </div>
+
       {/* Controls */}
       <div style={{ borderBottom: `1px solid ${C.border}`, background: "rgba(5,8,16,0.88)", backdropFilter: "blur(16px)", position: "sticky", top: 52, zIndex: 40 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 50, gap: 16, flexWrap: "wrap" }}>
-            {/* Left: Mercado buttons */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 50, gap: 16, flexWrap: "wrap", paddingTop: 6, paddingBottom: 6 }}>
+            {/* Left: Tec. — todo en un solo grupo */}
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Mercado:</span>
+              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Tec.:</span>
               <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2 }}>
-                <button
-                  style={{
-                    padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
-                    border: "1px solid transparent",
-                    background: "transparent",
-                    color: C.dim, opacity: 0.5, transition: "all 0.15s",
-                  }}
-                  disabled
-                  title="Próximamente"
-                >
+                {/* Total — deshabilitado */}
+                <button disabled title="Próximamente" style={{
+                  padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                  border: "1px solid transparent", background: "transparent",
+                  color: "rgba(241,245,249,0.45)", transition: "all 0.15s",
+                }}>
                   Total
                 </button>
-                <button
-                  style={{
-                    padding: "5px 14px", borderRadius: 7, cursor: "default", fontSize: 12, fontWeight: 700,
-                    border: `1px solid ${C.bev}44`,
-                    background: `${C.bev}18`,
-                    color: C.bev, transition: "all 0.15s",
-                  }}
-                >
-                  Vehículos Eléctricos
+                {/* No Enchufable — deshabilitado */}
+                <button disabled title="Próximamente" style={{
+                  padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                  border: "1px solid transparent", background: "transparent",
+                  color: "rgba(241,245,249,0.45)", transition: "all 0.15s",
+                }}>
+                  No Enchufable
                 </button>
-              </div>
-            </div>
-
-            {/* Right: Tipo */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Tipo:</span>
-              <Toggle
-                options={[
-                  { label: <><span style={{ color: C.bev }}>BEV</span><span style={{ color: C.text }}> + </span><span style={{ color: C.phev }}>PHEV</span></>, value: "ambos" },
-                  { label: "BEV",  value: "bev",  color: C.bev  },
-                  { label: "PHEV", value: "phev", color: C.phev },
-                ]}
-                value={filtro}
-                onChange={(v) => setFiltro(v as "ambos"|"bev"|"phev")}
-              />
-            </div>
-          </div>
-
-          {/* Vehicle type filter — only shown when DGT source is active */}
-          {fuente === "dgt" && (
-            <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 8, borderTop: `1px solid ${C.border}`, paddingTop: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Vehículo:</span>
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as TipoVehiculo[]).map((t) => {
-                  const active = tiposVehiculo.includes(t);
-                  const col = t === "turismo" ? "#38bdf8"
-                    : t === "furgoneta"    ? "#a78bfa"
-                    : t === "moto_scooter" ? "#fb923c"
-                    : t === "microcar"     ? "#34d399"
-                    : t === "camion"       ? "#fbbf24"
-                    : t === "autobus"      ? "#f87171"
-                    : "#94a3b8";
-                  const isOtros = t === "otros";
-                  const tooltip = isOtros
-                    ? "Incluye: tractores (T*), quads/ATV (*02, *03), carretillas industriales (MAA), y cualquier categoría EU no clasificada en los grupos anteriores"
-                    : undefined;
-                  // "Otros" excluido por defecto — gris tachado; al seleccionarlo se destaca
-                  const otrosExcluido = isOtros && !active;
+                {/* Separador visual */}
+                <div style={{ width: 1, background: "rgba(255,255,255,0.1)", margin: "4px 2px" }} />
+                {/* BEV+PHEV / BEV / PHEV — activos */}
+                {[
+                  { value: "ambos", label: <><span style={{ color: C.bev }}>BEV</span><span style={{ color: C.text }}> + </span><span style={{ color: C.phev }}>PHEV</span></> },
+                  { value: "bev",   label: "BEV",  color: C.bev  },
+                  { value: "phev",  label: "PHEV", color: C.phev },
+                ].map((opt) => {
+                  const active = filtro === opt.value;
+                  const col = (opt as any).color;
                   return (
-                    <button key={t} title={tooltip} onClick={() => {
-                      setTiposVehiculo((prev) =>
-                        prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
-                      );
-                    }} style={{
-                      padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
-                      border: active ? `1px solid ${col}55` : "1px solid transparent",
-                      background: active ? `${col}18` : "rgba(255,255,255,0.04)",
-                      color: active ? col : "rgba(241,245,249,0.25)",
-                      textDecoration: otrosExcluido ? "line-through" : "none",
+                    <button key={opt.value} onClick={() => setFiltro(opt.value as "ambos"|"bev"|"phev")} style={{
+                      padding: "5px 14px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                      border: active ? `1px solid ${col ? col + "44" : "rgba(255,255,255,0.2)"}` : "1px solid transparent",
+                      background: active ? (col ? `${col}18` : "rgba(255,255,255,0.08)") : "transparent",
+                      color: active ? (col ?? C.text) : "rgba(241,245,249,0.55)",
                       transition: "all 0.15s",
                     }}>
-                      {TIPO_LABELS[t]}
+                      {opt.label}
                     </button>
                   );
                 })}
               </div>
             </div>
-          )}
+
+            {/* Right: Tipo vehículo — solo DGT */}
+            {fuente === "dgt" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Tipo:</span>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as TipoVehiculo[]).map((t) => {
+                    const active = tiposVehiculo.includes(t);
+                    const col = t === "turismo" ? "#f472b6"
+                      : t === "furgoneta"    ? "#a78bfa"
+                      : t === "moto_scooter" ? "#a3e635"
+                      : t === "microcar"     ? "#e879f9"
+                      : t === "camion"       ? "#fbbf24"
+                      : t === "autobus"      ? "#f87171"
+                      : "#94a3b8";
+                    const isOtros = t === "otros";
+                    const otrosExcluido = isOtros && !active;
+                    return (
+                      <button key={t}
+                        title={isOtros ? "Incluye: tractores (T*), quads/ATV (*02, *03), carretillas industriales (MAA), y cualquier categoría EU no clasificada en los grupos anteriores" : undefined}
+                        onClick={() => setTiposVehiculo((prev) => prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t])}
+                        style={{
+                          padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
+                          border: active ? `1px solid ${col}55` : "1px solid transparent",
+                          background: active ? `${col}18` : "rgba(255,255,255,0.04)",
+                          color: active ? col : "rgba(241,245,249,0.25)",
+                          textDecoration: otrosExcluido ? "line-through" : "none",
+                          transition: "all 0.15s",
+                        }}>
+                        {TIPO_LABELS[t]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
