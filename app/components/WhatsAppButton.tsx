@@ -5,7 +5,7 @@ import { useState } from "react";
 export function WhatsAppButton() {
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "WHATSAPP_NUMBER_AQUI";
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "34662414970";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   return (
