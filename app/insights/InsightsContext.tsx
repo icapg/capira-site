@@ -2,12 +2,11 @@
 
 import { createContext, useContext, useState } from "react";
 
-export type Fuente = "aedive" | "dgt" | "anfac";
+export type Fuente = "dgt" | "anfac";
 
 export const FUENTE_OPTIONS: { value: Fuente; label: string; color: string }[] = [
-  { value: "aedive", label: "AEDIVE", color: "#38bdf8" },
-  { value: "dgt",    label: "DGT",    color: "#34d399" },
-  { value: "anfac",  label: "ANFAC",  color: "#fb923c" },
+  { value: "dgt",   label: "DGT",   color: "#34d399" },
+  { value: "anfac", label: "ANFAC", color: "#fb923c" },
 ];
 
 interface InsightsCtx {

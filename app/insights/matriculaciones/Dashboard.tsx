@@ -2,77 +2,23 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import * as echarts from "echarts";
-import { matriculacionesPorAño, historicoPre2020 } from "../../lib/insights/matriculaciones-data";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
-import { provinciasPorMatriculaciones } from "../../lib/insights/provincias-data";
-import { topModelos, topMarcas, topMarcasPorAño } from "../../lib/insights/marcas-data";
 import { dgtPorAño, dgtPorAñoCompleto, dgtPorAñoTipos, TIPO_LABELS, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
 import { anfacPorAño, anfacHistoricoPre2020 } from "../../lib/insights/anfac-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../insights/InsightsContext";
-import type { Fuente } from "../../insights/InsightsContext";
+import { DashboardControls } from "../../insights/DashboardControls";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PRE-COMPUTED ANALYTICS (module level — runs once)
+// CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
-
-const REAL = matriculacionesPorAño.filter(
-  (y) => y.meses.some((m) => m.bev + m.phev > 0)
-);
-
-const ANNUAL = REAL.map((y) => {
-  const bev  = y.meses.reduce((s, m) => s + m.bev,  0);
-  const phev = y.meses.reduce((s, m) => s + m.phev, 0);
-  return { año: y.año, bev, phev, total: bev + phev };
-});
-
-// Separate confirmed full years from partial
-const FULL_ANNUAL = ANNUAL.filter((a) => {
-  const yd = matriculacionesPorAño.find((y) => y.año === a.año);
-  return !yd?.parcial;
-});
-
-const FIRST      = FULL_ANNUAL[0];                              // 2020
-const LAST_FULL  = FULL_ANNUAL[FULL_ANNUAL.length - 1];         // 2025
-const LAST       = ANNUAL[ANNUAL.length - 1];                   // 2026 (parcial)
-const IS_LAST_PARTIAL = !!matriculacionesPorAño.find((y) => y.año === LAST.año)?.parcial;
-const N_YRS      = LAST_FULL.año - FIRST.año;                   // 5
-
-// YoY only between full years (avoids misleading partial-vs-full comparison)
-const YOY = FULL_ANNUAL.slice(1).map((curr, i) => {
-  const prev = FULL_ANNUAL[i];
-  return {
-    año:      curr.año,
-    bevYoy:   +((curr.bev  - prev.bev)  / prev.bev  * 100).toFixed(1),
-    phevYoy:  +((curr.phev - prev.phev) / prev.phev * 100).toFixed(1),
-    totalYoy: +((curr.total - prev.total) / prev.total * 100).toFixed(1),
-  };
-});
-
-const CAGR_TOTAL = +((Math.pow(LAST_FULL.total / FIRST.total, 1 / N_YRS) - 1) * 100).toFixed(1);
-const CAGR_BEV   = +((Math.pow(LAST_FULL.bev   / FIRST.bev,   1 / N_YRS) - 1) * 100).toFixed(1);
-
-const TOTAL_ACUM = ANNUAL.reduce((s, y) => s + y.total, 0); // incluye 2026 parcial
-
-const ALL_MONTHLY = REAL.flatMap((y) =>
-  y.meses.map((m) => ({ ...m, año: y.año, label: `${m.mes} ${y.año}` }))
-);
-
-const PEAK_MONTH = ALL_MONTHLY.reduce((best, m) =>
-  m.bev + m.phev > best.bev + best.phev ? m : best
-);
-
-const LAST_MONTH = ALL_MONTHLY[ALL_MONTHLY.length - 1]; // last available data point
-
-
-// BEV share by year (only full years — partial year skews the metric)
-const BEV_SHARE = FULL_ANNUAL.map((y) => ({
-  año: y.año,
-  share: +((y.bev / y.total) * 100).toFixed(1),
-}));
 
 const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+const MESES_FULL: Record<string, string> = {
+  "Ene":"Enero","Feb":"Febrero","Mar":"Marzo","Abr":"Abril","May":"Mayo","Jun":"Junio",
+  "Jul":"Julio","Ago":"Agosto","Sep":"Septiembre","Oct":"Octubre","Nov":"Noviembre","Dic":"Diciembre",
+};
 
 // Quarterly data
 const QUARTERS = [
@@ -82,73 +28,14 @@ const QUARTERS = [
   { label: "Q4", months: [9, 10, 11] },
 ];
 
-const QUARTERLY = REAL.map((y) =>
-  QUARTERS.map((q) => ({
-    label: `${q.label} ${y.año}`,
-    total: q.months.reduce((s, mi) => {
-      const m = y.meses[mi];
-      return m ? s + m.bev + m.phev : s;
-    }, 0),
-    bev: q.months.reduce((s, mi) => {
-      const m = y.meses[mi];
-      return m ? s + m.bev : s;
-    }, 0),
-    phev: q.months.reduce((s, mi) => {
-      const m = y.meses[mi];
-      return m ? s + m.phev : s;
-    }, 0),
-    año: y.año,
-    q: q.label,
-  }))
-);
-
-
-// Projections (annual, 2027–2028) — base: último año completo 2025
-const PROJ = [
-  { año: 2027, conservador: Math.round(LAST_FULL.total * 1.25), base: Math.round(LAST_FULL.total * 1.32), agresivo: Math.round(LAST_FULL.total * 1.42) },
-  { año: 2028, conservador: Math.round(LAST_FULL.total * 1.25 * 1.20), base: Math.round(LAST_FULL.total * 1.32 * 1.30), agresivo: Math.round(LAST_FULL.total * 1.42 * 1.40) },
-];
-
-// Province total
-const PROV_TOTAL = provinciasPorMatriculaciones.reduce((s, p) => s + p.total, 0);
-
-// ─── Corredores principales ────────────────────────────────────────────────
-// Provincias a lo largo de cada corredor + datos estimados de infraestructura
-// IMD: Intensidad Media Diaria (veh/día, tramo más cargado). Fuente: DGT / MITMA.
-// Carg/100km: puntos de carga públicos estimados. Fuente: MITMA IDAE.
-
-const CORREDOR_DEF: {
-  nombre: string; alias: string; km: number;
-  provincias: string[]; cargP100: number; imd: number;
-  critico: string; color: string;
-}[] = [
-  { nombre: "A-2 · Madrid – Barcelona",   alias: "A-2",  km: 621,  provincias: ["Madrid","Guadalajara","Zaragoza","Lleida","Barcelona"],                 cargP100: 8.5, imd: 35000, critico: "Calatayud–Lleida",       color: "#38bdf8" },
-  { nombre: "AP-7 · Mediterráneo",         alias: "AP-7", km: 1100, provincias: ["Barcelona","Tarragona","Castellón","Valencia","Alicante","Murcia","Almería","Málaga","Cádiz"], cargP100: 4.8, imd: 38000, critico: "Almería–Málaga",          color: "#a78bfa" },
-  { nombre: "A-4 · Madrid – Sevilla",      alias: "A-4",  km: 636,  provincias: ["Madrid","Ciudad Real","Jaén","Córdoba","Sevilla"],                     cargP100: 5.1, imd: 25000, critico: "La Carolina–Bailén",      color: "#fb923c" },
-  { nombre: "A-3 · Madrid – Valencia",     alias: "A-3",  km: 352,  provincias: ["Madrid","Cuenca","Valencia"],                                          cargP100: 7.9, imd: 22000, critico: "Minglanilla–Utiel",        color: "#34d399" },
-  { nombre: "A-1 · Madrid – Bilbao",       alias: "A-1",  km: 474,  provincias: ["Madrid","Segovia","Burgos","Álava","Vizcaya"],                          cargP100: 5.6, imd: 28000, critico: "Aranda–Miranda de Ebro",  color: "#fbbf24" },
-  { nombre: "A-6 · Madrid – A Coruña",     alias: "A-6",  km: 600,  provincias: ["Madrid","Salamanca","Lugo","A Coruña"],                                cargP100: 3.9, imd: 18000, critico: "Lugo–Pedrafita",           color: "#f87171" },
-  { nombre: "A-8 · Cantábrico",            alias: "A-8",  km: 440,  provincias: ["Asturias","Cantabria","Vizcaya","Gipuzkoa"],                           cargP100: 4.2, imd: 15000, critico: "Llanes–San Vicente",       color: "#06b6d4" },
-];
-
-// EVs acumulados a lo largo de cada corredor (suma de provincias incluidas)
-const CORREDORES = CORREDOR_DEF.map((c) => {
-  const evs = c.provincias.reduce((s, prov) => {
-    const found = provinciasPorMatriculaciones.find((p) => p.nombre === prov);
-    return s + (found?.total ?? 0);
-  }, 0);
-  const coverageScore = c.cargP100 >= 7 ? "alta" : c.cargP100 >= 5 ? "media" : "baja";
-  return { ...c, evs, coverageScore };
-});
-
 // ─────────────────────────────────────────────────────────────────────────────
 // DESIGN TOKENS
 // ─────────────────────────────────────────────────────────────────────────────
 
 const C = {
   bg:     "#050810",
-  card:   "rgba(255,255,255,0.03)",
-  border: "rgba(255,255,255,0.07)",
+  card:   "rgba(255,255,255,0.06)",
+  border: "rgba(255,255,255,0.11)",
   bev:    "#38bdf8",   // sky blue
   phev:   "#fb923c",   // vivid orange — high contrast vs blue
   green:  "#34d399",
@@ -179,6 +66,10 @@ function linGrad(hex: string, dir: "v"|"h" = "v", a0 = 0.4, a1 = 0.04) {
 
 function fmtN(n: number) {
   return n.toLocaleString("es-ES");
+}
+
+function fmtK(n: number) {
+  return `${Math.round(n / 1000)}k`;
 }
 
 const TT = {
@@ -234,13 +125,13 @@ function SectionTitle({ children, sub }: { children: React.ReactNode; sub?: stri
   );
 }
 
-function KPI({ label, value, sub, delta, color, icon, tag }: {
-  label: string; value: string; sub?: string; delta?: number;
-  color?: string; icon?: string; tag?: string;
+function KPI({ label, sublabel, sublabelColor, value, sub, delta, color, icon, tag, tooltip }: {
+  label: string; sublabel?: string; sublabelColor?: string; value: string; sub?: string; delta?: number;
+  color?: string; icon?: string; tag?: string; tooltip?: string;
 }) {
   const glow = color ?? "#38bdf8";
   return (
-    <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 18, padding: "20px 22px", flex: 1, minWidth: 160, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+    <div title={tooltip} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 18, padding: "20px 22px", flex: 1, minWidth: 160, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", cursor: tooltip ? "help" : undefined }}>
       <div style={{ position: "absolute", top: -24, right: -24, width: 80, height: 80, borderRadius: "50%", background: `${glow}18`, filter: "blur(24px)", pointerEvents: "none" }} />
       <div style={{ minHeight: 72, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
         {icon && <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 6 }}>{icon}</div>}
@@ -249,7 +140,19 @@ function KPI({ label, value, sub, delta, color, icon, tag }: {
             {tag}
           </span>
         )}
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: C.muted, textTransform: "uppercase", margin: 0 }}>{label}</p>
+        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: C.muted, textTransform: "uppercase", margin: 0, lineHeight: 1.5 }}>
+          {label}
+          {sublabel && (
+            <><br /><span style={{
+              fontWeight: 700,
+              letterSpacing: sublabelColor ? "0.01em" : "0.06em",
+              fontSize: sublabelColor ? 13 : 10,
+              color: sublabelColor ?? "inherit",
+              opacity: sublabelColor ? 1 : 0.7,
+              textTransform: sublabelColor ? "none" : "uppercase",
+            }}>{sublabel}</span></>
+          )}
+        </p>
       </div>
       <p style={{ fontSize: 28, fontWeight: 800, color: color ?? C.text, letterSpacing: "-0.04em", lineHeight: 1, fontVariantNumeric: "tabular-nums", margin: "10px 0 8px" }}>{value}</p>
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
@@ -294,6 +197,14 @@ function Toggle({ options, value, onChange }: {
 // AUTO-INSIGHTS RIBBON
 // ─────────────────────────────────────────────────────────────────────────────
 
+function colorize(text: string): React.ReactNode {
+  return text.split(/(BEV|PHEV)/g).map((part, i) =>
+    part === "BEV"  ? <span key={i} style={{ color: C.bev  }}>{part}</span>
+    : part === "PHEV" ? <span key={i} style={{ color: C.phev }}>{part}</span>
+    : part
+  );
+}
+
 function InsightCard({ icon, headline, body, color }: { icon: string; headline: string; body: string; color: string }) {
   return (
     <div style={{
@@ -304,9 +215,9 @@ function InsightCard({ icon, headline, body, color }: { icon: string; headline: 
       flex: 1,
       minWidth: 200,
     }}>
-      <div style={{ fontSize: 20, marginBottom: 8 }}>{icon}</div>
-      <p style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 4, letterSpacing: "-0.01em" }}>{headline}</p>
-      <p style={{ fontSize: 11, color: C.muted, lineHeight: 1.5 }}>{body}</p>
+      <div style={{ fontSize: 22, marginBottom: 8 }}>{icon}</div>
+      <p style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4, letterSpacing: "-0.01em" }}>{colorize(headline)}</p>
+      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.5, whiteSpace: "pre-line" }}>{colorize(body)}</p>
     </div>
   );
 }
@@ -355,6 +266,7 @@ function computeAnalytics(porAño: YearData[]) {
   });
   const CAGR_TOTAL = +((Math.pow(LAST_FULL.total / FIRST.total, 1 / N_YRS) - 1) * 100).toFixed(1);
   const CAGR_BEV   = +((Math.pow(LAST_FULL.bev   / FIRST.bev,   1 / N_YRS) - 1) * 100).toFixed(1);
+  const CAGR_PHEV  = FIRST.phev > 0 ? +((Math.pow(LAST_FULL.phev / FIRST.phev, 1 / N_YRS) - 1) * 100).toFixed(1) : null;
   const TOTAL_ACUM = ANNUAL.reduce((s, a) => s + a.total, 0);
   const ALL_MONTHLY = REAL.flatMap((y) =>
     y.meses.map((m) => ({ ...m, año: y.año, label: `${m.mes} ${y.año}` }))
@@ -375,7 +287,7 @@ function computeAnalytics(porAño: YearData[]) {
     { año: 2027, conservador: Math.round(LAST_FULL.total * 1.25), base: Math.round(LAST_FULL.total * 1.32), agresivo: Math.round(LAST_FULL.total * 1.42) },
     { año: 2028, conservador: Math.round(LAST_FULL.total * 1.25 * 1.20), base: Math.round(LAST_FULL.total * 1.32 * 1.30), agresivo: Math.round(LAST_FULL.total * 1.42 * 1.40) },
   ];
-  return { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL, N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, TOTAL_ACUM, ALL_MONTHLY, PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ };
+  return { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL, N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY, PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -387,11 +299,6 @@ const currentYear = new Date().getFullYear();
 // "Todos" selecciona estas categorías — "otros" excluido por defecto (tractores, quads, industriales)
 const TIPOS_DEFAULT: TipoVehiculo[] = ["turismo","furgoneta","moto_scooter","microcar","camion","autobus"];
 
-const FUENTE_META: Record<Fuente, { label: string; tag: string; color: string; desc: string }> = {
-  aedive: { label: "AEDIVE",  tag: "Industria",   color: "#38bdf8", desc: "Todas las categorías · Fuente: AEDIVE Power BI" },
-  dgt:    { label: "DGT",     tag: "Microdatos",  color: "#34d399", desc: "Microdatos MATRABA · Todos los vehículos" },
-  anfac:  { label: "ANFAC",   tag: "Turismos",    color: "#fb923c", desc: "Solo M1 turismos nuevos · Metodología ANFAC/IDEAUTO" },
-};
 
 export function Dashboard() {
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
@@ -399,25 +306,17 @@ export function Dashboard() {
   const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(TIPOS_DEFAULT);
 
   const analytics = useMemo(() => {
-    let src;
-    if (fuente === "anfac") {
-      src = anfacPorAño;
-    } else if (fuente === "dgt") {
-      src = dgtPorAñoTipos(tiposVehiculo);
-    } else {
-      src = matriculacionesPorAño;
-    }
+    const src = fuente === "anfac" ? anfacPorAño : dgtPorAñoTipos(tiposVehiculo);
     return computeAnalytics(src);
   }, [fuente, tiposVehiculo]);
 
   // Shadow module-level constants with source-aware values
   const { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL,
-          N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, TOTAL_ACUM, ALL_MONTHLY,
+          N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY,
           PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ } = analytics;
 
-  // Pre-2020 historical: AEDIVE desde 2009, DGT/ANFAC desde 2014 (solo para acumulado)
-  const historico = fuente === "aedive" ? historicoPre2020
-    : fuente === "dgt"   ? dgtHistoricoPre2020
+  // Pre-2020 historical: DGT desde 2014, ANFAC desde 2014 (solo para acumulado)
+  const historico = fuente === "dgt" ? dgtHistoricoPre2020
     : fuente === "anfac" ? anfacHistoricoPre2020
     : [];
 
@@ -465,7 +364,7 @@ export function Dashboard() {
   };
 
   // ── Filter-aware KPI calculations ────────────────────────────────────────
-  // Para AEDIVE incluir el histórico pre-2020 en el acumulado
+  // Incluir el histórico pre-2020 en el acumulado
   const preAcum = historico.reduce((s, y) =>
     s + (filtro === "bev" ? y.bev : filtro === "phev" ? y.phev : y.bev + y.phev), 0);
   const totalAcum_filtered = ANNUAL.reduce((s, a) => s + filteredVal(a), 0) + preAcum;
@@ -483,7 +382,17 @@ export function Dashboard() {
   }));
   const bestYoy_f  = yoyFiltered.reduce((b, y) => y.val > b.val ? y : b);
   const worstYoy_f = yoyFiltered.reduce((w, y) => y.val < w.val ? y : w);
-  const lastYoyVal = yoyFiltered[yoyFiltered.length - 1].val;
+  const lastYoyVal = yoyFiltered[yoyFiltered.length - 1].val; // YoY del último año completo
+
+  // ── KPI box 1: último mes disponible vs mismo mes año anterior ──
+  const lastMonthVal = filtro === "bev" ? LAST_MONTH.bev : filtro === "phev" ? LAST_MONTH.phev : LAST_MONTH.bev + LAST_MONTH.phev;
+  const prevYearSameMonth = ALL_MONTHLY.find((m) => m.año === LAST_MONTH.año - 1 && m.mes === LAST_MONTH.mes);
+  const prevYearSameMonthVal = prevYearSameMonth
+    ? (filtro === "bev" ? prevYearSameMonth.bev : filtro === "phev" ? prevYearSameMonth.phev : prevYearSameMonth.bev + prevYearSameMonth.phev)
+    : null;
+  const momYoy = prevYearSameMonthVal && prevYearSameMonthVal > 0
+    ? +((lastMonthVal - prevYearSameMonthVal) / prevYearSameMonthVal * 100).toFixed(1)
+    : null;
 
   // ── DGT: nota "nuevos cayeron pero usados compensaron" ───────────────────
   const dgtUsadosCompensacion = (() => {
@@ -509,7 +418,7 @@ export function Dashboard() {
 
   const GAP = 16;
 
-  // ── Evolución anual + proyección (histórico 2009–2019 AEDIVE + mensual 2020+) ──
+  // ── Evolución anual + proyección (histórico pre-2020 + mensual 2020+) ──
   // Q1 YoY: compara Q1 del año parcial vs Q1 del año anterior completo
   // YTD stats for partial year: prev = same months of prior year (for tooltip YoY)
   const ytdStats = (() => {
@@ -610,9 +519,7 @@ export function Dashboard() {
       axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : String(v) },
     },
     series: [
-      // For DGT: single continuous line (same source pre+post 2020).
-      // For AEDIVE: keep two separate series (different sources).
-      ...(fuente === "dgt" ? [{
+      {
         name: "Real",
         type: "line", smooth: true, symbol: "circle", symbolSize: 5,
         data: [...preVals, ...fullAnnualVals, ...Array(nPartialSlot + PROJ.length).fill(null)],
@@ -625,31 +532,7 @@ export function Dashboard() {
           label: { color: C.text, fontSize: 10, formatter: (p: any) => `${Math.round(p.value / 1000)}k` },
           itemStyle: { color: filtroColor },
         },
-      }] : [
-        {
-          // Historical 2009–2019 — annual totals from AEDIVE
-          name: "Histórico (anual)", type: "line", smooth: true, symbol: "circle", symbolSize: 4,
-          data: [...preVals, fullAnnualVals[0], ...Array(nFullAnn - 1 + nPartialSlot + PROJ.length).fill(null)],
-          lineStyle: { color: "rgba(148,163,184,0.7)", width: 1.5 },
-          itemStyle: { color: "rgba(148,163,184,0.7)" },
-          areaStyle: { color: "rgba(148,163,184,0.05)" },
-          connectNulls: false,
-        },
-        {
-          // Confirmed full years 2020–2025
-          name: "Real", type: "line", smooth: true, symbol: "circle", symbolSize: 6,
-          data: [...Array(nPre).fill(null), ...fullAnnualVals, ...Array(nPartialSlot + PROJ.length).fill(null)],
-          lineStyle: { color: filtroColor, width: 3 },
-          itemStyle: { color: filtroColor },
-          areaStyle: { color: linGrad(filtroColor) },
-          connectNulls: false,
-          markPoint: {
-            data: [{ type: "max", name: "Máximo" }],
-            label: { color: C.text, fontSize: 10, formatter: (p: any) => `${Math.round(p.value / 1000)}k` },
-            itemStyle: { color: filtroColor },
-          },
-        },
-      ]),
+      },
       // Línea punteada 2025→2026 Est. Capira
       ...(IS_LAST_PARTIAL && est2026Annualized !== null ? [{
         name: "Proyección",
@@ -1117,7 +1000,6 @@ export function Dashboard() {
   };
 
   // ── Top provincias ───────────────────────────────────────────────────────
-  // AEDIVE: hardcoded acumulado 2019-2025
   // DGT: from annual JSON summary (2020-present)
   // ANFAC: no data
   const dgtProvs = fuente === "dgt" ? getDgtProvincias("todos") : null;
@@ -1126,8 +1008,6 @@ export function Dashboard() {
         nombre: p.provincia,
         total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total,
       }))
-    : fuente === "aedive"
-    ? [...provinciasPorMatriculaciones].sort((a,b)=>b.total-a.total).slice(0,10).map((p) => ({ nombre: p.nombre, total: p.total }))
     : null;
 
   const provOpt: Record<string, any> | null = top10 ? {
@@ -1163,10 +1043,9 @@ export function Dashboard() {
   } : null;
 
   // ── Top modelos ──────────────────────────────────────────────────────────
-  // AEDIVE: hardcoded top models
   // DGT: from annual JSON summary
   // ANFAC: no data
-  const dgtModelos = fuente === "dgt"
+  const dgtModelos = fuente !== "anfac"
     ? (filtro === "phev"
         ? getDgtModelos("todos", "phev")
         : filtro === "bev"
@@ -1177,12 +1056,7 @@ export function Dashboard() {
     : null;
 
   const filteredModelos: { label: string; value: number; color: string }[] | null =
-    fuente === "aedive" ? (
-      filtro === "bev"  ? topModelos.filter((m) => m.tipo === "BEV") :
-      filtro === "phev" ? topModelos.filter((m) => m.tipo === "PHEV") :
-      topModelos
-    ).map((m) => ({ label: `${m.marca} ${m.modelo}`, value: m.unidades, color: m.tipo === "BEV" ? C.bev : C.phev }))
-    : fuente === "dgt" && dgtModelos
+    dgtModelos
     ? (dgtModelos as (typeof dgtModelos[number] & { tipo?: "BEV"|"PHEV" })[]).map((m) => ({
         label: `${m.marca} ${m.modelo}`,
         value: m.n,
@@ -1220,11 +1094,8 @@ export function Dashboard() {
   } : null;
 
   // ── Marcas ───────────────────────────────────────────────────────────────
-  // AEDIVE: hardcoded | DGT: from summary | ANFAC: no data
   const rawMarcas = fuente === "dgt"
     ? getDgtMarcas("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined)
-    : fuente === "aedive"
-    ? topMarcas
     : null;
 
   const marcasFiltradas = rawMarcas
@@ -1275,54 +1146,25 @@ export function Dashboard() {
   } : null;
 
   // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
-  // AEDIVE: hardcoded | DGT: from summary | ANFAC: no data
+  // DGT: from summary | ANFAC: no data
   const MIX_MARCAS_PAGE_SIZE = 8;
 
-  // Year selector: AEDIVE uses topMarcasPorAño years, DGT uses dgtAñosDisponibles
   const mixYearsAvailable: ("todos" | number)[] = fuente === "dgt"
     ? ["todos", ...dgtAñosDisponibles]
-    : fuente === "aedive"
-    ? ["todos", ...topMarcasPorAño.map((e) => e.año)]
     : ["todos"];
 
   const mixMarcasAllData = (() => {
     if (fuente === "anfac") return [];
-    if (fuente === "dgt") {
-      const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
-      return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined).map((m) => {
-        const total = m.bev + m.phev;
-        return {
-          marca: m.marca,
-          bevPct: +((m.bev / total) * 100).toFixed(1),
-          phevPct: +((m.phev / total) * 100).toFixed(1),
-          bev: m.bev, phev: m.phev, total,
-        };
-      });
-    }
-    // AEDIVE
-    const yearEntries = marcaMixYear === "todos"
-      ? topMarcasPorAño
-      : topMarcasPorAño.filter((e) => e.año === marcaMixYear);
-    const agg: Record<string, { bev: number; phev: number }> = {};
-    for (const entry of yearEntries) {
-      for (const m of entry.marcas) {
-        if (!agg[m.marca]) agg[m.marca] = { bev: 0, phev: 0 };
-        agg[m.marca].bev  += m.bev;
-        agg[m.marca].phev += m.phev;
-      }
-    }
-    return Object.entries(agg)
-      .filter(([, v]) => v.bev + v.phev > 0)
-      .sort(([, a], [, b]) => (b.bev + b.phev) - (a.bev + a.phev))
-      .map(([marca, v]) => {
-        const total = v.bev + v.phev;
-        return {
-          marca,
-          bevPct: +((v.bev / total) * 100).toFixed(1),
-          phevPct: +((v.phev / total) * 100).toFixed(1),
-          bev: v.bev, phev: v.phev, total,
-        };
-      });
+    const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
+    return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined).map((m) => {
+      const total = m.bev + m.phev;
+      return {
+        marca: m.marca,
+        bevPct: +((m.bev / total) * 100).toFixed(1),
+        phevPct: +((m.phev / total) * 100).toFixed(1),
+        bev: m.bev, phev: m.phev, total,
+      };
+    });
   })();
 
   const mixMarcasTotalPages = Math.ceil(mixMarcasAllData.length / MIX_MARCAS_PAGE_SIZE);
@@ -1394,7 +1236,7 @@ export function Dashboard() {
   const lastFullYoy   = YOY[YOY.length - 1]; // last full-year YoY (2024→2025)
 
   // Filter-aware insight labels
-  const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "EV";
+  const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "Enchufables";
   const filtroFirstVal = filteredVal(FIRST);
   const filtroLastFullVal = filteredVal(LAST_FULL);
 
@@ -1414,121 +1256,76 @@ export function Dashboard() {
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
 
       {/* Título */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0", textAlign: "center" }}>
         <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0 }}>
           Matriculaciones de vehículos en {countryName}
-          <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(244,244,245,0.35)", marginLeft: 10 }}>(Todas)</span>
         </h1>
       </div>
 
-      {/* Controls */}
-      <div style={{ borderBottom: `1px solid ${C.border}`, background: "rgba(5,8,16,0.88)", backdropFilter: "blur(16px)", position: "sticky", top: 52, zIndex: 40 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 50, gap: 16, flexWrap: "wrap", paddingTop: 6, paddingBottom: 6 }}>
-            {/* Left: Tec. — todo en un solo grupo */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Tec.:</span>
-              <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2 }}>
-                {/* Total — deshabilitado */}
-                <button disabled title="Próximamente" style={{
-                  padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
-                  border: "1px solid transparent", background: "transparent",
-                  color: "rgba(241,245,249,0.45)", transition: "all 0.15s",
-                }}>
-                  Total
-                </button>
-                {/* No Enchufable — deshabilitado */}
-                <button disabled title="Próximamente" style={{
-                  padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
-                  border: "1px solid transparent", background: "transparent",
-                  color: "rgba(241,245,249,0.45)", transition: "all 0.15s",
-                }}>
-                  No Enchufable
-                </button>
-                {/* Separador visual */}
-                <div style={{ width: 1, background: "rgba(255,255,255,0.1)", margin: "4px 2px" }} />
-                {/* BEV+PHEV / BEV / PHEV — activos */}
-                {[
-                  { value: "ambos", label: <><span style={{ color: C.bev }}>BEV</span><span style={{ color: C.text }}> + </span><span style={{ color: C.phev }}>PHEV</span></> },
-                  { value: "bev",   label: "BEV",  color: C.bev  },
-                  { value: "phev",  label: "PHEV", color: C.phev },
-                ].map((opt) => {
-                  const active = filtro === opt.value;
-                  const col = (opt as any).color;
-                  return (
-                    <button key={opt.value} onClick={() => setFiltro(opt.value as "ambos"|"bev"|"phev")} style={{
-                      padding: "5px 14px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,
-                      border: active ? `1px solid ${col ? col + "44" : "rgba(255,255,255,0.2)"}` : "1px solid transparent",
-                      background: active ? (col ? `${col}18` : "rgba(255,255,255,0.08)") : "transparent",
-                      color: active ? (col ?? C.text) : "rgba(241,245,249,0.55)",
-                      transition: "all 0.15s",
-                    }}>
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Right: Tipo vehículo — solo DGT */}
-            {fuente === "dgt" && (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Tipo:</span>
-                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                  {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as TipoVehiculo[]).map((t) => {
-                    const active = tiposVehiculo.includes(t);
-                    const col = t === "turismo" ? "#f472b6"
-                      : t === "furgoneta"    ? "#a78bfa"
-                      : t === "moto_scooter" ? "#a3e635"
-                      : t === "microcar"     ? "#e879f9"
-                      : t === "camion"       ? "#fbbf24"
-                      : t === "autobus"      ? "#f87171"
-                      : "#94a3b8";
-                    const isOtros = t === "otros";
-                    const otrosExcluido = isOtros && !active;
-                    return (
-                      <button key={t}
-                        title={isOtros ? "Incluye: tractores (T*), quads/ATV (*02, *03), carretillas industriales (MAA), y cualquier categoría EU no clasificada en los grupos anteriores" : undefined}
-                        onClick={() => setTiposVehiculo((prev) => prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t])}
-                        style={{
-                          padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
-                          border: active ? `1px solid ${col}55` : "1px solid transparent",
-                          background: active ? `${col}18` : "rgba(255,255,255,0.04)",
-                          color: active ? col : "rgba(241,245,249,0.25)",
-                          textDecoration: otrosExcluido ? "line-through" : "none",
-                          transition: "all 0.15s",
-                        }}>
-                        {TIPO_LABELS[t]}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <DashboardControls
+        filtro={filtro}
+        setFiltro={setFiltro}
+        tiposVehiculo={tiposVehiculo}
+        setTiposVehiculo={setTiposVehiculo}
+        showTipo={fuente === "dgt"}
+      />
 
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 24px 56px" }}>
 
         {/* ── KPIs ─────────────────────────────────────────────────────────── */}
         <div style={{ display: "flex", gap: GAP, marginBottom: GAP, flexWrap: "wrap" }}>
+          {/* Box 1: último mes de data vs mismo mes año anterior */}
           <KPI
-            label={IS_LAST_PARTIAL ? `Total EV ${LAST.año} (${ytdStats?.lastMes ?? LAST_MONTH.mes} YTD)` : `Total EV ${LAST.año}`}
-            value={fmtN(filteredVal(LAST))}
-            delta={lastYoyVal}
+            label="Matriculaciones de"
+            sublabel={`${MESES_FULL[LAST_MONTH.mes] ?? LAST_MONTH.mes} ${LAST_MONTH.año}`}
+            sublabelColor={C.text}
+            value={fmtN(lastMonthVal)}
+            delta={momYoy ?? undefined}
+            sub={prevYearSameMonth ? `vs ${LAST_MONTH.mes} ${LAST_MONTH.año - 1}` : undefined}
             color={filtroColor}
-            icon="⚡"
-            tag={IS_LAST_PARTIAL ? "Parcial" : undefined}
+            icon="🚗"
+            tooltip={`Matrículas registradas en ${MESES_FULL[LAST_MONTH.mes] ?? LAST_MONTH.mes} ${LAST_MONTH.año}. El % compara con ${MESES_FULL[LAST_MONTH.mes] ?? LAST_MONTH.mes} ${LAST_MONTH.año - 1}. (Según filtros seleccionados)`}
           />
-          <KPI label="Acumulado histórico" value={fmtN(totalAcum_filtered)} color={C.text} icon="📦" sub={`→ ${LAST_MONTH.mes}/${LAST_MONTH.año}`} />
-          <KPI label={`CAGR ${FIRST.año}–${LAST_FULL.año}`} value={`${cagr_filtered}%`} color={C.green} icon="📈" sub="tasa anual compuesta" />
-          <KPI label="Mayor crecimiento" value={`+${bestYoy_f.val}%`} color={C.green} icon="🚀" tag="Récord" sub={`año ${bestYoy_f.año}`} />
+          {/* Box 2: acumulado año corriente (YTD) */}
           <KPI
-            label="Pico mensual"
+            label="Total Acumulado a"
+            sublabel={IS_LAST_PARTIAL ? `→ ${(ytdStats?.lastMes ?? LAST_MONTH.mes).toUpperCase()} ${LAST.año}` : `→ ${LAST.año}`}
+            sublabelColor={C.text}
+            value={fmtN(filteredVal(LAST))}
+            delta={IS_LAST_PARTIAL && ytdYoyVal !== null ? ytdYoyVal : yoyFiltered[yoyFiltered.length - 1]?.val}
+            sub={IS_LAST_PARTIAL && ytdStats ? `vs ene–${ytdStats.lastMes} ${LAST.año - 1}` : `vs ${LAST.año - 1}`}
+            color={filtroColor}
+            icon="📚"
+            tooltip={`Matrículas acumuladas en ${LAST.año} desde enero hasta ${ytdStats?.lastMes ?? LAST_MONTH.mes}. El % compara el mismo período del año anterior. (Según filtros seleccionados)`}
+          />
+          {/* Box 3: acumulado histórico */}
+          <KPI
+            label="Acumulado histórico"
+            sublabel={`${historico[0]?.año ?? FIRST.año} → ${LAST_MONTH.mes.toUpperCase()} ${LAST_MONTH.año}`}
+            sublabelColor={C.text}
+            value={fmtN(totalAcum_filtered)}
+            color={C.text} icon="➕"
+            tooltip={`Suma total de todas las matrículas registradas desde ${historico[0]?.año ?? FIRST.año} hasta ${LAST_MONTH.mes}/${LAST_MONTH.año}. (Según filtros seleccionados)`}
+          />
+          {/* Box 4: CAGR */}
+          <KPI
+            label="CAGR"
+            sublabel={`${FIRST.año} → ${LAST_FULL.año}`}
+            sublabelColor={C.text}
+            value={`${cagr_filtered}%`}
+            color={filtroColor}
+            icon="📈"
+            sub="tasa anual compuesta"
+            tooltip={`Tasa de Crecimiento Anual Compuesta (CAGR): a qué ritmo anual creció el mercado de forma sostenida entre ${FIRST.año} y ${LAST_FULL.año}. Elimina la volatilidad año a año. (Según filtros seleccionados)`}
+          />
+          {/* Box 5: récord mensual */}
+          <KPI
+            label="Récord Mensual"
+            sublabel={`${MESES_FULL[peakMonth_filtered.mes] ?? peakMonth_filtered.mes} ${peakMonth_filtered.año}`}
+            sublabelColor={C.text}
             value={fmtN(filtro === "bev" ? peakMonth_filtered.bev : filtro === "phev" ? peakMonth_filtered.phev : peakMonth_filtered.bev + peakMonth_filtered.phev)}
-            color={C.amber} icon="🏆"
-            sub={peakMonth_filtered.label}
+            color={filtroColor} icon="🏆"
+            tooltip={`El mes con más matrículas registradas en toda la serie histórica. Suelen concentrarse en diciembre por efecto de fin de año y cierres de cuota. (Según filtros seleccionados)`}
           />
         </div>
 
@@ -1537,13 +1334,13 @@ export function Dashboard() {
           <InsightCard
             icon="🚀"
             headline={`+${lastYoyVal}% ${filtroLabel} en ${LAST_FULL.año}: ${bestYoy_f.año === LAST_FULL.año ? "el mayor salto histórico" : `mejor año: ${bestYoy_f.año} (+${bestYoy_f.val}%)`}`}
-            body={`Peor año: ${worstYoy_f.año} (${worstYoy_f.val}%). ${filtro === "ambos" ? `BEV +${lastFullYoy.bevYoy}% y PHEV +${lastFullYoy.phevYoy}% en ${LAST_FULL.año}.` : `${filtroLabel} creció ${lastYoyVal}% vs ${LAST_FULL.año - 1}.`}`}
+            body={`${filtro === "ambos" ? `BEV +${lastFullYoy.bevYoy}% y PHEV +${lastFullYoy.phevYoy}% en ${LAST_FULL.año}.` : `${filtroLabel} creció ${lastYoyVal}% vs ${LAST_FULL.año - 1}.`}\nPeor año: ${worstYoy_f.año} (${worstYoy_f.val}%)`}
             color={C.green}
           />
           <InsightCard
             icon="📐"
             headline={`CAGR ${cagr_filtered}% ${filtroLabel}: ${N_YRS} años de crecimiento`}
-            body={`De ${fmtN(filtroFirstVal)} uds en ${FIRST.año} a ${fmtN(filtroLastFullVal)} en ${LAST_FULL.año}. ${filtro === "ambos" ? `CAGR BEV: ${CAGR_BEV}%.` : `x${(filtroLastFullVal / filtroFirstVal).toFixed(1)} en ${N_YRS} años.`}`}
+            body={`${fmtK(filtroFirstVal)} en ${FIRST.año} a ${fmtK(filtroLastFullVal)} en ${LAST_FULL.año}. x${(filtroLastFullVal / filtroFirstVal).toFixed(1)} en ${N_YRS} años.${filtro === "ambos" ? `\nCAGR BEV: ${CAGR_BEV}%${CAGR_PHEV !== null ? `\nCAGR PHEV: ${CAGR_PHEV}%` : ""}` : ""}`}
             color={filtroColor}
           />
           {fuente === "dgt" ? (() => {
@@ -1562,12 +1359,12 @@ export function Dashboard() {
             const pct = ut(last) > 0 ? ((lastUsados / ut(last)) * 100).toFixed(1) : "0";
             const ref22val = ref22 ? uv(ref22) : null;
             const since22 = ref22val && ref22val > 0 ? Math.round((lastUsados - ref22val) / ref22val * 100) : null;
-            const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "EV";
+            const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "Enchufables";
             return (
               <InsightCard
                 icon="🚢"
                 headline={`Usados importados ${filtroLabel}: +${yoy}% en ${last.año} — ${fmtN(lastUsados)} vehículos`}
-                body={`${ref22val && since22 ? `De ${fmtN(ref22val)} en 2022 a ${fmtN(lastUsados)} en ${last.año} (+${since22}% en 3 años). ` : ""}Representan el ${pct}% del total DGT ${last.año}. El mercado de segunda mano importada se acelera.`}
+                body={`Representan el ${pct}% del total DGT ${last.año}. El mercado de segunda mano importada se acelera.`}
                 color={C.amber}
               />
             );
@@ -1582,8 +1379,6 @@ export function Dashboard() {
           {(() => {
             const provs = fuente === "dgt" && dgtProvs
               ? dgtProvs.map((p) => ({ nombre: p.provincia, total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total }))
-              : fuente === "aedive"
-              ? provinciasPorMatriculaciones.map((p) => ({ nombre: p.nombre, total: p.total }))
               : null;
             if (!provs || provs.length === 0) return null;
             const total = provs.reduce((s, p) => s + p.total, 0);
@@ -1594,7 +1389,7 @@ export function Dashboard() {
               <InsightCard
                 icon="🗺️"
                 headline={`${top[0].nombre} concentra el ${top1pct}% del mercado`}
-                body={`Top: ${top.slice(0,3).map(p=>p.nombre).join(", ")}. Las 3 primeras suman el ${top3pct}% del total nacional${filtro !== "ambos" ? ` (${filtro.toUpperCase()})` : ""}.`}
+                body={`Top: ${top.slice(0,3).map(p=>p.nombre).join(", ")}.\nLas 3 primeras suman el ${top3pct}% del total nacional${filtro !== "ambos" ? ` (${filtro.toUpperCase()})` : ""}.`}
                 color={C.amber}
               />
             );
@@ -1610,13 +1405,8 @@ export function Dashboard() {
             <EChart option={forecastOpt} style={{ height: 270 }} />
             <div style={{ display: "flex", gap: 16, marginTop: 10, flexWrap: "wrap", alignItems: "center" }}>
               {(() => {
-                const firstYear = fuente === "dgt"
-                  ? (historico[0]?.año ?? REAL[0]?.año ?? 2014)
-                  : (nPre > 0 ? historico[0]?.año : REAL[0]?.año) ?? 2014;
+                const firstYear = historico[0]?.año ?? REAL[0]?.año ?? 2014;
                 const items: { label: string; color: string; circle?: boolean }[] = [
-                  ...(fuente !== "dgt" && nPre > 0
-                    ? [{ label: `${historico[0]?.año}–${historico[historico.length-1]?.año} (anual)`, color: "rgba(148,163,184,0.7)" }]
-                    : []),
                   { label: `${firstYear}–${LAST_FULL.año}`, color: filtroColor },
                   ...(IS_LAST_PARTIAL ? [
                     { label: `${LAST.año} YTD`, color: "rgba(56,189,248,0.85)", circle: true },
@@ -1805,7 +1595,7 @@ export function Dashboard() {
                     <div style={{ width: 3, height: 16, borderRadius: 2, background: "linear-gradient(180deg,#38bdf8,#8b5cf6)", flexShrink: 0 }} />
                     <h2 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0, letterSpacing: "-0.01em" }}>Mix por marca</h2>
                   </div>
-                  <p style={{ fontSize: 11, color: C.muted, marginTop: 4, marginLeft: 13 }}>% BEV vs PHEV por fabricante · Fuente: {FUENTE_META[fuente].tag}</p>
+                  <p style={{ fontSize: 11, color: C.muted, marginTop: 4, marginLeft: 13 }}>{fuente === "dgt" ? "% BEV vs PHEV por fabricante · Microdatos DGT" : "% BEV vs PHEV por fabricante · ANFAC/IDEAUTO"}</p>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
                   {/* Dropdown año */}
@@ -1851,11 +1641,7 @@ export function Dashboard() {
         {/* ── Provincias ───────────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={
-              fuente === "aedive" ? `Acumulado 2019–2025 · Total: ${fmtN(PROV_TOTAL)} uds` :
-              fuente === "dgt"    ? `Acumulado 2020–2026 · Microdatos DGT` :
-              "Sin desglose disponible"
-            }>
+            <SectionTitle sub={fuente === "dgt" ? `Acumulado 2020–2026 · Microdatos DGT` : "Sin desglose disponible"}>
               Top 10 provincias
             </SectionTitle>
             {provOpt
@@ -1866,25 +1652,7 @@ export function Dashboard() {
             <SectionTitle sub="% sobre el total nacional acumulado">
               Concentración geográfica
             </SectionTitle>
-            {fuente === "aedive" ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
-                {[...provinciasPorMatriculaciones].sort((a,b)=>b.total-a.total).slice(0,15).map((p, i) => {
-                  const pct = (p.total / PROV_TOTAL) * 100;
-                  const maxPct = (provinciasPorMatriculaciones[0].total / PROV_TOTAL) * 100;
-                  return (
-                    <div key={p.nombre} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
-                      <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.nombre}</span>
-                      <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#38bdf8,#8b5cf6)", borderRadius: 3 }} />
-                      </div>
-                      <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(p.total)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : fuente === "dgt" && dgtProvs ? (
+            {fuente === "dgt" && dgtProvs ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
                 {dgtProvs.slice(0, 15).map((p, i) => {
                   const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
@@ -1917,11 +1685,9 @@ export function Dashboard() {
         {/* ── Modelos + marcas ─────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={
-              fuente === "aedive" ? "Unidades en España 2025" :
-              fuente === "dgt"    ? "Microdatos DGT · Acumulado 2020–2026" :
-              "Sin desglose disponible"
-            }>Top modelos más vendidos</SectionTitle>
+            <SectionTitle sub={fuente === "dgt" ? "Microdatos DGT · Acumulado 2020–2026" : "Sin desglose disponible"}>
+              Top modelos más vendidos
+            </SectionTitle>
             {filteredModelos ? (
               <>
                 <div style={{ display: "flex", gap: 14, marginBottom: 6 }}>
@@ -1937,11 +1703,9 @@ export function Dashboard() {
             ) : <NoData height={280} />}
           </Card>
           <Card>
-            <SectionTitle sub={
-              fuente === "aedive" ? "BEV y PHEV por fabricante · España 2025" :
-              fuente === "dgt"    ? "BEV y PHEV por fabricante · Microdatos DGT" :
-              "Sin desglose disponible"
-            }>Ranking de marcas</SectionTitle>
+            <SectionTitle sub={fuente === "dgt" ? "BEV y PHEV por fabricante · Microdatos DGT" : "Sin desglose disponible"}>
+              Ranking de marcas
+            </SectionTitle>
             {marcasOpt
               ? <EChart option={marcasOpt} style={{ height: 280 }} />
               : <NoData height={280} />}
@@ -1950,8 +1714,7 @@ export function Dashboard() {
 
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>
-          Dashboard Power BI público · Scraper automatizado · Actualización semanal ·
-          Modelos y marcas: estimación 2025 · Acumulado provincial: 2019–2025
+          Fuente: DGT — Microdatos MATRABA · Modelos y marcas: acumulado 2020–2026 · Acumulado provincial: 2020–2026
         </p>
       </div>
     </div>

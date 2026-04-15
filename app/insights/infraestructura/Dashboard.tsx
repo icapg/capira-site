@@ -799,7 +799,7 @@ export function InfraDashboard() {
             </div>
           </Card>
           <Card>
-            <SectionTitle sub="Cuota de mercado estimada por operador (AEDIVE 2025)">
+            <SectionTitle sub="Cuota de mercado estimada por operador (2025)">
               Operadores principales
             </SectionTitle>
             <EChart option={operadoresOpt} style={{ height: 300 }} />
@@ -982,8 +982,7 @@ export function InfraDashboard() {
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>
           Fuentes: ANFAC (total nacional 53.072 pts, dic 2025) · MITMA/IDAE RAIPRE (distribución estimada por provincia) ·
-          Operadores: estimación propia basada en memorias corporativas AEDIVE 2025 ·
-          EVs acumulados: AEDIVE 2019–2025 (Canarias estimado) · Puntos de carga: mapareve.es MITMA RECORE
+          Operadores: estimación propia basada en memorias corporativas 2025 · Puntos de carga: mapareve.es MITMA RECORE
         </p>
       </div>
     </div>
