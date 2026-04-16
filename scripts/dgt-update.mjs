@@ -16,7 +16,7 @@
 
 import Database from 'better-sqlite3';
 import { execSync }  from 'child_process';
-import { existsSync, writeFileSync } from 'fs';
+import { existsSync, writeFileSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -103,6 +103,15 @@ function generarDiagnostico(db, periodo) {
   const evMes  = db.prepare(`SELECT cat_vehiculo_ev, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev IN ('BEV','PHEV','HEV') GROUP BY cat_vehiculo_ev`).all(periodo);
   const evPrev = db.prepare(`SELECT cat_vehiculo_ev, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev IN ('BEV','PHEV','HEV') GROUP BY cat_vehiculo_ev`).all(periodoPrev);
   const topBev = db.prepare(`SELECT marca, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev = 'BEV' AND ind_nuevo_usado = 'N' GROUP BY marca ORDER BY n DESC LIMIT 5`).all(periodo);
+  const topEnchufables = db.prepare(`
+    SELECT marca,
+      SUM(CASE WHEN cat_vehiculo_ev = 'BEV' THEN 1 ELSE 0 END) as bev,
+      SUM(CASE WHEN cat_vehiculo_ev = 'PHEV' THEN 1 ELSE 0 END) as phev,
+      COUNT(*) as total
+    FROM matriculaciones
+    WHERE periodo = ? AND cat_vehiculo_ev IN ('BEV','PHEV') AND ind_nuevo_usado = 'N'
+    GROUP BY marca ORDER BY total DESC LIMIT 3
+  `).all(periodo);
 
   const evMesMap  = Object.fromEntries(evMes.map(r  => [r.cat_vehiculo_ev, r.n]));
   const evPrevMap = Object.fromEntries(evPrev.map(r => [r.cat_vehiculo_ev, r.n]));
@@ -136,7 +145,8 @@ function generarDiagnostico(db, periodo) {
     matriculaciones: { total: totMes?.total ?? 0, nuevos: totMes?.nuevos ?? 0, prev_total: totPrev?.total ?? 0, diff_pct },
     bajas:           { total: bajasMes?.total ?? 0, prev_total: bajasPrev?.total ?? 0 },
     ev:              { mes: evMesMap, prev: evPrevMap },
-    top5_marcas_bev: topBev,
+    top5_marcas_bev:         topBev,
+    top3_marcas_enchufables: topEnchufables,
   };
 
   if (diag.ok) {
@@ -299,6 +309,18 @@ async function main() {
   generarStatus(db2, objetivo, diagnostico);
   db2.close();
 
+  // ── AEDIVE Update ─────────────────────────────────────────────────────────
+  console.log('\n🟡 Actualizando datos AEDIVE...');
+  try {
+    if (!DRY_RUN) {
+      run('node scripts/aedive-update.mjs');
+    } else {
+      console.log('  (dry-run) AEDIVE update skipped');
+    }
+  } catch (e) {
+    console.error('  ⚠️  AEDIVE update falló (no bloquea):', e.message);
+  }
+
   // ── Git commit + push ──────────────────────────────────────────────────────
   if (!hayNovedad) {
     console.log('\nℹ️  Sin cambios — actualizando solo dgt-status.json');
@@ -308,6 +330,7 @@ async function main() {
   try {
     const archivos = [
       'data/dgt-status.json',
+      'data/aedive-status.json',
       ...(hayNovedad ? [
         'data/dgt-matriculaciones.json',
         'data/dgt-bajas.json',

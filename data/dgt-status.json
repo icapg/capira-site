@@ -184,6 +184,26 @@
         "marca": "MERCEDES-BENZ",
         "n": 639
       }
+    ],
+    "top3_marcas_enchufables": [
+      {
+        "marca": "BYD",
+        "bev": 1679,
+        "phev": 2792,
+        "total": 4471
+      },
+      {
+        "marca": "TESLA",
+        "bev": 2480,
+        "phev": 0,
+        "total": 2480
+      },
+      {
+        "marca": "MERCEDES-BENZ",
+        "bev": 639,
+        "phev": 1516,
+        "total": 2155
+      }
     ]
   }
 }

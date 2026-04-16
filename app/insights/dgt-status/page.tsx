@@ -14,6 +14,7 @@ type Diagnostico = {
   bajas: { total: number; prev_total: number };
   ev: { mes: Record<string, number>; prev: Record<string, number> };
   top5_marcas_bev: { marca: string; n: number }[];
+  top3_marcas_enchufables?: { marca: string; bev: number; phev: number; total: number }[];
 };
 
 type DgtStatus = {
@@ -23,6 +24,18 @@ type DgtStatus = {
   bajas:           { ultimo_mes: string; al_dia: boolean; total_registros: number; total_meses: number };
   historial: { periodo: string; matriculaciones: number; bajas: number }[];
   diagnostico: Diagnostico | null;
+};
+
+type AediveStatus = {
+  generado_en: string;
+  periodo: string | null;
+  mes_nombre: string | null;
+  bev: number | null;
+  phev: number | null;
+  total_enchufables: number | null;
+  variacion_mes_anterior_pct: number | null;
+  variacion_anio_anterior_pct: number | null;
+  top3_marcas: { marca: string; total: number }[];
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -147,6 +160,12 @@ export default async function DgtStatusPage({
       </div>
     );
   }
+
+  let aedive: AediveStatus | null = null;
+  try {
+    const raw = readFileSync(join(process.cwd(), "data", "aedive-status.json"), "utf8");
+    aedive = JSON.parse(raw);
+  } catch { /* opcional — no bloquea */ }
 
   const { matriculaciones: mat, bajas, historial, generado_en, mes_objetivo, diagnostico } = status;
   const ambosAlDia = mat.al_dia && bajas.al_dia;
@@ -480,6 +499,166 @@ export default async function DgtStatusPage({
           </div>
         )}
       </div>
+
+      {/* ── Comparativa DGT vs AEDIVE ──────────────────────────────────────── */}
+      {(diagnostico || aedive) && (() => {
+        const dgtBev   = diagnostico?.ev?.mes?.BEV  ?? null;
+        const dgtPhev  = diagnostico?.ev?.mes?.PHEV ?? null;
+        const dgtTotal = dgtBev != null && dgtPhev != null ? dgtBev + dgtPhev : null;
+        const aedBev   = aedive?.bev   ?? null;
+        const aedPhev  = aedive?.phev  ?? null;
+        const aedTotal = aedive?.total_enchufables ?? null;
+        const periodoMatch = diagnostico?.periodo === aedive?.periodo;
+
+        function diffBadge(a: number | null, b: number | null) {
+          if (a == null || b == null) return null;
+          const d = a - b;
+          if (d === 0) return <span style={{ color: "#4ade80", fontSize: 11, fontWeight: 700 }}>= 0</span>;
+          return (
+            <span style={{ color: Math.abs(d) > 500 ? "#f87171" : Math.abs(d) > 100 ? "#fbbf24" : "#4ade80", fontSize: 11, fontWeight: 700 }}>
+              {d > 0 ? "+" : ""}{d.toLocaleString("es-ES")}
+            </span>
+          );
+        }
+
+        const thStyle: React.CSSProperties = {
+          textAlign: "right", padding: "7px 14px",
+          fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
+          textTransform: "uppercase", color: "rgba(244,244,245,0.4)",
+        };
+        const tdStyle: React.CSSProperties = {
+          textAlign: "right", padding: "9px 14px",
+          fontVariantNumeric: "tabular-nums", fontSize: 14,
+          color: "#f4f4f5",
+        };
+        const tdDiff: React.CSSProperties = { ...tdStyle, fontSize: 12 };
+        const rowSep: React.CSSProperties = { borderBottom: "1px solid rgba(255,255,255,0.05)" };
+
+        // Top 3 marcas — merge DGT + AEDIVE
+        const dgtMarcas = diagnostico?.top3_marcas_enchufables ?? [];
+        const aedMarcas = aedive?.top3_marcas ?? [];
+        const allMarcas = [...new Set([
+          ...dgtMarcas.map(m => m.marca),
+          ...aedMarcas.map(m => m.marca.replace("MERCEDES-BENZ", "MERCEDES").replace("MERCEDES", "MERCEDES")),
+        ])].slice(0, 3);
+
+        return (
+          <div style={{ ...card, marginTop: 24 }}>
+            {/* Header */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(244,244,245,0.7)" }}>
+                Comparativa DGT vs AEDIVE
+              </div>
+              {aedive?.mes_nombre && (
+                <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 12,
+                  background: "rgba(255,255,255,0.06)", color: "rgba(244,244,245,0.5)" }}>
+                  {aedive.mes_nombre}
+                </span>
+              )}
+              {!periodoMatch && diagnostico && aedive && (
+                <span style={{ fontSize: 11, color: "#fbbf24" }}>
+                  ⚠ períodos distintos: DGT={diagnostico.periodo} · AEDIVE={aedive.periodo}
+                </span>
+              )}
+              {aedive && (
+                <span style={{ fontSize: 11, color: "rgba(244,244,245,0.3)", marginLeft: "auto" }}>
+                  AEDIVE actualizado {diffDias(aedive.generado_en)}
+                </span>
+              )}
+            </div>
+
+            {/* Tabla totales */}
+            <div style={{ overflowX: "auto", marginBottom: 20 }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                    <th style={{ ...thStyle, textAlign: "left" }}>Métrica</th>
+                    <th style={thStyle}>DGT</th>
+                    <th style={thStyle}>AEDIVE</th>
+                    <th style={{ ...thStyle, color: "rgba(244,244,245,0.25)" }}>Dif</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={rowSep}>
+                    <td style={{ ...tdStyle, textAlign: "left", color: "rgba(244,244,245,0.6)", fontSize: 12 }}>
+                      <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 2,
+                        background: "#facc15", marginRight: 7, verticalAlign: "middle" }} />
+                      BEV
+                    </td>
+                    <td style={tdStyle}>{dgtBev != null ? fmt(dgtBev) : "—"}</td>
+                    <td style={tdStyle}>{aedBev != null ? fmt(aedBev) : "—"}</td>
+                    <td style={tdDiff}>{diffBadge(dgtBev, aedBev)}</td>
+                  </tr>
+                  <tr style={rowSep}>
+                    <td style={{ ...tdStyle, textAlign: "left", color: "rgba(244,244,245,0.6)", fontSize: 12 }}>
+                      <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 2,
+                        background: "#3b82f6", marginRight: 7, verticalAlign: "middle" }} />
+                      PHEV
+                    </td>
+                    <td style={tdStyle}>{dgtPhev != null ? fmt(dgtPhev) : "—"}</td>
+                    <td style={tdStyle}>{aedPhev != null ? fmt(aedPhev) : "—"}</td>
+                    <td style={tdDiff}>{diffBadge(dgtPhev, aedPhev)}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ ...tdStyle, textAlign: "left", color: "rgba(244,244,245,0.8)", fontSize: 12, fontWeight: 600 }}>
+                      Total enchufables
+                    </td>
+                    <td style={{ ...tdStyle, fontWeight: 700 }}>{dgtTotal != null ? fmt(dgtTotal) : "—"}</td>
+                    <td style={{ ...tdStyle, fontWeight: 700 }}>{aedTotal != null ? fmt(aedTotal) : "—"}</td>
+                    <td style={tdDiff}>{diffBadge(dgtTotal, aedTotal)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Tabla top 3 marcas */}
+            {(dgtMarcas.length > 0 || aedMarcas.length > 0) && (
+              <>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", textTransform: "uppercase",
+                  color: "rgba(244,244,245,0.3)", marginBottom: 10 }}>
+                  Top 3 marcas enchufables
+                </div>
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                    <thead>
+                      <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                        <th style={{ ...thStyle, textAlign: "left" }}>Marca</th>
+                        <th style={thStyle}>DGT BEV</th>
+                        <th style={thStyle}>DGT PHEV</th>
+                        <th style={{ ...thStyle, fontWeight: 700, color: "rgba(244,244,245,0.6)" }}>DGT Total</th>
+                        <th style={thStyle}>AEDIVE</th>
+                        <th style={{ ...thStyle, color: "rgba(244,244,245,0.25)" }}>Dif</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allMarcas.map((marca, i) => {
+                        const dgt = dgtMarcas.find(m => m.marca === marca || m.marca.includes(marca) || marca.includes(m.marca.split("-")[0]));
+                        const aed = aedMarcas.find(m => m.marca === marca || m.marca.includes(marca) || marca.includes(m.marca));
+                        return (
+                          <tr key={marca} style={{ borderBottom: i < allMarcas.length - 1 ? "1px solid rgba(255,255,255,0.04)" : undefined }}>
+                            <td style={{ ...tdStyle, textAlign: "left", fontWeight: 600, fontSize: 13 }}>{marca}</td>
+                            <td style={{ ...tdStyle, color: "#facc15" }}>{dgt ? fmt(dgt.bev) : "—"}</td>
+                            <td style={{ ...tdStyle, color: "#60a5fa" }}>{dgt ? fmt(dgt.phev) : "—"}</td>
+                            <td style={{ ...tdStyle, fontWeight: 700 }}>{dgt ? fmt(dgt.total) : "—"}</td>
+                            <td style={tdStyle}>{aed ? fmt(aed.total) : "—"}</td>
+                            <td style={tdDiff}>{diffBadge(dgt?.total ?? null, aed?.total ?? null)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                {aedive?.variacion_anio_anterior_pct && (
+                  <div style={{ marginTop: 10, fontSize: 11, color: "rgba(244,244,245,0.3)" }}>
+                    AEDIVE: +{aedive.variacion_anio_anterior_pct}% vs año anterior
+                    {aedive.variacion_mes_anterior_pct && ` · +${aedive.variacion_mes_anterior_pct}% vs mes anterior`}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Comandos útiles */}
       <div style={{ ...card, marginTop: 24 }}>
