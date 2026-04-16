@@ -268,6 +268,9 @@ async function main() {
     console.log('\n🔁 Regenerando agregaciones matriculaciones...');
     try { run('node scripts/dgt-matriculaciones.mjs --solo-agregar', { drySkip: DRY_RUN }); } catch {}
 
+    console.log('\n🔁 Regenerando datos BEV/PHEV y marcas...');
+    try { run('node scripts/dgt-bev-phev.mjs', { drySkip: DRY_RUN }); } catch {}
+
     console.log('\n🔁 Regenerando parque activo...');
     try { run('node scripts/dgt-parque.mjs', { drySkip: DRY_RUN }); } catch {}
   }
@@ -309,7 +312,15 @@ async function main() {
         'data/dgt-matriculaciones.json',
         'data/dgt-bajas.json',
         'data/dgt-parque.json',
+        'data/dgt-bev-phev-mensual.json',
+        'data/dgt-bev-phev-*.json',
+        'data/dgt-marcas-provincias.json',
+        'data/dgt-parque-activo.json',
         'app/lib/insights/dgt-data.ts',
+        'app/lib/insights/dgt-parque-data.ts',
+        'app/lib/insights/dgt-parque-activo-data.ts',
+        'app/lib/insights/dgt-bev-phev-data.ts',
+        'app/lib/insights/dgt-marcas-provincias-data.ts',
       ] : []),
     ].join(' ');
 

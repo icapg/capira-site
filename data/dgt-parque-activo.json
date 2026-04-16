@@ -1,12 +1,12 @@
 {
   "meta": {
     "fuente": "DGT MATRABA microdatos (matriculaciones − bajas)",
-    "generado_en": "2026-04-12T20:07:35.067Z"
+    "generado_en": "2026-04-16T12:47:18.860Z"
   },
   "total": {
-    "bev": 396452,
-    "phev": 370752,
-    "total": 767204
+    "bev": 407324,
+    "phev": 384817,
+    "total": 792141
   },
   "por_año": [
     {
@@ -113,51 +113,51 @@
       "año": 2022,
       "mat_acum_bev": 178651,
       "mat_acum_phev": 136231,
-      "bajas_acum_bev": 46835,
+      "bajas_acum_bev": 49536,
       "bajas_acum_phev": 29434,
-      "parque_bev": 131816,
+      "parque_bev": 129115,
       "parque_phev": 106797,
-      "parque_total": 238613
+      "parque_total": 235912
     },
     {
       "año": 2023,
       "mat_acum_bev": 256901,
       "mat_acum_phev": 201592,
-      "bajas_acum_bev": 81913,
-      "bajas_acum_phev": 49732,
-      "parque_bev": 174988,
-      "parque_phev": 151860,
-      "parque_total": 326848
+      "bajas_acum_bev": 84614,
+      "bajas_acum_phev": 51542,
+      "parque_bev": 172287,
+      "parque_phev": 150050,
+      "parque_total": 322337
     },
     {
       "año": 2024,
       "mat_acum_bev": 335844,
       "mat_acum_phev": 267550,
-      "bajas_acum_bev": 91463,
-      "bajas_acum_phev": 58528,
-      "parque_bev": 244381,
-      "parque_phev": 209022,
-      "parque_total": 453403
+      "bajas_acum_bev": 95159,
+      "bajas_acum_phev": 60338,
+      "parque_bev": 240685,
+      "parque_phev": 207212,
+      "parque_total": 447897
     },
     {
       "año": 2025,
       "mat_acum_bev": 468237,
       "mat_acum_phev": 407955,
-      "bajas_acum_bev": 91463,
-      "bajas_acum_phev": 60830,
-      "parque_bev": 376774,
-      "parque_phev": 347125,
-      "parque_total": 723899
+      "bajas_acum_bev": 95159,
+      "bajas_acum_phev": 63492,
+      "parque_bev": 373078,
+      "parque_phev": 344463,
+      "parque_total": 717541
     },
     {
       "año": 2026,
-      "mat_acum_bev": 487915,
-      "mat_acum_phev": 431582,
-      "bajas_acum_bev": 91463,
-      "bajas_acum_phev": 60830,
-      "parque_bev": 396452,
-      "parque_phev": 370752,
-      "parque_total": 767204
+      "mat_acum_bev": 502483,
+      "mat_acum_phev": 448309,
+      "bajas_acum_bev": 95159,
+      "bajas_acum_phev": 63492,
+      "parque_bev": 407324,
+      "parque_phev": 384817,
+      "parque_total": 792141
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "meta": {
     "fuente": "DGT MATRABA microdatos",
-    "generado_en": "2026-04-12T20:07:35.067Z",
+    "generado_en": "2026-04-16T12:47:18.860Z",
     "primer_periodo": "2014-12",
-    "ultimo_periodo": "2026-02"
+    "ultimo_periodo": "2026-03"
   },
   "mensual": [
     {
@@ -4865,6 +4865,42 @@
       "total_mercado_nuevos": 140987,
       "cuota_bev_pct": 7.76,
       "cuota_phev_pct": 8.98
+    },
+    {
+      "periodo": "2026-03",
+      "bev": {
+        "total": 14568,
+        "nuevos": 14030,
+        "usados": 538
+      },
+      "phev": {
+        "total": 16727,
+        "nuevos": 15685,
+        "usados": 1042
+      },
+      "bev_por_tipo": {
+        "turismo": 12687,
+        "furgoneta": 653,
+        "moto_scooter": 536,
+        "microcar": 154,
+        "camion": 25,
+        "autobus": 29,
+        "otros": 484
+      },
+      "phev_por_tipo": {
+        "turismo": 16345,
+        "furgoneta": 382,
+        "moto_scooter": 0,
+        "microcar": 0,
+        "camion": 0,
+        "autobus": 0,
+        "otros": 0
+      },
+      "anfac_bev": 12184,
+      "anfac_phev": 15304,
+      "total_mercado_nuevos": 187050,
+      "cuota_bev_pct": 7.5,
+      "cuota_phev_pct": 8.39
     }
   ]
 }

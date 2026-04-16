@@ -1,7 +1,7 @@
 {
   "meta": {
     "fuente": "DGT MATRABA microdatos",
-    "generado_en": "2026-04-12T20:07:35.067Z"
+    "generado_en": "2026-04-16T12:47:18.860Z"
   },
   "por_año": [
     {
@@ -11215,52 +11215,38 @@
       "marcas": [
         {
           "marca": "BYD",
-          "bev": 2203,
-          "phev": 2771,
+          "bev": 3888,
+          "phev": 5566,
           "por_tipo": {
-            "turismo": 4971,
+            "turismo": 9445,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
             "camion": 0,
-            "autobus": 3,
+            "autobus": 9,
             "otros": 0
           }
         },
         {
           "marca": "MERCEDES-BENZ",
-          "bev": 1247,
-          "phev": 3535,
+          "bev": 1898,
+          "phev": 5254,
           "por_tipo": {
-            "turismo": 4559,
-            "furgoneta": 214,
+            "turismo": 6909,
+            "furgoneta": 225,
             "moto_scooter": 0,
             "microcar": 0,
-            "camion": 2,
-            "autobus": 7,
+            "camion": 3,
+            "autobus": 15,
             "otros": 0
           }
         },
         {
-          "marca": "TOYOTA",
-          "bev": 815,
-          "phev": 1891,
+          "marca": "TESLA",
+          "bev": 4856,
+          "phev": 3,
           "por_tipo": {
-            "turismo": 2304,
-            "furgoneta": 362,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 40
-          }
-        },
-        {
-          "marca": "AUDI",
-          "bev": 371,
-          "phev": 2144,
-          "por_tipo": {
-            "turismo": 2514,
+            "turismo": 4858,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11270,11 +11256,25 @@
           }
         },
         {
-          "marca": "TESLA",
-          "bev": 2254,
-          "phev": 2,
+          "marca": "TOYOTA",
+          "bev": 1586,
+          "phev": 3107,
           "por_tipo": {
-            "turismo": 2255,
+            "turismo": 4096,
+            "furgoneta": 542,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 55
+          }
+        },
+        {
+          "marca": "AUDI",
+          "bev": 627,
+          "phev": 3332,
+          "por_tipo": {
+            "turismo": 3958,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11285,12 +11285,12 @@
         },
         {
           "marca": "BMW",
-          "bev": 568,
-          "phev": 1592,
+          "bev": 1138,
+          "phev": 2593,
           "por_tipo": {
-            "turismo": 2138,
-            "furgoneta": 0,
-            "moto_scooter": 21,
+            "turismo": 3696,
+            "furgoneta": 1,
+            "moto_scooter": 33,
             "microcar": 0,
             "camion": 0,
             "autobus": 0,
@@ -11299,39 +11299,25 @@
         },
         {
           "marca": "FORD",
-          "bev": 438,
-          "phev": 1656,
+          "bev": 852,
+          "phev": 2855,
           "por_tipo": {
-            "turismo": 1654,
-            "furgoneta": 435,
+            "turismo": 2862,
+            "furgoneta": 833,
             "moto_scooter": 0,
             "microcar": 0,
-            "camion": 5,
+            "camion": 12,
             "autobus": 0,
             "otros": 0
           }
         },
         {
           "marca": "VOLKSWAGEN",
-          "bev": 600,
-          "phev": 1375,
+          "bev": 977,
+          "phev": 2553,
           "por_tipo": {
-            "turismo": 1866,
-            "furgoneta": 109,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
-          "marca": "KIA",
-          "bev": 1436,
-          "phev": 120,
-          "por_tipo": {
-            "turismo": 1511,
-            "furgoneta": 45,
+            "turismo": 3365,
+            "furgoneta": 165,
             "moto_scooter": 0,
             "microcar": 0,
             "camion": 0,
@@ -11341,10 +11327,38 @@
         },
         {
           "marca": "OMODA",
-          "bev": 186,
-          "phev": 1060,
+          "bev": 312,
+          "phev": 2079,
           "por_tipo": {
-            "turismo": 1246,
+            "turismo": 2391,
+            "furgoneta": 0,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "KIA",
+          "bev": 2109,
+          "phev": 199,
+          "por_tipo": {
+            "turismo": 2224,
+            "furgoneta": 84,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "EBRO",
+          "bev": 0,
+          "phev": 2169,
+          "por_tipo": {
+            "turismo": 2169,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11355,38 +11369,24 @@
         },
         {
           "marca": "RENAULT",
-          "bev": 831,
-          "phev": 385,
+          "bev": 1474,
+          "phev": 658,
           "por_tipo": {
-            "turismo": 1010,
-            "furgoneta": 205,
+            "turismo": 1853,
+            "furgoneta": 276,
             "moto_scooter": 0,
-            "microcar": 0,
+            "microcar": 2,
             "camion": 1,
             "autobus": 0,
             "otros": 0
           }
         },
         {
-          "marca": "EBRO",
-          "bev": 0,
-          "phev": 1175,
-          "por_tipo": {
-            "turismo": 1175,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
           "marca": "CUPRA",
-          "bev": 154,
-          "phev": 912,
+          "bev": 277,
+          "phev": 1496,
           "por_tipo": {
-            "turismo": 1066,
+            "turismo": 1773,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11397,10 +11397,10 @@
         },
         {
           "marca": "HYUNDAI",
-          "bev": 529,
-          "phev": 332,
+          "bev": 882,
+          "phev": 584,
           "por_tipo": {
-            "turismo": 861,
+            "turismo": 1466,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11411,10 +11411,10 @@
         },
         {
           "marca": "VOLVO",
-          "bev": 293,
-          "phev": 526,
+          "bev": 507,
+          "phev": 848,
           "por_tipo": {
-            "turismo": 819,
+            "turismo": 1355,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11425,38 +11425,10 @@
         },
         {
           "marca": "LYNK&CO",
-          "bev": 60,
-          "phev": 687,
+          "bev": 88,
+          "phev": 1144,
           "por_tipo": {
-            "turismo": 747,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
-          "marca": "PEUGEOT",
-          "bev": 548,
-          "phev": 198,
-          "por_tipo": {
-            "turismo": 679,
-            "furgoneta": 66,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 1
-          }
-        },
-        {
-          "marca": "JAECOO",
-          "bev": 162,
-          "phev": 564,
-          "por_tipo": {
-            "turismo": 726,
+            "turismo": 1232,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11467,24 +11439,24 @@
         },
         {
           "marca": "CITROEN",
-          "bev": 618,
-          "phev": 68,
+          "bev": 1134,
+          "phev": 85,
           "por_tipo": {
-            "turismo": 540,
-            "furgoneta": 81,
+            "turismo": 995,
+            "furgoneta": 115,
             "moto_scooter": 0,
-            "microcar": 65,
-            "camion": 0,
+            "microcar": 108,
+            "camion": 1,
             "autobus": 0,
             "otros": 0
           }
         },
         {
-          "marca": "JEEP",
-          "bev": 606,
-          "phev": 67,
+          "marca": "JAECOO",
+          "bev": 248,
+          "phev": 949,
           "por_tipo": {
-            "turismo": 673,
+            "turismo": 1197,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11495,52 +11467,10 @@
         },
         {
           "marca": "SKODA",
-          "bev": 358,
-          "phev": 280,
+          "bev": 664,
+          "phev": 482,
           "por_tipo": {
-            "turismo": 638,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
-          "marca": "PORSCHE",
-          "bev": 205,
-          "phev": 423,
-          "por_tipo": {
-            "turismo": 628,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
-          "marca": "LEXUS",
-          "bev": 61,
-          "phev": 473,
-          "por_tipo": {
-            "turismo": 534,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 0
-          }
-        },
-        {
-          "marca": "MINI",
-          "bev": 500,
-          "phev": 24,
-          "por_tipo": {
-            "turismo": 524,
+            "turismo": 1146,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11551,10 +11481,80 @@
         },
         {
           "marca": "MG",
-          "bev": 199,
-          "phev": 317,
+          "bev": 366,
+          "phev": 714,
           "por_tipo": {
-            "turismo": 516,
+            "turismo": 1080,
+            "furgoneta": 0,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "PEUGEOT",
+          "bev": 742,
+          "phev": 298,
+          "por_tipo": {
+            "turismo": 934,
+            "furgoneta": 104,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 2
+          }
+        },
+        {
+          "marca": "PORSCHE",
+          "bev": 330,
+          "phev": 658,
+          "por_tipo": {
+            "turismo": 988,
+            "furgoneta": 0,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "MINI",
+          "bev": 846,
+          "phev": 40,
+          "por_tipo": {
+            "turismo": 886,
+            "furgoneta": 0,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "LEXUS",
+          "bev": 111,
+          "phev": 763,
+          "por_tipo": {
+            "turismo": 874,
+            "furgoneta": 0,
+            "moto_scooter": 0,
+            "microcar": 0,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 0
+          }
+        },
+        {
+          "marca": "JEEP",
+          "bev": 716,
+          "phev": 110,
+          "por_tipo": {
+            "turismo": 826,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11565,11 +11565,11 @@
         },
         {
           "marca": "OPEL",
-          "bev": 382,
-          "phev": 13,
+          "bev": 637,
+          "phev": 37,
           "por_tipo": {
-            "turismo": 382,
-            "furgoneta": 12,
+            "turismo": 650,
+            "furgoneta": 23,
             "moto_scooter": 0,
             "microcar": 1,
             "camion": 0,
@@ -11579,24 +11579,38 @@
         },
         {
           "marca": "LEAPMOTOR",
-          "bev": 375,
+          "bev": 642,
           "phev": 0,
           "por_tipo": {
-            "turismo": 375,
+            "turismo": 642,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
             "camion": 0,
             "autobus": 0,
             "otros": 0
+          }
+        },
+        {
+          "marca": "SILENCE",
+          "bev": 594,
+          "phev": 0,
+          "por_tipo": {
+            "turismo": 0,
+            "furgoneta": 0,
+            "moto_scooter": 402,
+            "microcar": 175,
+            "camion": 0,
+            "autobus": 0,
+            "otros": 17
           }
         },
         {
           "marca": "POLESTAR",
-          "bev": 327,
+          "bev": 556,
           "phev": 0,
           "por_tipo": {
-            "turismo": 327,
+            "turismo": 556,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11606,25 +11620,11 @@
           }
         },
         {
-          "marca": "MAZDA",
-          "bev": 170,
-          "phev": 136,
-          "por_tipo": {
-            "turismo": 305,
-            "furgoneta": 0,
-            "moto_scooter": 0,
-            "microcar": 0,
-            "camion": 0,
-            "autobus": 0,
-            "otros": 1
-          }
-        },
-        {
           "marca": "DEEPAL",
-          "bev": 296,
+          "bev": 553,
           "phev": 0,
           "por_tipo": {
-            "turismo": 296,
+            "turismo": 553,
             "furgoneta": 0,
             "moto_scooter": 0,
             "microcar": 0,
@@ -11638,520 +11638,520 @@
         {
           "modelo": "MODEL 3",
           "marca": "TESLA",
-          "n": 1319
+          "n": 2707
         },
         {
           "modelo": "MODEL Y",
           "marca": "TESLA",
-          "n": 904
+          "n": 2088
         },
         {
           "modelo": "BYD DOLPHIN SURF",
           "marca": "BYD",
-          "n": 724
-        },
-        {
-          "modelo": "AVENGER",
-          "marca": "JEEP",
-          "n": 561
-        },
-        {
-          "modelo": "NIRO",
-          "marca": "KIA",
-          "n": 550
+          "n": 1332
         },
         {
           "modelo": "EV3",
           "marca": "KIA",
-          "n": 524
+          "n": 892
         },
         {
           "modelo": "BYD ATTO 2",
           "marca": "BYD",
-          "n": 463
-        },
-        {
-          "modelo": "EQA 250+",
-          "marca": "MERCEDES-BENZ",
-          "n": 409
+          "n": 856
         },
         {
           "modelo": "RENAULT 5 E-TECH ELECT",
           "marca": "RENAULT",
-          "n": 384
+          "n": 741
         },
         {
-          "modelo": "TOYOTA BZ4X",
-          "marca": "TOYOTA",
-          "n": 328
+          "modelo": "AVENGER",
+          "marca": "JEEP",
+          "n": 660
         },
         {
-          "modelo": "CLA 250+",
+          "modelo": "EQA 250+",
           "marca": "MERCEDES-BENZ",
-          "n": 292
+          "n": 650
+        },
+        {
+          "modelo": "NIRO",
+          "marca": "KIA",
+          "n": 592
         },
         {
           "modelo": "DEEPAL S05",
           "marca": "DEEPAL",
-          "n": 245
+          "n": 480
+        },
+        {
+          "modelo": "TOYOTA BZ4X",
+          "marca": "TOYOTA",
+          "n": 464
+        },
+        {
+          "modelo": "CLA 250+",
+          "marca": "MERCEDES-BENZ",
+          "n": 463
+        },
+        {
+          "modelo": "TOYOTA C-HR",
+          "marca": "TOYOTA",
+          "n": 405
         },
         {
           "modelo": "B10",
           "marca": "LEAPMOTOR",
-          "n": 228
+          "n": 388
         },
         {
-          "modelo": "PROACE CITY ELECTRIC",
-          "marca": "TOYOTA",
-          "n": 216
-        },
-        {
-          "modelo": "G6",
-          "marca": "XPENG",
-          "n": 214
+          "modelo": "BYD SEAL",
+          "marca": "BYD",
+          "n": 387
         }
       ],
       "phev_modelos": [
         {
           "modelo": "TOYOTA C-HR",
           "marca": "TOYOTA",
-          "n": 1525
-        },
-        {
-          "modelo": "BYD SEAL U DM-I",
-          "marca": "BYD",
-          "n": 1385
-        },
-        {
-          "modelo": "KUGA",
-          "marca": "FORD",
-          "n": 1070
+          "n": 2643
         },
         {
           "modelo": "BYD ATTO 2  DM-I",
           "marca": "BYD",
-          "n": 1054
+          "n": 2604
         },
         {
-          "modelo": "A 250 E",
-          "marca": "MERCEDES-BENZ",
-          "n": 922
+          "modelo": "BYD SEAL U DM-I",
+          "marca": "BYD",
+          "n": 2339
+        },
+        {
+          "modelo": "KUGA",
+          "marca": "FORD",
+          "n": 1769
         },
         {
           "modelo": "GLC 300 DE 4MATIC",
           "marca": "MERCEDES-BENZ",
-          "n": 849
+          "n": 1502
         },
         {
           "modelo": "GLA 250 E",
           "marca": "MERCEDES-BENZ",
-          "n": 822
+          "n": 1267
         },
         {
           "modelo": "OMODA 9 PHEV",
           "marca": "OMODA",
-          "n": 765
+          "n": 1202
         },
         {
-          "modelo": "X3 30E XDRIVE",
-          "marca": "BMW",
-          "n": 571
-        },
-        {
-          "modelo": "JAECOO7 PHEV",
-          "marca": "JAECOO",
-          "n": 564
+          "modelo": "A 250 E",
+          "marca": "MERCEDES-BENZ",
+          "n": 1066
         },
         {
           "modelo": "S700 PHEV",
           "marca": "EBRO",
-          "n": 515
+          "n": 929
+        },
+        {
+          "modelo": "JAECOO7 PHEV",
+          "marca": "JAECOO",
+          "n": 877
+        },
+        {
+          "modelo": "OMODA7",
+          "marca": "OMODA",
+          "n": 877
+        },
+        {
+          "modelo": "X3 30E XDRIVE",
+          "marca": "BMW",
+          "n": 851
         },
         {
           "modelo": "TIGUAN",
           "marca": "VOLKSWAGEN",
-          "n": 470
+          "n": 845
         },
         {
           "modelo": "X1 XDRIVE25E",
           "marca": "BMW",
-          "n": 460
+          "n": 837
         },
         {
-          "modelo": "LEXUS NX450H+",
-          "marca": "LEXUS",
-          "n": 411
-        },
-        {
-          "modelo": "S900 PHEV",
-          "marca": "EBRO",
-          "n": 399
+          "modelo": "CADDY",
+          "marca": "VOLKSWAGEN",
+          "n": 754
         }
       ],
       "provincias": [
         {
           "cod": "M",
           "provincia": "Madrid",
-          "bev": 7319,
-          "phev": 12105,
-          "total": 19424
+          "bev": 12142,
+          "phev": 20341,
+          "total": 32483
         },
         {
           "cod": "B",
           "provincia": "Barcelona",
-          "bev": 2323,
-          "phev": 1821,
-          "total": 4144
+          "bev": 4195,
+          "phev": 3264,
+          "total": 7459
         },
         {
           "cod": "V",
           "provincia": "Valencia",
-          "bev": 1398,
-          "phev": 948,
-          "total": 2346
+          "bev": 2298,
+          "phev": 1603,
+          "total": 3901
         },
         {
           "cod": "A",
           "provincia": "Alicante",
-          "bev": 724,
-          "phev": 629,
-          "total": 1353
+          "bev": 1334,
+          "phev": 1166,
+          "total": 2500
         },
         {
           "cod": "MA",
           "provincia": "Málaga",
-          "bev": 648,
-          "phev": 548,
-          "total": 1196
+          "bev": 1089,
+          "phev": 925,
+          "total": 2014
         },
         {
           "cod": "IB",
           "provincia": "Illes Balears",
-          "bev": 521,
-          "phev": 308,
-          "total": 829
-        },
-        {
-          "cod": "GC",
-          "provincia": "Las Palmas",
-          "bev": 363,
-          "phev": 404,
-          "total": 767
+          "bev": 897,
+          "phev": 497,
+          "total": 1394
         },
         {
           "cod": "SE",
           "provincia": "Sevilla",
-          "bev": 354,
-          "phev": 410,
-          "total": 764
+          "bev": 688,
+          "phev": 704,
+          "total": 1392
         },
         {
           "cod": "MU",
           "provincia": "Murcia",
-          "bev": 349,
-          "phev": 401,
-          "total": 750
+          "bev": 659,
+          "phev": 686,
+          "total": 1345
+        },
+        {
+          "cod": "GC",
+          "provincia": "Las Palmas",
+          "bev": 665,
+          "phev": 677,
+          "total": 1342
         },
         {
           "cod": "BI",
           "provincia": "Vizcaya",
-          "bev": 330,
-          "phev": 317,
-          "total": 647
-        },
-        {
-          "cod": "TO",
-          "provincia": "Toledo",
-          "bev": 321,
-          "phev": 296,
-          "total": 617
+          "bev": 560,
+          "phev": 545,
+          "total": 1105
         },
         {
           "cod": "T",
           "provincia": "Tarragona",
-          "bev": 326,
-          "phev": 264,
-          "total": 590
+          "bev": 627,
+          "phev": 467,
+          "total": 1094
+        },
+        {
+          "cod": "TO",
+          "provincia": "Toledo",
+          "bev": 545,
+          "phev": 495,
+          "total": 1040
         },
         {
           "cod": "C",
           "provincia": "A Coruña",
-          "bev": 338,
-          "phev": 247,
-          "total": 585
+          "bev": 583,
+          "phev": 438,
+          "total": 1021
         },
         {
           "cod": "Z",
           "provincia": "Zaragoza",
-          "bev": 237,
-          "phev": 313,
-          "total": 550
+          "bev": 407,
+          "phev": 529,
+          "total": 936
         },
         {
           "cod": "GR",
           "provincia": "Granada",
-          "bev": 326,
-          "phev": 212,
-          "total": 538
+          "bev": 539,
+          "phev": 385,
+          "total": 924
         },
         {
           "cod": "GI",
           "provincia": "Girona",
-          "bev": 277,
-          "phev": 237,
-          "total": 514
-        },
-        {
-          "cod": "PO",
-          "provincia": "Pontevedra",
-          "bev": 266,
-          "phev": 215,
-          "total": 481
+          "bev": 512,
+          "phev": 410,
+          "total": 922
         },
         {
           "cod": "TF",
           "provincia": "Santa Cruz de Tenerife",
-          "bev": 226,
-          "phev": 249,
-          "total": 475
+          "bev": 433,
+          "phev": 486,
+          "total": 919
         },
         {
           "cod": "O",
           "provincia": "Asturias",
-          "bev": 220,
-          "phev": 234,
-          "total": 454
+          "bev": 438,
+          "phev": 437,
+          "total": 875
         },
         {
-          "cod": "CA",
-          "provincia": "Cádiz",
-          "bev": 185,
-          "phev": 247,
-          "total": 432
+          "cod": "PO",
+          "provincia": "Pontevedra",
+          "bev": 462,
+          "phev": 369,
+          "total": 831
         },
         {
           "cod": "NA",
           "provincia": "Navarra",
-          "bev": 253,
-          "phev": 168,
-          "total": 421
+          "bev": 519,
+          "phev": 302,
+          "total": 821
         },
         {
-          "cod": "SS",
-          "provincia": "Gipuzkoa",
-          "bev": 154,
-          "phev": 222,
-          "total": 376
-        },
-        {
-          "cod": "S",
-          "provincia": "Cantabria",
-          "bev": 213,
-          "phev": 163,
-          "total": 376
+          "cod": "CA",
+          "provincia": "Cádiz",
+          "bev": 354,
+          "phev": 454,
+          "total": 808
         },
         {
           "cod": "AL",
           "provincia": "Almería",
-          "bev": 149,
-          "phev": 200,
-          "total": 349
+          "bev": 265,
+          "phev": 351,
+          "total": 616
+        },
+        {
+          "cod": "SS",
+          "provincia": "Gipuzkoa",
+          "bev": 251,
+          "phev": 353,
+          "total": 604
+        },
+        {
+          "cod": "S",
+          "provincia": "Cantabria",
+          "bev": 340,
+          "phev": 261,
+          "total": 601
         },
         {
           "cod": "CS",
           "provincia": "Castellón",
-          "bev": 164,
-          "phev": 170,
-          "total": 334
+          "bev": 317,
+          "phev": 272,
+          "total": 589
         },
         {
           "cod": "VA",
           "provincia": "Valladolid",
-          "bev": 126,
-          "phev": 189,
-          "total": 315
-        },
-        {
-          "cod": "L",
-          "provincia": "Lleida",
-          "bev": 155,
-          "phev": 145,
-          "total": 300
+          "bev": 214,
+          "phev": 329,
+          "total": 543
         },
         {
           "cod": "BA",
           "provincia": "Badajoz",
-          "bev": 108,
-          "phev": 181,
-          "total": 289
+          "bev": 205,
+          "phev": 319,
+          "total": 524
+        },
+        {
+          "cod": "L",
+          "provincia": "Lleida",
+          "bev": 278,
+          "phev": 246,
+          "total": 524
         },
         {
           "cod": "CO",
           "provincia": "Córdoba",
-          "bev": 111,
-          "phev": 145,
-          "total": 256
+          "bev": 211,
+          "phev": 244,
+          "total": 455
         },
         {
           "cod": "VI",
           "provincia": "Álava",
-          "bev": 120,
-          "phev": 118,
-          "total": 238
+          "bev": 205,
+          "phev": 204,
+          "total": 409
         },
         {
           "cod": "LE",
           "provincia": "León",
-          "bev": 103,
-          "phev": 130,
-          "total": 233
+          "bev": 154,
+          "phev": 236,
+          "total": 390
         },
         {
           "cod": "GU",
           "provincia": "Guadalajara",
-          "bev": 109,
-          "phev": 101,
-          "total": 210
-        },
-        {
-          "cod": "CR",
-          "provincia": "Ciudad Real",
-          "bev": 76,
-          "phev": 121,
-          "total": 197
-        },
-        {
-          "cod": "CC",
-          "provincia": "Cáceres",
-          "bev": 47,
-          "phev": 142,
-          "total": 189
+          "bev": 201,
+          "phev": 179,
+          "total": 380
         },
         {
           "cod": "J",
           "provincia": "Jaén",
-          "bev": 73,
-          "phev": 111,
-          "total": 184
+          "bev": 143,
+          "phev": 199,
+          "total": 342
+        },
+        {
+          "cod": "CR",
+          "provincia": "Ciudad Real",
+          "bev": 126,
+          "phev": 210,
+          "total": 336
+        },
+        {
+          "cod": "CC",
+          "provincia": "Cáceres",
+          "bev": 92,
+          "phev": 212,
+          "total": 304
         },
         {
           "cod": "BU",
           "provincia": "Burgos",
-          "bev": 78,
-          "phev": 102,
-          "total": 180
+          "bev": 136,
+          "phev": 159,
+          "total": 295
         },
         {
           "cod": "H",
           "provincia": "Huelva",
-          "bev": 68,
-          "phev": 106,
-          "total": 174
-        },
-        {
-          "cod": "AB",
-          "provincia": "Albacete",
-          "bev": 69,
-          "phev": 80,
-          "total": 149
-        },
-        {
-          "cod": "LO",
-          "provincia": "La Rioja",
-          "bev": 65,
-          "phev": 81,
-          "total": 146
+          "bev": 120,
+          "phev": 167,
+          "total": 287
         },
         {
           "cod": "LU",
           "provincia": "Lugo",
-          "bev": 62,
-          "phev": 82,
-          "total": 144
+          "bev": 140,
+          "phev": 146,
+          "total": 286
+        },
+        {
+          "cod": "AB",
+          "provincia": "Albacete",
+          "bev": 134,
+          "phev": 136,
+          "total": 270
+        },
+        {
+          "cod": "LO",
+          "provincia": "La Rioja",
+          "bev": 132,
+          "phev": 132,
+          "total": 264
         },
         {
           "cod": "SA",
           "provincia": "Salamanca",
-          "bev": 48,
-          "phev": 80,
-          "total": 128
+          "bev": 109,
+          "phev": 139,
+          "total": 248
         },
         {
           "cod": "OU",
           "provincia": "OU",
-          "bev": 51,
-          "phev": 69,
-          "total": 120
+          "bev": 95,
+          "phev": 116,
+          "total": 211
         },
         {
           "cod": "HU",
           "provincia": "Huesca",
-          "bev": 43,
-          "phev": 59,
-          "total": 102
+          "bev": 84,
+          "phev": 110,
+          "total": 194
         },
         {
           "cod": "SG",
           "provincia": "Segovia",
-          "bev": 34,
-          "phev": 48,
-          "total": 82
+          "bev": 64,
+          "phev": 84,
+          "total": 148
         },
         {
           "cod": "CU",
           "provincia": "Cuenca",
-          "bev": 36,
-          "phev": 39,
-          "total": 75
+          "bev": 64,
+          "phev": 75,
+          "total": 139
         },
         {
           "cod": "AV",
           "provincia": "Ávila",
-          "bev": 23,
-          "phev": 41,
-          "total": 64
+          "bev": 49,
+          "phev": 70,
+          "total": 119
         },
         {
           "cod": "P",
           "provincia": "Palencia",
-          "bev": 24,
-          "phev": 29,
-          "total": 53
+          "bev": 44,
+          "phev": 50,
+          "total": 94
         },
         {
           "cod": "ZA",
           "provincia": "Zamora",
-          "bev": 16,
-          "phev": 27,
-          "total": 43
+          "bev": 37,
+          "phev": 48,
+          "total": 85
         },
         {
           "cod": "TE",
           "provincia": "Teruel",
-          "bev": 20,
-          "phev": 22,
-          "total": 42
+          "bev": 33,
+          "phev": 45,
+          "total": 78
         },
         {
           "cod": "SO",
           "provincia": "Soria",
-          "bev": 17,
-          "phev": 21,
-          "total": 38
+          "bev": 31,
+          "phev": 36,
+          "total": 67
         },
         {
           "cod": "CE",
           "provincia": "Ceuta",
-          "bev": 10,
-          "phev": 14,
-          "total": 24
+          "bev": 15,
+          "phev": 22,
+          "total": 37
         },
         {
           "cod": "ML",
           "provincia": "ML",
-          "bev": 2,
-          "phev": 16,
-          "total": 18
+          "bev": 11,
+          "phev": 24,
+          "total": 35
         }
       ]
     }
