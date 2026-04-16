@@ -1,19 +1,24 @@
 {
-  "generado_en": "2026-04-11T21:19:26.091Z",
+  "generado_en": "2026-04-16T09:22:01.488Z",
   "mes_objetivo": "2026-03",
   "matriculaciones": {
-    "ultimo_mes": "2026-02",
-    "al_dia": false,
-    "total_registros": 18638330,
-    "total_meses": 135
+    "ultimo_mes": "2026-03",
+    "al_dia": true,
+    "total_registros": 18848427,
+    "total_meses": 136
   },
   "bajas": {
-    "ultimo_mes": "2026-02",
-    "al_dia": false,
-    "total_registros": 21904116,
-    "total_meses": 135
+    "ultimo_mes": "2026-03",
+    "al_dia": true,
+    "total_registros": 22062670,
+    "total_meses": 136
   },
   "historial": [
+    {
+      "periodo": "2026-03",
+      "matriculaciones": 210097,
+      "bajas": 158554
+    },
     {
       "periodo": "2026-02",
       "matriculaciones": 161682,
@@ -128,11 +133,7 @@
       "periodo": "2024-04",
       "matriculaciones": 154004,
       "bajas": 145382
-    },
-    {
-      "periodo": "2024-03",
-      "matriculaciones": 148796,
-      "bajas": 127017
     }
-  ]
+  ],
+  "diagnostico": null
 }
