@@ -82,9 +82,75 @@ function ultimosMeses(db, tabla, n = 24) {
   } catch { return []; }
 }
 
+// ─── Diagnóstico post-importación ────────────────────────────────────────────
+
+function generarDiagnostico(db, periodo) {
+  console.log(`\n🔬 Diagnosticando importación de ${periodo}...`);
+
+  const [year, month] = periodo.split('-').map(Number);
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const prevYear  = month === 1 ? year - 1 : year;
+  const periodoPrev = `${prevYear}-${String(prevMonth).padStart(2, '0')}`;
+
+  const enMat  = db.prepare('SELECT * FROM meses_procesados WHERE periodo = ?').get(periodo);
+  const enBaja = db.prepare('SELECT * FROM meses_procesados_bajas WHERE periodo = ?').get(periodo);
+
+  const totMes  = db.prepare("SELECT COUNT(*) as total, SUM(CASE WHEN ind_nuevo_usado='N' THEN 1 ELSE 0 END) as nuevos FROM matriculaciones WHERE periodo = ?").get(periodo);
+  const totPrev = db.prepare("SELECT COUNT(*) as total, SUM(CASE WHEN ind_nuevo_usado='N' THEN 1 ELSE 0 END) as nuevos FROM matriculaciones WHERE periodo = ?").get(periodoPrev);
+  const bajasMes  = db.prepare('SELECT COUNT(*) as total FROM bajas WHERE periodo = ?').get(periodo);
+  const bajasPrev = db.prepare('SELECT COUNT(*) as total FROM bajas WHERE periodo = ?').get(periodoPrev);
+
+  const evMes  = db.prepare(`SELECT cat_vehiculo_ev, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev IN ('BEV','PHEV','HEV') GROUP BY cat_vehiculo_ev`).all(periodo);
+  const evPrev = db.prepare(`SELECT cat_vehiculo_ev, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev IN ('BEV','PHEV','HEV') GROUP BY cat_vehiculo_ev`).all(periodoPrev);
+  const topBev = db.prepare(`SELECT marca, COUNT(*) as n FROM matriculaciones WHERE periodo = ? AND cat_vehiculo_ev = 'BEV' AND ind_nuevo_usado = 'N' GROUP BY marca ORDER BY n DESC LIMIT 5`).all(periodo);
+
+  const evMesMap  = Object.fromEntries(evMes.map(r  => [r.cat_vehiculo_ev, r.n]));
+  const evPrevMap = Object.fromEntries(evPrev.map(r => [r.cat_vehiculo_ev, r.n]));
+
+  const alertas = [];
+  if (!enMat)  alertas.push(`❌ Período ${periodo} no encontrado en matriculaciones`);
+  if (!enBaja) alertas.push(`❌ Período ${periodo} no encontrado en bajas`);
+  if (totPrev?.total > 0) {
+    const d = ((totMes.total - totPrev.total) / totPrev.total * 100).toFixed(1);
+    if (Math.abs(Number(d)) > 30) alertas.push(`⚠️ Total matriculaciones difiere ${d}% vs mes anterior`);
+  }
+  for (const cat of ['BEV', 'PHEV', 'HEV']) {
+    const curr = evMesMap[cat] || 0;
+    const prev = evPrevMap[cat] || 0;
+    if (prev > 0) {
+      const d = ((curr - prev) / prev * 100).toFixed(1);
+      if (Math.abs(Number(d)) > 50) alertas.push(`⚠️ ${cat} difiere ${d}% vs mes anterior (${prev} → ${curr})`);
+    }
+  }
+
+  const diff_pct = totPrev?.total > 0
+    ? `${((totMes.total - totPrev.total) / totPrev.total * 100).toFixed(1)}%`
+    : 'n/a';
+
+  const diag = {
+    ejecutado_en:   new Date().toISOString(),
+    periodo,
+    periodo_prev:   periodoPrev,
+    ok:             alertas.length === 0,
+    alertas,
+    matriculaciones: { total: totMes?.total ?? 0, nuevos: totMes?.nuevos ?? 0, prev_total: totPrev?.total ?? 0, diff_pct },
+    bajas:           { total: bajasMes?.total ?? 0, prev_total: bajasPrev?.total ?? 0 },
+    ev:              { mes: evMesMap, prev: evPrevMap },
+    top5_marcas_bev: topBev,
+  };
+
+  if (diag.ok) {
+    console.log('  ✅ Diagnóstico OK — sin anomalías');
+  } else {
+    alertas.forEach(a => console.log(`  ${a}`));
+  }
+
+  return diag;
+}
+
 // ─── Generar dgt-status.json ──────────────────────────────────────────────────
 
-function generarStatus(db, objetivo) {
+function generarStatus(db, objetivo, diagnostico = null) {
   console.log('\n📊 Generando data/dgt-status.json...');
 
   const matUltimo    = ultimoMesProcesado(db, 'meses_procesados');
@@ -124,6 +190,7 @@ function generarStatus(db, objetivo) {
       total_meses:     countTabla(db, 'meses_procesados_bajas'),
     },
     historial,
+    diagnostico,
   };
 
   if (!DRY_RUN) {
@@ -205,9 +272,28 @@ async function main() {
     try { run('node scripts/dgt-parque.mjs', { drySkip: DRY_RUN }); } catch {}
   }
 
-  // ── Generar status.json siempre ────────────────────────────────────────────
+  // ── Diagnóstico post-importación ──────────────────────────────────────────
   const db2 = new Database(DB_FILE, { readonly: true });
-  generarStatus(db2, objetivo);
+  let diagnostico = null;
+
+  // Leer diagnóstico previo del status.json si existe
+  let diagPrevio = null;
+  try {
+    const prev = JSON.parse(readFileSync(STATUS_FILE, 'utf8'));
+    diagPrevio = prev.diagnostico ?? null;
+  } catch {}
+
+  // Correr diagnóstico si: hay novedad, o no hay diagnóstico previo, o el diagnóstico previo es de otro período
+  const necesitaDiag = !DRY_RUN && (hayNovedad || !diagPrevio || diagPrevio.periodo !== objetivo);
+  if (necesitaDiag) {
+    diagnostico = generarDiagnostico(db2, objetivo);
+  } else {
+    diagnostico = diagPrevio;
+    console.log(`\n✅ Diagnóstico ya disponible para ${objetivo} (${diagPrevio?.ok ? 'sin anomalías' : 'con alertas'})`);
+  }
+
+  // ── Generar status.json siempre ────────────────────────────────────────────
+  generarStatus(db2, objetivo, diagnostico);
   db2.close();
 
   // ── Git commit + push ──────────────────────────────────────────────────────

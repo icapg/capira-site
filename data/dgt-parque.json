@@ -1,6 +1,6 @@
 {
-  "generado_en": "2026-04-14T16:13:37.927Z",
-  "ultimo_periodo": "2026-02",
+  "generado_en": "2026-04-16T09:20:38.177Z",
+  "ultimo_periodo": "2026-03",
   "anchor": {
     "periodo": "2025-03",
     "fuente": "DGT Parque Microdatos marzo 2025",
@@ -23,52 +23,52 @@
   },
   "resumen": {
     "BEV": {
-      "matriculadas": 487915,
-      "bajas": 81913,
-      "parque_activo": 447171,
-      "tasa_baja_pct": 16.79
+      "matriculadas": 502483,
+      "bajas": 84614,
+      "parque_activo": 459038,
+      "tasa_baja_pct": 16.84
     },
     "PHEV": {
-      "matriculadas": 431582,
-      "bajas": 49732,
-      "parque_activo": 400928,
-      "tasa_baja_pct": 11.52
+      "matriculadas": 448309,
+      "bajas": 51542,
+      "parque_activo": 415845,
+      "tasa_baja_pct": 11.5
     },
     "HEV": {
-      "matriculadas": 2191084,
-      "bajas": 303014,
-      "parque_activo": 2090795,
-      "tasa_baja_pct": 13.83
+      "matriculadas": 2254560,
+      "bajas": 312212,
+      "parque_activo": 2145073,
+      "tasa_baja_pct": 13.85
     },
     "REEV": {
-      "matriculadas": 2740,
-      "bajas": 757,
-      "parque_activo": 2843,
-      "tasa_baja_pct": 27.63
+      "matriculadas": 2868,
+      "bajas": 765,
+      "parque_activo": 2963,
+      "tasa_baja_pct": 26.67
     },
     "FCEV": {
-      "matriculadas": 144,
+      "matriculadas": 145,
       "bajas": 8,
-      "parque_activo": 139,
-      "tasa_baja_pct": 5.56
+      "parque_activo": 140,
+      "tasa_baja_pct": 5.52
     }
   },
   "resumen_por_tipo": {
     "turismo": {
       "BEV": {
-        "matriculadas": 346865,
+        "matriculadas": 359515,
         "bajas": 41977,
-        "parque_activo": 336195
+        "parque_activo": 348845
       },
       "PHEV": {
-        "matriculadas": 375197,
+        "matriculadas": 390331,
         "bajas": 42397,
-        "parque_activo": 349053
+        "parque_activo": 364187
       },
       "HEV": {
-        "matriculadas": 2099443,
-        "bajas": 290933,
-        "parque_activo": 2001718
+        "matriculadas": 2161753,
+        "bajas": 290934,
+        "parque_activo": 2064027
       }
     },
     "suv_todo_terreno": {
@@ -78,60 +78,60 @@
         "parque_activo": 104
       },
       "HEV": {
-        "matriculadas": 480,
+        "matriculadas": 498,
         "bajas": 4,
-        "parque_activo": 532
+        "parque_activo": 550
       }
     },
     "furgoneta_van": {
       "BEV": {
-        "matriculadas": 102,
-        "bajas": 6,
-        "parque_activo": 104
+        "matriculadas": 106,
+        "bajas": 7,
+        "parque_activo": 107
       },
       "PHEV": {
-        "matriculadas": 51062,
-        "bajas": 6879,
-        "parque_activo": 46930
+        "matriculadas": 52067,
+        "bajas": 7099,
+        "parque_activo": 47715
       },
       "HEV": {
-        "matriculadas": 74389,
-        "bajas": 10364,
-        "parque_activo": 71571
+        "matriculadas": 75416,
+        "bajas": 10700,
+        "parque_activo": 72262
       }
     },
     "moto": {
       "BEV": {
-        "matriculadas": 60194,
+        "matriculadas": 60800,
         "bajas": 24370,
-        "parque_activo": 41275
+        "parque_activo": 41881
       },
       "PHEV": {
-        "matriculadas": 13,
+        "matriculadas": 30,
         "bajas": 43,
         "parque_activo": 0
       },
       "HEV": {
-        "matriculadas": 429,
-        "bajas": 116,
-        "parque_activo": 356
+        "matriculadas": 430,
+        "bajas": 118,
+        "parque_activo": 355
       }
     },
     "camion": {
       "BEV": {
-        "matriculadas": 26100,
-        "bajas": 3242,
-        "parque_activo": 25480
+        "matriculadas": 26673,
+        "bajas": 3398,
+        "parque_activo": 25897
       },
       "PHEV": {
-        "matriculadas": 2532,
-        "bajas": 32,
-        "parque_activo": 2536
+        "matriculadas": 2772,
+        "bajas": 33,
+        "parque_activo": 2775
       },
       "HEV": {
-        "matriculadas": 9062,
-        "bajas": 884,
-        "parque_activo": 9252
+        "matriculadas": 9089,
+        "bajas": 903,
+        "parque_activo": 9260
       }
     },
     "autobus": {
@@ -153,36 +153,36 @@
     },
     "especial": {
       "BEV": {
-        "matriculadas": 8770,
-        "bajas": 15,
+        "matriculadas": 8771,
+        "bajas": 16,
         "parque_activo": 9846
       },
       "PHEV": {
-        "matriculadas": 49,
+        "matriculadas": 50,
         "bajas": 11,
-        "parque_activo": 40
+        "parque_activo": 41
       },
       "HEV": {
-        "matriculadas": 624,
+        "matriculadas": 632,
         "bajas": 92,
-        "parque_activo": 592
+        "parque_activo": 600
       }
     },
     "otros": {
       "BEV": {
-        "matriculadas": 5720,
-        "bajas": 1988,
-        "parque_activo": 4105
+        "matriculadas": 6377,
+        "bajas": 2055,
+        "parque_activo": 4695
       },
       "PHEV": {
-        "matriculadas": 2717,
-        "bajas": 346,
-        "parque_activo": 2413
+        "matriculadas": 3047,
+        "bajas": 392,
+        "parque_activo": 2697
       },
       "HEV": {
-        "matriculadas": 6626,
-        "bajas": 618,
-        "parque_activo": 6743
+        "matriculadas": 6711,
+        "bajas": 627,
+        "parque_activo": 6819
       }
     }
   },
@@ -10671,6 +10671,88 @@
           "HEV": 6743,
           "total": 5087956,
           "no_enchufable": 5081438
+        }
+      }
+    },
+    {
+      "periodo": "2026-03",
+      "matriculaciones_mes": {
+        "BEV": 14568,
+        "PHEV": 16727,
+        "HEV": 63476,
+        "REEV": 128,
+        "FCEV": 1
+      },
+      "bajas_mes": {
+        "BEV": 2701,
+        "PHEV": 1810,
+        "HEV": 9198,
+        "REEV": 8
+      },
+      "total_bajas_mes": 158554,
+      "parque_acumulado": {
+        "BEV": 459038,
+        "PHEV": 415845,
+        "HEV": 2145073,
+        "REEV": 2963,
+        "FCEV": 140
+      },
+      "parque_total": 37987603,
+      "parque_no_enchufable": 37112720,
+      "parque_por_tipo": {
+        "turismo": {
+          "BEV": 348845,
+          "PHEV": 364187,
+          "HEV": 2064027,
+          "total": 25433785,
+          "no_enchufable": 24720753
+        },
+        "suv_todo_terreno": {
+          "BEV": 104,
+          "HEV": 550,
+          "total": 1613,
+          "no_enchufable": 1509
+        },
+        "furgoneta_van": {
+          "BEV": 107,
+          "PHEV": 47715,
+          "HEV": 72262,
+          "total": 1104926,
+          "no_enchufable": 1057104
+        },
+        "moto": {
+          "BEV": 41881,
+          "HEV": 355,
+          "total": 4665950,
+          "no_enchufable": 4624069
+        },
+        "camion": {
+          "BEV": 25897,
+          "PHEV": 2775,
+          "HEV": 9260,
+          "total": 1641987,
+          "no_enchufable": 1613315
+        },
+        "autobus": {
+          "BEV": 2795,
+          "PHEV": 3,
+          "HEV": 27,
+          "total": 4621,
+          "no_enchufable": 1823
+        },
+        "especial": {
+          "BEV": 9846,
+          "PHEV": 41,
+          "HEV": 600,
+          "total": 47869,
+          "no_enchufable": 37982
+        },
+        "otros": {
+          "BEV": 4695,
+          "PHEV": 2697,
+          "HEV": 6819,
+          "total": 5099257,
+          "no_enchufable": 5091865
         }
       }
     }
