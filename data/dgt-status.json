@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-16T09:22:01.488Z",
+  "generado_en": "2026-04-16T09:22:24.296Z",
   "mes_objetivo": "2026-03",
   "matriculaciones": {
     "ultimo_mes": "2026-03",
@@ -135,5 +135,55 @@
       "bajas": 145382
     }
   ],
-  "diagnostico": null
+  "diagnostico": {
+    "ejecutado_en": "2026-04-16T09:22:23.464Z",
+    "periodo": "2026-03",
+    "periodo_prev": "2026-02",
+    "ok": true,
+    "alertas": [],
+    "matriculaciones": {
+      "total": 210097,
+      "nuevos": 187050,
+      "prev_total": 161682,
+      "diff_pct": "29.9%"
+    },
+    "bajas": {
+      "total": 158554,
+      "prev_total": 140532
+    },
+    "ev": {
+      "mes": {
+        "BEV": 14568,
+        "HEV": 63476,
+        "PHEV": 16727
+      },
+      "prev": {
+        "BEV": 11465,
+        "HEV": 47929,
+        "PHEV": 13611
+      }
+    },
+    "top5_marcas_bev": [
+      {
+        "marca": "TESLA",
+        "n": 2480
+      },
+      {
+        "marca": "BYD",
+        "n": 1679
+      },
+      {
+        "marca": "TOYOTA",
+        "n": 771
+      },
+      {
+        "marca": "KIA",
+        "n": 667
+      },
+      {
+        "marca": "MERCEDES-BENZ",
+        "n": 639
+      }
+    ]
+  }
 }
