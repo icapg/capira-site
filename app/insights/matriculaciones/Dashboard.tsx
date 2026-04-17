@@ -113,12 +113,13 @@ function Card({ children, style }: { children: React.ReactNode; style?: React.CS
   );
 }
 
-function SectionTitle({ children, sub }: { children: React.ReactNode; sub?: string }) {
+function SectionTitle({ children, sub, tooltip }: { children: React.ReactNode; sub?: string; tooltip?: string }) {
   return (
-    <div style={{ marginBottom: 18 }}>
+    <div style={{ marginBottom: 18, cursor: tooltip ? "help" : undefined }} title={tooltip}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div style={{ width: 3, height: 16, borderRadius: 2, background: "linear-gradient(180deg,#38bdf8,#8b5cf6)", flexShrink: 0 }} />
         <h2 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0, letterSpacing: "-0.01em" }}>{children}</h2>
+        {tooltip && <span style={{ fontSize: 11, color: C.dim, lineHeight: 1 }}>ⓘ</span>}
       </div>
       {sub && <p style={{ fontSize: 11, color: C.muted, marginTop: 4, marginLeft: 13 }}>{sub}</p>}
     </div>
@@ -1399,7 +1400,7 @@ export function Dashboard() {
         {/* ── Evolución + proyección + YoY ────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub="Histórico matriculaciones anuales">
+            <SectionTitle sub="Histórico matriculaciones anuales" tooltip="Línea continua con el total anual de matriculaciones enchufables desde 2014. Las últimas barras incluyen proyección estimada para años futuros. Útil para ver la tendencia general de adopción.">
               Evolución del mercado
             </SectionTitle>
             <EChart option={forecastOpt} style={{ height: 270 }} />
@@ -1427,7 +1428,7 @@ export function Dashboard() {
             {IS_LAST_PARTIAL && <p style={{ fontSize: 10, color: C.dim, marginTop: 6 }}>* Proyección anual basada en estacionalidad histórica (no es dato oficial)</p>}
           </Card>
           <Card>
-            <SectionTitle sub="Crecimiento porcentual año a año">
+            <SectionTitle sub="Crecimiento porcentual año a año" tooltip="Variación porcentual del total de matriculaciones respecto al año anterior. Un valor positivo indica que ese año se matricularon más vehículos que el anterior. Permite detectar años de aceleración o desaceleración del mercado.">
               Crecimiento interanual (YoY)
             </SectionTitle>
             {ytdYoyVal !== null && (
@@ -1453,7 +1454,7 @@ export function Dashboard() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
-              <SectionTitle sub="Matriculaciones por mes">Evolución mensual</SectionTitle>
+              <SectionTitle sub="Matriculaciones por mes" tooltip="Líneas mensuales por año. Cada línea representa un año completo (o parcial si es el año en curso). Permite comparar la forma de la curva entre años y detectar patrones estacionales como los picos de diciembre.">Evolución mensual</SectionTitle>
               <div style={{ display: "flex", gap: 2, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3, flexWrap: "wrap" }}>
                 {/* "Todos" button */}
                 <button onClick={() => setAñoActivo("todos")} style={{
@@ -1507,7 +1508,7 @@ export function Dashboard() {
             <EChart option={trendOpt} style={{ height: 248 }} />
           </Card>
           <Card>
-            <SectionTitle sub="Variación mensual respecto al año anterior">
+            <SectionTitle sub="Variación mensual respecto al año anterior" tooltip="Para cada mes, compara las matriculaciones con el mismo mes del año anterior. Barras verdes = más que el año pasado, rojas = menos. Útil para ver si el ritmo de crecimiento se mantiene, acelera o frena mes a mes.">
               Aceleración mes a mes
             </SectionTitle>
             <EChart option={monthlyYoyOpt} style={{ height: 270 }} />
@@ -1518,7 +1519,7 @@ export function Dashboard() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-              <SectionTitle sub="Volumen mensual por año — detectá patrones de estacionalidad">
+              <SectionTitle sub="Volumen mensual por año — detectá patrones de estacionalidad" tooltip="Cuadrícula con meses en el eje X y años en el eje Y. El color de cada celda indica el volumen de matriculaciones: más oscuro = más registros. Ideal para detectar qué meses son sistemáticamente más altos (ej: diciembre) y cómo evoluciona cada mes a lo largo de los años.">
                 Heatmap estacional
               </SectionTitle>
               {heatTotalPages > 1 && (
@@ -1555,7 +1556,7 @@ export function Dashboard() {
             </p>
           </Card>
           <Card>
-            <SectionTitle sub="Volumen por trimestre y año">
+            <SectionTitle sub="Volumen por trimestre y año" tooltip="Barras agrupadas por trimestre (Q1–Q4) para cada año. Permite ver si el crecimiento es sostenido a lo largo del año o se concentra en ciertos trimestres, y comparar el mismo trimestre entre distintos años.">
               Momentum trimestral
             </SectionTitle>
             <EChart option={momentumOpt} style={{ height: 240 }} />
@@ -1566,7 +1567,7 @@ export function Dashboard() {
         <Card style={{ marginBottom: GAP }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, alignItems: "start" }}>
             <div>
-              <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual">
+              <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
                 Mix tecnológico — ¿quién gana terreno?
               </SectionTitle>
               <EChart option={mixOpt} style={{ height: 220 }} />
@@ -1591,11 +1592,9 @@ export function Dashboard() {
               {/* Header: título + dropdown + paginación en misma fila */}
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div style={{ width: 3, height: 16, borderRadius: 2, background: "linear-gradient(180deg,#38bdf8,#8b5cf6)", flexShrink: 0 }} />
-                    <h2 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0, letterSpacing: "-0.01em" }}>Mix por marca</h2>
-                  </div>
-                  <p style={{ fontSize: 11, color: C.muted, marginTop: 4, marginLeft: 13 }}>{fuente === "dgt" ? "% BEV vs PHEV por fabricante · Microdatos DGT" : "% BEV vs PHEV por fabricante · ANFAC/IDEAUTO"}</p>
+                  <SectionTitle sub={fuente === "dgt" ? "% BEV vs PHEV por fabricante · DGT" : "% BEV vs PHEV por fabricante · ANFAC/IDEAUTO"} tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
+                    Mix por marca
+                  </SectionTitle>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
                   {/* Dropdown año */}
@@ -1641,7 +1640,7 @@ export function Dashboard() {
         {/* ── Provincias ───────────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? `Acumulado 2020–2026 · Microdatos DGT` : "Sin desglose disponible"}>
+            <SectionTitle sub={fuente === "dgt" ? `Acumulado histórico · DGT` : "Sin desglose disponible"} tooltip="Ranking de las 10 provincias con más matriculaciones enchufables acumuladas. Refleja dónde se concentra geográficamente la adopción del vehículo eléctrico en España.">
               Top 10 provincias
             </SectionTitle>
             {provOpt
@@ -1649,7 +1648,7 @@ export function Dashboard() {
               : <NoData height={310} />}
           </Card>
           <Card>
-            <SectionTitle sub="% sobre el total nacional acumulado">
+            <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado.">
               Concentración geográfica
             </SectionTitle>
             {fuente === "dgt" && dgtProvs ? (
@@ -1685,7 +1684,7 @@ export function Dashboard() {
         {/* ── Modelos + marcas ─────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? "Microdatos DGT · Acumulado 2020–2026" : "Sin desglose disponible"}>
+            <SectionTitle sub={fuente === "dgt" ? "Acumulado histórico · DGT" : "Sin desglose disponible"} tooltip="Ranking de los modelos con más matriculaciones acumuladas. Muestra por separado BEV y PHEV. Filtrá por tipo de vehículo para afinar el ranking.">
               Top modelos más vendidos
             </SectionTitle>
             {filteredModelos ? (
@@ -1703,7 +1702,7 @@ export function Dashboard() {
             ) : <NoData height={280} />}
           </Card>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? "BEV y PHEV por fabricante · Microdatos DGT" : "Sin desglose disponible"}>
+            <SectionTitle sub={fuente === "dgt" ? "BEV y PHEV por fabricante · DGT" : "Sin desglose disponible"} tooltip="Ranking de fabricantes por volumen total de matriculaciones enchufables acumuladas. Cada barra muestra el desglose entre BEV y PHEV de la marca.">
               Ranking de marcas
             </SectionTitle>
             {marcasOpt
