@@ -1,127 +1,101 @@
 export const dynamic = 'force-dynamic'
 
-import { createClient } from '@supabase/supabase-js'
-import { dgtParqueMensual } from '../../lib/insights/dgt-parque-data'
-import { dgtMeses } from '../../lib/insights/dgt-data'
-import { PostsQueue } from './PostsQueue'
-import { TemplatesPanel } from './TemplatesPanel'
+import Link from 'next/link'
 
-const MESES_ES      = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
-const MESES_ES_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-
-function formatPeriodo(periodo: string) {
-  const [y, m] = periodo.split('-')
-  return `${MESES_ES[parseInt(m) - 1]} ${y}`
+type Section = {
+  id:       string
+  label:    string
+  subtitle: string
+  href?:    string
+  emoji:    string
+  active:   boolean
 }
 
-function formatPeriodoFull(periodo: string) {
-  const [y, m] = periodo.split('-')
-  return `${MESES_ES_FULL[parseInt(m) - 1]} ${y}`
-}
+const SECTIONS: Section[] = [
+  {
+    id:       'mensual',
+    label:    'Mensual',
+    subtitle: 'Matriculaciones · Bajas · Parque activo',
+    href:     '/insights/social/mensual',
+    emoji:    '📅',
+    active:   true,
+  },
+  {
+    id:       'anual',
+    label:    'Anual',
+    subtitle: 'Resumen del año completo',
+    emoji:    '🗓',
+    active:   false,
+  },
+  {
+    id:       'infraestructura',
+    label:    'Infraestructura',
+    subtitle: 'Cargadores públicos · cobertura',
+    emoji:    '⚡',
+    active:   false,
+  },
+  {
+    id:       'comparativas',
+    label:    'Comparativas',
+    subtitle: 'Marcas · Provincias · Segmentos',
+    emoji:    '📊',
+    active:   false,
+  },
+]
 
-function yoy(current: number, previous: number | undefined) {
-  if (!previous || previous === 0) return undefined
-  return +((( current - previous) / previous) * 100).toFixed(1)
-}
-
-function getTemplateData() {
-  const ultimo = dgtParqueMensual.at(-1)!
-  const penultimo = dgtParqueMensual.at(-13) // mismo mes año anterior
-
-  const mat    = ultimo.matriculaciones_mes
-  const bajas  = ultimo.bajas_mes
-  const parque = ultimo.parque_acumulado
-  const matPrev    = penultimo?.matriculaciones_mes
-  const parquePrev = penultimo?.parque_acumulado
-
-  const dgtMes     = dgtMeses.find(m => m.periodo === ultimo.periodo)
-  const dgtMesPrev = penultimo ? dgtMeses.find(m => m.periodo === penultimo.periodo) : undefined
-  const totalMercado     = dgtMes?.total ?? 0
-  const totalMercadoPrev = dgtMesPrev?.total ?? 0
-
-  const noElec     = Math.max(0, totalMercado     - (mat.BEV ?? 0)      - (mat.PHEV ?? 0))
-  const noElecPrev = Math.max(0, totalMercadoPrev - (matPrev?.BEV ?? 0) - (matPrev?.PHEV ?? 0))
-
-  const totalBajasMensual     = ultimo.total_bajas_mes
-  const noEnchBajas           = Math.max(0, totalBajasMensual - (bajas.BEV ?? 0) - (bajas.PHEV ?? 0))
-  const totalBajasMensualPrev = penultimo?.total_bajas_mes
-  const noEnchBajasPrev       = totalBajasMensualPrev != null
-    ? Math.max(0, totalBajasMensualPrev - (penultimo?.bajas_mes.BEV ?? 0) - (penultimo?.bajas_mes.PHEV ?? 0))
-    : undefined
-
-  return {
-    periodo:     formatPeriodo(ultimo.periodo),
-    periodoFull: formatPeriodoFull(ultimo.periodo),
-    periodoPrev: penultimo ? formatPeriodo(penultimo.periodo) : undefined,
-    matriculaciones: {
-      bev:  mat.BEV  ?? 0,
-      phev: mat.PHEV ?? 0,
-      hev:  mat.HEV  ?? 0,
-      totalMercado,
-      bevYoy:      yoy(mat.BEV ?? 0, matPrev?.BEV),
-      phevYoy:     yoy(mat.PHEV ?? 0, matPrev?.PHEV),
-      evYoy:       yoy((mat.BEV ?? 0) + (mat.PHEV ?? 0), (matPrev?.BEV ?? 0) + (matPrev?.PHEV ?? 0)),
-      noElecYoy:   totalMercadoPrev > 0 ? yoy(noElec, noElecPrev) : undefined,
-      totalYoy:    totalMercadoPrev > 0 ? yoy(totalMercado, totalMercadoPrev) : undefined,
-    },
-    bajas: {
-      bevBajas:          bajas.BEV  ?? 0,
-      phevBajas:         bajas.PHEV ?? 0,
-      hevBajas:          bajas.HEV  ?? 0,
-      totalBajasMercado: totalBajasMensual,
-      bevYoy:   yoy(bajas.BEV  ?? 0, penultimo?.bajas_mes.BEV),
-      phevYoy:  yoy(bajas.PHEV ?? 0, penultimo?.bajas_mes.PHEV),
-      evYoy:      yoy((bajas.BEV ?? 0) + (bajas.PHEV ?? 0), (penultimo?.bajas_mes.BEV ?? 0) + (penultimo?.bajas_mes.PHEV ?? 0)),
-      noEnchYoy:  yoy(noEnchBajas, noEnchBajasPrev),
-      totalYoy:   yoy(totalBajasMensual, penultimo?.total_bajas_mes),
-    },
-    acumulado: {
-      bevActivos:  parque.BEV  ?? 0,
-      phevActivos: parque.PHEV ?? 0,
-      hevActivos:  parque.HEV  ?? 0,
-      bevYoy:  yoy(parque.BEV  ?? 0, parquePrev?.BEV),
-      phevYoy: yoy(parque.PHEV ?? 0, parquePrev?.PHEV),
-      evYoy:   yoy((parque.BEV ?? 0) + (parque.PHEV ?? 0), (parquePrev?.BEV ?? 0) + (parquePrev?.PHEV ?? 0)),
-    },
-  }
-}
-
-async function getPosts() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !key) return []
-
-  const supabase = createClient(url, key)
-  const { data } = await supabase
-    .from('social_posts')
-    .select('*')
-    .order('created_at', { ascending: false })
-  return data ?? []
-}
-
-export default async function SocialPage() {
-  const [posts, data] = await Promise.all([getPosts(), Promise.resolve(getTemplateData())])
-
+export default function SocialPage() {
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 52px)', overflow: 'hidden' }}>
-
-      {/* Panel izquierdo — Cola */}
-      <div style={{
-        width: 300, flexShrink: 0,
-        borderRight: '1px solid rgba(255,255,255,0.07)',
-        overflowY: 'auto', padding: '24px 18px',
-      }}>
-        <div style={{ marginBottom: 18 }}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#f1f5f9', margin: '0 0 3px' }}>Cola de posts</h2>
-          <p style={{ fontSize: 11, color: 'rgba(241,245,249,0.35)', margin: 0 }}>
-            {posts.length} posts · {posts.filter((p: any) => p.status === 'draft').length} borradores
-          </p>
-        </div>
-        <PostsQueue posts={posts} />
+    <div style={{ padding: '32px 40px', maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ marginBottom: 28 }}>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#f1f5f9', margin: '0 0 4px' }}>Social</h1>
+        <p style={{ fontSize: 12, color: 'rgba(241,245,249,0.45)', margin: 0 }}>
+          Secciones para generar y programar contenido.
+        </p>
       </div>
 
-      {/* Panel derecho — Templates (client para el selector de formato) */}
-      <TemplatesPanel data={data} />
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+        gap: 14,
+      }}>
+        {SECTIONS.map(s => {
+          const body = (
+            <div style={{
+              padding: '20px 22px',
+              borderRadius: 14,
+              border: '1px solid rgba(255,255,255,0.08)',
+              background: s.active ? 'rgba(56,189,248,0.06)' : 'rgba(255,255,255,0.025)',
+              opacity: s.active ? 1 : 0.55,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 10,
+              transition: 'all 0.15s',
+              cursor: s.active ? 'pointer' : 'default',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 24 }}>{s.emoji}</span>
+                {!s.active && (
+                  <span style={{
+                    fontSize: 9, fontWeight: 600, padding: '2px 8px',
+                    borderRadius: 20, letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(241,245,249,0.4)',
+                    background: 'rgba(255,255,255,0.05)',
+                  }}>Pronto</span>
+                )}
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#f1f5f9', marginBottom: 2 }}>{s.label}</div>
+                <div style={{ fontSize: 11, color: 'rgba(241,245,249,0.5)' }}>{s.subtitle}</div>
+              </div>
+            </div>
+          )
+          return s.active && s.href
+            ? <Link key={s.id} href={s.href} style={{ textDecoration: 'none' }}>{body}</Link>
+            : <div key={s.id}>{body}</div>
+        })}
+      </div>
     </div>
   )
 }

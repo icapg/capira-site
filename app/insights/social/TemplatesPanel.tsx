@@ -13,6 +13,7 @@ type Props = {
     periodo: string
     periodoFull: string
     periodoPrev?: string
+    periodoPrevFull?: string
     matriculaciones: any
     bajas: any
     acumulado: any
@@ -25,7 +26,7 @@ const FORMATS: { id: Format; label: string; ratio: string }[] = [
   { id: 'instagram',         label: 'Instagram', ratio: '1080×1350' },
 ]
 
-const VARIANT_LABELS = ['Variante 1', 'Variante 2', 'Variante 3']
+const VARIANT_LABELS = ['Variante 1', 'Variante 2']
 
 // ─── Preview con escala + botón de descarga ──────────────────────────────────
 function ScaledPreview({
@@ -144,27 +145,24 @@ export function TemplatesPanel({ data }: Props) {
       id:    'matriculaciones-mes',
       label: 'Matriculaciones del mes',
       variants: [
-        <MatriculacionesMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} {...data.matriculaciones} format={format} variant={1} />,
-        <MatriculacionesMes key="v2" periodo={data.periodo} {...data.matriculaciones} format={format} variant={2} />,
-        <MatriculacionesMes key="v3" periodo={data.periodo} {...data.matriculaciones} format={format} variant={3} />,
+        <MatriculacionesMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} periodoPrevFull={data.periodoPrevFull} {...data.matriculaciones} format={format} variant={1} />,
+        <MatriculacionesMes key="v2" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} periodoPrevFull={data.periodoPrevFull} {...data.matriculaciones} format={format} variant={2} />,
       ],
     },
     {
       id:    'bajas-mes',
       label: 'Bajas del mes',
       variants: [
-        <BajasMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} {...data.bajas} format={format} variant={1} />,
-        <BajasMes key="v2" periodo={data.periodo} {...data.bajas} format={format} variant={2} />,
-        <BajasMes key="v3" periodo={data.periodo} {...data.bajas} format={format} variant={3} />,
+        <BajasMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} periodoPrevFull={data.periodoPrevFull} {...data.bajas} format={format} variant={1} />,
+        <BajasMes key="v2" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrev={data.periodoPrev} periodoPrevFull={data.periodoPrevFull} {...data.bajas} format={format} variant={2} />,
       ],
     },
     {
       id:    'acumulado-mes',
       label: 'Parque EV Activo',
       variants: [
-        <AcumuladoMes key="v1" periodo={data.periodo} {...data.acumulado} format={format} variant={1} />,
-        <AcumuladoMes key="v2" periodo={data.periodo} {...data.acumulado} format={format} variant={2} />,
-        <AcumuladoMes key="v3" periodo={data.periodo} {...data.acumulado} format={format} variant={3} />,
+        <AcumuladoMes key="v1" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrevFull={data.periodoPrevFull} {...data.acumulado} format={format} variant={1} />,
+        <AcumuladoMes key="v2" periodo={data.periodo} periodoFull={data.periodoFull} periodoPrevFull={data.periodoPrevFull} {...data.acumulado} format={format} variant={2} />,
       ],
     },
   ]
