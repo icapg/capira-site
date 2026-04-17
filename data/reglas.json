@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "reglas": [
+    {
+      "id": "ev-clasificacion-enchufables",
+      "categoria": "EV / Movilidad Eléctrica",
+      "titulo": "Clasificación enchufables vs no enchufables",
+      "contenido": "La única distinción que importa es si el vehículo SE CONECTA A LA RED ELÉCTRICA para cargar.\n\nENCHUFABLES (plug-in) — solo estos dos:\n- BEV (Battery Electric Vehicle): 100% eléctrico, solo batería\n- PHEV (Plug-in Hybrid Electric Vehicle): híbrido enchufable, motor de combustión + batería recargable\n\nNO ENCHUFABLES — absolutamente todo lo demás:\n- HEV (Hybrid Electric Vehicle): híbrido no enchufable (ej: Toyota Prius clásico), se carga solo frenando\n- REEV (Range Extender EV): eléctrico con motor auxiliar de combustión, NO se conecta a la red\n- FCEV (Fuel Cell EV): pila de combustible (hidrógeno)\n- Gasolina, Diesel, GLP, GNC, GNL, Hidrógeno, Biometano, Etanol, Biodiesel, etc.\n\nREGLA: Nunca agrupar HEV, REEV ni FCEV con los enchufables. El criterio es exclusivamente si se enchufa a la red.",
+      "contexto": "Capira / dashboard EV España / DGT microdatos",
+      "creada": "2026-04-16"
+    }
+  ]
+}
