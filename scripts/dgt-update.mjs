@@ -273,6 +273,38 @@ async function main() {
     }
   }
 
+  // ── Parque ZIP mensual (DGT publica el día 15 del mes siguiente) ───────────
+  // Detecta snapshots faltantes, los descarga del endpoint /microdatos/Parque
+  // y los importa al SQLite. Si hubo novedad, marca hayNovedad para rebuild.
+  try {
+    const dbP = new Database(DB_FILE, { readonly: true });
+    const procesados = new Set(
+      dbP.prepare('SELECT periodo FROM parque_meses_procesados').all().map(r => r.periodo)
+    );
+    dbP.close();
+
+    const parqueFaltantes = rangoMeses('2025-03', objetivo)
+      .filter(p => !procesados.has(p.replace('-', '')));
+
+    if (parqueFaltantes.length === 0) {
+      console.log('\n✅ Parque ZIP al día');
+    } else {
+      console.log(`\n📥 Parque ZIP — ${parqueFaltantes.length} snapshot(s) pendiente(s): ${parqueFaltantes.join(', ')}`);
+      for (const mes of parqueFaltantes) {
+        const yyyymm = mes.replace('-', '');
+        try {
+          run(`node scripts/dgt-parque-download.mjs ${yyyymm}`, { drySkip: DRY_RUN });
+          run(`node scripts/dgt-parque-import.mjs ${yyyymm}`,   { drySkip: DRY_RUN });
+          hayNovedad = true;
+        } catch (e) {
+          console.error(`  ⚠️  Error en parque ZIP ${mes}: ${e.message}`);
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`  ⚠️  No se pudo chequear parque_meses_procesados: ${e.message}`);
+  }
+
   // ── Regenerar JSON/TS ──────────────────────────────────────────────────────
   if (hayNovedad) {
     console.log('\n🔁 Regenerando agregaciones matriculaciones...');
@@ -281,8 +313,8 @@ async function main() {
     console.log('\n🔁 Regenerando datos BEV/PHEV y marcas...');
     try { run('node scripts/dgt-bev-phev.mjs', { drySkip: DRY_RUN }); } catch {}
 
-    console.log('\n🔁 Regenerando parque activo...');
-    try { run('node scripts/dgt-parque.mjs', { drySkip: DRY_RUN }); } catch {}
+    console.log('\n🔁 Regenerando parque activo (real + backward-calc)...');
+    try { run('node scripts/dgt-parque-build.mjs', { drySkip: DRY_RUN }); } catch {}
   }
 
   // ── Diagnóstico post-importación ──────────────────────────────────────────
@@ -338,10 +370,8 @@ async function main() {
         'data/dgt-bev-phev-mensual.json',
         'data/dgt-bev-phev-*.json',
         'data/dgt-marcas-provincias.json',
-        'data/dgt-parque-activo.json',
         'app/lib/insights/dgt-data.ts',
         'app/lib/insights/dgt-parque-data.ts',
-        'app/lib/insights/dgt-parque-activo-data.ts',
         'app/lib/insights/dgt-bev-phev-data.ts',
         'app/lib/insights/dgt-marcas-provincias-data.ts',
       ] : []),

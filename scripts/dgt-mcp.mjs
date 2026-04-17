@@ -39,6 +39,55 @@ const SCHEMA_DOC = `
 Microdatos oficiales de la DGT. Formato original: MATRABA (ancho fijo, 714 chars/línea).
 Cobertura: diciembre 2014 → presente. Actualización: mensual (día ~16 de cada mes).
 
+## CONCEPTOS CLAVE DEL DOMINIO (leer siempre antes de responder)
+
+### Clasificación de vehículos en el dashboard
+
+El dashboard de Capira divide los vehículos en DOS grupos, NO en categorías individuales:
+
+**ENCHUFABLES** (Plug-in) — ÚNICA definición: vehículos que se conectan a la red eléctrica para cargar:
+- BEV (Battery Electric Vehicle) — 100% eléctrico, solo batería
+- PHEV (Plug-in Hybrid Electric Vehicle) — híbrido enchufable, tiene motor de combustión + batería recargable
+
+**NO ENCHUFABLES** — TODO lo demás, sin excepción:
+- HEV (Hybrid Electric Vehicle) — híbrido NO enchufable (ej: Toyota Prius clásico), se carga solo frenando
+- REEV (Range Extender EV) — eléctrico con motor auxiliar de combustión, NO se conecta a la red
+- FCEV (Fuel Cell EV) — pila de combustible (hidrógeno)
+- Gasolina, Diesel, GLP, GNC, GNL, Hidrógeno, Biometano, Etanol, Biodiesel, etc.
+
+**REGLA CRÍTICA**: La única distinción que importa es si el vehículo SE CONECTA A LA RED ELÉCTRICA para cargar.
+- "Enchufables" o "EVs" o "plug-in" → SOLO BEV + PHEV. Nunca incluir HEV, REEV ni FCEV aquí.
+- "No enchufables" → HEV, REEV, FCEV, gasolina, diesel, y cualquier otro. Todo lo que no se enchufa.
+- "Electrificados" → puede ser BEV+PHEV+HEV según contexto; confirmar con el usuario si no es claro.
+- "Todo el mercado" o "todos los vehículos" → NO filtrar por cat_vehiculo_ev (incluye los ~16M de gasolina/diesel).
+
+**El parque activo del dashboard** muestra enchufables (BEV+PHEV) como métricas principales.
+Los vehículos sin cat_vehiculo_ev (NULL) son gasolina/diesel/GLP = ~16M de vehículos, NO se muestran en el dashboard EV.
+
+### Fuentes de datos
+- **DGT MATRABA**: microdatos oficiales de matriculaciones y bajas, todos los vehículos matriculados en España desde dic 2014. Muy granular. Es lo que contiene esta base de datos.
+- **DGT Parque de Vehículos** (ZIP oficial): snapshot completo del parque activo en un momento dado. Contiene TODOS los vehículos activos registrados, incluyendo los matriculados antes de 2014. Es la fuente oficial para parque total y parque por tecnología. Tabla SQLite: parque + parque_agregados_mes (snapshots mensuales desde marzo 2025).
+- **ANFAC**: datos de fabricantes, solo turismos nuevos, cifras ligeramente distintas a DGT.
+- El dashboard tiene un toggle DGT/ANFAC para comparar — por defecto usa DGT.
+
+### Parque activo oficial (ZIP DGT, marzo 2025) — fuente más fiable que MATRABA para parque
+| Categoría   | Vehículos  | Tipo        |
+|-------------|-----------|-------------|
+| NO_EV       | 35.775.738 | No enchufable (gasolina, diesel, GLP, HEV, etc.) |
+| HEV         |  1.724.593 | No enchufable |
+| BEV         |    343.873 | **Enchufable** |
+| PHEV        |    277.307 | **Enchufable** |
+| REEV        |      2.250 | No enchufable |
+| FCEV        |        120 | No enchufable |
+| **TOTAL**   | **38.123.881** | |
+
+Enchufables totales (BEV+PHEV): **621.180** — penetración: **1,63%** del parque total.
+
+METODOLOGÍA OFICIAL (desde abril 2026):
+El parque activo de enchufables se obtiene del ZIP oficial DGT Parque de Vehículos, NO del cálculo MATRABA.
+El cálculo MATRABA (matriculaciones - bajas) sobreestima (~792K) porque solo cubre desde 2014. El ZIP es el dato real.
+Cuando el usuario pregunte por "enchufables activos" o "parque EV", usar las cifras del ZIP: BEV=343.873, PHEV=277.307.
+
 ## Tablas
 
 ### matriculaciones (~18.6M registros)
@@ -199,8 +248,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'query_dgt',
       description: `Ejecuta una query SQL de solo lectura contra la base de datos DGT.
-Tablas disponibles: matriculaciones (18.6M registros), bajas (21.9M registros),
-meses_procesados, meses_procesados_bajas.
+Tablas disponibles:
+  matriculaciones (18.6M registros, flujos desde dic 2014)
+  bajas (21.9M registros, flujos desde dic 2014)
+  parque (último snapshot del parque activo, ~38.9M vehículos — fuente: ZIP DGT)
+  parque_agregados_mes (serie mensual agregada del parque desde mar-2025)
+  parque_meses_procesados, meses_procesados, meses_procesados_bajas.
 Siempre usar LIMIT para queries exploratorias. Máximo recomendado: 10000 filas.
 Para el schema completo usar la tool get_schema.`,
       inputSchema: {
@@ -258,6 +311,30 @@ Checks que realiza:
           periodo: {
             type: 'string',
             description: 'Período a diagnosticar en formato YYYY-MM (ej: "2026-03"). Si se omite, usa el último mes importado.',
+          },
+        },
+      },
+    },
+    {
+      name: 'parque_stats',
+      description: `Estadísticas del parque activo REAL (fuente: ZIP DGT, NO calculado).
+Devuelve: periodos disponibles (snapshots mensuales), último snapshot, total de vehículos,
+breakdown por CATELECT (BEV/PHEV/HEV/REEV/FCEV/NO_EV) y por tipo (turismo/moto/etc).
+Usar SIEMPRE esta tool antes que query_dgt cuando la pregunta sea sobre parque activo.`,
+      inputSchema: { type: 'object', properties: {} },
+    },
+    {
+      name: 'parque_serie_mensual',
+      description: `Serie temporal mensual del parque activo (datos REALES DGT).
+Devuelve evolución mes a mes del total, enchufables (BEV+PHEV), BEV, PHEV y otros CATELECT
+a partir de parque_agregados_mes. Solo disponible desde mar-2025 (inicio de publicación DGT).
+Para períodos anteriores, usar matriculaciones - bajas (datos CALCULADOS, marcar visualmente).`,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          dimension: {
+            type: 'string',
+            description: 'Dimensión a desglosar: "catelect" (default), "tipo", "ccaa".',
           },
         },
       },
@@ -436,6 +513,70 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       };
 
       return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === 'parque_stats') {
+      const database = getDb();
+      const meses = database.prepare(`SELECT periodo, rows, procesado_en FROM parque_meses_procesados ORDER BY periodo`).all();
+      if (!meses.length) {
+        return { content: [{ type: 'text', text: JSON.stringify({ error: 'No hay snapshots de parque importados todavía. Ejecutá: node scripts/dgt-parque-import.mjs --all' }, null, 2) }] };
+      }
+      const ultimo = meses[meses.length - 1].periodo;
+
+      const total      = database.prepare(`SELECT n FROM parque_agregados_mes WHERE periodo = ? AND clave = 'TOTAL'`).get(ultimo)?.n ?? 0;
+      const porCat     = database.prepare(`SELECT substr(clave, 10) as cat, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'CATELECT:%' ORDER BY n DESC`).all(ultimo);
+      const porTipo    = database.prepare(`SELECT substr(clave, 6) as tipo, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'TIPO:%' ORDER BY n DESC`).all(ultimo);
+
+      const catMap     = Object.fromEntries(porCat.map(r => [r.cat, r.n]));
+      const enchufables = (catMap.BEV ?? 0) + (catMap.PHEV ?? 0);
+
+      const result = {
+        fuente: 'ZIP oficial DGT Parque de Vehículos — NO calculado',
+        snapshots_disponibles: meses.map(m => m.periodo),
+        ultimo_snapshot: ultimo,
+        total,
+        enchufables,
+        no_enchufables: total - enchufables,
+        por_catelect: catMap,
+        por_tipo: Object.fromEntries(porTipo.map(r => [r.tipo, r.n])),
+      };
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === 'parque_serie_mensual') {
+      const database = getDb();
+      const dim = (args?.dimension || 'catelect').toLowerCase();
+
+      const meses = database.prepare(`SELECT periodo FROM parque_meses_procesados ORDER BY periodo`).all().map(r => r.periodo);
+      if (!meses.length) {
+        return { content: [{ type: 'text', text: JSON.stringify({ error: 'No hay snapshots de parque importados todavía.' }, null, 2) }] };
+      }
+
+      const series = {};
+      for (const p of meses) {
+        const total = database.prepare(`SELECT n FROM parque_agregados_mes WHERE periodo = ? AND clave = 'TOTAL'`).get(p)?.n ?? 0;
+        let breakdown = {};
+        if (dim === 'catelect') {
+          const rows = database.prepare(`SELECT substr(clave, 10) as k, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'CATELECT:%'`).all(p);
+          breakdown = Object.fromEntries(rows.map(r => [r.k, r.n]));
+          breakdown.enchufables = (breakdown.BEV ?? 0) + (breakdown.PHEV ?? 0);
+        } else if (dim === 'tipo') {
+          const rows = database.prepare(`SELECT substr(clave, 6) as k, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'TIPO:%'`).all(p);
+          breakdown = Object.fromEntries(rows.map(r => [r.k, r.n]));
+        } else if (dim === 'ccaa') {
+          const rows = database.prepare(`SELECT substr(clave, 6) as k, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'CCAA:%'`).all(p);
+          breakdown = Object.fromEntries(rows.map(r => [r.k, r.n]));
+        }
+        series[p] = { total, ...breakdown };
+      }
+
+      return {
+        content: [{ type: 'text', text: JSON.stringify({
+          fuente: 'ZIP oficial DGT Parque de Vehículos — datos reales, no calculados',
+          dimension: dim,
+          serie: series,
+        }, null, 2) }],
+      };
     }
 
     if (name === 'query_dgt') {

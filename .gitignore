@@ -56,3 +56,7 @@ scripts/screenshots/
 
 # Claude Code workspace local
 .claude/
+
+# Google Drive sync temp folders
+.tmp.driveupload/
+.tmp.drivedownload/

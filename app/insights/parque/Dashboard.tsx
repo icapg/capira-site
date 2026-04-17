@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo } from "react";
+import { useInsights } from "../InsightsContext";
+import { DashboardControls } from "../DashboardControls";
+import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import * as echarts from "echarts";
 import {
   dgtParqueMeta,
@@ -38,7 +41,7 @@ const FILTRO_TO_PARQUE_TIPOS: Record<ParqueFiltroTipo, string[]> = {
   microcar:     [],           // no existe como tipo_grupo separado en parque
   camion:       ["camion"],
   autobus:      ["autobus"],
-  otros:        ["especial", "otros"],
+  otros:        ["especial", "otros", "agricola", "quad_atv"],
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -48,6 +51,11 @@ const FILTRO_TO_PARQUE_TIPOS: Record<ParqueFiltroTipo, string[]> = {
 const PERIODOS = dgtParqueMensual.map((m) => m.periodo);
 const MAT_BEV  = dgtParqueMensual.map((m) => m.matriculaciones_mes.BEV ?? 0);
 const BAJA_BEV = dgtParqueMensual.map((m) => m.bajas_mes.BEV ?? 0);
+
+// Índice del primer periodo REAL (ZIP oficial DGT). Antes de este índice la serie
+// es calculada hacia atrás (matriculaciones − bajas) a partir del ancla real.
+const IDX_PRIMER_REAL = dgtParqueMensual.findIndex((m) => m.fuente === "real");
+const PERIODO_PRIMER_REAL = IDX_PRIMER_REAL >= 0 ? dgtParqueMensual[IDX_PRIMER_REAL].periodo : null;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPERS DE FILTRADO
@@ -101,8 +109,8 @@ function filtrarParqueTotal(filtros: ParqueFiltroTipo[]): number[] {
 
 const C = {
   bg:     "#050810",
-  card:   "rgba(255,255,255,0.03)",
-  border: "rgba(255,255,255,0.07)",
+  card:   "rgba(255,255,255,0.06)",
+  border: "rgba(255,255,255,0.11)",
   bev:    "#38bdf8",
   phev:   "#fb923c",
   green:  "#34d399",
@@ -228,9 +236,25 @@ function KpiCard({
 
 const C_NOENCH = "#94a3b8"; // color para no enchufables
 
+/** Corta una serie en dos: calculada (hasta idxReal incluido) y real (desde idxReal).
+ *  El solapamiento en idxReal es intencional para que las líneas se conecten visualmente.
+ */
+function splitSerie(serie: number[], idxReal: number): { calc: (number | null)[]; real: (number | null)[] } {
+  if (idxReal < 0) return { calc: serie.slice(), real: serie.map(() => null) };
+  const calc = serie.map((v, i) => (i <= idxReal ? v : null));
+  const real = serie.map((v, i) => (i >= idxReal ? v : null));
+  return { calc, real };
+}
+
 function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]; parPhev: number[]; parNoEnch: number[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const parEnch = parBev.map((v, i) => v + parPhev[i]);
+  const idx = IDX_PRIMER_REAL;
+
+  const sBev    = splitSerie(parBev,    idx);
+  const sPhev   = splitSerie(parPhev,   idx);
+  const sEnch   = splitSerie(parEnch,   idx);
+  const sNoEnch = splitSerie(parNoEnch, idx);
 
   useChart(ref, () => ({
     backgroundColor: "transparent",
@@ -238,10 +262,20 @@ function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]
     tooltip: { ...TT, trigger: "axis",
       formatter: (params: Record<string, any>[]) => {
         const p = params[0].axisValue;
-        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p}</div>` +
-          params.map((s: any) =>
+        const fuente = dgtParqueMensual.find((m) => m.periodo === p)?.fuente ?? "calculado";
+        const tag = fuente === "real"
+          ? `<span style="font-size:10px;color:${C.green};background:rgba(52,211,153,0.14);border-radius:3px;padding:1px 6px;margin-left:6px">DGT real</span>`
+          : `<span style="font-size:10px;color:${C.muted};background:rgba(148,163,184,0.14);border-radius:3px;padding:1px 6px;margin-left:6px">calculado</span>`;
+        const uniq = new Map<string, any>();
+        for (const s of params) {
+          if (s.value === null || s.value === undefined) continue;
+          const key = s.seriesName.replace(/ \(.*\)$/, "");
+          if (!uniq.has(key)) uniq.set(key, s);
+        }
+        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p}${tag}</div>` +
+          [...uniq.values()].map((s: any) =>
             `<div style="display:flex;gap:12px;justify-content:space-between">` +
-            `<span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${s.color};margin-right:5px"></span>${s.seriesName}</span>` +
+            `<span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${s.color};margin-right:5px"></span>${s.seriesName.replace(/ \(.*\)$/, "")}</span>` +
             `<span style="font-weight:600;color:${C.text}">${fmtN(s.value)}</span></div>`
           ).join("")
       }
@@ -250,12 +284,7 @@ function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]
       top: 0, right: 0,
       textStyle: { color: C.muted, fontSize: 12 },
       itemWidth: 18, itemHeight: 4,
-      data: [
-        { name: "No enchufables", icon: "path://M0,1 L5,1 L5,3 L0,3 Z M8,1 L13,1 L13,3 L8,3 Z M16,1 L21,1 L21,3 L16,3 Z" },
-        { name: "PHEV",           icon: "roundRect" },
-        { name: "BEV",            icon: "roundRect" },
-        { name: "Enchufables",    icon: "roundRect" },
-      ],
+      data: ["No enchufables", "PHEV", "BEV", "Enchufables"],
     },
     xAxis: { type: "category", data: PERIODOS,
       axisLabel: { color: C.muted, fontSize: 11,
@@ -278,30 +307,43 @@ function ChartParqueEvolucion({ parBev, parPhev, parNoEnch }: { parBev: number[]
       },
     ],
     series: [
-      {
-        name: "No enchufables", color: C_NOENCH, type: "line", data: parNoEnch, smooth: true, symbol: "none",
-        yAxisIndex: 1,
-        lineStyle: { color: C_NOENCH, width: 1.5, type: "dashed" },
-        areaStyle: { color: linGrad(C_NOENCH, 0.08, 0.01) },
-      },
-      {
-        name: "PHEV", color: C.phev, type: "line", data: parPhev, smooth: true, symbol: "none",
-        yAxisIndex: 0,
-        lineStyle: { color: C.phev, width: 2 },
-        areaStyle: { color: linGrad(C.phev, 0.25, 0.02) },
-      },
-      {
-        name: "BEV", color: C.bev, type: "line", data: parBev, smooth: true, symbol: "none",
-        yAxisIndex: 0,
-        lineStyle: { color: C.bev, width: 2 },
-        areaStyle: { color: linGrad(C.bev, 0.25, 0.02) },
-      },
-      {
-        name: "Enchufables", color: C.green, type: "line", data: parEnch, smooth: true, symbol: "none",
-        yAxisIndex: 0,
-        lineStyle: { color: C.green, width: 2.5 },
-        areaStyle: { color: linGrad(C.green, 0.18, 0.02) },
-      },
+      // ── CALCULADOS (pre-mar-2025) — línea punteada sin área, sin leyenda duplicada
+      { name: "No enchufables", type: "line", data: sNoEnch.calc, yAxisIndex: 1, smooth: true, symbol: "none",
+        lineStyle: { color: C_NOENCH, width: 1.2, type: "dashed", opacity: 0.55 }, showInLegend: false },
+      { name: "PHEV",           type: "line", data: sPhev.calc,   yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.phev,   width: 1.4, type: "dashed", opacity: 0.55 }, showInLegend: false },
+      { name: "BEV",            type: "line", data: sBev.calc,    yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.bev,    width: 1.4, type: "dashed", opacity: 0.55 }, showInLegend: false },
+      { name: "Enchufables",    type: "line", data: sEnch.calc,   yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.green,  width: 1.8, type: "dashed", opacity: 0.55 }, showInLegend: false },
+
+      // ── REALES (mar-2025 →) — línea sólida con área, visibles en leyenda
+      { name: "No enchufables", type: "line", data: sNoEnch.real, yAxisIndex: 1, smooth: true, symbol: "none",
+        lineStyle: { color: C_NOENCH, width: 2 },
+        areaStyle: { color: linGrad(C_NOENCH, 0.10, 0.01) } },
+      { name: "PHEV",           type: "line", data: sPhev.real,   yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.phev,   width: 2.2 },
+        areaStyle: { color: linGrad(C.phev, 0.25, 0.02) } },
+      { name: "BEV",            type: "line", data: sBev.real,    yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.bev,    width: 2.2 },
+        areaStyle: { color: linGrad(C.bev, 0.25, 0.02) } },
+      { name: "Enchufables",    type: "line", data: sEnch.real,   yAxisIndex: 0, smooth: true, symbol: "none",
+        lineStyle: { color: C.green,  width: 2.8 },
+        areaStyle: { color: linGrad(C.green, 0.20, 0.02) } },
+
+      // ── Marca vertical del umbral real/calculado
+      ...(idx >= 0 ? [{
+        name: "__split", type: "line" as const, data: [], markLine: {
+          silent: true, symbol: "none",
+          lineStyle: { color: C.muted, width: 1, type: "dashed" as const, opacity: 0.5 },
+          label: {
+            show: true, position: "middle" as const, color: C.muted, fontSize: 10,
+            rotate: 90, distance: 6,
+            formatter: `DGT real ${PERIODO_PRIMER_REAL} →`,
+          },
+          data: [{ xAxis: PERIODO_PRIMER_REAL as string }],
+        },
+      }] : []),
     ],
   }), [parBev, parPhev, parNoEnch]);
   return <div ref={ref} style={{ width: "100%", height: 340 }} />;
@@ -462,8 +504,10 @@ const sDesc: React.CSSProperties = {
 
 export function Dashboard() {
   const R = dgtParqueResumen;
+  const { countryName } = useInsights();
 
   // ── Filtro por tipo de vehículo ─────────────────────────────────────────
+  const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
   const [tiposVehiculo, setTiposVehiculo] = useState<ParqueFiltroTipo[]>(TIPOS_DEFAULT);
 
   const isAllDefault = tiposVehiculo.length === TIPOS_DEFAULT.length &&
@@ -538,66 +582,22 @@ export function Dashboard() {
 
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,sans-serif" }}>
+
+      {/* Título */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0", textAlign: "center" }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0 }}>
+          Parque activo de vehículos en {countryName}
+        </h1>
+      </div>
+
+      <DashboardControls
+        filtro={filtro}
+        setFiltro={setFiltro}
+        tiposVehiculo={tiposVehiculo as TipoVehiculo[]}
+        setTiposVehiculo={setTiposVehiculo as (fn: (prev: TipoVehiculo[]) => TipoVehiculo[]) => void}
+      />
+
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "32px 24px" }}>
-
-        {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: "-0.02em" }}>
-            Parque activo EV — España
-          </h1>
-          <p style={{ color: C.muted, fontSize: 14, margin: "6px 0 0" }}>
-            Vehículos electrificados en circulación (BEV + PHEV, sin HEV).
-            Datos DGT microdatos MATRABA · Hasta {dgtParqueMeta.ultimo_periodo}
-          </p>
-        </div>
-
-        {/* ── Filtro tipo de vehículo ───────────────────────────────────── */}
-        <div style={{ marginBottom: 28, display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
-          <span style={{ fontSize: 11, color: C.dim, marginRight: 4 }}>Vehículo:</span>
-
-          {/* Todos */}
-          <button
-            onClick={selectTodos}
-            style={{
-              padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
-              border: isAllDefault && !otrosSelected ? `1px solid ${C.text}44` : "1px solid transparent",
-              background: isAllDefault && !otrosSelected ? "rgba(241,245,249,0.1)" : "rgba(255,255,255,0.04)",
-              color: isAllDefault && !otrosSelected ? C.text : C.muted,
-              transition: "all 0.15s",
-            }}
-          >
-            Todos
-          </button>
-
-          {/* Tipos individuales */}
-          {(["turismo","furgoneta","moto_scooter","microcar","camion","autobus","otros"] as ParqueFiltroTipo[]).map((t) => {
-            const active = tiposVehiculo.includes(t);
-            const col = t === "turismo"      ? "#f472b6"
-              : t === "furgoneta"            ? "#a78bfa"
-              : t === "moto_scooter"         ? "#a3e635"
-              : t === "microcar"             ? "#e879f9"
-              : t === "camion"               ? "#fbbf24"
-              : t === "autobus"              ? "#f87171"
-              : "#94a3b8";
-            const isOtros = t === "otros";
-            const otrosExcluido = isOtros && !active;
-            const tooltip = isOtros
-              ? "Incluye: vehículos especiales industriales, quads/ATV, carretillas y otras categorías no clasificadas"
-              : undefined;
-            return (
-              <button key={t} title={tooltip} onClick={() => toggleTipo(t)} style={{
-                padding: "3px 11px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
-                border: active ? `1px solid ${col}55` : "1px solid transparent",
-                background: active ? `${col}18` : "rgba(255,255,255,0.04)",
-                color: active ? col : "rgba(241,245,249,0.25)",
-                textDecoration: otrosExcluido ? "line-through" : "none",
-                transition: "all 0.15s",
-              }}>
-                {TIPO_LABELS[t]}
-              </button>
-            );
-          })}
-        </div>
 
         {/* KPI row */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 28 }}>
@@ -641,7 +641,10 @@ export function Dashboard() {
         {/* Parque evolution */}
         <div style={{ ...sec, marginBottom: 20 }}>
           <div style={sTitle}>Evolución del parque activo</div>
-          <div style={sDesc}>Vehículos en circulación cada mes (matriculaciones acumuladas − bajas acumuladas)</div>
+          <div style={sDesc}>
+            Desde <strong style={{ color: C.text }}>{PERIODO_PRIMER_REAL ?? ""}</strong> datos REALES del ZIP mensual DGT (línea sólida).
+            Antes de esa fecha, serie calculada hacia atrás desde el ancla real (línea punteada, aproximación).
+          </div>
           <ChartParqueEvolucion parBev={parBev} parPhev={parPhev} parNoEnch={parNoEnch} />
         </div>
 
@@ -707,8 +710,15 @@ export function Dashboard() {
               </tr>
             </tbody>
           </table>
-          <div style={{ marginTop: 16, fontSize: 11, color: C.dim }}>
-            Fuente: DGT — Microdatos MATRABA (matriculaciones + bajas) · Datos hasta {dgtParqueMeta.ultimo_periodo} · Actualizado {dgtParqueMeta.ultima_actualizacion}
+          <div style={{ marginTop: 16, fontSize: 11, color: C.dim, lineHeight: 1.6 }}>
+            <div>
+              <strong style={{ color: C.muted }}>Fuente real:</strong> DGT — ZIP mensual Parque de Vehículos (microdatos).
+              {" "}Snapshots reales desde {dgtParqueMeta.primer_periodo_real} hasta {dgtParqueMeta.ultimo_periodo_real}.
+            </div>
+            <div>
+              <strong style={{ color: C.muted }}>Fuente calculada:</strong> DGT MATRABA (matriculaciones − bajas), aplicada hacia atrás desde el primer snapshot real.
+            </div>
+            <div style={{ marginTop: 6 }}>Actualizado {dgtParqueMeta.ultima_actualizacion}.</div>
           </div>
         </div>
 
