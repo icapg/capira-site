@@ -64,11 +64,55 @@ El dashboard de Capira divide los vehículos en DOS grupos, NO en categorías in
 **El parque activo del dashboard** muestra enchufables (BEV+PHEV) como métricas principales.
 Los vehículos sin cat_vehiculo_ev (NULL) son gasolina/diesel/GLP = ~16M de vehículos, NO se muestran en el dashboard EV.
 
+### Flujo vs Stock (distinción crítica)
+
+Dos tipos de dato, NO mezclar:
+- **Flujo** (tablas \`matriculaciones\`, \`bajas\`): eventos dentro de un mes. Cada fila es una alta o una baja.
+- **Stock** (tablas \`parque\`, \`parque_agregados_mes\`): foto del conjunto activo en un momento dado. Snapshot, no evento.
+
+**Regla**: para "cuántos se vendieron/matricularon" usar flujo (matriculaciones). Para "cuántos hay rodando/activos" usar stock (parque). Son datasets distintos con fuentes distintas y NO deben mezclarse ni sumarse.
+
+### Altas nuevas vs re-matriculaciones (ind_nuevo_usado)
+
+- \`ind_nuevo_usado='N'\` → vehículo **nuevo** (alta real, primera matriculación). SÍ suma al parque.
+- \`ind_nuevo_usado='U'\` → vehículo **usado** re-matriculado (importación, cambio de servicio). NO suma al parque — ya estaba en circulación.
+
+Para calcular crecimiento del parque desde flujos MATRABA, usar SIEMPRE \`ind_nuevo_usado='N'\`.
+
+### Bajas: el motivo importa
+
+- \`motivo_baja='3'\` → desguace / renovación del parque (baja **definitiva**). SÍ resta del parque.
+- Otros motivos (transferencias, bajas temporales, voluntarias, motivo=6 null, motivo=7) NO restan del parque porque el vehículo sigue existiendo administrativamente.
+
+Para calcular decremento del parque desde flujos MATRABA, usar SIEMPRE \`motivo_baja='3'\`.
+
 ### Fuentes de datos
 - **DGT MATRABA**: microdatos oficiales de matriculaciones y bajas, todos los vehículos matriculados en España desde dic 2014. Muy granular. Es lo que contiene esta base de datos.
 - **DGT Parque de Vehículos** (ZIP oficial): snapshot completo del parque activo en un momento dado. Contiene TODOS los vehículos activos registrados, incluyendo los matriculados antes de 2014. Es la fuente oficial para parque total y parque por tecnología. Tabla SQLite: parque + parque_agregados_mes (snapshots mensuales desde marzo 2025).
 - **ANFAC**: datos de fabricantes, solo turismos nuevos, cifras ligeramente distintas a DGT.
 - El dashboard tiene un toggle DGT/ANFAC para comparar — por defecto usa DGT.
+
+### Horarios de publicación DGT (relevado 2026-04-17 via Last-Modified)
+
+| Mes dato | Parque (ZIP) UTC       | MATRABA (mat+bajas) UTC |
+|----------|------------------------|-------------------------|
+| 2025-07  | 04-Aug 20:30           | 15-Aug 06:31            |
+| 2025-08  | 01-Sep 20:19           | 15-Sep 06:30            |
+| 2025-09  | 01-Oct 20:21           | 15-Oct 06:31            |
+| 2025-10  | 01-Nov 21:17           | 15-Nov 07:31            |
+| 2025-11  | 01-Dec 21:19           | 15-Dec 07:31            |
+| 2025-12  | 01-Jan 21:19           | 15-Jan 07:31            |
+| 2026-01  | 01-Feb 21:14           | 15-Feb 07:31            |
+| 2026-02  | 01-Mar 20:50           | 15-Mar 07:30            |
+| 2026-03  | 10-Apr 10:06 (atípico) | 15-Apr 06:31            |
+
+**Patrón**:
+- **Parque** (ZIP Parque de Vehículos): día **1** del mes siguiente, ~21-22h España. Outlier registrado: 2026-03 se republicó el 10-abril (probable corrección).
+- **MATRABA** (matriculaciones + bajas): día **15** del mes siguiente, ~08:30 España. Muy estable (variación de segundos mes a mes; salto de ~1h por DST entre verano/invierno).
+
+**URL MATRABA — atención**: el path usa mes SIN zero-padding: \`https://www.dgt.es/microdatos/salida/{year}/{M}/vehiculos/matriculaciones/export_mensual_mat_{YYYYMM}.zip\` (ej \`/2026/3/\`, NO \`/2026/03/\`). El script \`scripts/dgt-matriculaciones.mjs\` ya lo maneja.
+
+**Implicancia para el cron local**: el cron actual (día 16, 00:01 España) garantiza tener MATRABA del mes anterior (publicado ~15 08:30) y el snapshot de parque (~1 22:00, 15 días de margen). Podría adelantarse al día 15 ~10:00 España si se quieren datos más frescos.
 
 ### Parque activo oficial (ZIP DGT, marzo 2025) — fuente más fiable que MATRABA para parque
 | Categoría   | Vehículos  | Tipo        |
@@ -83,10 +127,35 @@ Los vehículos sin cat_vehiculo_ev (NULL) son gasolina/diesel/GLP = ~16M de veh�
 
 Enchufables totales (BEV+PHEV): **621.180** — penetración: **1,63%** del parque total.
 
+Nota: esos números son del **primer snapshot histórico** (marzo 2025). Para cifras actuales usar la tool \`parque_stats\` (devuelve el último snapshot disponible, actualmente marzo 2026).
+
 METODOLOGÍA OFICIAL (desde abril 2026):
 El parque activo de enchufables se obtiene del ZIP oficial DGT Parque de Vehículos, NO del cálculo MATRABA.
 El cálculo MATRABA (matriculaciones - bajas) sobreestima (~792K) porque solo cubre desde 2014. El ZIP es el dato real.
 Cuando el usuario pregunte por "enchufables activos" o "parque EV", usar las cifras del ZIP: BEV=343.873, PHEV=277.307.
+
+### Parque real vs calculado (dashboard /insights/parque)
+
+El archivo \`app/lib/insights/dgt-parque-data.ts\` (generado por \`scripts/dgt-parque-build.mjs\`) contiene 136 meses de datos consumidos por el dashboard:
+
+| Rango                          | Fuente          | Tipo       | Cómo se obtiene                                    |
+|--------------------------------|-----------------|------------|----------------------------------------------------|
+| 2025-03 → 2026-03 (13 meses)   | ZIP mensual DGT | **Real**   | Conteo directo del snapshot por tipo × CATELECT    |
+| 2014-12 → 2025-02 (123 meses)  | MATRABA flows   | **Calc.**  | Retroceso desde ancla 2025-03                      |
+
+**Fórmula del retroceso** (por tipo × CATELECT):
+\`\`\`
+parque[m-1, tipo, cat] = parque[m, tipo, cat]
+                       - matriculaciones[m, tipo, cat, ind_nuevo_usado='N']
+                       + bajas[m, tipo, cat, motivo_baja='3']
+\`\`\`
+Suma de tipos = total global en cada período (invariante verificado). El dashboard marca el límite con línea vertical en 2025-03 (\`DGT real 2025-03 →\`); los períodos calculados se muestran con línea punteada y etiqueta "calculado".
+
+### Caveats conocidos (no son bugs, son datos reales DGT)
+
+- **2024-02**: 749k bajas con motivo=3 en un solo mes (~10× lo normal). Procesamiento batch administrativo real de la DGT. Produce caída visible en no-enchufables.
+- **2023-12** y **2025-12**: ~288k bajas en un mes cada uno (también batch administrativo).
+- No existen informes oficiales mensuales de parque pre-2025-03 — solo reportes anuales. Por eso el ancla de cálculo arranca en 2025-03.
 
 ## Tablas
 
@@ -148,12 +217,68 @@ Mismos campos que matriculaciones, más:
 
 (Las bajas NO tienen cod_provincia_mat ni provincia_mat — solo cod_provincia_veh/provincia_veh)
 
+### parque (~38.9M registros — último snapshot)
+Stock. Último snapshot oficial del parque activo publicado por DGT. Fuente: ZIP Parque de Vehículos. Cada fila = un vehículo activo en el último snapshot. **Se sobreescribe con cada actualización mensual** (NO acumula histórico — para serie temporal usar \`parque_agregados_mes\`).
+
+| Columna         | Tipo    | Descripción |
+|-----------------|---------|-------------|
+| periodo         | TEXT    | Snapshot al que pertenece la fila, formato "YYYYMM" |
+| subtipo         | TEXT    | Subtipo DGT detallado |
+| tipo_grupo      | TEXT    | Agrupación dashboard (turismo, moto, furgoneta_van, camion, etc.) |
+| catelect        | TEXT    | Categoría EV (BEV/PHEV/HEV/REEV/FCEV/NO_EV) — OJO nombre distinto a matriculaciones.cat_vehiculo_ev |
+| propulsion      | TEXT    | Combustible/propulsión |
+| distintivo      | TEXT    | Etiqueta ambiental DGT (0, B, C, ECO, CERO) |
+| provincia       | TEXT    | Código provincia (01-52) |
+| municipio       | TEXT    | Código municipio INE |
+| marca           | TEXT    | Marca |
+| modelo          | TEXT    | Modelo |
+| fecha_matr      | TEXT    | Fecha de matriculación |
+| fec_prim_matr   | TEXT    | Fecha primera matriculación (útil para usados importados) |
+| clase_matr      | TEXT    | Clase de matrícula |
+| procedencia     | TEXT    | Procedencia del vehículo |
+| nuevo_usado     | TEXT    | "N"/"U" (análogo a ind_nuevo_usado de matriculaciones) |
+| carroceria      | TEXT    | Tipo de carrocería |
+
+### parque_agregados_mes (agregados por clave, 13 snapshots 202503→202603)
+Stock agregado. Pre-calculado para queries rápidas de serie temporal. **PK compuesta (periodo, clave)**.
+
+| Columna | Tipo    | Descripción |
+|---------|---------|-------------|
+| periodo | TEXT    | Mes del snapshot, formato "YYYYMM" (sin guión — ¡atención!) |
+| clave   | TEXT    | Identificador del agregado (ver formato abajo) |
+| n       | INTEGER | Cantidad de vehículos del agregado |
+
+**Formato de \`clave\`** (prefijo:valor):
+- \`TOTAL\` — total del parque en ese período (1 fila por periodo)
+- \`CATELECT:<cat>\` — por categoría EV (BEV, PHEV, HEV, REEV, FCEV, NO_EV)
+- \`TIPO:<tipo_grupo>\` — por tipo de vehículo (turismo, moto, furgoneta_van, etc.)
+- \`CATELECT_TIPO:<cat>:<tipo>\` — combinación cat × tipo
+- \`PROVINCIA:<cod>\` — por provincia INE (01-52)
+- \`PROVINCIA_CATELECT:<cod>:<cat>\` — combinación provincia × cat
+- \`DISTINTIVO:<etiqueta>\` — por etiqueta ambiental (0, B, C, ECO, CERO)
+
+**Ejemplo** (obtener BEVs activos en último snapshot):
+\`\`\`sql
+SELECT n FROM parque_agregados_mes
+WHERE periodo = (SELECT MAX(periodo) FROM parque_agregados_mes)
+  AND clave = 'CATELECT:BEV';
+\`\`\`
+
+### parque_meses_procesados
+Control de qué snapshots de parque se importaron.
+
+| Columna      | Tipo    | Descripción |
+|--------------|---------|-------------|
+| periodo      | TEXT PK | "YYYYMM" |
+| rows         | INTEGER | Total de vehículos del snapshot |
+| procesado_en | TEXT    | Timestamp ISO del import |
+
 ### meses_procesados / meses_procesados_bajas
-Control de qué meses han sido importados.
+Control de qué meses MATRABA han sido importados.
 
 | Columna        | Tipo    |
 |----------------|---------|
-| periodo        | TEXT PK | "YYYY-MM" |
+| periodo        | TEXT PK | "YYYY-MM" (OJO — formato distinto a parque_meses_procesados) |
 | año            | INTEGER |
 | mes            | INTEGER |
 | total_registros| INTEGER |
@@ -203,16 +328,25 @@ FROM bajas
 WHERE año = 2025 AND cat_vehiculo_ev IN ('BEV','PHEV')
 GROUP BY motivo_baja_desc ORDER BY n DESC;
 
-### Parque activo estimado (mats - bajas acumuladas)
-SELECT
-  SUM(CASE WHEN t='mat' THEN n ELSE -n END) as parque_estimado,
-  cat_vehiculo_ev
-FROM (
-  SELECT 'mat' as t, cat_vehiculo_ev, COUNT(*) as n FROM matriculaciones WHERE cat_vehiculo_ev IS NOT NULL GROUP BY cat_vehiculo_ev
-  UNION ALL
-  SELECT 'baja' as t, cat_vehiculo_ev, COUNT(*) as n FROM bajas WHERE cat_vehiculo_ev IS NOT NULL GROUP BY cat_vehiculo_ev
-)
-GROUP BY cat_vehiculo_ev;
+### Parque activo por CATELECT (último snapshot, dato REAL)
+SELECT substr(clave, 10) as cat, n
+FROM parque_agregados_mes
+WHERE periodo = (SELECT MAX(periodo) FROM parque_agregados_mes)
+  AND clave LIKE 'CATELECT:%'
+ORDER BY n DESC;
+
+### Serie mensual del parque enchufable (BEV+PHEV, 13 meses reales)
+SELECT periodo,
+  SUM(CASE WHEN clave = 'CATELECT:BEV'  THEN n ELSE 0 END) as bev,
+  SUM(CASE WHEN clave = 'CATELECT:PHEV' THEN n ELSE 0 END) as phev
+FROM parque_agregados_mes
+WHERE clave IN ('CATELECT:BEV','CATELECT:PHEV')
+GROUP BY periodo ORDER BY periodo;
+
+### ⚠️  NO USAR: parque estimado como (matriculaciones − bajas)
+Tentador pero INCORRECTO: MATRABA solo cubre desde dic 2014, así que sobreestima ~800k enchufables
+(y millones de no-enchufables) porque ignora vehículos matriculados antes de 2014 que todavía están activos.
+Para parque activo usar SIEMPRE la tabla \`parque_agregados_mes\` (o la tool \`parque_stats\`).
 `.trim();
 
 // ─────────────────────────────────────────────────────────────────
