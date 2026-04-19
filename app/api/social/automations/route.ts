@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '../../../lib/supabase-admin'
+import { getSupabaseAdmin } from '../../../lib/supabase-admin'
 
 export const runtime  = 'nodejs'
 export const dynamic  = 'force-dynamic'
 
 export async function GET() {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from('social_automations')
     .select('*')
     .order('created_at', { ascending: true })
@@ -35,7 +35,7 @@ export async function PUT(req: Request) {
     if (plataformas !== undefined) update.plataformas = plataformas
     if (activa      !== undefined) update.activa      = activa
 
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await getSupabaseAdmin()
       .from('social_automations')
       .update(update)
       .eq('id', id)

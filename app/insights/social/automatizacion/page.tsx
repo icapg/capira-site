@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 
-import { supabaseAdmin } from '../../../lib/supabase-admin'
+import { getSupabaseAdmin } from '../../../lib/supabase-admin'
 import { AutomationsClient } from './AutomationsClient'
 import { dgtParqueMensual } from '../../../lib/insights/dgt-parque-data'
 
@@ -20,7 +20,7 @@ export type AutomationRow = {
 
 async function getAutomations(): Promise<{ rows: AutomationRow[]; missingTable: boolean; error?: string }> {
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await getSupabaseAdmin()
       .from('social_automations')
       .select('*')
       .order('created_at', { ascending: true })
