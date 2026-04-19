@@ -2,7 +2,7 @@
 // Genera: node scripts/dgt-parque-build.mjs
 // Fuente real:      DGT Parque de Vehículos (ZIP microdatos mensual, desde 2025-03)
 // Fuente calculada: MATRABA matriculaciones − bajas (periodos anteriores a 2025-03)
-// Última actualización: 2026-04-17
+// Última actualización: 2026-04-19
 // ⚠️  No editar manualmente
 // ────────────────────────────────────────────────────────────────────────────
 import raw from '../../../data/dgt-parque.json' assert { type: 'json' };

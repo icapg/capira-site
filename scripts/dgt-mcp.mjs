@@ -74,17 +74,21 @@ Dos tipos de dato, NO mezclar:
 
 ### Altas nuevas vs re-matriculaciones (ind_nuevo_usado)
 
-- \`ind_nuevo_usado='N'\` → vehículo **nuevo** (alta real, primera matriculación). SÍ suma al parque.
-- \`ind_nuevo_usado='U'\` → vehículo **usado** re-matriculado (importación, cambio de servicio). NO suma al parque — ya estaba en circulación.
+- \`ind_nuevo_usado='N'\` → vehículo **nuevo** (alta real, primera matriculación).
+- \`ind_nuevo_usado='U'\` → vehículo **usado** re-matriculado (importación, cambio de servicio).
 
-Para calcular crecimiento del parque desde flujos MATRABA, usar SIEMPRE \`ind_nuevo_usado='N'\`.
+Para **matriculaciones comerciales** (ventas/altas del mercado) usar \`ind_nuevo_usado='N'\`: es el indicador que reporta ANFAC y medios.
+Para **reconstrucción de parque desde flujos** (backward calc) usar \`N+U\` juntos: las re-matriculaciones de usados importados también engrosan el parque activo DGT (quedan administrativamente como altas en España).
 
 ### Bajas: el motivo importa
 
-- \`motivo_baja='3'\` → desguace / renovación del parque (baja **definitiva**). SÍ resta del parque.
-- Otros motivos (transferencias, bajas temporales, voluntarias, motivo=6 null, motivo=7) NO restan del parque porque el vehículo sigue existiendo administrativamente.
+Distribución típica por motivo_baja en la tabla \`bajas\` (21.9M filas):
+- \`motivo_baja='3'\` — desguace / renovación del parque (baja **definitiva**). ~50% de las bajas.
+- \`motivo_baja='7'\` — baja voluntaria (titular decide retirar el vehículo). ~5%. **SÍ remueve del parque** (evidencia empírica).
+- \`motivo_baja='6'\` — NO remueve del parque (probablemente transferencias/cambios administrativos). ~45%.
+- Otros motivos: marginal.
 
-Para calcular decremento del parque desde flujos MATRABA, usar SIEMPRE \`motivo_baja='3'\`.
+Para **reconstrucción de parque desde flujos** usar \`motivo_baja IN ('3','7')\`. Incluir motivo=6 triplica el error con bias negativo consistente — confirma que esas bajas no son salidas reales del parque.
 
 ### Fuentes de datos
 - **DGT MATRABA**: microdatos oficiales de matriculaciones y bajas, todos los vehículos matriculados en España desde dic 2014. Muy granular. Es lo que contiene esta base de datos.
@@ -143,13 +147,23 @@ El archivo \`app/lib/insights/dgt-parque-data.ts\` (generado por \`scripts/dgt-p
 | 2025-03 → 2026-03 (13 meses)   | ZIP mensual DGT | **Real**   | Conteo directo del snapshot por tipo × CATELECT    |
 | 2014-12 → 2025-02 (123 meses)  | MATRABA flows   | **Calc.**  | Retroceso desde ancla 2025-03                      |
 
-**Fórmula del retroceso** (por tipo × CATELECT):
+**Fórmula del retroceso** (por tipo × CATELECT) — fórmula F6, calibrada empíricamente:
 \`\`\`
 parque[m-1, tipo, cat] = parque[m, tipo, cat]
-                       - matriculaciones[m, tipo, cat, ind_nuevo_usado='N']
-                       + bajas[m, tipo, cat, motivo_baja='3']
+                       - matriculaciones[m, tipo, cat, ind_nuevo_usado IN ('N','U')]
+                       + bajas[m, tipo, cat, motivo_baja IN ('3','7')]
 \`\`\`
 Suma de tipos = total global en cada período (invariante verificado). El dashboard marca el límite con línea vertical en 2025-03 (\`DGT real 2025-03 →\`); los períodos calculados se muestran con línea punteada y etiqueta "calculado".
+
+**Calibración de la fórmula** (análisis 12 meses × BEV/PHEV/HEV, contrastando parque real DGT vs flujos MATRABA):
+
+| Fórmula                       | BEV MAPE | PHEV MAPE | HEV MAPE |
+|-------------------------------|----------|-----------|----------|
+| F1 mat(N) − baja(3)           | 4.13%    | 4.06%     | 5.25%    |
+| F6 mat(N+U) − baja(3+7)       | **3.70%** | **2.42%** | **2.42%** |
+| F2 mat(N) − baja(3+6+7)       | 15.68%   | 15.42%    | 15.13%   |
+
+F6 minimiza error (promedio 2.85%) y minimiza bias (casi insesgado). El error residual es estocástico (random walk, no sistemático): viene de timing de snapshots + ajustes retroactivos DGT.
 
 ### Caveats conocidos (no son bugs, son datos reales DGT)
 
