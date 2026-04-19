@@ -1,7 +1,8 @@
-export type Format = 'linkedin-desktop' | 'linkedin-portrait' | 'instagram'
+export type Format = 'portrait'
 
 export const FORMAT_DIMS: Record<Format, { w: number; h: number }> = {
-  'linkedin-desktop':  { w: 1200, h: 627  },
-  'linkedin-portrait': { w: 1080, h: 1350 },
-  'instagram':         { w: 1080, h: 1350 },
+  portrait: { w: 1080, h: 1350 },
 }
+
+export const PORTRAIT_W = 1080
+export const PORTRAIT_H = 1350
