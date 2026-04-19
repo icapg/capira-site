@@ -1,6 +1,7 @@
 ﻿import "./globals.css";
 import { ConditionalNav } from "./components/ConditionalNav";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import { Analytics } from "@vercel/analytics/next";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -140,6 +141,7 @@ export default function RootLayout({
 
         <ConditionalNav>{children}</ConditionalNav>
         <WhatsAppButton />
+        <Analytics />
       </body>
     </html>
   );
