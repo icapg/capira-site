@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync-env-backup": "node -e \"try{const f=require('fs');if(f.existsSync('.env.local')){f.copyFileSync('.env.local','data/env.local.backup');console.log('[sync-env] data/env.local.backup actualizado')}}catch(e){console.warn('[sync-env]',e.message)}\"",
+    "predev": "npm run sync-env-backup",
+    "prebuild": "npm run sync-env-backup",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
