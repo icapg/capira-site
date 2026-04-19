@@ -29,8 +29,8 @@ export function Playground({ periodos }: { periodos: string[] }) {
   const [typeId, setTypeId]             = useState<string>(IMAGE_TYPES[0].id)
   const [periodoKey, setPeriodoKey]     = useState<string>(defaultPeriodo)
   const [tec, setTec]                   = useState<'ambos'|'bev'|'phev'>('ambos')
-  const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(['todos'])
-  const [fuente, setFuente]             = useState<'dgt'|'anfac'>('dgt')
+  const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(['turismo', 'furgoneta', 'camion', 'autobus'])
+  const [notas, setNotas]               = useState<string>('')
 
   const [copy, setCopy]             = useState<Copy>({ long: '', short: '' })
   const [activePlatform, setActive] = useState<Platform>('long')
@@ -41,10 +41,10 @@ export function Playground({ periodos }: { periodos: string[] }) {
   const type = imageTypeById(typeId) ?? IMAGE_TYPES[0]
   const supports = new Set<FilterId>(type.supports)
 
-  const filters: ImageFilters = { periodoKey, tec, tiposVehiculo, fuente }
-  const rendered = useMemo(() => type.render(filters), [type, periodoKey, tec, tiposVehiculo, fuente])
+  const filters: ImageFilters = { periodoKey, tec, tiposVehiculo }
+  const rendered = useMemo(() => type.render(filters), [type, periodoKey, tec, tiposVehiculo])
 
-  const templateData = useMemo(() => getTemplateDataFor(periodoKey), [periodoKey])
+  const templateData = useMemo(() => getTemplateDataFor(periodoKey, { tec, tiposVehiculo }), [periodoKey, tec, tiposVehiculo])
 
   const handleGenerate = useCallback(async () => {
     if (!templateData) return
@@ -53,7 +53,7 @@ export function Playground({ periodos }: { periodos: string[] }) {
       const res = await fetch('/api/social/generate-copy', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ periodoKey, data: templateData }),
+        body: JSON.stringify({ periodoKey, data: templateData, tiposVehiculo, notas: notas.trim() || undefined }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`)
       const payload = await res.json()
@@ -64,7 +64,7 @@ export function Playground({ periodos }: { periodos: string[] }) {
     } finally {
       setGenerating(false)
     }
-  }, [periodoKey, templateData])
+  }, [periodoKey, templateData, tiposVehiculo, notas])
 
   async function handleDownload() {
     if (!canvasRef.current) return
@@ -118,7 +118,7 @@ export function Playground({ periodos }: { periodos: string[] }) {
           style={selectStyle}
         >
           {IMAGE_TYPES.map(t => (
-            <option key={t.id} value={t.id}>{t.label}</option>
+            <option key={t.id} value={t.id} style={optionStyle}>{t.label}</option>
           ))}
         </select>
         <div style={hintStyle}>{type.description}</div>
@@ -132,7 +132,7 @@ export function Playground({ periodos }: { periodos: string[] }) {
             style={selectStyle}
           >
             {periodos.map(p => (
-              <option key={p} value={p}>{labelForPeriodo(p)}</option>
+              <option key={p} value={p} style={optionStyle}>{labelForPeriodo(p)}</option>
             ))}
           </select>
         </FilterWrapper>
@@ -174,19 +174,21 @@ export function Playground({ periodos }: { periodos: string[] }) {
           </div>
         </FilterWrapper>
 
-        <SectionTitle style={{ marginTop: 22 }}>Fuente</SectionTitle>
-        <FilterWrapper active={supports.has('fuente')}>
-          <div style={{ display: 'flex', gap: 4 }}>
-            {(['dgt','anfac'] as const).map(f => (
-              <button
-                key={f}
-                onClick={() => setFuente(f)}
-                disabled={!supports.has('fuente')}
-                style={pillStyle(fuente === f, supports.has('fuente'))}
-              >{f.toUpperCase()}</button>
-            ))}
-          </div>
-        </FilterWrapper>
+        <SectionTitle style={{ marginTop: 22 }}>Ideas / notas para el copy</SectionTitle>
+        <textarea
+          value={notas}
+          onChange={e => setNotas(e.target.value)}
+          placeholder="Opcional: angulo, tono, datos a destacar, CTA, emojis…"
+          style={{
+            width: '100%', minHeight: 96, padding: 10,
+            fontSize: 11.5, lineHeight: 1.5,
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 7, color: '#f1f5f9',
+            fontFamily: 'inherit', resize: 'vertical',
+          }}
+        />
+        <div style={hintStyle}>Se incorporan al prompt al generar el copy.</div>
 
         <div style={{
           marginTop: 26, padding: 10,
@@ -359,6 +361,11 @@ const selectStyle: React.CSSProperties = {
   borderRadius: 7,
   color: '#f1f5f9',
   fontFamily: 'inherit',
+}
+
+const optionStyle: React.CSSProperties = {
+  color: '#000',
+  background: '#fff',
 }
 
 const hintStyle: React.CSSProperties = {

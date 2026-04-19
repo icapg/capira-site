@@ -443,9 +443,23 @@ function generarAgregaciones(db) {
     FROM bajas WHERE periodo = ? AND marca IS NOT NULL
     GROUP BY marca ORDER BY total DESC
   `);
+  const stmtCatTipo = db.prepare(`
+    SELECT cat_vehiculo_ev, tipo_grupo, COUNT(*) as total
+    FROM bajas WHERE periodo = ? AND cat_vehiculo_ev IS NOT NULL
+    GROUP BY cat_vehiculo_ev, tipo_grupo
+  `);
 
   const meses = periodos.map(({ periodo, año, mes }, i) => {
     process.stdout.write(`  Agregando ${periodo} (${i + 1}/${periodos.length})...\r`);
+
+    // por_cat_tipo: { [tipo_grupo]: { BEV, PHEV, HEV, REEV, FCEV } }
+    const porCatTipo = {};
+    for (const r of stmtCatTipo.all(periodo)) {
+      const tg = r.tipo_grupo ?? 'otros';
+      if (!porCatTipo[tg]) porCatTipo[tg] = {};
+      porCatTipo[tg][r.cat_vehiculo_ev] = r.total;
+    }
+
     return {
       periodo, año, mes,
       total: periodos[i].total_registros,
@@ -458,6 +472,7 @@ function generarAgregaciones(db) {
       por_tipo: Object.fromEntries(
         stmtTipo.all(periodo).map(r => [r.tipo_grupo, r.total])
       ),
+      por_cat_tipo: porCatTipo,
       por_provincia: Object.fromEntries(
         stmtProvincia.all(periodo).map(r => [r.cod_provincia_veh, { nombre: r.provincia_veh, total: r.total }])
       ),

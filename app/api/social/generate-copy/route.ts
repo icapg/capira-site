@@ -4,6 +4,30 @@ export const runtime = 'nodejs'
 
 const HASHTAGS_FIJOS = '#MovilidadElectrica #CocheElectrico #VehiculoElectrico #DGT #EV #ESPAÑA'
 
+const TIPO_LABELS_COPY: Record<string, string> = {
+  turismo:      'turismos',
+  furgoneta:    'furgonetas',
+  moto_scooter: 'motos y scooters',
+  microcar:     'microcars',
+  camion:       'camiones',
+  autobus:      'autobuses',
+  otros:        'tractores, maquinaria especial y otros',
+}
+const ALL_TIPOS = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros']
+
+function buildExclusionNote(tiposVehiculo: string[] | undefined): string {
+  if (!tiposVehiculo || tiposVehiculo.length === 0 || tiposVehiculo.includes('todos')) {
+    return '*Excluye la categoría Otros (tractores, maquinaria especial y vehículos fuera de las categorías principales).'
+  }
+  const excluded = ALL_TIPOS.filter(t => !tiposVehiculo.includes(t))
+  if (excluded.length === 0) return ''
+  const labels = excluded.map(t => TIPO_LABELS_COPY[t] ?? t)
+  const joined = labels.length === 1
+    ? labels[0]
+    : `${labels.slice(0, -1).join(', ')} y ${labels[labels.length - 1]}`
+  return `*No incluye ${joined}.`
+}
+
 function pct(n: number | undefined | null): string {
   if (n == null || Number.isNaN(n)) return ''
   const sign = n > 0 ? '+' : ''
@@ -15,7 +39,7 @@ function fmtNum(n: number | undefined | null): string {
   return n.toLocaleString('es-ES')
 }
 
-function buildPrompt(periodoFull: string, data: any): string {
+function buildPrompt(periodoFull: string, data: any, exclusionNote: string, notas?: string): string {
   const mat = data.matriculaciones
   const bajas = data.bajas
   const acu = data.acumulado
@@ -33,7 +57,11 @@ function buildPrompt(periodoFull: string, data: any): string {
         ? `\n⚠️ Este mes marca un RÉCORD HISTÓRICO de PHEV (${fmtNum(mat.phev)}). Mencionalo en el hook.`
         : ''
 
-  return `Eres el community manager de CAPIRA, empresa española de infraestructura de carga para vehículos eléctricos. Tu audiencia: CPOs, inversores en infra, industria. Tono: profesional, directo, con datos concretos, sin exageraciones. Español de España. Números con formato español: puntos de miles (31.295), coma decimal (58,2%).
+  const notasBlock = notas && notas.trim().length > 0
+    ? `\n\n═══ IDEAS / NOTAS DEL USUARIO (prioritarias) ═══\n${notas.trim()}\n\nIncorporá estas ideas en el copy si son compatibles con los datos reales y la estructura. No inventes cifras ni contradigas los datos. Si una idea contradice los datos, ignórala silenciosamente. No menciones al usuario ni hagas referencia a estas notas como tales.\n`
+    : ''
+
+  return `Eres el community manager de CAPIRA, empresa española de infraestructura de carga para vehículos eléctricos. Tu audiencia: CPOs, inversores en infra, industria. Tono: profesional, directo, con datos concretos, sin exageraciones. Español de España. Números con formato español: puntos de miles (31.295), coma decimal (58,2%).${notasBlock}
 
 Genera DOS versiones del post sobre los datos DGT de ${periodoFull}:
 - "long": para LinkedIn e Instagram (misma, sin límite estricto de largo, con toda la estructura).
@@ -67,7 +95,7 @@ Respetá EXACTAMENTE este formato con saltos de línea:
 
 [1 línea de cierre: reflexión breve sobre el impacto para infraestructura de carga, demanda energética o ubicaciones estratégicas. Variá según los datos.]
 
-*Excluye la categoría Otros (tractores, maquinaria especial y vehículos fuera de las categorías principales).
+${exclusionNote}
 
 ${HASHTAGS_FIJOS}
 
@@ -102,6 +130,8 @@ export async function POST(req: Request) {
     const body = await req.json()
     const periodoKey: string = body?.periodoKey
     const data = body?.data
+    const tiposVehiculo: string[] | undefined = body?.tiposVehiculo
+    const notas: string | undefined = typeof body?.notas === 'string' ? body.notas : undefined
     if (!data || !periodoKey) {
       return NextResponse.json({ error: 'missing periodoKey/data' }, { status: 400 })
     }
@@ -111,7 +141,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 500 })
     }
 
-    const prompt = buildPrompt(data.periodoFull ?? periodoKey, data)
+    const exclusionNote = buildExclusionNote(tiposVehiculo)
+    const prompt = buildPrompt(data.periodoFull ?? periodoKey, data, exclusionNote, notas)
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

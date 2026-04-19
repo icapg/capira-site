@@ -31,7 +31,7 @@ const TIPO_LABELS: Record<ParqueFiltroTipo, string> = {
 };
 
 const TIPOS_ORDER: ParqueFiltroTipo[] = ["turismo", "furgoneta", "moto_scooter", "microcar", "camion", "autobus", "otros"];
-const TIPOS_DEFAULT: ParqueFiltroTipo[] = TIPOS_ORDER.filter((t) => t !== "otros");
+const TIPOS_DEFAULT: ParqueFiltroTipo[] = ["turismo", "furgoneta", "camion", "autobus"];
 
 // Mapeo de filtro-key → tipo_grupo(s) reales en el JSON de parque
 const FILTRO_TO_PARQUE_TIPOS: Record<ParqueFiltroTipo, string[]> = {

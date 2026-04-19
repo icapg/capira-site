@@ -1,17 +1,15 @@
-import type { ComponentType } from 'react'
 import type { TipoVehiculo } from '../insights/dgt-bev-phev-data'
 import { MatriculacionesMes } from '../../insights/social/templates/MatriculacionesMes'
 import { BajasMes }           from '../../insights/social/templates/BajasMes'
 import { AcumuladoMes }       from '../../insights/social/templates/AcumuladoMes'
 import { getTemplateDataFor } from './monthly'
 
-export type FilterId = 'periodo' | 'tec' | 'tipoVehiculo' | 'fuente'
+export type FilterId = 'periodo' | 'tec' | 'tipoVehiculo'
 
 export type ImageFilters = {
-  periodoKey:    string                                       // 'YYYY-MM'
+  periodoKey:    string                    // 'YYYY-MM'
   tec:           'ambos' | 'bev' | 'phev'
   tiposVehiculo: TipoVehiculo[]
-  fuente:        'dgt' | 'anfac'
 }
 
 export type ImageTypeDef = {
@@ -19,16 +17,12 @@ export type ImageTypeDef = {
   label:           string
   category:        'mensual' | 'anual' | 'comparativa' | 'otro'
   description:     string
-  supports:        FilterId[]                                // filtros que el tipo realmente aplica
+  supports:        FilterId[]
   render:          (filters: ImageFilters) => React.ReactElement | null
 }
 
-/**
- * getTemplateDataFor devuelve null cuando no hay datos DGT para el periodo.
- * Los 3 tipos actuales ignoran tec/tipoVehiculo/fuente — la UI los muestra grises.
- */
 function renderMatri(filters: ImageFilters) {
-  const d = getTemplateDataFor(filters.periodoKey)
+  const d = getTemplateDataFor(filters.periodoKey, { tec: filters.tec, tiposVehiculo: filters.tiposVehiculo })
   if (!d) return null
   return (
     <MatriculacionesMes
@@ -42,7 +36,7 @@ function renderMatri(filters: ImageFilters) {
 }
 
 function renderBajas(filters: ImageFilters) {
-  const d = getTemplateDataFor(filters.periodoKey)
+  const d = getTemplateDataFor(filters.periodoKey, { tec: filters.tec, tiposVehiculo: filters.tiposVehiculo })
   if (!d) return null
   return (
     <BajasMes
@@ -56,7 +50,7 @@ function renderBajas(filters: ImageFilters) {
 }
 
 function renderAcumulado(filters: ImageFilters) {
-  const d = getTemplateDataFor(filters.periodoKey)
+  const d = getTemplateDataFor(filters.periodoKey, { tec: filters.tec, tiposVehiculo: filters.tiposVehiculo })
   if (!d) return null
   return (
     <AcumuladoMes
@@ -74,15 +68,15 @@ export const IMAGE_TYPES: ImageTypeDef[] = [
     label:        'Matriculaciones del mes',
     category:     'mensual',
     description:  'BEV · PHEV · No enchufable del mes, con YoY y penetración.',
-    supports:     ['periodo'],
+    supports:     ['periodo', 'tec', 'tipoVehiculo'],
     render:       renderMatri,
   },
   {
     id:           'bajas-mes',
     label:        'Bajas del mes',
     category:     'mensual',
-    description:  'Vehículos dados de baja ese mes, desglose BEV/PHEV/No ench.',
-    supports:     ['periodo'],
+    description:  'Vehículos dados de baja ese mes, con desglose por tipo (MATRABA DGT).',
+    supports:     ['periodo', 'tec', 'tipoVehiculo'],
     render:       renderBajas,
   },
   {
@@ -90,7 +84,7 @@ export const IMAGE_TYPES: ImageTypeDef[] = [
     label:        'Parque EV activo',
     category:     'mensual',
     description:  'Penetración sobre parque total y composición BEV/PHEV activos.',
-    supports:     ['periodo'],
+    supports:     ['periodo', 'tec', 'tipoVehiculo'],
     render:       renderAcumulado,
   },
 ]
@@ -99,4 +93,4 @@ export function imageTypeById(id: string): ImageTypeDef | undefined {
   return IMAGE_TYPES.find(t => t.id === id)
 }
 
-export const ALL_FILTERS: FilterId[] = ['periodo', 'tec', 'tipoVehiculo', 'fuente']
+export const ALL_FILTERS: FilterId[] = ['periodo', 'tec', 'tipoVehiculo']

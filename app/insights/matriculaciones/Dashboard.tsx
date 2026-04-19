@@ -298,7 +298,7 @@ function computeAnalytics(porAño: YearData[]) {
 const currentYear = new Date().getFullYear();
 
 // "Todos" selecciona estas categorías — "otros" excluido por defecto (tractores, quads, industriales)
-const TIPOS_DEFAULT: TipoVehiculo[] = ["turismo","furgoneta","moto_scooter","microcar","camion","autobus"];
+const TIPOS_DEFAULT: TipoVehiculo[] = ["turismo","furgoneta","camion","autobus"];
 
 
 export function Dashboard() {
@@ -1713,7 +1713,7 @@ export function Dashboard() {
 
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>
-          Fuente: DGT — Microdatos MATRABA · Modelos y marcas: acumulado 2020–2026 · Acumulado provincial: 2020–2026
+          Fuente: DGT
         </p>
       </div>
     </div>

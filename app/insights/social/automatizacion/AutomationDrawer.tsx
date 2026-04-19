@@ -10,14 +10,12 @@ type TipoEntry = {
   filters: {
     tec:           'ambos' | 'bev' | 'phev'
     tiposVehiculo: TipoVehiculo[]
-    fuente:        'dgt' | 'anfac'
   }
 }
 
 const DEFAULT_FILTERS: TipoEntry['filters'] = {
   tec: 'ambos',
   tiposVehiculo: ['todos'],
-  fuente: 'dgt',
 }
 
 const PLATAFORMAS: { id: string; label: string }[] = [
@@ -217,17 +215,6 @@ export function AutomationDrawer({
                         </div>
                       </SubField>
 
-                      <SubField label="Fuente" active={supports.has('fuente')}>
-                        <div style={{ display: 'flex', gap: 4 }}>
-                          {(['dgt','anfac'] as const).map(f => (
-                            <button key={f}
-                              onClick={() => updateFilters(t.id, { fuente: f })}
-                              disabled={!supports.has('fuente')}
-                              style={pillStyle(entry!.filters.fuente === f, supports.has('fuente'))}
-                            >{f.toUpperCase()}</button>
-                          ))}
-                        </div>
-                      </SubField>
                     </div>
                   )}
                 </div>

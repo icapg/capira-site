@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { InsightsNav } from "./InsightsNav";
-import { InsightsFuente } from "./InsightsFuente";
 import { InsightsProvider } from "./InsightsContext";
 
 export const metadata: Metadata = {
@@ -23,7 +22,6 @@ export default async function InsightsLayout({ children }: { children: React.Rea
       <div className="min-h-screen" style={{ background: "#06090f", color: "#f4f4f5" }}>
         <InsightsNav />
         <div style={{ flex: 1 }}>{children}</div>
-        <InsightsFuente />
       </div>
     </InsightsProvider>
   );

@@ -90,9 +90,9 @@ select
   'Bundle mensual DGT',
   'Genera Matriculaciones, Bajas y Parque activo del último mes publicado por DGT.',
   '[
-    {"typeId": "matriculaciones-mes", "filters": {"tec":"ambos","tiposVehiculo":["todos"],"fuente":"dgt"}},
-    {"typeId": "bajas-mes",           "filters": {"tec":"ambos","tiposVehiculo":["todos"],"fuente":"dgt"}},
-    {"typeId": "parque-activo",       "filters": {"tec":"ambos","tiposVehiculo":["todos"],"fuente":"dgt"}}
+    {"typeId": "matriculaciones-mes", "filters": {"tec":"ambos","tiposVehiculo":["todos"]}},
+    {"typeId": "bajas-mes",           "filters": {"tec":"ambos","tiposVehiculo":["todos"]}},
+    {"typeId": "parque-activo",       "filters": {"tec":"ambos","tiposVehiculo":["todos"]}}
   ]'::jsonb,
   '{linkedin,instagram,twitter}'
 where not exists (select 1 from public.social_automations);`

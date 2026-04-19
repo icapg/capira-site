@@ -1,10 +1,18 @@
 import { dgtParqueMensual } from '../insights/dgt-parque-data'
 import { dgtMeses } from '../insights/dgt-data'
+import mensualJson from '../../../data/dgt-bev-phev-mensual.json'
+import bajasJson   from '../../../data/dgt-bajas.json'
+import type { TipoVehiculo } from '../insights/dgt-bev-phev-data'
 
 const MESES_ES      = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
 const MESES_ES_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
 export type MonthState = 'generando' | 'pendiente' | 'subido'
+
+export type SocialFilters = {
+  tec?:           'ambos' | 'bev' | 'phev'
+  tiposVehiculo?: TipoVehiculo[]
+}
 
 export type MonthBundle = {
   periodoKey:      string       // 'YYYY-MM'
@@ -12,103 +20,217 @@ export type MonthBundle = {
   periodoFull:     string       // 'Abril 2026'
   state:           MonthState
   hasData:         boolean
-  dgtReleaseDate?: string       // ISO date cuando DGT se espera publicar (día 15 del mes siguiente)
-  supabasePost?:   any          // row de social_posts (si existe)
-  data?:           any          // template data si hasData=true
+  dgtReleaseDate?: string
+  supabasePost?:   any
+  data?:           any
 }
 
-function formatPeriodo(key: string) {
-  const [y, m] = key.split('-')
-  return `${MESES_ES[parseInt(m) - 1]} ${y}`
+// ─── Taxonomía TipoVehiculo (bev-phev data) ↔ dgtMeses.por_tipo ─────────────
+const TIPO_MAP: Record<Exclude<TipoVehiculo, 'todos'>, string[]> = {
+  turismo:      ['turismo', 'suv_todo_terreno'],
+  furgoneta:    ['furgoneta_van'],
+  moto_scooter: ['moto'],
+  microcar:     [],
+  camion:       ['camion'],
+  autobus:      ['autobus'],
+  otros:        ['especial', 'otros', 'agricola', 'quad_atv', 'remolque'],
 }
-function formatPeriodoFull(key: string) {
-  const [y, m] = key.split('-')
-  return `${MESES_ES_FULL[parseInt(m) - 1]} ${y}`
+const TIPO_MAP_PARQUE: Record<Exclude<TipoVehiculo, 'todos'>, string[]> = {
+  turismo:      ['turismo', 'suv_todo_terreno'],
+  furgoneta:    ['furgoneta_van'],
+  moto_scooter: ['moto'],
+  microcar:     [],
+  camion:       ['camion'],
+  autobus:      ['autobus'],
+  otros:        ['especial', 'otros', 'agricola', 'quad_atv'],
 }
 
-function yoy(current: number, previous: number | undefined) {
-  if (!previous || previous === 0) return undefined
-  return +(((current - previous) / previous) * 100).toFixed(1)
+function formatPeriodo(key: string)     { const [y, m] = key.split('-'); return `${MESES_ES[parseInt(m) - 1]} ${y}` }
+function formatPeriodoFull(key: string) { const [y, m] = key.split('-'); return `${MESES_ES_FULL[parseInt(m) - 1]} ${y}` }
+function yoy(cur: number, prev: number | undefined) {
+  if (!prev || prev === 0) return undefined
+  return +(((cur - prev) / prev) * 100).toFixed(1)
 }
 
-export function getTemplateDataFor(periodoKey: string) {
+function activeTipos(tiposVehiculo?: TipoVehiculo[]): Exclude<TipoVehiculo, 'todos'>[] | null {
+  if (!tiposVehiculo || tiposVehiculo.length === 0) return null
+  const active = tiposVehiculo.filter(t => t !== 'todos') as Exclude<TipoVehiculo, 'todos'>[]
+  if (active.length === 0) return null
+  return active
+}
+
+// ─── Lookups por periodo ───────────────────────────────────────────────────
+const bevPhevByPeriodo = new Map<string, any>()
+for (const m of (mensualJson.mensual as any[])) bevPhevByPeriodo.set(m.periodo, m)
+
+const bajasByPeriodo = new Map<string, any>()
+for (const m of ((bajasJson as any).meses as any[])) bajasByPeriodo.set(m.periodo, m)
+
+// ─── Matriculaciones filtradas ─────────────────────────────────────────────
+function matriculacionesFor(periodoKey: string, filters: SocialFilters) {
+  const tec    = filters.tec ?? 'ambos'
+  const tipos  = activeTipos(filters.tiposVehiculo)
+  const parqueRow = dgtParqueMensual.find(p => p.periodo === periodoKey)
+  const bevPhev   = bevPhevByPeriodo.get(periodoKey)
+  const dgtMes    = dgtMeses.find(m => m.periodo === periodoKey)
+  if (!parqueRow) return null
+
+  let bev: number, phev: number, totalMercado: number
+  if (tipos) {
+    bev  = bevPhev  ? tipos.reduce((s, t) => s + ((bevPhev.bev_por_tipo  as any)?.[t] ?? 0), 0) : 0
+    phev = bevPhev  ? tipos.reduce((s, t) => s + ((bevPhev.phev_por_tipo as any)?.[t] ?? 0), 0) : 0
+    totalMercado = dgtMes
+      ? tipos.reduce((s, t) => s + TIPO_MAP[t].reduce((ss, dt) => ss + ((dgtMes.por_tipo as any)?.[dt] ?? 0), 0), 0)
+      : 0
+  } else {
+    bev  = parqueRow.matriculaciones_mes.BEV  ?? 0
+    phev = parqueRow.matriculaciones_mes.PHEV ?? 0
+    totalMercado = dgtMes?.total ?? 0
+  }
+
+  if (tec === 'bev')  { phev = 0 }
+  if (tec === 'phev') { bev  = 0 }
+
+  return { bev, phev, hev: 0, totalMercado }
+}
+
+// ─── Bajas filtradas ───────────────────────────────────────────────────────
+function bajasFor(periodoKey: string, filters: SocialFilters) {
+  const tec   = filters.tec ?? 'ambos'
+  const tipos = activeTipos(filters.tiposVehiculo)
+  const parqueRow = dgtParqueMensual.find(p => p.periodo === periodoKey)
+  if (!parqueRow) return null
+
+  let bevBajas: number, phevBajas: number, totalBajasMercado: number
+  if (tipos) {
+    const bajasRow     = bajasByPeriodo.get(periodoKey)
+    const porCatTipo   = bajasRow?.por_cat_tipo ?? {}
+    const porTipoTotal = bajasRow?.por_tipo     ?? {}
+    bevBajas  = tipos.reduce((s, t) =>
+      s + TIPO_MAP[t].reduce((ss, dt) => ss + ((porCatTipo?.[dt]?.BEV  ?? 0)), 0), 0)
+    phevBajas = tipos.reduce((s, t) =>
+      s + TIPO_MAP[t].reduce((ss, dt) => ss + ((porCatTipo?.[dt]?.PHEV ?? 0)), 0), 0)
+    totalBajasMercado = tipos.reduce((s, t) =>
+      s + TIPO_MAP[t].reduce((ss, dt) => ss + ((porTipoTotal?.[dt]   ?? 0)), 0), 0)
+  } else {
+    bevBajas  = parqueRow.bajas_mes.BEV  ?? 0
+    phevBajas = parqueRow.bajas_mes.PHEV ?? 0
+    totalBajasMercado = parqueRow.total_bajas_mes
+  }
+
+  if (tec === 'bev')  phevBajas = 0
+  if (tec === 'phev') bevBajas  = 0
+
+  return { bevBajas, phevBajas, hevBajas: 0, totalBajasMercado }
+}
+
+// ─── Parque activo filtrado ────────────────────────────────────────────────
+function parqueFor(periodoKey: string, filters: SocialFilters) {
+  const tec = filters.tec ?? 'ambos'
+  const tipos = activeTipos(filters.tiposVehiculo)
+  const parqueRow = dgtParqueMensual.find(p => p.periodo === periodoKey)
+  if (!parqueRow) return null
+
+  let bevActivos: number, phevActivos: number, parqueTotal: number, noEnchufables: number
+  if (tipos && parqueRow.parque_por_tipo) {
+    const tiposParque = tipos.flatMap(t => TIPO_MAP_PARQUE[t])
+    bevActivos    = tiposParque.reduce((s, t) => s + ((parqueRow.parque_por_tipo as any)?.[t]?.BEV           ?? 0), 0)
+    phevActivos   = tiposParque.reduce((s, t) => s + ((parqueRow.parque_por_tipo as any)?.[t]?.PHEV          ?? 0), 0)
+    parqueTotal   = tiposParque.reduce((s, t) => s + ((parqueRow.parque_por_tipo as any)?.[t]?.total         ?? 0), 0)
+    noEnchufables = tiposParque.reduce((s, t) => s + ((parqueRow.parque_por_tipo as any)?.[t]?.no_enchufable ?? 0), 0)
+  } else {
+    bevActivos    = parqueRow.parque_acumulado.BEV  ?? 0
+    phevActivos   = parqueRow.parque_acumulado.PHEV ?? 0
+    parqueTotal   = parqueRow.parque_total
+    noEnchufables = parqueRow.parque_no_enchufable
+  }
+
+  if (tec === 'bev')  phevActivos = 0
+  if (tec === 'phev') bevActivos  = 0
+
+  return { bevActivos, phevActivos, hevActivos: 0, parqueTotal, noEnchufables }
+}
+
+/**
+ * Devuelve los datos del periodo ya filtrados para alimentar los 3 templates.
+ * Si filters es omitido, equivale a "todos los filtros abiertos" (dataset completo).
+ */
+export function getTemplateDataFor(periodoKey: string, filters: SocialFilters = {}) {
   const idx = dgtParqueMensual.findIndex(p => p.periodo === periodoKey)
   if (idx < 0) return null
-  const ultimo = dgtParqueMensual[idx]
-  const penultimo = dgtParqueMensual[idx - 12]  // mismo mes año anterior
 
-  const mat    = ultimo.matriculaciones_mes
-  const bajas  = ultimo.bajas_mes
-  const parque = ultimo.parque_acumulado
-  const matPrev    = penultimo?.matriculaciones_mes
-  const parquePrev = penultimo?.parque_acumulado
+  const prevKey = dgtParqueMensual[idx - 12]?.periodo
 
-  const dgtMes     = dgtMeses.find(m => m.periodo === ultimo.periodo)
-  const dgtMesPrev = penultimo ? dgtMeses.find(m => m.periodo === penultimo.periodo) : undefined
-  const totalMercado     = dgtMes?.total ?? 0
-  const totalMercadoPrev = dgtMesPrev?.total ?? 0
+  const mat  = matriculacionesFor(periodoKey, filters); if (!mat)  return null
+  const bjs  = bajasFor(periodoKey, filters);           if (!bjs)  return null
+  const par  = parqueFor(periodoKey, filters);          if (!par)  return null
+  const matP = prevKey ? matriculacionesFor(prevKey, filters) : null
+  const bjsP = prevKey ? bajasFor(prevKey, filters)           : null
+  const parP = prevKey ? parqueFor(prevKey, filters)          : null
 
-  const noElec     = Math.max(0, totalMercado     - (mat.BEV ?? 0)      - (mat.PHEV ?? 0))
-  const noElecPrev = Math.max(0, totalMercadoPrev - (matPrev?.BEV ?? 0) - (matPrev?.PHEV ?? 0))
+  const evCur  = mat.bev + mat.phev
+  const evPrev = matP ? matP.bev + matP.phev : undefined
+  const noElecCur  = Math.max(0, mat.totalMercado - evCur)
+  const noElecPrev = matP ? Math.max(0, matP.totalMercado - (matP.bev + matP.phev)) : undefined
 
-  const totalBajasMensual     = ultimo.total_bajas_mes
-  const noEnchBajas           = Math.max(0, totalBajasMensual - (bajas.BEV ?? 0) - (bajas.PHEV ?? 0))
-  const totalBajasMensualPrev = penultimo?.total_bajas_mes
-  const noEnchBajasPrev       = totalBajasMensualPrev != null
-    ? Math.max(0, totalBajasMensualPrev - (penultimo?.bajas_mes.BEV ?? 0) - (penultimo?.bajas_mes.PHEV ?? 0))
-    : undefined
+  const evCurBjs  = bjs.bevBajas + bjs.phevBajas
+  const evPrevBjs = bjsP ? bjsP.bevBajas + bjsP.phevBajas : undefined
+  const noEnchBjsCur  = Math.max(0, bjs.totalBajasMercado - evCurBjs)
+  const noEnchBjsPrev = bjsP ? Math.max(0, bjsP.totalBajasMercado - (bjsP.bevBajas + bjsP.phevBajas)) : undefined
 
-  // ─── Detección de récords (solo considerando meses anteriores, no el actual) ───
-  const prevMeses = dgtParqueMensual.slice(0, idx)
-  const currEnch  = (mat.BEV ?? 0) + (mat.PHEV ?? 0)
-  const currBev   = mat.BEV  ?? 0
-  const currPhev  = mat.PHEV ?? 0
-  const maxPrevEnch = prevMeses.reduce((mx, p) => Math.max(mx, (p.matriculaciones_mes.BEV ?? 0) + (p.matriculaciones_mes.PHEV ?? 0)), 0)
-  const maxPrevBev  = prevMeses.reduce((mx, p) => Math.max(mx, p.matriculaciones_mes.BEV  ?? 0), 0)
-  const maxPrevPhev = prevMeses.reduce((mx, p) => Math.max(mx, p.matriculaciones_mes.PHEV ?? 0), 0)
-  const records = {
-    enchufablesMatri: prevMeses.length > 0 && currEnch  > maxPrevEnch,
-    bevMatri:         prevMeses.length > 0 && currBev   > maxPrevBev,
-    phevMatri:        prevMeses.length > 0 && currPhev  > maxPrevPhev,
-    maxPrevEnchufables: maxPrevEnch,
+  // ── Records (solo tec=ambos y tipos=todos, para no confundir) ────────────
+  const sinFiltros = (filters.tec ?? 'ambos') === 'ambos' && !activeTipos(filters.tiposVehiculo)
+  let records = { enchufablesMatri: false, bevMatri: false, phevMatri: false, maxPrevEnchufables: 0 }
+  if (sinFiltros) {
+    const prev = dgtParqueMensual.slice(0, idx)
+    const currEnch = (mat.bev + mat.phev)
+    const maxPrevEnch = prev.reduce((mx, p) => Math.max(mx, (p.matriculaciones_mes.BEV ?? 0) + (p.matriculaciones_mes.PHEV ?? 0)), 0)
+    const maxPrevBev  = prev.reduce((mx, p) => Math.max(mx, p.matriculaciones_mes.BEV  ?? 0), 0)
+    const maxPrevPhev = prev.reduce((mx, p) => Math.max(mx, p.matriculaciones_mes.PHEV ?? 0), 0)
+    records = {
+      enchufablesMatri: prev.length > 0 && currEnch > maxPrevEnch,
+      bevMatri:         prev.length > 0 && mat.bev  > maxPrevBev,
+      phevMatri:        prev.length > 0 && mat.phev > maxPrevPhev,
+      maxPrevEnchufables: maxPrevEnch,
+    }
   }
 
   return {
-    periodo:         formatPeriodo(ultimo.periodo),
-    periodoFull:     formatPeriodoFull(ultimo.periodo),
-    periodoPrev:     penultimo ? formatPeriodo(penultimo.periodo) : undefined,
-    periodoPrevFull: penultimo ? formatPeriodoFull(penultimo.periodo) : undefined,
+    periodo:         formatPeriodo(periodoKey),
+    periodoFull:     formatPeriodoFull(periodoKey),
+    periodoPrev:     prevKey ? formatPeriodo(prevKey) : undefined,
+    periodoPrevFull: prevKey ? formatPeriodoFull(prevKey) : undefined,
     matriculaciones: {
-      bev:  mat.BEV  ?? 0,
-      phev: mat.PHEV ?? 0,
-      hev:  mat.HEV  ?? 0,
-      totalMercado,
-      bevYoy:      yoy(mat.BEV  ?? 0, matPrev?.BEV),
-      phevYoy:     yoy(mat.PHEV ?? 0, matPrev?.PHEV),
-      evYoy:       yoy((mat.BEV ?? 0) + (mat.PHEV ?? 0), (matPrev?.BEV ?? 0) + (matPrev?.PHEV ?? 0)),
-      noElecYoy:   totalMercadoPrev > 0 ? yoy(noElec, noElecPrev) : undefined,
-      totalYoy:    totalMercadoPrev > 0 ? yoy(totalMercado, totalMercadoPrev) : undefined,
+      bev:  mat.bev,
+      phev: mat.phev,
+      hev:  mat.hev,
+      totalMercado: mat.totalMercado,
+      bevYoy:    yoy(mat.bev,  matP?.bev),
+      phevYoy:   yoy(mat.phev, matP?.phev),
+      evYoy:     yoy(evCur, evPrev),
+      noElecYoy: yoy(noElecCur, noElecPrev),
+      totalYoy:  yoy(mat.totalMercado, matP?.totalMercado),
     },
     bajas: {
-      bevBajas:          bajas.BEV  ?? 0,
-      phevBajas:         bajas.PHEV ?? 0,
-      hevBajas:          bajas.HEV  ?? 0,
-      totalBajasMercado: totalBajasMensual,
-      bevYoy:   yoy(bajas.BEV  ?? 0, penultimo?.bajas_mes.BEV),
-      phevYoy:  yoy(bajas.PHEV ?? 0, penultimo?.bajas_mes.PHEV),
-      evYoy:    yoy((bajas.BEV ?? 0) + (bajas.PHEV ?? 0), (penultimo?.bajas_mes.BEV ?? 0) + (penultimo?.bajas_mes.PHEV ?? 0)),
-      noEnchYoy: yoy(noEnchBajas, noEnchBajasPrev),
-      totalYoy:  yoy(totalBajasMensual, penultimo?.total_bajas_mes),
+      bevBajas:          bjs.bevBajas,
+      phevBajas:         bjs.phevBajas,
+      hevBajas:          bjs.hevBajas,
+      totalBajasMercado: bjs.totalBajasMercado,
+      bevYoy:    yoy(bjs.bevBajas,  bjsP?.bevBajas),
+      phevYoy:   yoy(bjs.phevBajas, bjsP?.phevBajas),
+      evYoy:     yoy(evCurBjs, evPrevBjs),
+      noEnchYoy: yoy(noEnchBjsCur, noEnchBjsPrev),
+      totalYoy:  yoy(bjs.totalBajasMercado, bjsP?.totalBajasMercado),
     },
     acumulado: {
-      bevActivos:    parque.BEV  ?? 0,
-      phevActivos:   parque.PHEV ?? 0,
-      hevActivos:    parque.HEV  ?? 0,
-      bevYoy:        yoy(parque.BEV  ?? 0, parquePrev?.BEV),
-      phevYoy:       yoy(parque.PHEV ?? 0, parquePrev?.PHEV),
-      evYoy:         yoy((parque.BEV ?? 0) + (parque.PHEV ?? 0), (parquePrev?.BEV ?? 0) + (parquePrev?.PHEV ?? 0)),
-      parqueTotal:   ultimo.parque_total,
-      noEnchufables: ultimo.parque_no_enchufable,
+      bevActivos:    par.bevActivos,
+      phevActivos:   par.phevActivos,
+      hevActivos:    par.hevActivos,
+      bevYoy:        yoy(par.bevActivos,  parP?.bevActivos),
+      phevYoy:       yoy(par.phevActivos, parP?.phevActivos),
+      evYoy:         yoy(par.bevActivos + par.phevActivos, parP ? parP.bevActivos + parP.phevActivos : undefined),
+      parqueTotal:   par.parqueTotal,
+      noEnchufables: par.noEnchufables,
     },
     records,
   }
@@ -120,7 +242,6 @@ function addMonths(yyyymm: string, delta: number): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
 }
 
-// DGT publica datos del mes N el día 15 del mes N+1
 function expectedDgtRelease(periodoKey: string): string {
   const next = addMonths(periodoKey, 1)
   return `${next}-15`
@@ -151,9 +272,9 @@ export function buildMonthBundles(
     const postRow    = publishedByPeriodo.get(periodoKey)
 
     let state: MonthState
-    if (!hasData)                                     state = 'generando'
-    else if (postRow?.status === 'published')         state = 'subido'
-    else                                              state = 'pendiente'
+    if (!hasData)                             state = 'generando'
+    else if (postRow?.status === 'published') state = 'subido'
+    else                                      state = 'pendiente'
 
     bundles.push({
       periodoKey,
@@ -167,6 +288,5 @@ export function buildMonthBundles(
     })
   }
 
-  // Orden: más recientes primero dentro de cada columna
   return bundles.reverse()
 }

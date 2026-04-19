@@ -112,8 +112,6 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                 {TIPOS_ORDER.map((t) => {
                   const active = tiposVehiculo.includes(t);
-                  const isOtros = t === "otros";
-                  const otrosExcluido = isOtros && !active;
                   return (
                     <button
                       key={t}
@@ -126,7 +124,6 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                         border: active ? "1px solid rgba(241,245,249,0.25)" : "1px solid transparent",
                         background: active ? "rgba(241,245,249,0.08)" : "rgba(255,255,255,0.04)",
                         color: active ? "#f4f4f5" : "rgba(241,245,249,0.35)",
-                        textDecoration: otrosExcluido ? "line-through" : "none",
                         transition: "all 0.15s",
                       }}
                     >
