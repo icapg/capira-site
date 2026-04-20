@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
 import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
@@ -13,6 +13,7 @@ import { SectionTitle } from "../_components/SectionTitle";
 import { KPI } from "../_components/KPI";
 import { InsightCard } from "../_components/InsightCard";
 import { EChart } from "../../components/ui/EChart";
+import { useWindowWidth } from "../../lib/useIsMobile";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -203,13 +204,11 @@ export function Dashboard() {
   const [marcaMixPage, setMarcaMixPage] = useState(0);
   const [heatPage, setHeatPage] = useState(0);
   const [marcaMixYear, setMarcaMixYear] = useState<"todos" | number>("todos");
-  const [winW, setWinW] = useState(() => typeof window !== "undefined" ? window.innerWidth : 1280);
-
-  useEffect(() => {
-    const onResize = () => setWinW(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
+  const isNarrow = winW < 520;
+  const cols2 = isMobile ? "1fr" : "1fr 1fr";
+  const outerPad = isMobile ? "20px 14px 48px" : "28px 24px 56px";
 
   const allYearsForSelector: YearData[] = dgtPorAñoCompleto
     .filter((y) => y.año >= 2015);  // 2014 excluido (datos incompletos en el dataset)
@@ -709,6 +708,7 @@ export function Dashboard() {
   );
   const heatMax = Math.max(...heatData.map((d) => d[2]));
   const heatLabelSize = winW < 480 ? 7 : winW < 768 ? 9 : winW < 1024 ? 10 : 11;
+  const heatShowLabels = winW >= 520;
 
   const heatmapOpt: Record<string, any> = {
     backgroundColor: "transparent",
@@ -752,7 +752,7 @@ export function Dashboard() {
         },
       })),
       label: {
-        show: true,
+        show: heatShowLabels,
         formatter: (p: Record<string, any>) => {
           const v = p.value[2];
           if (!v) return "";
@@ -1112,8 +1112,8 @@ export function Dashboard() {
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
 
       {/* Título */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0", textAlign: "center" }}>
-        <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "14px 14px 0" : "18px 24px 0", textAlign: "center" }}>
+        <h1 style={{ fontSize: isMobile ? 20 : 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
           Matriculaciones de vehículos en {countryName}
         </h1>
       </div>
@@ -1125,7 +1125,7 @@ export function Dashboard() {
         setTiposVehiculo={setTiposVehiculo}
       />
 
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 24px 56px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: outerPad }}>
 
         {/* ── KPIs ─────────────────────────────────────────────────────────── */}
         <div style={{ display: "flex", gap: GAP, marginBottom: GAP, flexWrap: "wrap" }}>
@@ -1240,7 +1240,7 @@ export function Dashboard() {
         </div>
 
         {/* ── Evolución + proyección + YoY ────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Histórico matriculaciones anuales" tooltip="Línea continua con el total anual de matriculaciones enchufables desde 2014. Las últimas barras incluyen proyección estimada para años futuros. Útil para ver la tendencia general de adopción.">
               Evolución del mercado
@@ -1293,7 +1293,7 @@ export function Dashboard() {
         </div>
 
         {/* ── Tendencia mensual + YoY mensual ─────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
               <SectionTitle sub="Matriculaciones por mes" tooltip="Líneas mensuales por año. Cada línea representa un año completo (o parcial si es el año en curso). Permite comparar la forma de la curva entre años y detectar patrones estacionales como los picos de diciembre.">Evolución mensual</SectionTitle>
@@ -1358,7 +1358,7 @@ export function Dashboard() {
         </div>
 
         {/* ── Heatmap + momentum trimestral ───────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
               <SectionTitle sub="Volumen mensual por año — detectá patrones de estacionalidad" tooltip="Cuadrícula con meses en el eje X y años en el eje Y. El color de cada celda indica el volumen de matriculaciones: más oscuro = más registros. Ideal para detectar qué meses son sistemáticamente más altos (ej: diciembre) y cómo evoluciona cada mes a lo largo de los años.">
@@ -1407,7 +1407,7 @@ export function Dashboard() {
 
         {/* ── Mix tecnológico ──────────────────────────────────────────────── */}
         <Card style={{ marginBottom: GAP }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, alignItems: "start" }}>
             <div>
               <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
                 Mix tecnológico — ¿quién gana terreno?
@@ -1478,7 +1478,7 @@ export function Dashboard() {
         </Card>
 
         {/* ── Provincias ───────────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de las 10 provincias con más matriculaciones enchufables acumuladas. Refleja dónde se concentra geográficamente la adopción del vehículo eléctrico en España.">
               Top 10 provincias
@@ -1516,7 +1516,7 @@ export function Dashboard() {
         </div>
 
         {/* ── Modelos + marcas ─────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de los modelos con más matriculaciones acumuladas. Muestra por separado BEV y PHEV. Filtrá por tipo de vehículo para afinar el ranking.">
               Top modelos más vendidos

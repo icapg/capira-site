@@ -2,6 +2,7 @@
 
 import type { TipoVehiculo } from "../lib/insights/dgt-bev-phev-data";
 import { TIPO_LABELS } from "../lib/insights/dgt-bev-phev-data";
+import { useIsMobile } from "../lib/useIsMobile";
 
 const BEV_COLOR  = "#38bdf8";
 const PHEV_COLOR = "#fb923c";
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVehiculo, showTipo = true }: Props) {
+  const isMobile = useIsMobile();
   const tecOptions: { value: "ambos" | "bev" | "phev"; color?: string }[] = [
     { value: "ambos" },
     { value: "bev",  color: BEV_COLOR  },
@@ -44,21 +46,27 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
       top: 52,
       zIndex: 40,
     }}>
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "0 12px" : "0 24px" }}>
         <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          minHeight: 50, gap: 16, flexWrap: "wrap", paddingTop: 6, paddingBottom: 6,
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "stretch" : "center",
+          justifyContent: "space-between",
+          minHeight: isMobile ? undefined : 50,
+          gap: isMobile ? 8 : 16, flexWrap: "wrap",
+          paddingTop: isMobile ? 8 : 6,
+          paddingBottom: isMobile ? 8 : 6,
         }}>
 
           {/* Left: Tec. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
             <span style={{
               fontSize: 11, color: "rgba(241,245,249,0.6)",
               letterSpacing: "0.03em", fontWeight: 600,
             }}>
               Tec.:
             </span>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2 }}>
+            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2, flexWrap: "wrap" }}>
               {/* Total — deshabilitado */}
               <button disabled title="Próximamente" style={{
                 padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,

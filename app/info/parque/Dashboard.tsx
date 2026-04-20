@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useInsights } from "../InsightsContext";
 import { DashboardControls } from "../DashboardControls";
+import { useWindowWidth } from "../../lib/useIsMobile";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import * as echarts from "echarts";
 import {
@@ -505,6 +506,9 @@ const sDesc: React.CSSProperties = {
 export function Dashboard() {
   const R = dgtParqueResumen;
   const { countryName } = useInsights();
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
+  const cols2 = isMobile ? "1fr" : "1fr 1fr";
 
   // ── Filtro por tipo de vehículo ─────────────────────────────────────────
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
@@ -584,8 +588,8 @@ export function Dashboard() {
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,sans-serif" }}>
 
       {/* Título */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px 24px 0", textAlign: "center" }}>
-        <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "14px 14px 0" : "18px 24px 0", textAlign: "center" }}>
+        <h1 style={{ fontSize: isMobile ? 20 : 26, fontWeight: 700, color: C.text, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
           Parque activo de vehículos en {countryName}
         </h1>
       </div>
@@ -597,10 +601,10 @@ export function Dashboard() {
         setTiposVehiculo={setTiposVehiculo as (fn: (prev: TipoVehiculo[]) => TipoVehiculo[]) => void}
       />
 
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "32px 24px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "20px 14px 48px" : "32px 24px" }}>
 
         {/* KPI row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(auto-fit, minmax(220px, 1fr))", gap: isMobile ? 10 : 16, marginBottom: isMobile ? 20 : 28 }}>
           <KpiCard
             emoji="🚗"
             label="Parque total España"
@@ -649,7 +653,7 @@ export function Dashboard() {
         </div>
 
         {/* 2-col row: saldo neto + mat vs bajas */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
           <div style={sec}>
             <div style={sTitle}>Saldo neto mensual BEV + PHEV</div>
             <div style={sDesc}>Variación mensual del parque filtrado. Verde = creció, rojo = se redujo</div>

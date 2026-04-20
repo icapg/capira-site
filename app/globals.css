@@ -13,3 +13,14 @@ body {
 ::selection {
   background: rgba(24, 24, 27, 0.12);
 }
+
+@media (max-width: 768px) {
+  .insights-card-box {
+    padding: 14px !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* Hide horizontal scrollbar on mobile nav overflow */
+.insights-nav-scroll::-webkit-scrollbar { display: none; }
+.insights-nav-scroll { -ms-overflow-style: none; scrollbar-width: none; }

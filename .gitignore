@@ -50,6 +50,10 @@ data/*.db-wal
 # Archivos pesados de datos crudos
 data/*.zip
 
+# Posts drafts y backups locales — nunca subir
+data/Posts/
+data/env.local.backup
+
 # Directorios temporales de scripts
 scripts/scrape-output/
 scripts/screenshots/

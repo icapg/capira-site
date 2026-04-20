@@ -9,6 +9,7 @@ import {
   tiposCargador,
 } from "../../lib/insights/infraestructura-data";
 import { provinciasPorMatriculaciones } from "../../lib/insights/provincias-data";
+import { useWindowWidth } from "../../lib/useIsMobile";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PRE-COMPUTED ANALYTICS
@@ -231,7 +232,10 @@ export function InfraDashboard() {
   const [rankBy, setRankBy] = useState<"puntos"|"rapidos"|"ratio"|"density">("puntos");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
-  const GAP = 16;
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
+  const cols2 = isMobile ? "1fr" : "1fr 1fr";
+  const GAP = isMobile ? 12 : 16;
 
   useEffect(() => {
     // Try jsDelivr CDN (mirrors GitHub, CORS-enabled)
@@ -707,13 +711,13 @@ export function InfraDashboard() {
 
       {/* Controls */}
       <div style={{ borderBottom: `1px solid ${C.border}`, background: "rgba(5,8,16,0.88)", backdropFilter: "blur(16px)", position: "sticky", top: 52, zIndex: 40 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 50, gap: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "0 12px" : "0 24px" }}>
+          <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "stretch" : "center", justifyContent: "space-between", minHeight: isMobile ? undefined : 50, gap: isMobile ? 8 : 16, paddingTop: isMobile ? 8 : 0, paddingBottom: isMobile ? 8 : 0, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <span style={{ fontSize: 11, color: C.dim, letterSpacing: "0.06em", textTransform: "uppercase" }}>España · ANFAC · MITMA</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>Red de Carga Pública</span>
             </div>
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
               <span style={{ fontSize: 11, color: C.dim }}>Ranking:</span>
               {[
                 { v: "puntos",  l: "Puntos totales" },
@@ -722,7 +726,7 @@ export function InfraDashboard() {
                 { v: "density", l: "Densidad/km²"   },
               ].map((o) => (
                 <button key={o.v} onClick={() => setRankBy(o.v as typeof rankBy)} style={{
-                  padding: "5px 12px", borderRadius: 7, cursor: "pointer", fontSize: 11, fontWeight: 700,
+                  padding: isMobile ? "4px 9px" : "5px 12px", borderRadius: 7, cursor: "pointer", fontSize: 11, fontWeight: 700,
                   border: rankBy === o.v ? `1px solid ${C.green}44` : "1px solid transparent",
                   background: rankBy === o.v ? `${C.green}18` : "transparent",
                   color: rankBy === o.v ? C.green : C.muted, transition: "all 0.15s",
@@ -735,7 +739,7 @@ export function InfraDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 24px 56px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "20px 14px 48px" : "28px 24px 56px" }}>
 
         {/* ── KPIs ─────────────────────────────────────────────────────────── */}
         <div style={{ display: "flex", gap: GAP, marginBottom: GAP, flexWrap: "wrap" }}>
@@ -748,7 +752,7 @@ export function InfraDashboard() {
         </div>
 
         {/* ── Evolución + YoY ──────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Puntos de carga públicos por tipo — España 2019–2025">
               Crecimiento de la red de carga
@@ -781,7 +785,7 @@ export function InfraDashboard() {
         </div>
 
         {/* ── Mix tipos + Operadores ───────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Distribución por potencia de carga">
               Mix por tipo de cargador
@@ -878,7 +882,7 @@ export function InfraDashboard() {
           </div>
 
           {/* Coverage summary table */}
-          <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+          <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)", gap: isMobile ? 8 : 12 }}>
             {[
               { tier: "Excelente", threshold: (r: number) => r < 4,    color: C.green, icon: "✅" },
               { tier: "Buena",     threshold: (r: number) => r >= 4 && r < 7,  color: C.teal,  icon: "🟢" },
@@ -910,7 +914,7 @@ export function InfraDashboard() {
         </Card>
 
         {/* ── Province ranking ─────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
               <SectionTitle sub="Top 20 provincias">Ranking provincial</SectionTitle>

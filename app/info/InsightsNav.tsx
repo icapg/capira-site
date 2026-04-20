@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useInsights } from "./InsightsContext";
 import { useState, useRef, useEffect } from "react";
 import { DASHBOARDS, isUnlockedFor, isVisibleTo } from "./dashboards";
+import { useIsMobile } from "../lib/useIsMobile";
 
 const countryGroups = [
   {
@@ -48,6 +49,7 @@ function getCountryFromPath(_pathname: string) {
 export function InsightsNav() {
   const pathname = usePathname();
   const { isAdmin, setCountryName } = useInsights();
+  const isMobile = useIsMobile();
 
   const visibleDashboards = DASHBOARDS.filter((d) => isVisibleTo(d, isAdmin));
   const navItems = visibleDashboards.filter((d) => d.topNav && !d.adminOnly);
@@ -89,11 +91,17 @@ export function InsightsNav() {
       top: 0,
       zIndex: 50,
     }}>
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", height: 52 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "0 10px" : "0 24px" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "auto 1fr auto" : "1fr auto 1fr",
+          alignItems: "center",
+          height: 52,
+          gap: isMobile ? 6 : 0,
+        }}>
 
           {/* LEFT — logo + brand */}
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", minWidth: 0 }}>
             <Link href="/info" style={{ textDecoration: "none" }}>
               <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Image
@@ -103,16 +111,23 @@ export function InsightsNav() {
                   height={22}
                   style={{ filter: "brightness(0) invert(1)", objectFit: "contain" }}
                 />
-                <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em", color: "#f4f4f5" }}>
-                  eMobility Insights{" "}
-                  <span style={{ fontWeight: 400, color: "rgba(244,244,245,0.4)" }}>by CAPIRA</span>
-                </span>
+                {!isMobile && (
+                  <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em", color: "#f4f4f5" }}>
+                    eMobility Insights{" "}
+                    <span style={{ fontWeight: 400, color: "rgba(244,244,245,0.4)" }}>by CAPIRA</span>
+                  </span>
+                )}
               </span>
             </Link>
           </div>
 
           {/* CENTER — nav links */}
-          <div style={{ display: "flex", gap: 4, alignItems: "center", justifyContent: "center" }}>
+          <div className="insights-nav-scroll" style={{
+            display: "flex", gap: 4, alignItems: "center",
+            justifyContent: isMobile ? "flex-start" : "center",
+            overflowX: isMobile ? "auto" : "visible",
+            minWidth: 0,
+          }}>
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
               const unlocked = isUnlockedFor(item, isAdmin);
@@ -122,27 +137,31 @@ export function InsightsNav() {
                     key={item.href}
                     title="Próximamente"
                     style={{
-                      fontSize: 13, fontWeight: 500,
+                      fontSize: isMobile ? 12 : 13, fontWeight: 500,
                       color: "rgba(244,244,245,0.3)",
-                      padding: "5px 12px", borderRadius: 6,
-                      cursor: "default",
+                      padding: isMobile ? "5px 8px" : "5px 12px", borderRadius: 6,
+                      cursor: "default", flexShrink: 0,
                       display: "inline-flex", alignItems: "center", gap: 6,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {item.label}
-                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.05em", color: "rgba(244,244,245,0.4)" }}>
-                      PRÓXIMAMENTE
-                    </span>
+                    {!isMobile && (
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.05em", color: "rgba(244,244,245,0.4)" }}>
+                        PRÓXIMAMENTE
+                      </span>
+                    )}
                   </span>
                 );
               }
               return (
                 <Link key={item.href} href={item.href} style={{
-                  fontSize: 13, fontWeight: 500,
+                  fontSize: isMobile ? 12 : 13, fontWeight: 500,
                   color: active ? "#f4f4f5" : "rgba(244,244,245,0.55)",
-                  textDecoration: "none", padding: "5px 12px", borderRadius: 6,
+                  textDecoration: "none", padding: isMobile ? "5px 8px" : "5px 12px", borderRadius: 6,
                   background: active ? "rgba(255,255,255,0.08)" : "transparent",
                   transition: "color 0.15s, background 0.15s",
+                  whiteSpace: "nowrap", flexShrink: 0,
                 }}>
                   {item.label}
                 </Link>
@@ -201,15 +220,17 @@ export function InsightsNav() {
           </div>
 
           {/* RIGHT — bandera + selector país */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`https://flagcdn.com/w80/${currentCountry.code}.png`}
-              alt={currentCountry.name}
-              width={28}
-              height={20}
-              style={{ borderRadius: 3, objectFit: "cover" }}
-            />
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 4 : 10, justifyContent: "flex-end", flexShrink: 0 }}>
+            {!isMobile && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={`https://flagcdn.com/w80/${currentCountry.code}.png`}
+                alt={currentCountry.name}
+                width={28}
+                height={20}
+                style={{ borderRadius: 3, objectFit: "cover" }}
+              />
+            )}
             <div ref={menuRef} style={{ position: "relative" }}>
               <button
                 onClick={() => setShowMenu((v) => !v)}
@@ -217,11 +238,15 @@ export function InsightsNav() {
                   display: "flex", alignItems: "center", gap: 6,
                   background: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(255,255,255,0.13)",
-                  borderRadius: 7, padding: "4px 10px",
+                  borderRadius: 7, padding: isMobile ? "4px 8px" : "4px 10px",
                   cursor: "pointer", color: "#f4f4f5",
                 }}
               >
-                <span style={{ fontSize: 12, fontWeight: 700 }}>{currentCountry.name}</span>
+                {isMobile && (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={`https://flagcdn.com/w40/${currentCountry.code}.png`} alt={currentCountry.name} width={18} height={13} style={{ borderRadius: 2, objectFit: "cover" }} />
+                )}
+                {!isMobile && <span style={{ fontSize: 12, fontWeight: 700 }}>{currentCountry.name}</span>}
                 <span style={{ fontSize: 9, color: "rgba(244,244,245,0.35)" }}>▼</span>
               </button>
 
