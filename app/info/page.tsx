@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { DASHBOARDS, isUnlockedFor, isVisibleTo, type Dashboard } from "./dashboards";
 
 export const metadata: Metadata = {
@@ -10,7 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/info" },
 };
 
+// TEMPORAL: landing en rediseño — redirigimos a matriculaciones mientras tanto.
+// Para restaurar la landing, borrar esta línea.
+const REDIRECT_TO_MATRICULACIONES = true;
+
 export default async function InsightsPage() {
+  if (REDIRECT_TO_MATRICULACIONES) redirect("/info/matriculaciones");
+
   const cookieStore = await cookies();
   const authCookie = cookieStore.get("info_auth");
   const isAdmin = !!authCookie?.value && authCookie.value === process.env.ADMIN_TOKEN;
