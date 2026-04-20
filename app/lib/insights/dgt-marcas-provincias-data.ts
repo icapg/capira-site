@@ -16,6 +16,7 @@ export type DgtModeloEntry = {
   modelo: string;
   marca: string;
   n: number;
+  por_tipo?: Record<string, number>;
 };
 
 export type DgtProvinciaEntry = {
@@ -24,6 +25,8 @@ export type DgtProvinciaEntry = {
   bev: number;
   phev: number;
   total: number;
+  bev_por_tipo?: Record<string, number>;
+  phev_por_tipo?: Record<string, number>;
 };
 
 export type DgtAñoSummary = {
@@ -74,34 +77,59 @@ export function getDgtMarcas(año: number | "todos", tipos?: string[]): DgtMarca
     .map(({ total_tipo: _, ...rest }) => rest);
 }
 
-/** Top modelos BEV/PHEV para un año o todos */
-export function getDgtModelos(año: number | "todos", tipo: "bev" | "phev"): DgtModeloEntry[] {
+/**
+ * Top modelos BEV/PHEV para un año o todos, opcionalmente filtrado por tipos.
+ * Si se pasan `tipos`, re-rankea sumando solo las unidades de esos tipos via `por_tipo`.
+ */
+export function getDgtModelos(
+  año: number | "todos",
+  cat: "bev" | "phev",
+  tipos?: string[],
+): DgtModeloEntry[] {
   const entries = año === "todos" ? ALL_YEARS : ALL_YEARS.filter((e) => e.año === año);
+  const active = tipos?.filter((t) => t !== "todos") ?? [];
   const agg: Record<string, DgtModeloEntry> = {};
   for (const e of entries) {
-    const list = tipo === "bev" ? e.bev_modelos : e.phev_modelos;
+    const list = cat === "bev" ? e.bev_modelos : e.phev_modelos;
     for (const m of list) {
       const key = `${m.marca}|${m.modelo}`;
+      const count = active.length > 0 && m.por_tipo
+        ? active.reduce((s, t) => s + (m.por_tipo![t] ?? 0), 0)
+        : m.n;
+      if (count === 0) continue;
       if (!agg[key]) agg[key] = { modelo: m.modelo, marca: m.marca, n: 0 };
-      agg[key].n += m.n;
+      agg[key].n += count;
     }
   }
   return Object.values(agg).sort((a, b) => b.n - a.n).slice(0, 15);
 }
 
-/** Provincias con BEV+PHEV totales para un año o todos */
-export function getDgtProvincias(año: number | "todos"): DgtProvinciaEntry[] {
+/**
+ * Provincias con BEV+PHEV totales para un año o todos, opcionalmente filtrado por tipos.
+ */
+export function getDgtProvincias(año: number | "todos", tipos?: string[]): DgtProvinciaEntry[] {
   const entries = año === "todos" ? ALL_YEARS : ALL_YEARS.filter((e) => e.año === año);
+  const active = tipos?.filter((t) => t !== "todos") ?? [];
   const agg: Record<string, DgtProvinciaEntry> = {};
   for (const e of entries) {
     for (const p of e.provincias) {
       if (!agg[p.cod]) agg[p.cod] = { cod: p.cod, provincia: p.provincia, bev: 0, phev: 0, total: 0 };
-      agg[p.cod].bev   += p.bev;
-      agg[p.cod].phev  += p.phev;
-      agg[p.cod].total += p.total;
+      if (active.length > 0 && p.bev_por_tipo && p.phev_por_tipo) {
+        const bev  = active.reduce((s, t) => s + (p.bev_por_tipo![t]  ?? 0), 0);
+        const phev = active.reduce((s, t) => s + (p.phev_por_tipo![t] ?? 0), 0);
+        agg[p.cod].bev   += bev;
+        agg[p.cod].phev  += phev;
+        agg[p.cod].total += bev + phev;
+      } else {
+        agg[p.cod].bev   += p.bev;
+        agg[p.cod].phev  += p.phev;
+        agg[p.cod].total += p.total;
+      }
     }
   }
-  return Object.values(agg).sort((a, b) => b.total - a.total);
+  return Object.values(agg)
+    .filter((p) => p.total > 0)
+    .sort((a, b) => b.total - a.total);
 }
 
 /** Años disponibles en el dataset */

@@ -141,6 +141,29 @@ export function dgtPorAñoTipos(tipos: TipoVehiculo[]): YearData[] {
   );
 }
 
+/**
+ * DGT filtrado por tipos — incluye 2014+ (mismo alcance que dgtPorAñoCompleto).
+ * Para gráficos que necesitan histórico completo (heatmap, evolución mensual).
+ */
+export function dgtPorAñoCompletoTipos(tipos: TipoVehiculo[]): YearData[] {
+  const active = tipos.filter((t) => t !== "todos");
+  const getBev  = active.length === 0
+    ? (m: MensualEntry) => m.bev.total
+    : (m: MensualEntry) => active.reduce((s, t) => s + getBevForTipo(m, t), 0);
+  const getPhev = active.length === 0
+    ? (m: MensualEntry) => m.phev.total
+    : (m: MensualEntry) => active.reduce((s, t) => s + getPhevForTipo(m, t), 0);
+  const byYear: Record<number, { mes: string; bev: number; phev: number }[]> = {};
+  for (const m of mensualJson.mensual) {
+    const year = parseInt(m.periodo.split("-")[0]);
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push({ mes: periodoToMes(m.periodo), bev: getBev(m), phev: getPhev(m) });
+  }
+  return Object.entries(byYear)
+    .map(([y, meses]) => ({ año: parseInt(y), meses, parcial: parseInt(y) >= currentYear }))
+    .sort((a, b) => a.año - b.año);
+}
+
 /** Todos los meses del dataset (2014+) — para el gráfico de evolución mensual DGT */
 export const dgtMensualTodos: { periodo: string; label: string; bev: number; phev: number; total: number }[] =
   mensualJson.mensual.map((m) => ({

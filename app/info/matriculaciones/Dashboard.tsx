@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
-import { dgtPorAñoCompleto, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
+import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
@@ -216,13 +216,17 @@ export function Dashboard() {
   const preYears  = allYearsForSelector.filter((y) => y.año < 2021);
   const mainYears = REAL.filter((y) => y.año >= 2021);
 
+  // Data tipo-filtered con mismo alcance (2015+) para los gráficos
+  const allYearsFiltered: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo)
+    .filter((y) => y.año >= 2015);
+
   const safeAñoActivo: number | "todos" =
     añoActivo === "todos" ? "todos"
     : allYearsForSelector.some((y) => y.año === añoActivo) ? (añoActivo as number)
     : LAST_FULL.año;
   const añoData = safeAñoActivo === "todos"
     ? (REAL[REAL.length - 1])  // fallback (won't be used in "todos" mode)
-    : (allYearsForSelector.find((y) => y.año === safeAñoActivo) ?? REAL[REAL.length - 1]);
+    : (allYearsFiltered.find((y) => y.año === safeAñoActivo) ?? REAL[REAL.length - 1]);
 
   const filteredVal = (row: { bev: number; phev: number; total: number }) =>
     filtro === "bev" ? row.bev : filtro === "phev" ? row.phev : row.total;
@@ -575,9 +579,9 @@ export function Dashboard() {
           splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
           axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : String(v) },
         },
-        series: allYearsForSelector.map((y, i) => {
-          const color = yearColor(i, allYearsForSelector.length);
-          const isLast = i === allYearsForSelector.length - 1;
+        series: allYearsFiltered.map((y, i) => {
+          const color = yearColor(i, allYearsFiltered.length);
+          const isLast = i === allYearsFiltered.length - 1;
           return {
             name: String(y.año),
             type: "line", smooth: true, symbol: "none", symbolSize: 4,
@@ -691,7 +695,7 @@ export function Dashboard() {
   };
 
   // ── Monthly heatmap ──────────────────────────────────────────────────────
-  const heatSource: YearData[] = dgtPorAñoCompleto;
+  const heatSource: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo);
   const HEAT_PAGE_SIZE = 5;
   const heatTotalPages = Math.ceil(heatSource.length / HEAT_PAGE_SIZE);
   // page 0 = most recent years; page N = oldest years
@@ -869,7 +873,7 @@ export function Dashboard() {
   };
 
   // ── Top provincias (DGT · annual JSON summary 2020+) ────────────────────
-  const dgtProvs = getDgtProvincias("todos");
+  const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
   const top10 = dgtProvs.slice(0, 10).map((p) => ({
     nombre: p.provincia,
     total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total,
@@ -908,12 +912,13 @@ export function Dashboard() {
   };
 
   // ── Top modelos (DGT · annual JSON summary) ─────────────────────────────
+  const tiposArg = tiposVehiculo.length > 0 ? tiposVehiculo : undefined;
   const dgtModelos = filtro === "phev"
-    ? getDgtModelos("todos", "phev")
+    ? getDgtModelos("todos", "phev", tiposArg)
     : filtro === "bev"
-    ? getDgtModelos("todos", "bev")
-    : [...getDgtModelos("todos", "bev").map((m) => ({ ...m, tipo: "BEV" as const })),
-       ...getDgtModelos("todos", "phev").map((m) => ({ ...m, tipo: "PHEV" as const }))]
+    ? getDgtModelos("todos", "bev", tiposArg)
+    : [...getDgtModelos("todos", "bev", tiposArg).map((m) => ({ ...m, tipo: "BEV" as const })),
+       ...getDgtModelos("todos", "phev", tiposArg).map((m) => ({ ...m, tipo: "PHEV" as const }))]
         .sort((a, b) => b.n - a.n).slice(0, 15);
 
   const filteredModelos: { label: string; value: number; color: string }[] =

@@ -360,29 +360,37 @@ for (const año of años) {
     .sort((a, b) => (b.bev + b.phev) - (a.bev + a.phev))
     .slice(0, 30);
 
-  // Provincias combinadas BEV+PHEV
+  // Provincias combinadas BEV+PHEV con desglose por tipo
   const provMap = {};
   for (const r of rows) {
     const cod = r.cod_provincia_veh ?? 'ND';
-    if (!provMap[cod]) provMap[cod] = { cod, provincia: provinciaNombre(cod), bev: 0, phev: 0 };
-    if (r.cat_vehiculo_ev === 'BEV') provMap[cod].bev++;
-    else provMap[cod].phev++;
+    const tipo = catToTipo(r.cat_homologacion_eu);
+    if (!provMap[cod]) provMap[cod] = {
+      cod, provincia: provinciaNombre(cod),
+      bev: 0, phev: 0,
+      bev_por_tipo: emptyTipos(), phev_por_tipo: emptyTipos(),
+    };
+    if (r.cat_vehiculo_ev === 'BEV') { provMap[cod].bev++;  provMap[cod].bev_por_tipo[tipo]++; }
+    else                             { provMap[cod].phev++; provMap[cod].phev_por_tipo[tipo]++; }
   }
   const provincias = Object.values(provMap)
     .map(p => ({ ...p, total: p.bev + p.phev }))
     .sort((a, b) => b.total - a.total);
 
-  // Modelos BEV y PHEV top 15
-  const bev_modelos = topN(bevRows, 'modelo', 15).map(e => ({
-    modelo: e.modelo,
-    marca: bevRows.find(r => r.modelo === e.modelo)?.marca ?? 'ND',
-    n: e.n,
-  }));
-  const phev_modelos = topN(phevRows, 'modelo', 15).map(e => ({
-    modelo: e.modelo,
-    marca: phevRows.find(r => r.modelo === e.modelo)?.marca ?? 'ND',
-    n: e.n,
-  }));
+  // Modelos BEV y PHEV top 50 con desglose por tipo (para re-rankear ante filtro)
+  const buildModelos = (catRows) => {
+    const map = {};
+    for (const r of catRows) {
+      const mod = r.modelo ?? 'ND';
+      const tipo = catToTipo(r.cat_homologacion_eu);
+      if (!map[mod]) map[mod] = { modelo: mod, marca: r.marca ?? 'ND', n: 0, por_tipo: emptyTipos() };
+      map[mod].n++;
+      map[mod].por_tipo[tipo]++;
+    }
+    return Object.values(map).sort((a, b) => b.n - a.n).slice(0, 50);
+  };
+  const bev_modelos  = buildModelos(bevRows);
+  const phev_modelos = buildModelos(phevRows);
 
   marcasProvSummary.push({ año, marcas, bev_modelos, phev_modelos, provincias });
 }
