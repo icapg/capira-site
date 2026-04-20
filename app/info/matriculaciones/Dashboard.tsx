@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
 import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
-import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { getDgtMarcas, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
 import { Card } from "../_components/Card";
@@ -873,138 +873,8 @@ export function Dashboard() {
     })),
   };
 
-  // ── Top provincias (DGT · annual JSON summary 2020+) ────────────────────
+  // ── Provincias (concentración geográfica) ──────────────────────────────
   const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
-  const top10 = dgtProvs.slice(0, 10).map((p) => ({
-    nombre: p.provincia,
-    total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total,
-  }));
-
-  const provOpt: Record<string, any> = {
-    backgroundColor: "transparent",
-    tooltip: {
-      ...TT, trigger: "axis",
-      formatter: (p: Record<string, any>[]) => {
-        const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p[0].color};margin-right:6px"></span>`;
-        return `<b style="color:${C.text}">${p[0].name}</b><br/>${dot}Matriculaciones: <b>${fmtN(p[0].value)}</b>`;
-      },
-    },
-    grid: { top: 8, right: 80, bottom: 8, left: 8, containLabel: true },
-    xAxis: {
-      type: "value",
-      splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-      axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : String(v) },
-    },
-    yAxis: {
-      type: "category",
-      data: [...top10].reverse().map((p) => p.nombre),
-      axisLabel: { color: C.muted, fontSize: 11 },
-      axisTick: { show: false },
-      axisLine: { show: false },
-    },
-    series: [{
-      type: "bar", barMaxWidth: 18,
-      data: [...top10].reverse().map((p) => ({
-        value: p.total,
-        itemStyle: { color: linGrad(C.bev, "h", 1, 0.2), borderRadius: [0,4,4,0] },
-      })),
-      label: { show: true, position: "right", color: C.muted, fontSize: 10, formatter: (p: Record<string, any>) => fmtN(p.value) },
-    }],
-  };
-
-  // ── Top modelos (DGT · annual JSON summary) ─────────────────────────────
-  const tiposArg = tiposVehiculo.length > 0 ? tiposVehiculo : undefined;
-  const dgtModelos = filtro === "phev"
-    ? getDgtModelos("todos", "phev", tiposArg)
-    : filtro === "bev"
-    ? getDgtModelos("todos", "bev", tiposArg)
-    : [...getDgtModelos("todos", "bev", tiposArg).map((m) => ({ ...m, tipo: "BEV" as const })),
-       ...getDgtModelos("todos", "phev", tiposArg).map((m) => ({ ...m, tipo: "PHEV" as const }))]
-        .sort((a, b) => b.n - a.n).slice(0, 15);
-
-  const filteredModelos: { label: string; value: number; color: string }[] =
-    (dgtModelos as (typeof dgtModelos[number] & { tipo?: "BEV"|"PHEV" })[]).map((m) => ({
-      label: `${m.marca} ${m.modelo}`,
-      value: m.n,
-      color: (m as any).tipo === "PHEV" ? C.phev : C.bev,
-    }));
-
-  const modelosOpt: Record<string, any> = {
-    backgroundColor: "transparent",
-    tooltip: { ...TT, trigger: "axis", formatter: (p: Record<string, any>[]) => {
-      const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p[0].color};margin-right:6px"></span>`;
-      return `<b style="color:${C.text}">${p[0].name}</b><br/>${dot}Unidades: <b>${fmtN(p[0].value)}</b>`;
-    }},
-    grid: { top: 8, right: 80, bottom: 8, left: 8, containLabel: true },
-    xAxis: {
-      type: "value",
-      splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-      axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : String(v) },
-    },
-    yAxis: {
-      type: "category",
-      data: [...filteredModelos].reverse().map((m) => m.label),
-      axisLabel: { color: C.muted, fontSize: 10 },
-      axisTick: { show: false },
-      axisLine: { show: false },
-    },
-    series: [{
-      type: "bar", barMaxWidth: 18,
-      data: [...filteredModelos].reverse().map((m) => ({
-        value: m.value,
-        itemStyle: { color: linGrad(m.color, "h", 1, 0.15), borderRadius: [0,4,4,0] },
-      })),
-      label: { show: true, position: "right", color: C.muted, fontSize: 10, formatter: (p: Record<string, any>) => fmtN(p.value) },
-    }],
-  };
-
-  // ── Marcas ───────────────────────────────────────────────────────────────
-  const rawMarcas = getDgtMarcas("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
-
-  const marcasFiltradas = rawMarcas
-    .map((m) => ({ ...m, total: filtro === "bev" ? m.bev : filtro === "phev" ? m.phev : m.bev + m.phev }))
-    .filter((m) => m.total > 0)
-    .sort((a,b) => b.total - a.total);
-
-  const marcasOpt: Record<string, any> = {
-    backgroundColor: "transparent",
-    tooltip: {
-      ...TT, trigger: "axis",
-      formatter: (params: Record<string, any>[]) =>
-        `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
-        params.filter((p) => p.value).map((p) => {
-          const c = p.seriesName === "BEV" ? C.bev : p.seriesName === "PHEV" ? C.phev : C.bev;
-          return `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c};margin-right:6px"></span>${p.seriesName}: <b>${fmtN(p.value)}</b>`;
-        }).join("<br/>"),
-    },
-    grid: { top: 12, right: 16, bottom: 32, left: 8, containLabel: true },
-    xAxis: {
-      type: "category",
-      data: marcasFiltradas.map((m) => m.marca),
-      axisLabel: { color: C.muted, fontSize: 11 },
-      axisLine: { lineStyle: { color: C.grid } },
-      axisTick: { show: false },
-    },
-    yAxis: {
-      type: "value",
-      splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-      axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : String(v) },
-    },
-    series: [
-      ...(filtro !== "phev" ? [{
-        name: "BEV", type: "bar", stack: "s",
-        data: marcasFiltradas.map((m) => m.bev > 0 ? m.bev : null),
-        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.45)"}]) },
-        barMaxWidth: 44,
-      }] : []),
-      ...(filtro !== "bev" ? [{
-        name: "PHEV", type: "bar", stack: "s",
-        data: marcasFiltradas.map((m) => m.phev > 0 ? m.phev : null),
-        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.45)"}]), borderRadius: [4,4,0,0] },
-        barMaxWidth: 44,
-      }] : []),
-    ],
-  };
 
   // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
   const MIX_MARCAS_PAGE_SIZE = 8;
@@ -1489,67 +1359,35 @@ export function Dashboard() {
           <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
         </Card>
 
-        {/* ── Provincias ───────────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card>
-            <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de las 10 provincias con más matriculaciones enchufables acumuladas. Refleja dónde se concentra geográficamente la adopción del vehículo eléctrico en España.">
-              Top 10 provincias
-            </SectionTitle>
-            <EChart theme="dark" option={provOpt} style={{ height: 310 }} />
-          </Card>
-          <Card>
-            <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado.">
-              Concentración geográfica
-            </SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
-              {dgtProvs.slice(0, 15).map((p, i) => {
-                const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
-                const provTotal = filtro === "bev"
-                  ? dgtProvs.reduce((s, x) => s + x.bev, 0)
-                  : filtro === "phev"
-                  ? dgtProvs.reduce((s, x) => s + x.phev, 0)
-                  : dgtProvs.reduce((s, x) => s + x.total, 0);
-                const pct = (val / provTotal) * 100;
-                const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
-                return (
-                  <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
-                    <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
-                    <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                      <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
-                    </div>
-                    <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
+        {/* ── Concentración geográfica ─────────────────────────────────────── */}
+        <Card style={{ marginBottom: GAP }}>
+          <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado.">
+            Concentración geográfica
+          </SectionTitle>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
+            {dgtProvs.slice(0, 15).map((p, i) => {
+              const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
+              const provTotal = filtro === "bev"
+                ? dgtProvs.reduce((s, x) => s + x.bev, 0)
+                : filtro === "phev"
+                ? dgtProvs.reduce((s, x) => s + x.phev, 0)
+                : dgtProvs.reduce((s, x) => s + x.total, 0);
+              const pct = (val / provTotal) * 100;
+              const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
+              return (
+                <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
+                  <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
+                  <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
                   </div>
-                );
-              })}
-            </div>
-          </Card>
-        </div>
-
-        {/* ── Modelos + marcas ─────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card>
-            <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de los modelos con más matriculaciones acumuladas. Muestra por separado BEV y PHEV. Filtrá por tipo de vehículo para afinar el ranking.">
-              Top modelos más vendidos
-            </SectionTitle>
-            <div style={{ display: "flex", gap: 14, marginBottom: 6 }}>
-              {[{label:"BEV",color:C.bev},{label:"PHEV",color:C.phev}].map((t) => (
-                <div key={t.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <div style={{ width: 10, height: 3, borderRadius: 2, background: t.color }} />
-                  <span style={{ fontSize: 11, color: C.muted }}>{t.label}</span>
+                  <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
                 </div>
-              ))}
-            </div>
-            <EChart theme="dark" option={modelosOpt} style={{ height: Math.max(filteredModelos.length * 33 + 20, 160) }} />
-          </Card>
-          <Card>
-            <SectionTitle sub="BEV y PHEV por fabricante · DGT" tooltip="Ranking de fabricantes por volumen total de matriculaciones enchufables acumuladas. Cada barra muestra el desglose entre BEV y PHEV de la marca.">
-              Ranking de marcas
-            </SectionTitle>
-            <EChart theme="dark" option={marcasOpt} style={{ height: 280 }} />
-          </Card>
-        </div>
+              );
+            })}
+          </div>
+        </Card>
 
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>
