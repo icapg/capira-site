@@ -371,7 +371,8 @@ function writeMatriculacionesTs(historico, mensual) {
       .join("\n");
 
     const newBlock = `  {\n    año: ${año},${isParcial ? "\n    parcial: true," : ""}\n    meses: [\n${mesLines}\n    ],\n  }`;
-    const blockRegex = new RegExp(`  \\{[\\s\\S]*?año:\\s*${año},[\\s\\S]*?\\},`, "g");
+    // Anclado al bloque exacto: `  {` + newline + `    año: N,` + ...contenido... + `\n  },`
+    const blockRegex = new RegExp(`  \\{\\n\\s*año:\\s*${año},[\\s\\S]*?\\n  \\},`, "g");
     if (blockRegex.test(content)) {
       content = content.replace(blockRegex, newBlock + ",");
     } else {
