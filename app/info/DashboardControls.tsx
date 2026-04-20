@@ -120,9 +120,9 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
           {showTipo && (
             <div style={{
               display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
-              paddingTop: isMobile ? 8 : 0,
-              marginTop: isMobile ? 4 : 0,
-              borderTop: isMobile ? "1px solid rgba(255,255,255,0.08)" : "none",
+              paddingTop: isMobile ? 10 : 0,
+              marginTop: isMobile ? 6 : 0,
+              borderTop: isMobile ? "1px solid rgba(255,255,255,0.22)" : "none",
               width: isMobile ? "100%" : undefined,
             }}>
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
