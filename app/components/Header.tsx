@@ -13,6 +13,7 @@ const NAV_PRIMARY = [
 ] as const;
 
 const NAV_SECONDARY = [
+  { href: "/info", label: "Datos" },
   { href: "/recursos", label: "Recursos" },
   { href: "/sobre-capira", label: "Sobre CAPIRA" },
   { href: "/contacto", label: "Contacto" },
