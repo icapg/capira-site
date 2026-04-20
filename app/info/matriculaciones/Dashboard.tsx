@@ -1299,55 +1299,55 @@ export function Dashboard() {
           </Card>
         </div>
 
-        {/* ── Mix tecnológico ──────────────────────────────────────────────── */}
-        <Card style={{ marginBottom: GAP }}>
-          <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
-            Mix tecnológico — ¿quién gana terreno?
-          </SectionTitle>
-          <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
-          {(() => {
-            const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
-            const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
-            const pct     = Math.round(Math.abs(totPhev - totBev) / Math.min(totPhev, totBev) * 100);
-            const [winner, loser, wColor, lColor] = totPhev >= totBev
-              ? ["PHEV", "BEV", C.phev, C.bev] as const
-              : ["BEV", "PHEV", C.bev, C.phev] as const;
-            const desdeAño = historico[0]?.año ?? FIRST.año;
-            return (
-              <p style={{ fontSize: 11, color: C.muted, marginTop: 10, lineHeight: 1.5 }}>
-                Se matricularon un{" "}
-                <span style={{ color: C.green, fontWeight: 700 }}>+{pct}% más <span style={{ color: wColor }}>{winner}s</span> que <span style={{ color: lColor }}>{loser}s</span></span>
-                {" "}en total desde {desdeAño} ({fmtN(totPhev)} PHEV vs {fmtN(totBev)} BEV).
-              </p>
-            );
-          })()}
-        </Card>
-
-        {/* ── Mix por marca ────────────────────────────────────────────────── */}
-        <Card style={{ marginBottom: GAP, minWidth: 0, overflow: "hidden" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
-            <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
-              Mix por marca
+        {/* ── Mix tecnológico + Mix por marca ──────────────────────────────── */}
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
+          <Card>
+            <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
+              Mix tecnológico — ¿quién gana terreno?
             </SectionTitle>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, flexWrap: "wrap" }}>
-              <select
-                value={marcaMixYear}
-                onChange={(e) => setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value))}
-                style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
-              >
-                {mixYearsAvailable.map((y) => (
-                  <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
-                ))}
-              </select>
+            <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
+            {(() => {
+              const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
+              const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
+              const pct     = Math.round(Math.abs(totPhev - totBev) / Math.min(totPhev, totBev) * 100);
+              const [winner, loser, wColor, lColor] = totPhev >= totBev
+                ? ["PHEV", "BEV", C.phev, C.bev] as const
+                : ["BEV", "PHEV", C.bev, C.phev] as const;
+              const desdeAño = historico[0]?.año ?? FIRST.año;
+              return (
+                <p style={{ fontSize: 11, color: C.muted, marginTop: 10, lineHeight: 1.5 }}>
+                  Se matricularon un{" "}
+                  <span style={{ color: C.green, fontWeight: 700 }}>+{pct}% más <span style={{ color: wColor }}>{winner}s</span> que <span style={{ color: lColor }}>{loser}s</span></span>
+                  {" "}en total desde {desdeAño} ({fmtN(totPhev)} PHEV vs {fmtN(totBev)} BEV).
+                </p>
+              );
+            })()}
+          </Card>
+          <Card style={{ minWidth: 0, overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
+              <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
+                Mix por marca
+              </SectionTitle>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, flexWrap: "wrap" }}>
+                <select
+                  value={marcaMixYear}
+                  onChange={(e) => setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value))}
+                  style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
+                >
+                  {mixYearsAvailable.map((y) => (
+                    <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <div style={{
-            maxHeight: isMobile ? 5 * 34 + 20 : undefined,
-            overflowY: isMobile ? "auto" : "visible",
-          }}>
-            <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
-          </div>
-        </Card>
+            <div style={{
+              maxHeight: isMobile ? 5 * 34 + 20 : 8 * 34 + 20,
+              overflowY: "auto",
+            }}>
+              <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
+            </div>
+          </Card>
+        </div>
 
         {/* ── Concentración geográfica ─────────────────────────────────────── */}
         <Card style={{ marginBottom: GAP }}>
