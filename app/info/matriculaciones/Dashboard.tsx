@@ -707,8 +707,9 @@ export function Dashboard() {
     y.meses.map((m, mi) => [mi, yi, filtro === "bev" ? m.bev : filtro === "phev" ? m.phev : m.bev + m.phev])
   );
   const heatMax = Math.max(...heatData.map((d) => d[2]));
-  const heatLabelSize = winW < 480 ? 7 : winW < 768 ? 9 : winW < 1024 ? 10 : 11;
-  const heatShowLabels = winW >= 520;
+  const heatLabelSize = winW < 768 ? 10 : winW < 1024 ? 10 : 11;
+  const heatShowLabels = true;
+  const heatMinWidth = isMobile ? 680 : undefined;
 
   const heatmapOpt: Record<string, any> = {
     backgroundColor: "transparent",
@@ -1392,7 +1393,11 @@ export function Dashboard() {
                 </div>
               )}
             </div>
-            <EChart theme="dark" option={heatmapOpt} style={{ height: Math.max(120, heatYears.length * 36) }} />
+            <div style={{ overflowX: isMobile ? "auto" : "visible", WebkitOverflowScrolling: "touch" }}>
+              <div style={{ minWidth: heatMinWidth }}>
+                <EChart theme="dark" option={heatmapOpt} style={{ height: Math.max(120, heatYears.length * 36) }} />
+              </div>
+            </div>
             <p style={{ fontSize: 11, color: C.muted, marginTop: "auto", paddingTop: 10 }}>
               Agosto siempre es el mes más débil. El cierre de año (Nov–Dic) concentra el mayor volumen.
             </p>
