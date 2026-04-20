@@ -201,7 +201,6 @@ export function Dashboard() {
   const historico = dgtHistoricoPre2020;
 
   const [añoActivo, setAñoActivo] = useState<number | "todos">(LAST_FULL.año);
-  const [marcaMixPage, setMarcaMixPage] = useState(0);
   const [heatPage, setHeatPage] = useState(0);
   const [marcaMixYear, setMarcaMixYear] = useState<"todos" | number>("todos");
   const winW = useWindowWidth();
@@ -877,16 +876,23 @@ export function Dashboard() {
   const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
 
   // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
-  const MIX_MARCAS_PAGE_SIZE = 8;
-
   const mixYearsAvailable: ("todos" | number)[] = ["todos", ...dgtAñosDisponibles];
 
-  const mixMarcasAllData = (() => {
+  const abbrevMarca = (m: string) => {
+    if (!isMobile) return m;
+    const up = m.toUpperCase();
+    if (up.includes("MERCEDES")) return "MB";
+    if (up.includes("VOLKSWAGEN")) return "VW";
+    return m;
+  };
+
+  const mixMarcasData = (() => {
     const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
     return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined).map((m) => {
       const total = m.bev + m.phev;
       return {
         marca: m.marca,
+        displayMarca: abbrevMarca(m.marca),
         bevPct: +((m.bev / total) * 100).toFixed(1),
         phevPct: +((m.phev / total) * 100).toFixed(1),
         bev: m.bev, phev: m.phev, total,
@@ -894,22 +900,16 @@ export function Dashboard() {
     });
   })();
 
-  const mixMarcasTotalPages = Math.ceil(mixMarcasAllData.length / MIX_MARCAS_PAGE_SIZE);
-  const mixMarcasData = mixMarcasAllData.slice(
-    marcaMixPage * MIX_MARCAS_PAGE_SIZE,
-    (marcaMixPage + 1) * MIX_MARCAS_PAGE_SIZE,
-  );
-
   const mixMarcasOpt: Record<string, any> = {
     backgroundColor: "transparent",
     tooltip: {
       ...TT, trigger: "axis",
       formatter: (params: Record<string, any>[]) => {
-        const marca = params[0]?.axisValue;
-        const d = mixMarcasData.find((m) => m.marca === marca);
+        const axisLabel = params[0]?.axisValue;
+        const d = mixMarcasData.find((m) => m.displayMarca === axisLabel);
         if (!d) return "";
         const totLabel = d.total >= 1000 ? `${(d.total / 1000).toFixed(1)}k` : fmtN(d.total);
-        return `<b style="color:${C.text}">${marca}</b><br/>` +
+        return `<b style="color:${C.text}">${d.marca}</b><br/>` +
           `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${C.bev};margin-right:6px"></span>BEV: <b>${d.bevPct}%</b> (${fmtN(d.bev)})<br/>` +
           `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${C.phev};margin-right:6px"></span>PHEV: <b>${d.phevPct}%</b> (${fmtN(d.phev)})<br/>` +
           `Total: <b>${totLabel}</b>`;
@@ -923,7 +923,7 @@ export function Dashboard() {
     },
     yAxis: {
       type: "category",
-      data: mixMarcasData.map((m) => m.marca),
+      data: mixMarcasData.map((m) => m.displayMarca),
       axisLabel: { color: C.muted, fontSize: 11 },
       axisLine: { lineStyle: { color: C.grid } },
       axisTick: { show: false },
@@ -1332,31 +1332,21 @@ export function Dashboard() {
             <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, flexWrap: "wrap" }}>
               <select
                 value={marcaMixYear}
-                onChange={(e) => { setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value)); setMarcaMixPage(0); }}
+                onChange={(e) => setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value))}
                 style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
               >
                 {mixYearsAvailable.map((y) => (
                   <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
                 ))}
               </select>
-              {mixMarcasTotalPages > 1 && (
-                <>
-                  <span style={{ fontSize: 11, color: C.dim }}>{marcaMixPage + 1}/{mixMarcasTotalPages}</span>
-                  <button
-                    disabled={marcaMixPage === 0}
-                    onClick={() => setMarcaMixPage((p) => p - 1)}
-                    style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage === 0 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage === 0 ? C.dim : "#ffffff" }}
-                  >←</button>
-                  <button
-                    disabled={marcaMixPage >= mixMarcasTotalPages - 1}
-                    onClick={() => setMarcaMixPage((p) => p + 1)}
-                    style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage >= mixMarcasTotalPages - 1 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage >= mixMarcasTotalPages - 1 ? C.dim : "#ffffff" }}
-                  >→</button>
-                </>
-              )}
             </div>
           </div>
-          <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
+          <div style={{
+            maxHeight: isMobile ? 5 * 34 + 20 : undefined,
+            overflowY: isMobile ? "auto" : "visible",
+          }}>
+            <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
+          </div>
         </Card>
 
         {/* ── Concentración geográfica ─────────────────────────────────────── */}
