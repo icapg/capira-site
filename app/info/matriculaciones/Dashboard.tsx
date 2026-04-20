@@ -1341,7 +1341,7 @@ export function Dashboard() {
               </div>
             </div>
             <div style={{
-              maxHeight: isMobile ? 5 * 34 + 20 : 8 * 34 + 20,
+              maxHeight: isMobile ? 5 * 34 + 20 : 7 * 34 + 20,
               overflowY: "auto",
             }}>
               <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
