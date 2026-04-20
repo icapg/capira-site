@@ -169,7 +169,7 @@ export function InsightsNav() {
                 <div style={{
                   position: "absolute", top: "calc(100% + 8px)", left: "50%",
                   transform: "translateX(-50%)",
-                  minWidth: 200, background: "#0f1623",
+                  minWidth: 360, background: "#0f1623",
                   border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10,
                   padding: "6px 0", boxShadow: "0 16px 40px rgba(0,0,0,0.5)", zIndex: 100,
                 }}>
@@ -178,9 +178,9 @@ export function InsightsNav() {
                     const unlocked = isUnlockedFor(item, isAdmin);
                     if (!unlocked) {
                       return (
-                        <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 14px", cursor: "default" }}>
-                          <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.3)" }}>{item.label}</span>
-                          <span style={{ fontSize: 10, color: "rgba(244,244,245,0.35)", letterSpacing: "0.05em" }}>PRÓXIMAMENTE</span>
+                        <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "7px 14px", cursor: "default" }}>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.3)", whiteSpace: "nowrap" }}>{item.label}</span>
+                          <span style={{ fontSize: 10, color: "rgba(244,244,245,0.35)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>PRÓXIMAMENTE</span>
                         </div>
                       );
                     }
