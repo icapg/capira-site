@@ -70,7 +70,7 @@ function linGrad(hex: string, dir: "v"|"h" = "v", a0 = 0.4, a1 = 0.04) {
 }
 
 function fmtN(n: number) {
-  return n.toLocaleString("es-ES");
+  return n.toLocaleString("es-ES", { useGrouping: "always" });
 }
 
 function fmtK(n: number) {
