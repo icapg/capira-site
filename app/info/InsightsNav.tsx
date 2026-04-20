@@ -54,11 +54,15 @@ export function InsightsNav() {
   const visibleDashboards = DASHBOARDS.filter((d) => isVisibleTo(d, isAdmin));
   const navItems = visibleDashboards.filter((d) => d.topNav && !d.adminOnly);
   const moreItems = visibleDashboards.filter((d) => !d.topNav || d.adminOnly);
+  const allItems = [...navItems, ...moreItems];
+  const currentDashboard = allItems.find((d) => pathname.startsWith(d.href));
 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [showMore, setShowMore] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const [showUnified, setShowUnified] = useState(false);
+  const unifiedRef = useRef<HTMLDivElement>(null);
 
   const currentCountry = getCountryFromPath(pathname);
 
@@ -81,6 +85,14 @@ export function InsightsNav() {
     if (showMore) document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [showMore]);
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (unifiedRef.current && !unifiedRef.current.contains(e.target as Node)) setShowUnified(false);
+    }
+    if (showUnified) document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [showUnified]);
 
   return (
     <div style={{
@@ -122,91 +134,143 @@ export function InsightsNav() {
           </div>
 
           {/* CENTER — nav links */}
-          <div className="insights-nav-scroll" style={{
-            display: "flex", gap: 4, alignItems: "center",
-            justifyContent: isMobile ? "flex-start" : "center",
-            overflowX: isMobile ? "auto" : "visible",
-            minWidth: 0,
-          }}>
-            {navItems.map((item) => {
-              const active = pathname.startsWith(item.href);
-              const unlocked = isUnlockedFor(item, isAdmin);
-              if (!unlocked) {
+          {isMobile ? (
+            <div className="insights-nav-scroll" style={{
+              display: "flex", gap: 4, alignItems: "center",
+              justifyContent: "flex-start",
+              overflowX: "auto",
+              minWidth: 0,
+            }}>
+              {navItems.map((item) => {
+                const active = pathname.startsWith(item.href);
+                const unlocked = isUnlockedFor(item, isAdmin);
+                if (!unlocked) {
+                  return (
+                    <span
+                      key={item.href}
+                      title="Próximamente"
+                      style={{
+                        fontSize: 12, fontWeight: 500,
+                        color: "rgba(244,244,245,0.3)",
+                        padding: "5px 8px", borderRadius: 6,
+                        cursor: "default", flexShrink: 0,
+                        display: "inline-flex", alignItems: "center", gap: 6,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  );
+                }
                 return (
-                  <span
-                    key={item.href}
-                    title="Próximamente"
-                    style={{
-                      fontSize: isMobile ? 12 : 13, fontWeight: 500,
-                      color: "rgba(244,244,245,0.3)",
-                      padding: isMobile ? "5px 8px" : "5px 12px", borderRadius: 6,
-                      cursor: "default", flexShrink: 0,
-                      display: "inline-flex", alignItems: "center", gap: 6,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
+                  <Link key={item.href} href={item.href} style={{
+                    fontSize: 12, fontWeight: 500,
+                    color: active ? "#f4f4f5" : "rgba(244,244,245,0.55)",
+                    textDecoration: "none", padding: "5px 8px", borderRadius: 6,
+                    background: active ? "rgba(255,255,255,0.08)" : "transparent",
+                    transition: "color 0.15s, background 0.15s",
+                    whiteSpace: "nowrap", flexShrink: 0,
+                  }}>
                     {item.label}
-                    {!isMobile && (
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.05em", color: "rgba(244,244,245,0.4)" }}>
-                        PRÓXIMAMENTE
-                      </span>
-                    )}
-                  </span>
+                  </Link>
                 );
-              }
-              return (
-                <Link key={item.href} href={item.href} style={{
-                  fontSize: isMobile ? 12 : 13, fontWeight: 500,
-                  color: active ? "#f4f4f5" : "rgba(244,244,245,0.55)",
-                  textDecoration: "none", padding: isMobile ? "5px 8px" : "5px 12px", borderRadius: 6,
-                  background: active ? "rgba(255,255,255,0.08)" : "transparent",
-                  transition: "color 0.15s, background 0.15s",
-                  whiteSpace: "nowrap", flexShrink: 0,
-                }}>
-                  {item.label}
-                </Link>
-              );
-            })}
+              })}
 
-            {/* Más dropdown */}
-            <div ref={moreRef} style={{ position: "relative" }}>
+              {/* Más dropdown (mobile) */}
+              <div ref={moreRef} style={{ position: "relative", flexShrink: 0 }}>
+                <button
+                  onClick={() => setShowMore((v) => !v)}
+                  style={{
+                    fontSize: 12, fontWeight: 500,
+                    color: moreItems.some(i => pathname.startsWith(i.href)) ? "#f4f4f5" : "rgba(244,244,245,0.55)",
+                    background: moreItems.some(i => pathname.startsWith(i.href)) ? "rgba(255,255,255,0.08)" : "transparent",
+                    border: "none", padding: "5px 8px", borderRadius: 6, cursor: "pointer",
+                    display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
+                    transition: "color 0.15s, background 0.15s",
+                  }}
+                >
+                  Más <span style={{ fontSize: 9, opacity: 0.5 }}>▼</span>
+                </button>
+                {showMore && (
+                  <div style={{
+                    position: "absolute", top: "calc(100% + 8px)", left: "50%",
+                    transform: "translateX(-50%)",
+                    minWidth: 260, background: "#0f1623",
+                    border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10,
+                    padding: "6px 0", boxShadow: "0 16px 40px rgba(0,0,0,0.5)", zIndex: 100,
+                  }}>
+                    {moreItems.map((item) => {
+                      const active = pathname.startsWith(item.href);
+                      const unlocked = isUnlockedFor(item, isAdmin);
+                      if (!unlocked) {
+                        return (
+                          <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "7px 14px", cursor: "default" }}>
+                            <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.3)", whiteSpace: "nowrap" }}>{item.label}</span>
+                            <span style={{ fontSize: 10, color: "rgba(244,244,245,0.35)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>PRÓXIMAMENTE</span>
+                          </div>
+                        );
+                      }
+                      return (
+                        <Link key={item.href} href={item.href} onClick={() => setShowMore(false)} style={{
+                          display: "block", padding: "7px 14px", fontSize: 13, fontWeight: 500,
+                          color: active ? "#f4f4f5" : "rgba(244,244,245,0.65)",
+                          textDecoration: "none",
+                          background: active ? "rgba(255,255,255,0.06)" : "transparent",
+                        }}>
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div ref={unifiedRef} style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
               <button
-                onClick={() => setShowMore((v) => !v)}
+                onClick={() => setShowUnified((v) => !v)}
                 style={{
-                  fontSize: 13, fontWeight: 500,
-                  color: moreItems.some(i => pathname.startsWith(i.href)) ? "#f4f4f5" : "rgba(244,244,245,0.55)",
-                  background: moreItems.some(i => pathname.startsWith(i.href)) ? "rgba(255,255,255,0.08)" : "transparent",
-                  border: "none", padding: "5px 12px", borderRadius: 6, cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: 5,
-                  transition: "color 0.15s, background 0.15s",
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  fontSize: 13, fontWeight: 600,
+                  color: "#f4f4f5",
+                  background: showUnified ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.13)",
+                  borderRadius: 8, padding: "6px 14px", cursor: "pointer",
+                  transition: "background 0.15s",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Más <span style={{ fontSize: 9, opacity: 0.5 }}>▼</span>
+                {currentDashboard?.label ?? "Dashboards"}
+                <span style={{ fontSize: 9, color: "rgba(244,244,245,0.5)" }}>▼</span>
               </button>
-
-              {showMore && (
+              {showUnified && (
                 <div style={{
                   position: "absolute", top: "calc(100% + 8px)", left: "50%",
                   transform: "translateX(-50%)",
-                  minWidth: 360, background: "#0f1623",
+                  minWidth: 320, background: "#0f1623",
                   border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10,
                   padding: "6px 0", boxShadow: "0 16px 40px rgba(0,0,0,0.5)", zIndex: 100,
                 }}>
-                  {moreItems.map((item) => {
+                  {allItems.map((item) => {
                     const active = pathname.startsWith(item.href);
                     const unlocked = isUnlockedFor(item, isAdmin);
                     if (!unlocked) {
                       return (
-                        <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "7px 14px", cursor: "default" }}>
+                        <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "8px 14px", cursor: "default" }}>
                           <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.3)", whiteSpace: "nowrap" }}>{item.label}</span>
                           <span style={{ fontSize: 10, color: "rgba(244,244,245,0.35)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>PRÓXIMAMENTE</span>
                         </div>
                       );
                     }
                     return (
-                      <Link key={item.href} href={item.href} onClick={() => setShowMore(false)} style={{
-                        display: "block", padding: "7px 14px", fontSize: 13, fontWeight: 500,
-                        color: active ? "#f4f4f5" : "rgba(244,244,245,0.65)",
+                      <Link key={item.href} href={item.href} onClick={() => setShowUnified(false)} style={{
+                        display: "block", padding: "8px 14px", fontSize: 13, fontWeight: 500,
+                        color: active ? "#f4f4f5" : "rgba(244,244,245,0.7)",
                         textDecoration: "none",
                         background: active ? "rgba(255,255,255,0.06)" : "transparent",
                       }}>
@@ -217,7 +281,7 @@ export function InsightsNav() {
                 </div>
               )}
             </div>
-          </div>
+          )}
 
           {/* RIGHT — bandera + selector país */}
           <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 4 : 10, justifyContent: "flex-end", flexShrink: 0 }}>

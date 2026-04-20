@@ -53,33 +53,35 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
           alignItems: isMobile ? "stretch" : "center",
           justifyContent: "space-between",
           minHeight: isMobile ? undefined : 50,
-          gap: isMobile ? 8 : 16, flexWrap: "wrap",
+          gap: 0, flexWrap: "wrap",
           paddingTop: isMobile ? 8 : 6,
           paddingBottom: isMobile ? 8 : 6,
         }}>
 
           {/* Left: Tec. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{
-              fontSize: 11, color: "rgba(241,245,249,0.6)",
-              letterSpacing: "0.03em", fontWeight: 600,
-            }}>
-              Tec.:
-            </span>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "nowrap" }}>
+            {!isMobile && (
+              <span style={{
+                fontSize: 11, color: "rgba(241,245,249,0.6)",
+                letterSpacing: "0.03em", fontWeight: 600,
+              }}>
+                Tec.:
+              </span>
+            )}
+            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2, flexWrap: "nowrap" }}>
               {/* Total — deshabilitado */}
               <button disabled title="Próximamente" style={{
-                padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                padding: isMobile ? "5px 6px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: isMobile ? 11 : 12, fontWeight: 700,
                 border: "1px solid transparent", background: "transparent",
-                color: "rgba(241,245,249,0.45)",
+                color: "rgba(241,245,249,0.45)", whiteSpace: "nowrap",
               }}>
                 Todos
               </button>
               {/* No Enchufable — deshabilitado */}
               <button disabled title="Próximamente" style={{
-                padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                padding: isMobile ? "5px 6px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: isMobile ? 11 : 12, fontWeight: 700,
                 border: "1px solid transparent", background: "transparent",
-                color: "rgba(241,245,249,0.45)",
+                color: "rgba(241,245,249,0.45)", whiteSpace: "nowrap",
               }}>
                 {isMobile ? "No ench." : "No Enchufable"}
               </button>
@@ -96,7 +98,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                   : opt.value === "bev" ? "BEV" : "PHEV";
                 return (
                   <button key={opt.value} onClick={() => setFiltro(opt.value)} style={{
-                    padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                    padding: isMobile ? "5px 6px" : "5px 10px", borderRadius: 7, cursor: "pointer", fontSize: isMobile ? 11 : 12, fontWeight: 700,
                     border: active
                       ? `1px solid ${col ? col + "44" : "rgba(255,255,255,0.2)"}`
                       : "1px solid transparent",
@@ -105,6 +107,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                       : "transparent",
                     color: active ? (col ?? "#f4f4f5") : "rgba(241,245,249,0.55)",
                     transition: "all 0.15s",
+                    whiteSpace: "nowrap",
                   }}>
                     {label}
                   </button>
@@ -115,8 +118,13 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
 
           {/* Right: Tipo vehículo */}
           {showTipo && (
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 11, color: "rgba(241,245,249,0.6)" }}>Tipo:</span>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+              paddingTop: isMobile ? 8 : 0,
+              marginTop: isMobile ? 4 : 0,
+              borderTop: isMobile ? "1px solid rgba(255,255,255,0.08)" : "none",
+              width: isMobile ? "100%" : undefined,
+            }}>
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                 {TIPOS_ORDER.map((t) => {
                   const active = tiposVehiculo.includes(t);
