@@ -1,14 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
-import { dgtPorAño, dgtPorAñoCompleto, dgtPorAñoTipos, TIPO_LABELS, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
-import { anfacPorAño, anfacHistoricoPre2020 } from "../../lib/insights/anfac-data";
+import { dgtPorAñoCompleto, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
+import { Card } from "../_components/Card";
+import { SectionTitle } from "../_components/SectionTitle";
+import { KPI } from "../_components/KPI";
+import { InsightCard } from "../_components/InsightCard";
+import { EChart } from "../../components/ui/EChart";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -80,93 +84,8 @@ const TT = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ECHART WRAPPER
-// ─────────────────────────────────────────────────────────────────────────────
-
-function EChart({ option, style }: { option: Record<string, any>; style?: React.CSSProperties }) {
-  const ref     = useRef<HTMLDivElement>(null);
-  const chartRef = useRef<echarts.ECharts | null>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    chartRef.current = echarts.init(ref.current, "dark");
-    chartRef.current.setOption(option);
-    const onResize = () => chartRef.current?.resize();
-    window.addEventListener("resize", onResize);
-    return () => { window.removeEventListener("resize", onResize); chartRef.current?.dispose(); };
-  }, []);
-
-  useEffect(() => { chartRef.current?.setOption(option, { notMerge: true }); }, [option]);
-
-  return <div ref={ref} style={{ width: "100%", height: 300, ...style }} />;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // UI PRIMITIVES
 // ─────────────────────────────────────────────────────────────────────────────
-
-function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  return (
-    <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 20, padding: 24, ...style }}>
-      {children}
-    </div>
-  );
-}
-
-function SectionTitle({ children, sub, tooltip }: { children: React.ReactNode; sub?: string; tooltip?: string }) {
-  return (
-    <div style={{ marginBottom: 18, cursor: tooltip ? "help" : undefined }} title={tooltip}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 3, height: 16, borderRadius: 2, background: "linear-gradient(180deg,#38bdf8,#8b5cf6)", flexShrink: 0 }} />
-        <h2 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0, letterSpacing: "-0.01em" }}>{children}</h2>
-        {tooltip && <span style={{ fontSize: 11, color: C.dim, lineHeight: 1 }}>ⓘ</span>}
-      </div>
-      {sub && <p style={{ fontSize: 11, color: C.muted, marginTop: 4, marginLeft: 13 }}>{sub}</p>}
-    </div>
-  );
-}
-
-function KPI({ label, sublabel, sublabelColor, value, sub, delta, color, icon, tag, tooltip }: {
-  label: string; sublabel?: string; sublabelColor?: string; value: string; sub?: string; delta?: number;
-  color?: string; icon?: string; tag?: string; tooltip?: string;
-}) {
-  const glow = color ?? "#38bdf8";
-  return (
-    <div title={tooltip} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 18, padding: "20px 22px", flex: 1, minWidth: 160, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", cursor: tooltip ? "help" : undefined }}>
-      <div style={{ position: "absolute", top: -24, right: -24, width: 80, height: 80, borderRadius: "50%", background: `${glow}18`, filter: "blur(24px)", pointerEvents: "none" }} />
-      <div style={{ minHeight: 72, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-        {icon && <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 6 }}>{icon}</div>}
-        {tag && (
-          <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.1em", color: glow, textTransform: "uppercase", background: `${glow}18`, borderRadius: 4, padding: "2px 6px", marginBottom: 6, display: "inline-block", alignSelf: "flex-start" }}>
-            {tag}
-          </span>
-        )}
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: C.muted, textTransform: "uppercase", margin: 0, lineHeight: 1.5 }}>
-          {label}
-          {sublabel && (
-            <><br /><span style={{
-              fontWeight: 700,
-              letterSpacing: sublabelColor ? "0.01em" : "0.06em",
-              fontSize: sublabelColor ? 13 : 10,
-              color: sublabelColor ?? "inherit",
-              opacity: sublabelColor ? 1 : 0.7,
-              textTransform: sublabelColor ? "none" : "uppercase",
-            }}>{sublabel}</span></>
-          )}
-        </p>
-      </div>
-      <p style={{ fontSize: 28, fontWeight: 800, color: color ?? C.text, letterSpacing: "-0.04em", lineHeight: 1, fontVariantNumeric: "tabular-nums", margin: "10px 0 8px" }}>{value}</p>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-        {delta !== undefined && (
-          <span style={{ fontSize: 11, fontWeight: 700, color: delta >= 0 ? C.green : C.red, background: delta >= 0 ? "rgba(52,211,153,0.12)" : "rgba(248,113,113,0.12)", borderRadius: 5, padding: "2px 7px" }}>
-            {delta >= 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)}%
-          </span>
-        )}
-        {sub && <span style={{ fontSize: 11, color: C.muted }}>{sub}</span>}
-      </div>
-    </div>
-  );
-}
 
 function Toggle({ options, value, onChange }: {
   options: { label: React.ReactNode; value: string; color?: string }[];
@@ -198,46 +117,9 @@ function Toggle({ options, value, onChange }: {
 // AUTO-INSIGHTS RIBBON
 // ─────────────────────────────────────────────────────────────────────────────
 
-function colorize(text: string): React.ReactNode {
-  return text.split(/(BEV|PHEV)/g).map((part, i) =>
-    part === "BEV"  ? <span key={i} style={{ color: C.bev  }}>{part}</span>
-    : part === "PHEV" ? <span key={i} style={{ color: C.phev }}>{part}</span>
-    : part
-  );
-}
-
-function InsightCard({ icon, headline, body, color }: { icon: string; headline: string; body: string; color: string }) {
-  return (
-    <div style={{
-      background: `${color}0e`,
-      border: `1px solid ${color}30`,
-      borderRadius: 14,
-      padding: "14px 16px",
-      flex: 1,
-      minWidth: 200,
-    }}>
-      <div style={{ fontSize: 22, marginBottom: 8 }}>{icon}</div>
-      <p style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4, letterSpacing: "-0.01em" }}>{colorize(headline)}</p>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.5, whiteSpace: "pre-line" }}>{colorize(body)}</p>
-    </div>
-  );
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // NO DATA PLACEHOLDER
 // ─────────────────────────────────────────────────────────────────────────────
-
-function NoData({ height = 200, label = "Sin datos para esta fuente" }: { height?: number; label?: string }) {
-  return (
-    <div style={{
-      height, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      border: `1px dashed rgba(255,255,255,0.1)`, borderRadius: 12, gap: 8,
-    }}>
-      <span style={{ fontSize: 22, opacity: 0.3 }}>—</span>
-      <span style={{ fontSize: 11, color: "rgba(241,245,249,0.3)", letterSpacing: "0.04em" }}>{label}</span>
-    </div>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ANALYTICS FACTORY — same derivations for any data source
@@ -303,23 +185,19 @@ const TIPOS_DEFAULT: TipoVehiculo[] = ["turismo","furgoneta","camion","autobus"]
 
 export function Dashboard() {
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
-  const { fuente, countryName } = useInsights();
+  const { countryName } = useInsights();
   const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(TIPOS_DEFAULT);
 
-  const analytics = useMemo(() => {
-    const src = fuente === "anfac" ? anfacPorAño : dgtPorAñoTipos(tiposVehiculo);
-    return computeAnalytics(src);
-  }, [fuente, tiposVehiculo]);
+  const analytics = useMemo(
+    () => computeAnalytics(dgtPorAñoTipos(tiposVehiculo)),
+    [tiposVehiculo],
+  );
 
-  // Shadow module-level constants with source-aware values
   const { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL,
           N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY,
           PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ } = analytics;
 
-  // Pre-2020 historical: DGT desde 2014, ANFAC desde 2014 (solo para acumulado)
-  const historico = fuente === "dgt" ? dgtHistoricoPre2020
-    : fuente === "anfac" ? anfacHistoricoPre2020
-    : [];
+  const historico = dgtHistoricoPre2020;
 
   const [añoActivo, setAñoActivo] = useState<number | "todos">(LAST_FULL.año);
   const [marcaMixPage, setMarcaMixPage] = useState(0);
@@ -333,15 +211,7 @@ export function Dashboard() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Reset selected year when source changes; reset tipo filter when leaving DGT
-  useEffect(() => {
-    setAñoActivo(LAST_FULL.año);
-    setHeatPage(0);
-    if (fuente !== "dgt") setTiposVehiculo(TIPOS_DEFAULT);
-  }, [fuente]);
-
-  // For DGT, include all years from 2014 in the monthly year selector
-  const allYearsForSelector: YearData[] = (fuente === "dgt" ? dgtPorAñoCompleto : REAL)
+  const allYearsForSelector: YearData[] = dgtPorAñoCompleto
     .filter((y) => y.año >= 2015);  // 2014 excluido (datos incompletos en el dataset)
   const preYears  = allYearsForSelector.filter((y) => y.año < 2021);
   const mainYears = REAL.filter((y) => y.año >= 2021);
@@ -397,7 +267,6 @@ export function Dashboard() {
 
   // ── DGT: nota "nuevos cayeron pero usados compensaron" ───────────────────
   const dgtUsadosCompensacion = (() => {
-    if (fuente !== "dgt") return null;
     // Buscar el año donde nuevos cayeron pero total fue positivo
     const fullUsados = dgtUsadosAnual.filter(d => d.año >= 2020 && d.año < currentYear);
     for (let i = 1; i < fullUsados.length; i++) {
@@ -822,8 +691,7 @@ export function Dashboard() {
   };
 
   // ── Monthly heatmap ──────────────────────────────────────────────────────
-  // For DGT use the full dataset (2014+); for others use REAL (which is source-aware)
-  const heatSource: YearData[] = fuente === "dgt" ? dgtPorAñoCompleto : REAL;
+  const heatSource: YearData[] = dgtPorAñoCompleto;
   const HEAT_PAGE_SIZE = 5;
   const heatTotalPages = Math.ceil(heatSource.length / HEAT_PAGE_SIZE);
   // page 0 = most recent years; page N = oldest years
@@ -1000,18 +868,14 @@ export function Dashboard() {
     })),
   };
 
-  // ── Top provincias ───────────────────────────────────────────────────────
-  // DGT: from annual JSON summary (2020-present)
-  // ANFAC: no data
-  const dgtProvs = fuente === "dgt" ? getDgtProvincias("todos") : null;
-  const top10 = fuente === "dgt" && dgtProvs
-    ? dgtProvs.slice(0, 10).map((p) => ({
-        nombre: p.provincia,
-        total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total,
-      }))
-    : null;
+  // ── Top provincias (DGT · annual JSON summary 2020+) ────────────────────
+  const dgtProvs = getDgtProvincias("todos");
+  const top10 = dgtProvs.slice(0, 10).map((p) => ({
+    nombre: p.provincia,
+    total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total,
+  }));
 
-  const provOpt: Record<string, any> | null = top10 ? {
+  const provOpt: Record<string, any> = {
     backgroundColor: "transparent",
     tooltip: {
       ...TT, trigger: "axis",
@@ -1041,31 +905,25 @@ export function Dashboard() {
       })),
       label: { show: true, position: "right", color: C.muted, fontSize: 10, formatter: (p: Record<string, any>) => fmtN(p.value) },
     }],
-  } : null;
+  };
 
-  // ── Top modelos ──────────────────────────────────────────────────────────
-  // DGT: from annual JSON summary
-  // ANFAC: no data
-  const dgtModelos = fuente !== "anfac"
-    ? (filtro === "phev"
-        ? getDgtModelos("todos", "phev")
-        : filtro === "bev"
-        ? getDgtModelos("todos", "bev")
-        : [...getDgtModelos("todos", "bev").map((m) => ({ ...m, tipo: "BEV" as const })),
-           ...getDgtModelos("todos", "phev").map((m) => ({ ...m, tipo: "PHEV" as const }))]
-            .sort((a, b) => b.n - a.n).slice(0, 15))
-    : null;
+  // ── Top modelos (DGT · annual JSON summary) ─────────────────────────────
+  const dgtModelos = filtro === "phev"
+    ? getDgtModelos("todos", "phev")
+    : filtro === "bev"
+    ? getDgtModelos("todos", "bev")
+    : [...getDgtModelos("todos", "bev").map((m) => ({ ...m, tipo: "BEV" as const })),
+       ...getDgtModelos("todos", "phev").map((m) => ({ ...m, tipo: "PHEV" as const }))]
+        .sort((a, b) => b.n - a.n).slice(0, 15);
 
-  const filteredModelos: { label: string; value: number; color: string }[] | null =
-    dgtModelos
-    ? (dgtModelos as (typeof dgtModelos[number] & { tipo?: "BEV"|"PHEV" })[]).map((m) => ({
-        label: `${m.marca} ${m.modelo}`,
-        value: m.n,
-        color: (m as any).tipo === "PHEV" ? C.phev : C.bev,
-      }))
-    : null;
+  const filteredModelos: { label: string; value: number; color: string }[] =
+    (dgtModelos as (typeof dgtModelos[number] & { tipo?: "BEV"|"PHEV" })[]).map((m) => ({
+      label: `${m.marca} ${m.modelo}`,
+      value: m.n,
+      color: (m as any).tipo === "PHEV" ? C.phev : C.bev,
+    }));
 
-  const modelosOpt: Record<string, any> | null = filteredModelos ? {
+  const modelosOpt: Record<string, any> = {
     backgroundColor: "transparent",
     tooltip: { ...TT, trigger: "axis", formatter: (p: Record<string, any>[]) => {
       const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p[0].color};margin-right:6px"></span>`;
@@ -1092,21 +950,17 @@ export function Dashboard() {
       })),
       label: { show: true, position: "right", color: C.muted, fontSize: 10, formatter: (p: Record<string, any>) => fmtN(p.value) },
     }],
-  } : null;
+  };
 
   // ── Marcas ───────────────────────────────────────────────────────────────
-  const rawMarcas = fuente === "dgt"
-    ? getDgtMarcas("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined)
-    : null;
+  const rawMarcas = getDgtMarcas("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
 
   const marcasFiltradas = rawMarcas
-    ? rawMarcas
-        .map((m) => ({ ...m, total: filtro === "bev" ? m.bev : filtro === "phev" ? m.phev : m.bev + m.phev }))
-        .filter((m) => m.total > 0)
-        .sort((a,b) => b.total - a.total)
-    : null;
+    .map((m) => ({ ...m, total: filtro === "bev" ? m.bev : filtro === "phev" ? m.phev : m.bev + m.phev }))
+    .filter((m) => m.total > 0)
+    .sort((a,b) => b.total - a.total);
 
-  const marcasOpt: Record<string, any> | null = marcasFiltradas ? {
+  const marcasOpt: Record<string, any> = {
     backgroundColor: "transparent",
     tooltip: {
       ...TT, trigger: "axis",
@@ -1144,18 +998,14 @@ export function Dashboard() {
         barMaxWidth: 44,
       }] : []),
     ],
-  } : null;
+  };
 
   // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
-  // DGT: from summary | ANFAC: no data
   const MIX_MARCAS_PAGE_SIZE = 8;
 
-  const mixYearsAvailable: ("todos" | number)[] = fuente === "dgt"
-    ? ["todos", ...dgtAñosDisponibles]
-    : ["todos"];
+  const mixYearsAvailable: ("todos" | number)[] = ["todos", ...dgtAñosDisponibles];
 
   const mixMarcasAllData = (() => {
-    if (fuente === "anfac") return [];
     const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
     return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined).map((m) => {
       const total = m.bev + m.phev;
@@ -1268,7 +1118,6 @@ export function Dashboard() {
         setFiltro={setFiltro}
         tiposVehiculo={tiposVehiculo}
         setTiposVehiculo={setTiposVehiculo}
-        showTipo={fuente === "dgt"}
       />
 
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 24px 56px" }}>
@@ -1344,7 +1193,7 @@ export function Dashboard() {
             body={`${fmtK(filtroFirstVal)} en ${FIRST.año} a ${fmtK(filtroLastFullVal)} en ${LAST_FULL.año}. x${(filtroLastFullVal / filtroFirstVal).toFixed(1)} en ${N_YRS} años.${filtro === "ambos" ? `\nCAGR BEV: ${CAGR_BEV}%${CAGR_PHEV !== null ? `\nCAGR PHEV: ${CAGR_PHEV}%` : ""}` : ""}`}
             color={filtroColor}
           />
-          {fuente === "dgt" ? (() => {
+          {(() => {
             const uv = (e: typeof dgtUsadosAnual[0]) =>
               filtro === "bev" ? e.bev_used : filtro === "phev" ? e.phev_used : e.bev_used + e.phev_used;
             const ut = (e: typeof dgtUsadosAnual[0]) =>
@@ -1352,14 +1201,11 @@ export function Dashboard() {
             const fullYears = dgtUsadosAnual.filter(d => d.año < currentYear);
             const last  = fullYears[fullYears.length - 1];
             const prev  = fullYears[fullYears.length - 2];
-            const ref22 = fullYears.find(d => d.año === 2022);
             if (!last || !prev) return null;
             const lastUsados = uv(last);
             const prevUsados = uv(prev);
             const yoy = prevUsados > 0 ? Math.round((lastUsados - prevUsados) / prevUsados * 100) : 0;
             const pct = ut(last) > 0 ? ((lastUsados / ut(last)) * 100).toFixed(1) : "0";
-            const ref22val = ref22 ? uv(ref22) : null;
-            const since22 = ref22val && ref22val > 0 ? Math.round((lastUsados - ref22val) / ref22val * 100) : null;
             const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "Enchufables";
             return (
               <InsightCard
@@ -1369,19 +1215,10 @@ export function Dashboard() {
                 color={C.amber}
               />
             );
-          })() : (
-            <InsightCard
-              icon="⚖️"
-              headline={mixHeadline}
-              body={mixBody}
-              color={filtroColor}
-            />
-          )}
+          })()}
           {(() => {
-            const provs = fuente === "dgt" && dgtProvs
-              ? dgtProvs.map((p) => ({ nombre: p.provincia, total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total }))
-              : null;
-            if (!provs || provs.length === 0) return null;
+            const provs = dgtProvs.map((p) => ({ nombre: p.provincia, total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total }));
+            if (provs.length === 0) return null;
             const total = provs.reduce((s, p) => s + p.total, 0);
             const top   = [...provs].sort((a, b) => b.total - a.total);
             const top1pct  = ((top[0].total / total) * 100).toFixed(0);
@@ -1403,7 +1240,7 @@ export function Dashboard() {
             <SectionTitle sub="Histórico matriculaciones anuales" tooltip="Línea continua con el total anual de matriculaciones enchufables desde 2014. Las últimas barras incluyen proyección estimada para años futuros. Útil para ver la tendencia general de adopción.">
               Evolución del mercado
             </SectionTitle>
-            <EChart option={forecastOpt} style={{ height: 270 }} />
+            <EChart theme="dark" option={forecastOpt} style={{ height: 270 }} />
             <div style={{ display: "flex", gap: 16, marginTop: 10, flexWrap: "wrap", alignItems: "center" }}>
               {(() => {
                 const firstYear = historico[0]?.año ?? REAL[0]?.año ?? 2014;
@@ -1436,7 +1273,7 @@ export function Dashboard() {
                 {LAST.año} YTD: se comparan los {ytdStats!.n} meses disponibles de {LAST.año} vs el mismo período de {LAST.año - 1}
               </p>
             )}
-            <EChart option={yoyOpt} style={{ height: 270 }} />
+            <EChart theme="dark" option={yoyOpt} style={{ height: 270 }} />
             {worstYoy_f.val < 0 && (
               <p style={{ fontSize: 11, color: C.red, marginTop: 8, marginLeft: 4 }}>
                 ⚠️ {worstYoy_f.año}: único año con retroceso ({worstYoy_f.val}%) — posible efecto fin de subsidios
@@ -1505,13 +1342,13 @@ export function Dashboard() {
                 })}
               </div>
             </div>
-            <EChart option={trendOpt} style={{ height: 248 }} />
+            <EChart theme="dark" option={trendOpt} style={{ height: 248 }} />
           </Card>
           <Card>
             <SectionTitle sub="Variación mensual respecto al año anterior" tooltip="Para cada mes, compara las matriculaciones con el mismo mes del año anterior. Barras verdes = más que el año pasado, rojas = menos. Útil para ver si el ritmo de crecimiento se mantiene, acelera o frena mes a mes.">
               Aceleración mes a mes
             </SectionTitle>
-            <EChart option={monthlyYoyOpt} style={{ height: 270 }} />
+            <EChart theme="dark" option={monthlyYoyOpt} style={{ height: 270 }} />
           </Card>
         </div>
 
@@ -1550,7 +1387,7 @@ export function Dashboard() {
                 </div>
               )}
             </div>
-            <EChart option={heatmapOpt} style={{ height: Math.max(120, heatYears.length * 36) }} />
+            <EChart theme="dark" option={heatmapOpt} style={{ height: Math.max(120, heatYears.length * 36) }} />
             <p style={{ fontSize: 11, color: C.muted, marginTop: "auto", paddingTop: 10 }}>
               Agosto siempre es el mes más débil. El cierre de año (Nov–Dic) concentra el mayor volumen.
             </p>
@@ -1559,7 +1396,7 @@ export function Dashboard() {
             <SectionTitle sub="Volumen por trimestre y año" tooltip="Barras agrupadas por trimestre (Q1–Q4) para cada año. Permite ver si el crecimiento es sostenido a lo largo del año o se concentra en ciertos trimestres, y comparar el mismo trimestre entre distintos años.">
               Momentum trimestral
             </SectionTitle>
-            <EChart option={momentumOpt} style={{ height: 240 }} />
+            <EChart theme="dark" option={momentumOpt} style={{ height: 240 }} />
           </Card>
         </div>
 
@@ -1570,7 +1407,7 @@ export function Dashboard() {
               <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
                 Mix tecnológico — ¿quién gana terreno?
               </SectionTitle>
-              <EChart option={mixOpt} style={{ height: 220 }} />
+              <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
               {(() => {
                 const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
                 const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
@@ -1592,7 +1429,7 @@ export function Dashboard() {
               {/* Header: título + dropdown + paginación en misma fila */}
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
                 <div>
-                  <SectionTitle sub={fuente === "dgt" ? "% BEV vs PHEV por fabricante · DGT" : "% BEV vs PHEV por fabricante · ANFAC/IDEAUTO"} tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
+                  <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
                     Mix por marca
                   </SectionTitle>
                 </div>
@@ -1630,9 +1467,7 @@ export function Dashboard() {
                   )}
                 </div>
               </div>
-              {fuente !== "anfac"
-                ? <EChart option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
-                : <NoData height={200} />}
+              <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
             </div>
           </div>
         </Card>
@@ -1640,74 +1475,62 @@ export function Dashboard() {
         {/* ── Provincias ───────────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? `Acumulado histórico · DGT` : "Sin desglose disponible"} tooltip="Ranking de las 10 provincias con más matriculaciones enchufables acumuladas. Refleja dónde se concentra geográficamente la adopción del vehículo eléctrico en España.">
+            <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de las 10 provincias con más matriculaciones enchufables acumuladas. Refleja dónde se concentra geográficamente la adopción del vehículo eléctrico en España.">
               Top 10 provincias
             </SectionTitle>
-            {provOpt
-              ? <EChart option={provOpt} style={{ height: 310 }} />
-              : <NoData height={310} />}
+            <EChart theme="dark" option={provOpt} style={{ height: 310 }} />
           </Card>
           <Card>
             <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado.">
               Concentración geográfica
             </SectionTitle>
-            {fuente === "dgt" && dgtProvs ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
-                {dgtProvs.slice(0, 15).map((p, i) => {
-                  const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
-                  const provTotal = filtro === "bev"
-                    ? dgtProvs.reduce((s, x) => s + x.bev, 0)
-                    : filtro === "phev"
-                    ? dgtProvs.reduce((s, x) => s + x.phev, 0)
-                    : dgtProvs.reduce((s, x) => s + x.total, 0);
-                  const pct = (val / provTotal) * 100;
-                  const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
-                  return (
-                    <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
-                      <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
-                      <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
-                      </div>
-                      <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
+              {dgtProvs.slice(0, 15).map((p, i) => {
+                const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
+                const provTotal = filtro === "bev"
+                  ? dgtProvs.reduce((s, x) => s + x.bev, 0)
+                  : filtro === "phev"
+                  ? dgtProvs.reduce((s, x) => s + x.phev, 0)
+                  : dgtProvs.reduce((s, x) => s + x.total, 0);
+                const pct = (val / provTotal) * 100;
+                const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
+                return (
+                  <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
+                    <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
+                    <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <NoData height={310} />
-            )}
+                    <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
+                  </div>
+                );
+              })}
+            </div>
           </Card>
         </div>
 
         {/* ── Modelos + marcas ─────────────────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: GAP, marginBottom: GAP }}>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? "Acumulado histórico · DGT" : "Sin desglose disponible"} tooltip="Ranking de los modelos con más matriculaciones acumuladas. Muestra por separado BEV y PHEV. Filtrá por tipo de vehículo para afinar el ranking.">
+            <SectionTitle sub="Acumulado histórico · DGT" tooltip="Ranking de los modelos con más matriculaciones acumuladas. Muestra por separado BEV y PHEV. Filtrá por tipo de vehículo para afinar el ranking.">
               Top modelos más vendidos
             </SectionTitle>
-            {filteredModelos ? (
-              <>
-                <div style={{ display: "flex", gap: 14, marginBottom: 6 }}>
-                  {[{label:"BEV",color:C.bev},{label:"PHEV",color:C.phev}].map((t) => (
-                    <div key={t.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      <div style={{ width: 10, height: 3, borderRadius: 2, background: t.color }} />
-                      <span style={{ fontSize: 11, color: C.muted }}>{t.label}</span>
-                    </div>
-                  ))}
+            <div style={{ display: "flex", gap: 14, marginBottom: 6 }}>
+              {[{label:"BEV",color:C.bev},{label:"PHEV",color:C.phev}].map((t) => (
+                <div key={t.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                  <div style={{ width: 10, height: 3, borderRadius: 2, background: t.color }} />
+                  <span style={{ fontSize: 11, color: C.muted }}>{t.label}</span>
                 </div>
-                <EChart option={modelosOpt!} style={{ height: Math.max(filteredModelos.length * 33 + 20, 160) }} />
-              </>
-            ) : <NoData height={280} />}
+              ))}
+            </div>
+            <EChart theme="dark" option={modelosOpt} style={{ height: Math.max(filteredModelos.length * 33 + 20, 160) }} />
           </Card>
           <Card>
-            <SectionTitle sub={fuente === "dgt" ? "BEV y PHEV por fabricante · DGT" : "Sin desglose disponible"} tooltip="Ranking de fabricantes por volumen total de matriculaciones enchufables acumuladas. Cada barra muestra el desglose entre BEV y PHEV de la marca.">
+            <SectionTitle sub="BEV y PHEV por fabricante · DGT" tooltip="Ranking de fabricantes por volumen total de matriculaciones enchufables acumuladas. Cada barra muestra el desglose entre BEV y PHEV de la marca.">
               Ranking de marcas
             </SectionTitle>
-            {marcasOpt
-              ? <EChart option={marcasOpt} style={{ height: 280 }} />
-              : <NoData height={280} />}
+            <EChart theme="dark" option={marcasOpt} style={{ height: 280 }} />
           </Card>
         </div>
 

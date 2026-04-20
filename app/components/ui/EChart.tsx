@@ -7,15 +7,16 @@ type EChartProps = {
   option: Record<string, any>;
   style?: React.CSSProperties;
   className?: string;
+  theme?: string;
 };
 
-export function EChart({ option, style, className }: EChartProps) {
+export function EChart({ option, style, className, theme }: EChartProps) {
   const ref = useRef<HTMLDivElement>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
     if (!ref.current) return;
-    chartRef.current = echarts.init(ref.current);
+    chartRef.current = theme ? echarts.init(ref.current, theme) : echarts.init(ref.current);
     chartRef.current.setOption(option);
 
     const handleResize = () => chartRef.current?.resize();
