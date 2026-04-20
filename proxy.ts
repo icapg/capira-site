@@ -1,13 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_DASHBOARD_SLUGS } from "./app/insights/dashboards";
 
 const COOKIE_NAME = "insights_auth";
 const LOGIN_PATH = "/insights/login";
+const PUBLIC_EXACT = new Set<string>(["/insights", LOGIN_PATH]);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Dejar pasar el login y el API de auth sin verificar
   if (pathname === LOGIN_PATH || pathname.startsWith("/api/insights/auth")) {
+    return NextResponse.next();
+  }
+
+  if (PUBLIC_EXACT.has(pathname)) {
+    return NextResponse.next();
+  }
+
+  const matchesPublicDashboard = PUBLIC_DASHBOARD_SLUGS.some(
+    (slug) => pathname === `/insights/${slug}` || pathname.startsWith(`/insights/${slug}/`),
+  );
+  if (matchesPublicDashboard) {
     return NextResponse.next();
   }
 

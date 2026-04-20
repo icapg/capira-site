@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { DASHBOARDS, isUnlockedFor, isVisibleTo, type Dashboard } from "./dashboards";
 
 export const metadata: Metadata = {
   title: "eMobility Insights by Capira",
@@ -8,42 +10,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/insights" },
 };
 
-const dashboards = [
-  {
-    href: "/insights/matriculaciones",
-    label: "Matriculaciones",
-    metric: "200K+",
-    metricLabel: "VE registrados en 2024",
-    description: "Evolución mensual y anual de BEV y PHEV en España. Por marca, modelo y provincia.",
-    live: true,
-  },
-  {
-    href: "/insights/parque",
-    label: "Parque activo",
-    metric: "600K+",
-    metricLabel: "vehículos eléctricos en circulación",
-    description: "Flota activa real: matriculaciones menos bajas, desglosada por tipo de vehículo.",
-    live: true,
-  },
-  {
-    href: "/insights/infraestructura",
-    label: "Infraestructura",
-    metric: "56K+",
-    metricLabel: "puntos de recarga públicos",
-    description: "Red de carga pública por provincia y CCAA, cruzada con la adopción de VE.",
-    live: true,
-  },
-  {
-    href: null,
-    label: "Licitaciones",
-    metric: null,
-    metricLabel: null,
-    description: "Concursos públicos y licitaciones de infraestructura de recarga en España.",
-    live: false,
-  },
-];
+export default async function InsightsPage() {
+  const cookieStore = await cookies();
+  const authCookie = cookieStore.get("insights_auth");
+  const isAdmin = !!authCookie?.value && authCookie.value === process.env.ADMIN_TOKEN;
 
-export default function InsightsPage() {
+  const cards = DASHBOARDS.filter((d) => isVisibleTo(d, isAdmin) && !d.adminOnly);
+
   return (
     <div
       style={{
@@ -53,7 +26,6 @@ export default function InsightsPage() {
         overflow: "hidden",
       }}
     >
-      {/* Main content */}
       <div
         style={{
           flex: 1,
@@ -63,7 +35,6 @@ export default function InsightsPage() {
           minHeight: 0,
         }}
       >
-        {/* Left — hero */}
         <div
           style={{
             display: "flex",
@@ -102,7 +73,6 @@ export default function InsightsPage() {
             Matriculaciones, flota activa, infraestructura de carga y más.
           </p>
 
-          {/* CTA sutil */}
           <div
             style={{
               marginTop: 48,
@@ -133,7 +103,6 @@ export default function InsightsPage() {
           </div>
         </div>
 
-        {/* Right — dashboard grid */}
         <div
           style={{
             display: "grid",
@@ -141,157 +110,12 @@ export default function InsightsPage() {
             gridTemplateRows: "1fr 1fr",
           }}
         >
-          {dashboards.map((d, i) => {
-            const isLast = i === dashboards.length - 1;
-            const inner = (
-              <div
-                style={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  padding: "28px 28px 24px",
-                  borderRight: i % 2 === 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
-                  borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.07)" : "none",
-                  background: d.live && !d.href ? "transparent" : "transparent",
-                  opacity: d.live ? 1 : 0.45,
-                  transition: d.href ? "background 0.15s" : undefined,
-                }}
-                className={d.href ? "insights-card" : undefined}
-              >
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: "rgba(244,244,245,0.4)",
-                      }}
-                    >
-                      {d.label}
-                    </span>
-                    {d.live ? (
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 5,
-                          fontSize: 10,
-                          fontWeight: 600,
-                          color: "#63d27f",
-                          letterSpacing: "0.05em",
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 6,
-                            height: 6,
-                            borderRadius: "50%",
-                            background: "#63d27f",
-                            display: "inline-block",
-                          }}
-                        />
-                        LIVE
-                      </span>
-                    ) : (
-                      <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 600,
-                          color: "rgba(244,244,245,0.25)",
-                          letterSpacing: "0.05em",
-                        }}
-                      >
-                        PRÓXIMO
-                      </span>
-                    )}
-                  </div>
-
-                  {d.metric && (
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "clamp(26px, 3vw, 38px)",
-                          fontWeight: 800,
-                          letterSpacing: "-0.03em",
-                          color: "#f4f4f5",
-                          lineHeight: 1,
-                        }}
-                      >
-                        {d.metric}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: "rgba(244,244,245,0.4)",
-                          marginTop: 4,
-                        }}
-                      >
-                        {d.metricLabel}
-                      </div>
-                    </div>
-                  )}
-
-                  {!d.metric && (
-                    <div
-                      style={{
-                        width: 40,
-                        height: 4,
-                        borderRadius: 2,
-                        background: "rgba(255,255,255,0.08)",
-                        marginBottom: 8,
-                      }}
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <p
-                    style={{
-                      fontSize: 12,
-                      lineHeight: 1.55,
-                      color: "rgba(244,244,245,0.4)",
-                      margin: 0,
-                    }}
-                  >
-                    {d.description}
-                  </p>
-                  {d.href && (
-                    <div
-                      style={{
-                        marginTop: 14,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "rgba(244,244,245,0.5)",
-                      }}
-                    >
-                      Ver dashboard →
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-
-            return d.href ? (
-              <Link
-                key={d.label}
-                href={d.href}
-                style={{ textDecoration: "none", display: "block", height: "100%" }}
-              >
-                {inner}
-              </Link>
-            ) : (
-              <div key={d.label} style={{ height: "100%" }}>
-                {inner}
-              </div>
-            );
-          })}
+          {cards.slice(0, 4).map((d, i) => (
+            <DashboardCard key={d.slug} d={d} i={i} isAdmin={isAdmin} />
+          ))}
         </div>
       </div>
 
-      {/* Footer strip */}
       <div
         style={{
           borderTop: "1px solid rgba(255,255,255,0.07)",
@@ -329,5 +153,158 @@ export default function InsightsPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+function DashboardCard({ d, i, isAdmin }: { d: Dashboard; i: number; isAdmin: boolean }) {
+  const unlocked = isUnlockedFor(d, isAdmin);
+  const status: "live" | "locked" | "soon" = !d.ready
+    ? "soon"
+    : unlocked
+    ? "live"
+    : "locked";
+
+  const inner = (
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "28px 28px 24px",
+        borderRight: i % 2 === 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
+        borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.07)" : "none",
+        opacity: status === "live" ? 1 : 0.55,
+        transition: status === "live" ? "background 0.15s" : undefined,
+      }}
+      className={status === "live" ? "insights-card" : undefined}
+    >
+      <div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "rgba(244,244,245,0.4)",
+            }}
+          >
+            {d.label}
+          </span>
+          <StatusPill status={status} />
+        </div>
+
+        {d.metric ? (
+          <div>
+            <div
+              style={{
+                fontSize: "clamp(26px, 3vw, 38px)",
+                fontWeight: 800,
+                letterSpacing: "-0.03em",
+                color: "#f4f4f5",
+                lineHeight: 1,
+              }}
+            >
+              {d.metric}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: "rgba(244,244,245,0.4)",
+                marginTop: 4,
+              }}
+            >
+              {d.metricLabel}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              width: 40,
+              height: 4,
+              borderRadius: 2,
+              background: "rgba(255,255,255,0.08)",
+              marginBottom: 8,
+            }}
+          />
+        )}
+      </div>
+
+      <div>
+        <p
+          style={{
+            fontSize: 12,
+            lineHeight: 1.55,
+            color: "rgba(244,244,245,0.4)",
+            margin: 0,
+          }}
+        >
+          {d.description}
+        </p>
+        {status === "live" && (
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 12,
+              fontWeight: 600,
+              color: "rgba(244,244,245,0.5)",
+            }}
+          >
+            Ver dashboard →
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  if (status === "live") {
+    return (
+      <Link href={d.href} style={{ textDecoration: "none", display: "block", height: "100%" }}>
+        {inner}
+      </Link>
+    );
+  }
+  return <div style={{ height: "100%" }}>{inner}</div>;
+}
+
+function StatusPill({ status }: { status: "live" | "locked" | "soon" }) {
+  if (status === "live") {
+    return (
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 5,
+          fontSize: 10,
+          fontWeight: 600,
+          color: "#63d27f",
+          letterSpacing: "0.05em",
+        }}
+      >
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: "#63d27f",
+            display: "inline-block",
+          }}
+        />
+        LIVE
+      </span>
+    );
+  }
+  return (
+    <span
+      style={{
+        fontSize: 10,
+        fontWeight: 600,
+        color: "rgba(244,244,245,0.35)",
+        letterSpacing: "0.05em",
+      }}
+    >
+      PRÓXIMAMENTE
+    </span>
   );
 }

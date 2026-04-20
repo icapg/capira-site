@@ -5,22 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useInsights } from "./InsightsContext";
 import { useState, useRef, useEffect } from "react";
-
-const navItems = [
-  { href: "/insights/matriculaciones", label: "Matriculaciones" },
-  { href: "/insights/parque", label: "Parque activo" },
-];
-
-const moreItemsPublic = [
-  { href: "/insights/infraestructura", label: "Infraestructura" },
-  { href: "/insights/precios-energia", label: "Precios Energía", disabled: true },
-  { href: "/insights/licitaciones", label: "Licitaciones", disabled: true },
-];
-
-const moreItemsAdmin = [
-  ...moreItemsPublic,
-  { href: "/insights/social", label: "Social" },
-];
+import { DASHBOARDS, isUnlockedFor, isVisibleTo } from "./dashboards";
 
 const countryGroups = [
   {
@@ -63,7 +48,10 @@ function getCountryFromPath(_pathname: string) {
 export function InsightsNav() {
   const pathname = usePathname();
   const { isAdmin, setCountryName } = useInsights();
-  const moreItems = isAdmin ? moreItemsAdmin : moreItemsPublic;
+
+  const visibleDashboards = DASHBOARDS.filter((d) => isVisibleTo(d, isAdmin));
+  const navItems = visibleDashboards.filter((d) => d.topNav && !d.adminOnly);
+  const moreItems = visibleDashboards.filter((d) => !d.topNav || d.adminOnly);
 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -127,6 +115,27 @@ export function InsightsNav() {
           <div style={{ display: "flex", gap: 4, alignItems: "center", justifyContent: "center" }}>
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
+              const unlocked = isUnlockedFor(item, isAdmin);
+              if (!unlocked) {
+                return (
+                  <span
+                    key={item.href}
+                    title="Próximamente"
+                    style={{
+                      fontSize: 13, fontWeight: 500,
+                      color: "rgba(244,244,245,0.3)",
+                      padding: "5px 12px", borderRadius: 6,
+                      cursor: "default",
+                      display: "inline-flex", alignItems: "center", gap: 6,
+                    }}
+                  >
+                    {item.label}
+                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.05em", color: "rgba(244,244,245,0.4)" }}>
+                      PRÓXIMAMENTE
+                    </span>
+                  </span>
+                );
+              }
               return (
                 <Link key={item.href} href={item.href} style={{
                   fontSize: 13, fontWeight: 500,
@@ -160,17 +169,18 @@ export function InsightsNav() {
                 <div style={{
                   position: "absolute", top: "calc(100% + 8px)", left: "50%",
                   transform: "translateX(-50%)",
-                  minWidth: 180, background: "#0f1623",
+                  minWidth: 200, background: "#0f1623",
                   border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10,
                   padding: "6px 0", boxShadow: "0 16px 40px rgba(0,0,0,0.5)", zIndex: 100,
                 }}>
                   {moreItems.map((item) => {
                     const active = pathname.startsWith(item.href);
-                    if (item.disabled) {
+                    const unlocked = isUnlockedFor(item, isAdmin);
+                    if (!unlocked) {
                       return (
                         <div key={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 14px", cursor: "default" }}>
-                          <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.25)" }}>{item.label}</span>
-                          <span style={{ fontSize: 10, color: "rgba(244,244,245,0.2)", letterSpacing: "0.05em" }}>PRÓXIMO</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(244,244,245,0.3)" }}>{item.label}</span>
+                          <span style={{ fontSize: 10, color: "rgba(244,244,245,0.35)", letterSpacing: "0.05em" }}>PRÓXIMAMENTE</span>
                         </div>
                       );
                     }
