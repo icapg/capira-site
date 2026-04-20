@@ -332,7 +332,15 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                 )}
               </div>
             ) : (
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{
+                  fontSize: 11, color: "rgba(241,245,249,0.6)",
+                  letterSpacing: "0.03em", fontWeight: 600,
+                  marginLeft: 6,
+                }}>
+                  Tipo:
+                </span>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                 {TIPOS_ORDER.map((t) => {
                   const active = tiposVehiculo.includes(t);
                   return (
@@ -354,6 +362,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                     </button>
                   );
                 })}
+                </div>
               </div>
             ))}
 
