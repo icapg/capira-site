@@ -379,7 +379,7 @@ export function Dashboard() {
         return `<b style="color:${C.text}">${year}</b><br/>${dot}${p.seriesName}: <b>${label}</b>${yoy}`;
       },
     },
-    grid: { top: 20, right: 16, bottom: 36, left: 72 },
+    grid: { top: 20, right: 16, bottom: 36, left: isMobile ? 44 : 72 },
     xAxis: {
       type: "category", data: allHistYears,
       axisLine: { lineStyle: { color: C.grid } },
@@ -1350,17 +1350,21 @@ export function Dashboard() {
             </div>
             <EChart theme="dark" option={trendOpt} style={{ height: 248 }} />
           </Card>
-          <Card>
+          <Card style={{ minWidth: 0, overflow: "hidden" }}>
             <SectionTitle sub="Variación mensual respecto al año anterior" tooltip="Para cada mes, compara las matriculaciones con el mismo mes del año anterior. Barras verdes = más que el año pasado, rojas = menos. Útil para ver si el ritmo de crecimiento se mantiene, acelera o frena mes a mes.">
               Aceleración mes a mes
             </SectionTitle>
-            <EChart theme="dark" option={monthlyYoyOpt} style={{ height: 270 }} />
+            <div style={{ overflowX: isMobile ? "auto" : "visible", WebkitOverflowScrolling: "touch" }}>
+              <div style={{ minWidth: isMobile ? 560 : undefined }}>
+                <EChart theme="dark" option={monthlyYoyOpt} style={{ height: 270 }} />
+              </div>
+            </div>
           </Card>
         </div>
 
         {/* ── Heatmap + momentum trimestral ───────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card style={{ display: "flex", flexDirection: "column" }}>
+          <Card style={{ display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
               <SectionTitle sub="Volumen mensual por año — detectá patrones de estacionalidad" tooltip="Cuadrícula con meses en el eje X y años en el eje Y. El color de cada celda indica el volumen de matriculaciones: más oscuro = más registros. Ideal para detectar qué meses son sistemáticamente más altos (ej: diciembre) y cómo evoluciona cada mes a lo largo de los años.">
                 Heatmap estacional
