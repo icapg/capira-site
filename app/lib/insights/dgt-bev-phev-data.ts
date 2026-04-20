@@ -270,6 +270,48 @@ export const dgtUsadosAnual: UsadosEntry[] = (() => {
     .sort((a, b) => a.año - b.año);
 })();
 
+/**
+ * Usados anuales filtrados por tipos + provincia usando la matriz 3D exacta
+ * (nuevos/usados × tipo × provincia) generada por el pipeline.
+ */
+export function dgtUsadosAnualTipos(tipos: TipoVehiculo[], provincia?: string | null): UsadosEntry[] {
+  const prov = provincia && provincia !== "todas" ? provincia : null;
+  const active = tipos.filter((t) => t !== "todos");
+  const hasTipos = active.length > 0;
+
+  // Sin filtros → la constante original
+  if (!hasTipos && !prov) return dgtUsadosAnual;
+
+  const sumMatriz = (matriz: Record<string, Record<string, number>> | undefined): number => {
+    if (!matriz) return 0;
+    let total = 0;
+    const tiposToSum = hasTipos ? active : Object.keys(matriz);
+    for (const t of tiposToSum) {
+      const provMap = matriz[t];
+      if (!provMap) continue;
+      if (prov) {
+        total += provMap[prov] ?? 0;
+      } else {
+        for (const n of Object.values(provMap)) total += n;
+      }
+    }
+    return total;
+  };
+
+  const byYear: Record<number, Omit<UsadosEntry, "año">> = {};
+  for (const m of mensualJson.mensual) {
+    const year = parseInt(m.periodo.split("-")[0]);
+    if (!byYear[year]) byYear[year] = { bev_new: 0, phev_new: 0, bev_used: 0, phev_used: 0 };
+    byYear[year].bev_new  += sumMatriz((m as any).bev_nuevos_matriz);
+    byYear[year].bev_used += sumMatriz((m as any).bev_usados_matriz);
+    byYear[year].phev_new  += sumMatriz((m as any).phev_nuevos_matriz);
+    byYear[year].phev_used += sumMatriz((m as any).phev_usados_matriz);
+  }
+  return Object.entries(byYear)
+    .map(([y, d]) => ({ año: parseInt(y), ...d }))
+    .sort((a, b) => a.año - b.año);
+}
+
 /** Anos disponibles en el dataset */
 export const dgtAñosDisponibles: number[] = (() => {
   const years = new Set(mensualJson.mensual.map(m => parseInt(m.periodo.split("-")[0])));

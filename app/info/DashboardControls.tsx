@@ -35,16 +35,19 @@ interface Props {
 export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVehiculo, provincia, setProvincia, showTipo = true }: Props) {
   const isMobile = useIsMobile();
   const [tipoOpen, setTipoOpen] = useState(false);
+  const [provOpen, setProvOpen] = useState(false);
   const tipoRef = useRef<HTMLDivElement | null>(null);
+  const provRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!tipoOpen) return;
+    if (!tipoOpen && !provOpen) return;
     const onDown = (e: MouseEvent) => {
-      if (tipoRef.current && !tipoRef.current.contains(e.target as Node)) setTipoOpen(false);
+      if (tipoOpen && tipoRef.current && !tipoRef.current.contains(e.target as Node)) setTipoOpen(false);
+      if (provOpen && provRef.current && !provRef.current.contains(e.target as Node)) setProvOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
-  }, [tipoOpen]);
+  }, [tipoOpen, provOpen]);
 
   const tecOptions: { value: "ambos" | "bev" | "phev"; color?: string }[] = [
     { value: "ambos" },
@@ -56,9 +59,12 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
     ? "Ninguno"
     : tiposVehiculo.length === TIPOS_ORDER.length
       ? "Todos"
-      : tiposVehiculo.length === 1
-        ? TIPO_LABELS[tiposVehiculo[0]]
-        : `${tiposVehiculo.length} tipos`;
+      : TIPOS_ORDER.filter((t) => tiposVehiculo.includes(t)).map((t) => TIPO_LABELS[t]).join(", ");
+
+  const currentProvNombre = provincia && provincia !== "todas"
+    ? (PROVINCIAS_ORDENADAS.find((p) => p.cod === provincia)?.nombre ?? provincia)
+    : null;
+  const provButtonLabel = currentProvNombre ?? "Provincias: Todas";
 
   return (
     <div style={{
@@ -152,27 +158,94 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
           }}>
 
             {/* Provincia */}
-            {setProvincia && (
-              <div style={{ display: "flex", alignItems: "center", gap: 6, flex: isMobile ? 1 : undefined, minWidth: 0 }}>
-                {!isMobile && (
-                  <span style={{
-                    fontSize: 11, color: "rgba(241,245,249,0.6)",
-                    letterSpacing: "0.03em", fontWeight: 600,
-                  }}>
-                    Prov.:
-                  </span>
-                )}
-                <select
-                  value={provincia ?? "todas"}
-                  onChange={(e) => setProvincia(e.target.value)}
+            {setProvincia && (isMobile ? (
+              <div ref={provRef} style={{ position: "relative", flex: 1, minWidth: 0 }}>
+                <button
+                  onClick={() => setProvOpen((v) => !v)}
                   style={{
-                    padding: "4px 8px", borderRadius: 7, fontSize: isMobile ? 11 : 12, fontWeight: 700,
+                    padding: "5px 10px", borderRadius: 7, fontSize: 11, fontWeight: 700,
                     border: "1px solid rgba(255,255,255,0.12)",
                     background: "#0b1020",
                     color: "#f4f4f5",
                     cursor: "pointer",
-                    maxWidth: isMobile ? "100%" : 200,
-                    flex: isMobile ? 1 : undefined,
+                    width: "100%",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {provButtonLabel}
+                </button>
+                {provOpen && (
+                  <div style={{
+                    position: "absolute",
+                    top: "calc(100% + 6px)",
+                    left: 0,
+                    minWidth: 220,
+                    maxHeight: 320,
+                    overflowY: "auto",
+                    background: "#0b1020",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: 8,
+                    padding: 6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    zIndex: 50,
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                  }}>
+                    <button
+                      onClick={() => { setProvincia("todas"); setProvOpen(false); }}
+                      style={{
+                        padding: "6px 10px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                        border: "1px solid transparent",
+                        background: (!provincia || provincia === "todas") ? "rgba(241,245,249,0.08)" : "transparent",
+                        color: (!provincia || provincia === "todas") ? "#f4f4f5" : "rgba(241,245,249,0.55)",
+                        textAlign: "left",
+                      }}
+                    >
+                      Todas
+                    </button>
+                    {PROVINCIAS_ORDENADAS.map((p) => {
+                      const active = provincia === p.cod;
+                      return (
+                        <button
+                          key={p.cod}
+                          onClick={() => { setProvincia(p.cod); setProvOpen(false); }}
+                          style={{
+                            padding: "6px 10px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                            border: "1px solid transparent",
+                            background: active ? "rgba(241,245,249,0.08)" : "transparent",
+                            color: active ? "#f4f4f5" : "rgba(241,245,249,0.55)",
+                            textAlign: "left",
+                          }}
+                        >
+                          {p.nombre}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
+                <span style={{
+                  fontSize: 11, color: "rgba(241,245,249,0.6)",
+                  letterSpacing: "0.03em", fontWeight: 600,
+                }}>
+                  Prov.:
+                </span>
+                <select
+                  value={provincia ?? "todas"}
+                  onChange={(e) => setProvincia(e.target.value)}
+                  style={{
+                    padding: "4px 8px", borderRadius: 7, fontSize: 12, fontWeight: 700,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "#0b1020",
+                    color: "#f4f4f5",
+                    cursor: "pointer",
+                    maxWidth: 200,
                     minWidth: 0,
                     appearance: "none",
                     WebkitAppearance: "none",
@@ -186,7 +259,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                   ))}
                 </select>
               </div>
-            )}
+            ))}
 
             {/* Tipo */}
             {showTipo && (isMobile ? (

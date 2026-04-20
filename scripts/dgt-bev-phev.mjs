@@ -161,6 +161,14 @@ const mensualRows = db.prepare(`
   ORDER BY periodo
 `).all(DESDE);
 
+// Matriz mensual: periodo × BEV|PHEV × N|U × tipo × provincia
+const matrizRows = db.prepare(`
+  SELECT periodo, cat_vehiculo_ev, ind_nuevo_usado, cat_homologacion_eu, cod_provincia_veh, COUNT(*) as n
+  FROM matriculaciones
+  WHERE periodo >= ? AND cat_vehiculo_ev IN ('BEV','PHEV')
+  GROUP BY periodo, cat_vehiculo_ev, ind_nuevo_usado, cat_homologacion_eu, cod_provincia_veh
+`).all(DESDE);
+
 // Desglose mensual por tipo de vehículo
 const tipoRows = db.prepare(`
   SELECT periodo, cat_vehiculo_ev, cat_homologacion_eu, COUNT(*) as n
@@ -194,6 +202,20 @@ function catToTipo(cat) {
   if (cat.startsWith('L') || cat === '*05' || cat === '*06') return 'moto_scooter';
   if (cat === '*21' || cat === '*27') return 'microcar';
   return 'otros';
+}
+
+// Armado del cubo: { periodo: { BEV: { N: { tipo: { prov: n } }, U: {...} }, PHEV: {...} } }
+const matrizMap = {};
+for (const row of matrizRows) {
+  const p = row.periodo;
+  const cat = row.cat_vehiculo_ev;
+  const nu  = row.ind_nuevo_usado === 'N' ? 'N' : 'U';
+  const tipo = catToTipo(row.cat_homologacion_eu);
+  const prov = row.cod_provincia_veh ?? 'ND';
+  if (!matrizMap[p]) matrizMap[p] = { BEV: { N: {}, U: {} }, PHEV: { N: {}, U: {} } };
+  const target = matrizMap[p][cat][nu];
+  if (!target[tipo]) target[tipo] = {};
+  target[tipo][prov] = (target[tipo][prov] ?? 0) + row.n;
 }
 
 const tipoMap = {}; // { periodo: { BEV: { turismo:0, ...}, PHEV: {...} } }
@@ -252,6 +274,7 @@ const mensual = Object.entries(mensualMap)
     const anfac   = anfacMap[periodo]   ?? { bev: 0, phev: 0 };
     const tipos   = tipoMap[periodo]    ?? {};
     const provs   = provMensualMap[periodo] ?? {};
+    const mat     = matrizMap[periodo] ?? { BEV: { N: {}, U: {} }, PHEV: { N: {}, U: {} } };
     const TIPOS   = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros'];
     const emptyTipo = () => Object.fromEntries(TIPOS.map(t => [t, 0]));
     return {
@@ -262,6 +285,10 @@ const mensual = Object.entries(mensualMap)
       phev_por_tipo: { ...emptyTipo(), ...(tipos.PHEV ?? {}) },
       bev_por_provincia:  provs.BEV  ?? {},
       phev_por_provincia: provs.PHEV ?? {},
+      bev_nuevos_matriz:   mat.BEV.N,
+      bev_usados_matriz:   mat.BEV.U,
+      phev_nuevos_matriz:  mat.PHEV.N,
+      phev_usados_matriz:  mat.PHEV.U,
       anfac_bev:  anfac.bev,
       anfac_phev: anfac.phev,
       total_mercado_nuevos: mercado,

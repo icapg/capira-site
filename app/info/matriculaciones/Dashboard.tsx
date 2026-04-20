@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
-import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
+import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual, dgtUsadosAnualTipos } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
@@ -272,9 +272,13 @@ export function Dashboard() {
     : null;
 
   // ── DGT: nota "nuevos cayeron pero usados compensaron" ───────────────────
+  const usadosFiltered = useMemo(
+    () => dgtUsadosAnualTipos(tiposVehiculo, provincia),
+    [tiposVehiculo, provincia],
+  );
   const dgtUsadosCompensacion = (() => {
     // Buscar el año donde nuevos cayeron pero total fue positivo
-    const fullUsados = dgtUsadosAnual.filter(d => d.año >= 2020 && d.año < currentYear);
+    const fullUsados = usadosFiltered.filter(d => d.año >= 2020 && d.año < currentYear);
     for (let i = 1; i < fullUsados.length; i++) {
       const cur  = fullUsados[i];
       const prev = fullUsados[i - 1];
@@ -1077,7 +1081,7 @@ export function Dashboard() {
               filtro === "bev" ? e.bev_used : filtro === "phev" ? e.phev_used : e.bev_used + e.phev_used;
             const ut = (e: typeof dgtUsadosAnual[0]) =>
               filtro === "bev" ? e.bev_new + e.bev_used : filtro === "phev" ? e.phev_new + e.phev_used : e.bev_new + e.phev_new + e.bev_used + e.phev_used;
-            const fullYears = dgtUsadosAnual.filter(d => d.año < currentYear);
+            const fullYears = usadosFiltered.filter(d => d.año < currentYear);
             const last  = fullYears[fullYears.length - 1];
             const prev  = fullYears[fullYears.length - 2];
             if (!last || !prev) return null;
