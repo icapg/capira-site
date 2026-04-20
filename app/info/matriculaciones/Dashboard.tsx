@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
 import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual, dgtUsadosAnualTipos } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
-import { getDgtMarcas, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { getDgtMarcas, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
 import { Card } from "../_components/Card";
@@ -891,6 +891,9 @@ export function Dashboard() {
     return m;
   };
 
+  // Concentración geográfica — ranking nacional (ignora filtro de provincia)
+  const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
+
   const mixMarcasData = (() => {
     const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
     return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined, provincia).map((m) => {
@@ -1339,6 +1342,36 @@ export function Dashboard() {
             </div>
           </Card>
         </div>
+
+        {/* ── Concentración geográfica ─────────────────────────────────────── */}
+        <Card style={{ marginBottom: GAP }}>
+          <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado. (Ignora el filtro de provincia.)">
+            Concentración geográfica
+          </SectionTitle>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
+            {dgtProvs.slice(0, 15).map((p, i) => {
+              const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
+              const provTotal = filtro === "bev"
+                ? dgtProvs.reduce((s, x) => s + x.bev, 0)
+                : filtro === "phev"
+                ? dgtProvs.reduce((s, x) => s + x.phev, 0)
+                : dgtProvs.reduce((s, x) => s + x.total, 0);
+              const pct = (val / provTotal) * 100;
+              const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
+              return (
+                <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
+                  <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
+                  <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
+                  </div>
+                  <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
 
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>

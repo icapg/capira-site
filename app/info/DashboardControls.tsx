@@ -77,10 +77,11 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
     }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "0 12px" : "0 24px" }}>
         <div style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
+          display: isMobile ? "flex" : "grid",
+          flexDirection: isMobile ? "column" : undefined,
+          gridTemplateColumns: isMobile ? undefined : "1fr auto 1fr",
           alignItems: isMobile ? "stretch" : "center",
-          justifyContent: "space-between",
+          justifyContent: isMobile ? "space-between" : undefined,
           minHeight: isMobile ? undefined : 50,
           gap: 0, flexWrap: "wrap",
           paddingTop: isMobile ? 8 : 6,
@@ -88,7 +89,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
         }}>
 
           {/* Left: Tec. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "nowrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "nowrap", justifySelf: isMobile ? undefined : "start" }}>
             {!isMobile && (
               <span style={{
                 fontSize: 11, color: "rgba(241,245,249,0.6)",
@@ -145,16 +146,18 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
             </div>
           </div>
 
-          {/* Middle+Right: Provincia + Tipo (mobile en la misma row) */}
+          {/* Middle: Provincia + Tipo (mobile en la misma row) */}
           <div style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
             flexWrap: isMobile ? "nowrap" : "wrap",
+            justifyContent: "center",
             paddingTop: isMobile ? 10 : 0,
             marginTop: isMobile ? 6 : 0,
             borderTop: isMobile ? "1px solid rgba(255,255,255,0.22)" : "none",
             width: isMobile ? "100%" : undefined,
+            justifySelf: isMobile ? undefined : "center",
           }}>
 
             {/* Provincia */}
@@ -358,6 +361,9 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
             ))}
 
           </div>
+
+          {/* Right spacer (desktop grid balance) */}
+          {!isMobile && <div />}
 
         </div>
       </div>
