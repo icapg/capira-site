@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
 import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual, dgtUsadosAnualTipos } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
-import { getDgtMarcas, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { getDgtMarcas, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
 import { Card } from "../_components/Card";
@@ -891,6 +891,10 @@ export function Dashboard() {
     return m;
   };
 
+  // Ranking nacional de provincias (respeta tipos, nunca se filtra por provincia
+  // porque necesitamos las 52 para rankear)
+  const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
+
   const mixMarcasData = (() => {
     const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
     return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined, provincia).map((m) => {
@@ -1095,6 +1099,46 @@ export function Dashboard() {
                 icon="🚢"
                 headline={`Usados importados ${filtroLabel}: +${yoy}% en ${last.año} — ${fmtN(lastUsados)} vehículos`}
                 body={`Representan el ${pct}% del total DGT ${last.año}. El mercado de segunda mano importada se acelera.`}
+                color={C.amber}
+              />
+            );
+          })()}
+          {(() => {
+            if (dgtProvs.length === 0) return null;
+            const totalBev  = dgtProvs.reduce((s, x) => s + x.bev, 0);
+            const totalPhev = dgtProvs.reduce((s, x) => s + x.phev, 0);
+            const totalAll  = totalBev + totalPhev;
+            const denom = filtro === "bev" ? totalBev : filtro === "phev" ? totalPhev : totalAll;
+            if (denom === 0) return null;
+
+            const focusCod = provincia && provincia !== "todas" ? provincia : dgtProvs[0].cod;
+            const focus = dgtProvs.find((p) => p.cod === focusCod) ?? dgtProvs[0];
+            const rank  = dgtProvs.findIndex((p) => p.cod === focus.cod) + 1;
+            const focusVal = filtro === "bev" ? focus.bev : filtro === "phev" ? focus.phev : focus.total;
+            const pct = ((focusVal / denom) * 100).toFixed(0);
+
+            const bevNac  = totalBev  > 0 ? ((focus.bev  / totalBev)  * 100).toFixed(1) : "0";
+            const phevNac = totalPhev > 0 ? ((focus.phev / totalPhev) * 100).toFixed(1) : "0";
+
+            const filtroLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "Enchufables";
+
+            if (provincia && provincia !== "todas") {
+              return (
+                <InsightCard
+                  icon="🗺️"
+                  headline={`${focus.provincia} concentra el ${pct}% del mercado ${filtroLabel}`}
+                  body={`Posición #${rank} del ranking nacional.\nBEV: ${bevNac}% · PHEV: ${phevNac}% del total nacional.`}
+                  color={C.amber}
+                />
+              );
+            }
+            const top   = dgtProvs.slice(0, 3);
+            const top3pct = ((top.reduce((s, p) => s + (filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total), 0) / denom) * 100).toFixed(0);
+            return (
+              <InsightCard
+                icon="🗺️"
+                headline={`${focus.provincia} concentra el ${pct}% del mercado ${filtroLabel}`}
+                body={`Top: ${top.map((p) => p.provincia).join(", ")}.\nBEV: ${bevNac}% · PHEV: ${phevNac}% del total nacional.\nLas 3 primeras suman el ${top3pct}%.`}
                 color={C.amber}
               />
             );
