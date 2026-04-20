@@ -680,14 +680,14 @@ export function Dashboard() {
         data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => +((a.bev / a.total) * 100).toFixed(1)),
         itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.6)"}]) },
         barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${p.value}%` },
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
       },
       {
         name: "PHEV", type: "bar", stack: "s",
         data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => +((a.phev / a.total) * 100).toFixed(1)),
         itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.6)"}]), borderRadius: [4,4,0,0] },
         barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${p.value}%` },
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
       },
     ],
   };
@@ -708,7 +708,7 @@ export function Dashboard() {
   const heatMax = Math.max(...heatData.map((d) => d[2]));
   const heatLabelSize = winW < 768 ? 10 : winW < 1024 ? 10 : 11;
   const heatShowLabels = true;
-  const heatMinWidth = isMobile ? 680 : undefined;
+  const heatMinWidth = isMobile ? 540 : undefined;
 
   const heatmapOpt: Record<string, any> = {
     backgroundColor: "transparent",
@@ -717,7 +717,7 @@ export function Dashboard() {
       formatter: (p: Record<string, any>) =>
         `<b>${MESES[p.value[0]]} ${heatYears[p.value[1]].año}</b><br/>Matriculaciones: <b>${fmtN(p.value[2])}</b>`,
     },
-    grid: { top: 12, right: 16, bottom: 32, left: 60 },
+    grid: { top: 12, right: 10, bottom: 32, left: isMobile ? 32 : 60 },
     xAxis: {
       type: "category",
       data: MESES,
