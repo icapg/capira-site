@@ -69,7 +69,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
             <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: 10, padding: 3, gap: 2, flexWrap: "wrap" }}>
               {/* Total — deshabilitado */}
               <button disabled title="Próximamente" style={{
-                padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
                 border: "1px solid transparent", background: "transparent",
                 color: "rgba(241,245,249,0.45)",
               }}>
@@ -77,11 +77,11 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
               </button>
               {/* No Enchufable — deshabilitado */}
               <button disabled title="Próximamente" style={{
-                padding: "5px 14px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
+                padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "not-allowed", fontSize: 12, fontWeight: 700,
                 border: "1px solid transparent", background: "transparent",
                 color: "rgba(241,245,249,0.45)",
               }}>
-                No Enchufable
+                {isMobile ? "No ench." : "No Enchufable"}
               </button>
               {/* Separador */}
               <div style={{ width: 1, background: "rgba(255,255,255,0.1)", margin: "4px 2px" }} />
@@ -96,7 +96,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                   : opt.value === "bev" ? "BEV" : "PHEV";
                 return (
                   <button key={opt.value} onClick={() => setFiltro(opt.value)} style={{
-                    padding: "5px 14px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                    padding: isMobile ? "5px 7px" : "5px 10px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,
                     border: active
                       ? `1px solid ${col ? col + "44" : "rgba(255,255,255,0.2)"}`
                       : "1px solid transparent",

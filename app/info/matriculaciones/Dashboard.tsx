@@ -474,12 +474,12 @@ export function Dashboard() {
         return `<b style="color:${C.text}">${params[0].axisValue}</b><br/>${dot}${params[0].seriesName}: <b>${v > 0 ? "+" : ""}${v}%</b>`;
       },
     },
-    grid: { top: 32, right: 16, bottom: 36, left: 52 },
+    grid: { top: 32, right: 16, bottom: isMobile ? 52 : 36, left: isMobile ? 38 : 52 },
     xAxis: {
       type: "category",
       data: yoyLabels,
       axisLine: { lineStyle: { color: C.grid } },
-      axisLabel: { color: C.muted, fontSize: 11 },
+      axisLabel: { color: C.muted, fontSize: isMobile ? 9 : 11, interval: 0, rotate: isMobile ? 45 : 0 },
       axisTick: { show: false },
     },
     yAxis: {
@@ -566,7 +566,7 @@ export function Dashboard() {
               .map((p) => `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${p.color};margin-right:5px"></span>${p.seriesName}: <b>${fmtN(p.value)}</b>`)
               .join("<br/>"),
         },
-        grid: { top: 12, right: 52, bottom: 32, left: 60 },
+        grid: { top: 12, right: isMobile ? 36 : 52, bottom: 32, left: isMobile ? 38 : 60 },
         xAxis: {
           type: "category", data: MESES,
           axisLine: { lineStyle: { color: C.grid } },
@@ -617,7 +617,7 @@ export function Dashboard() {
             `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
             params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${p.seriesName}: <b>${fmtN(p.value)}</b>`).join("<br/>"),
         },
-        grid: { top: 12, right: 16, bottom: 32, left: 60 },
+        grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 38 : 60 },
         xAxis: {
           type: "category",
           data: añoData.meses.map((m) => m.mes),
@@ -659,7 +659,7 @@ export function Dashboard() {
           params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${p.value.toFixed(1)}%</b>`).join("<br/>");
       },
     },
-    grid: { top: 12, right: 16, bottom: 32, left: 52 },
+    grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 36 : 52 },
     xAxis: {
       type: "category",
       data: [
@@ -843,7 +843,7 @@ export function Dashboard() {
         }).join("<br/>"),
     },
     legend: { show: true, top: 4, right: 8, textStyle: { color: C.muted, fontSize: 11 }, icon: "circle", itemWidth: 8, itemHeight: 8 },
-    grid: { top: 40, right: 16, bottom: 32, left: 60 },
+    grid: { top: 40, right: 16, bottom: 32, left: isMobile ? 38 : 60 },
     xAxis: {
       type: "category",
       data: REAL.map((y) => String(y.año)),
@@ -1295,57 +1295,72 @@ export function Dashboard() {
 
         {/* ── Tendencia mensual + YoY mensual ─────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
+          <Card style={{ minWidth: 0, overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: isMobile ? "stretch" : "center", justifyContent: "space-between", marginBottom: 18, gap: 8, flexDirection: isMobile ? "column" : "row", flexWrap: "wrap" }}>
               <SectionTitle sub="Matriculaciones por mes" tooltip="Líneas mensuales por año. Cada línea representa un año completo (o parcial si es el año en curso). Permite comparar la forma de la curva entre años y detectar patrones estacionales como los picos de diciembre.">Evolución mensual</SectionTitle>
-              <div style={{ display: "flex", gap: 2, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3, flexWrap: "wrap" }}>
-                {/* "Todos" button */}
-                <button onClick={() => setAñoActivo("todos")} style={{
-                  padding: "4px 10px", borderRadius: 6, border: "none", cursor: "pointer",
-                  fontSize: 12, fontWeight: 700,
-                  background: safeAñoActivo === "todos" ? "linear-gradient(135deg,#38bdf8,#8b5cf6)" : "transparent",
-                  color: safeAñoActivo === "todos" ? "#fff" : C.muted, transition: "all 0.15s",
-                }}>
-                  Todos
-                </button>
-                {/* Dropdown for years < 2021 */}
-                {preYears.length > 0 && (
-                  <select
-                    value={typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? safeAñoActivo : ""}
-                    onChange={(e) => { if (e.target.value) setAñoActivo(parseInt(e.target.value)); }}
-                    style={{
-                      padding: "4px 6px", borderRadius: 6, border: "none", cursor: "pointer",
-                      fontSize: 12, fontWeight: 700,
-                      background: typeof safeAñoActivo === "number" && safeAñoActivo < 2021
-                        ? "linear-gradient(135deg,#38bdf8,#8b5cf6)"
-                        : "rgba(255,255,255,0.06)",
-                      color: typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? "#fff" : C.muted,
-                      outline: "none", appearance: "none", WebkitAppearance: "none",
-                    }}
-                  >
-                    <option value="" style={{ background: "#1e293b" }}>
-                      {typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? safeAñoActivo : "‹ 2021"}
-                    </option>
-                    {preYears.map((y) => (
-                      <option key={y.año} value={y.año} style={{ background: "#1e293b" }}>{y.año}</option>
-                    ))}
-                  </select>
-                )}
-                {/* Buttons for years >= 2021 */}
-                {mainYears.map((y) => {
-                  const active = safeAñoActivo === y.año;
-                  const partial = !!y.parcial;
-                  return (
-                    <button key={y.año} onClick={() => setAñoActivo(y.año)} style={{
-                      padding: "4px 10px", borderRadius: 6, border: "none", cursor: "pointer",
-                      fontSize: 12, fontWeight: 700,
-                      background: active ? "linear-gradient(135deg,#38bdf8,#8b5cf6)" : "transparent",
-                      color: active ? "#fff" : C.muted, transition: "all 0.15s",
-                    }}>
-                      {y.año}{partial ? "*" : ""}
-                    </button>
-                  );
-                })}
+              <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", maxWidth: "100%" }}>
+                <div style={{ display: "inline-flex", gap: 2, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3, flexWrap: isMobile ? "nowrap" : "wrap" }}>
+                  {/* "Todos" button */}
+                  <button onClick={() => setAñoActivo("todos")} style={{
+                    padding: "4px 10px", borderRadius: 6, border: "none", cursor: "pointer",
+                    fontSize: 12, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0,
+                    background: safeAñoActivo === "todos" ? "linear-gradient(135deg,#38bdf8,#8b5cf6)" : "transparent",
+                    color: safeAñoActivo === "todos" ? "#fff" : C.muted, transition: "all 0.15s",
+                  }}>
+                    Todos
+                  </button>
+                  {/* Mobile: all pre-2021 years as buttons; Desktop: dropdown */}
+                  {!isMobile && preYears.length > 0 && (
+                    <select
+                      value={typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? safeAñoActivo : ""}
+                      onChange={(e) => { if (e.target.value) setAñoActivo(parseInt(e.target.value)); }}
+                      style={{
+                        padding: "4px 6px", borderRadius: 6, border: "none", cursor: "pointer",
+                        fontSize: 12, fontWeight: 700,
+                        background: typeof safeAñoActivo === "number" && safeAñoActivo < 2021
+                          ? "linear-gradient(135deg,#38bdf8,#8b5cf6)"
+                          : "rgba(255,255,255,0.06)",
+                        color: typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? "#fff" : C.muted,
+                        outline: "none", appearance: "none", WebkitAppearance: "none",
+                      }}
+                    >
+                      <option value="" style={{ background: "#1e293b" }}>
+                        {typeof safeAñoActivo === "number" && safeAñoActivo < 2021 ? safeAñoActivo : "‹ 2021"}
+                      </option>
+                      {preYears.map((y) => (
+                        <option key={y.año} value={y.año} style={{ background: "#1e293b" }}>{y.año}</option>
+                      ))}
+                    </select>
+                  )}
+                  {isMobile && preYears.map((y) => {
+                    const active = safeAñoActivo === y.año;
+                    return (
+                      <button key={y.año} onClick={() => setAñoActivo(y.año)} style={{
+                        padding: "4px 10px", borderRadius: 6, border: "none", cursor: "pointer",
+                        fontSize: 12, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0,
+                        background: active ? "linear-gradient(135deg,#38bdf8,#8b5cf6)" : "transparent",
+                        color: active ? "#fff" : C.muted, transition: "all 0.15s",
+                      }}>
+                        {y.año}
+                      </button>
+                    );
+                  })}
+                  {/* Years >= 2021 */}
+                  {mainYears.map((y) => {
+                    const active = safeAñoActivo === y.año;
+                    const partial = !!y.parcial;
+                    return (
+                      <button key={y.año} onClick={() => setAñoActivo(y.año)} style={{
+                        padding: "4px 10px", borderRadius: 6, border: "none", cursor: "pointer",
+                        fontSize: 12, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0,
+                        background: active ? "linear-gradient(135deg,#38bdf8,#8b5cf6)" : "transparent",
+                        color: active ? "#fff" : C.muted, transition: "all 0.15s",
+                      }}>
+                        {y.año}{partial ? "*" : ""}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
             <EChart theme="dark" option={trendOpt} style={{ height: 248 }} />
@@ -1416,74 +1431,62 @@ export function Dashboard() {
 
         {/* ── Mix tecnológico ──────────────────────────────────────────────── */}
         <Card style={{ marginBottom: GAP }}>
-          <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, alignItems: "start" }}>
-            <div>
-              <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
-                Mix tecnológico — ¿quién gana terreno?
-              </SectionTitle>
-              <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
-              {(() => {
-                const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
-                const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
-                const pct     = Math.round(Math.abs(totPhev - totBev) / Math.min(totPhev, totBev) * 100);
-                const [winner, loser, wColor, lColor] = totPhev >= totBev
-                  ? ["PHEV", "BEV", C.phev, C.bev] as const
-                  : ["BEV", "PHEV", C.bev, C.phev] as const;
-                const desdeAño = historico[0]?.año ?? FIRST.año;
-                return (
-                  <p style={{ fontSize: 11, color: C.muted, marginTop: 10, lineHeight: 1.5 }}>
-                    Se matricularon un{" "}
-                    <span style={{ color: C.green, fontWeight: 700 }}>+{pct}% más <span style={{ color: wColor }}>{winner}s</span> que <span style={{ color: lColor }}>{loser}s</span></span>
-                    {" "}en total desde {desdeAño} ({fmtN(totPhev)} PHEV vs {fmtN(totBev)} BEV).
-                  </p>
-                );
-              })()}
-            </div>
-            <div>
-              {/* Header: título + dropdown + paginación en misma fila */}
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
-                <div>
-                  <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
-                    Mix por marca
-                  </SectionTitle>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                  {/* Dropdown año */}
-                  <select
-                    value={marcaMixYear}
-                    onChange={(e) => { setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value)); setMarcaMixPage(0); }}
-                    style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
-                  >
-                    {mixYearsAvailable.map((y) => (
-                      <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
-                    ))}
-                  </select>
-                  {/* Paginación — ← libre, → alineado con columna de k del gráfico */}
-                  {mixMarcasTotalPages > 1 && (
-                    <>
-                      <span style={{ fontSize: 11, color: C.dim }}>{marcaMixPage + 1}/{mixMarcasTotalPages}</span>
-                      <button
-                        disabled={marcaMixPage === 0}
-                        onClick={() => setMarcaMixPage((p) => p - 1)}
-                        style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage === 0 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage === 0 ? C.dim : "#ffffff" }}
-                      >←</button>
-                    </>
-                  )}
-                  {/* → en div de 52px = mismo ancho que grid.right del gráfico */}
-                  {mixMarcasTotalPages > 1 && (
-                    <div style={{ width: 52, display: "flex", justifyContent: "center" }}>
-                      <button
-                        disabled={marcaMixPage >= mixMarcasTotalPages - 1}
-                        onClick={() => setMarcaMixPage((p) => p + 1)}
-                        style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage >= mixMarcasTotalPages - 1 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage >= mixMarcasTotalPages - 1 ? C.dim : "#ffffff" }}
-                      >→</button>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
+          <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
+            Mix tecnológico — ¿quién gana terreno?
+          </SectionTitle>
+          <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
+          {(() => {
+            const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
+            const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
+            const pct     = Math.round(Math.abs(totPhev - totBev) / Math.min(totPhev, totBev) * 100);
+            const [winner, loser, wColor, lColor] = totPhev >= totBev
+              ? ["PHEV", "BEV", C.phev, C.bev] as const
+              : ["BEV", "PHEV", C.bev, C.phev] as const;
+            const desdeAño = historico[0]?.año ?? FIRST.año;
+            return (
+              <p style={{ fontSize: 11, color: C.muted, marginTop: 10, lineHeight: 1.5 }}>
+                Se matricularon un{" "}
+                <span style={{ color: C.green, fontWeight: 700 }}>+{pct}% más <span style={{ color: wColor }}>{winner}s</span> que <span style={{ color: lColor }}>{loser}s</span></span>
+                {" "}en total desde {desdeAño} ({fmtN(totPhev)} PHEV vs {fmtN(totBev)} BEV).
+              </p>
+            );
+          })()}
+        </Card>
+
+        {/* ── Mix por marca ────────────────────────────────────────────────── */}
+        <Card style={{ marginBottom: GAP, minWidth: 0, overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
+            <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
+              Mix por marca
+            </SectionTitle>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, flexWrap: "wrap" }}>
+              <select
+                value={marcaMixYear}
+                onChange={(e) => { setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value)); setMarcaMixPage(0); }}
+                style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
+              >
+                {mixYearsAvailable.map((y) => (
+                  <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
+                ))}
+              </select>
+              {mixMarcasTotalPages > 1 && (
+                <>
+                  <span style={{ fontSize: 11, color: C.dim }}>{marcaMixPage + 1}/{mixMarcasTotalPages}</span>
+                  <button
+                    disabled={marcaMixPage === 0}
+                    onClick={() => setMarcaMixPage((p) => p - 1)}
+                    style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage === 0 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage === 0 ? C.dim : "#ffffff" }}
+                  >←</button>
+                  <button
+                    disabled={marcaMixPage >= mixMarcasTotalPages - 1}
+                    onClick={() => setMarcaMixPage((p) => p + 1)}
+                    style={{ padding: "3px 9px", borderRadius: 6, cursor: marcaMixPage >= mixMarcasTotalPages - 1 ? "default" : "pointer", fontSize: 12, fontWeight: 700, border: `1px solid rgba(255,255,255,0.25)`, background: "rgba(255,255,255,0.15)", color: marcaMixPage >= mixMarcasTotalPages - 1 ? C.dim : "#ffffff" }}
+                  >→</button>
+                </>
+              )}
             </div>
           </div>
+          <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
         </Card>
 
         {/* ── Provincias ───────────────────────────────────────────────────── */}
