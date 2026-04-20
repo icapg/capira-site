@@ -184,7 +184,7 @@ export function ApprovalQueue({ bundles }: { bundles: MonthBundle[] }) {
           <div style={{ fontSize: 12, color: 'rgba(241,245,249,0.5)', marginBottom: 18 }}>
             Todos los bundles con datos DGT ya están publicados.
           </div>
-          <Link href="/insights/social/generador" style={{
+          <Link href="/info/social/generador" style={{
             fontSize: 12, fontWeight: 600,
             padding: '8px 16px', borderRadius: 8,
             border: '1px solid rgba(56,189,248,0.3)',

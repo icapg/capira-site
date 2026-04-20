@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const TABS: { href: string; label: string; emoji: string }[] = [
-  { href: '/insights/social/generador',     label: 'Generador',     emoji: '🎨' },
-  { href: '/insights/social/automatizacion', label: 'Automatización', emoji: '⚙️' },
-  { href: '/insights/social/aprobacion',    label: 'Aprobación',    emoji: '✅' },
+  { href: '/info/social/generador',     label: 'Generador',     emoji: '🎨' },
+  { href: '/info/social/automatizacion', label: 'Automatización', emoji: '⚙️' },
+  { href: '/info/social/aprobacion',    label: 'Aprobación',    emoji: '✅' },
 ]
 
 export function SocialNav() {

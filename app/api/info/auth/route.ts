@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const COOKIE_NAME = "insights_auth";
+const COOKIE_NAME = "info_auth";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 días
 
 export async function POST(request: NextRequest) {

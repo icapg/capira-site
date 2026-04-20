@@ -7,8 +7,8 @@ import { dgtPorAño, dgtPorAñoCompleto, dgtPorAñoTipos, TIPO_LABELS, dgtHistor
 import { anfacPorAño, anfacHistoricoPre2020 } from "../../lib/insights/anfac-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { getDgtMarcas, getDgtModelos, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
-import { useInsights } from "../../insights/InsightsContext";
-import { DashboardControls } from "../../insights/DashboardControls";
+import { useInsights } from "../../info/InsightsContext";
+import { DashboardControls } from "../../info/DashboardControls";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS

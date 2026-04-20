@@ -11,7 +11,7 @@ const countryGroups = [
   {
     region: null,
     items: [
-      { code: "es", name: "España", flag: "🇪🇸", href: "/insights" },
+      { code: "es", name: "España", flag: "🇪🇸", href: "/info" },
     ],
   },
   {
@@ -94,7 +94,7 @@ export function InsightsNav() {
 
           {/* LEFT — logo + brand */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Link href="/insights" style={{ textDecoration: "none" }}>
+            <Link href="/info" style={{ textDecoration: "none" }}>
               <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Image
                   src="/logo sin padding.png"

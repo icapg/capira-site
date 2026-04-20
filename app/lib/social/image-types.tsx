@@ -1,7 +1,7 @@
 import type { TipoVehiculo } from '../insights/dgt-bev-phev-data'
-import { MatriculacionesMes } from '../../insights/social/templates/MatriculacionesMes'
-import { BajasMes }           from '../../insights/social/templates/BajasMes'
-import { AcumuladoMes }       from '../../insights/social/templates/AcumuladoMes'
+import { MatriculacionesMes } from '../../info/social/templates/MatriculacionesMes'
+import { BajasMes }           from '../../info/social/templates/BajasMes'
+import { AcumuladoMes }       from '../../info/social/templates/AcumuladoMes'
 import { getTemplateDataFor } from './monthly'
 
 export type FilterId = 'periodo' | 'tec' | 'tipoVehiculo'

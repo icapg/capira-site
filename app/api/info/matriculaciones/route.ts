@@ -5,7 +5,7 @@ import {
   getTotalAnual,
 } from "../../../lib/insights/matriculaciones-data";
 
-// GET /api/insights/matriculaciones
+// GET /api/info/matriculaciones
 // Devuelve datos de matriculaciones para los dashboards.
 // TODO: reemplazar con fetch real a ANFAC/DGT cuando esté disponible.
 export async function GET() {

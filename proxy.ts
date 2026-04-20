@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PUBLIC_DASHBOARD_SLUGS } from "./app/insights/dashboards";
+import { PUBLIC_DASHBOARD_SLUGS } from "./app/info/dashboards";
 
-const COOKIE_NAME = "insights_auth";
-const LOGIN_PATH = "/insights/login";
-const PUBLIC_EXACT = new Set<string>(["/insights", LOGIN_PATH]);
+const COOKIE_NAME = "info_auth";
+const LOGIN_PATH = "/info/login";
+const PUBLIC_EXACT = new Set<string>(["/info", LOGIN_PATH]);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === LOGIN_PATH || pathname.startsWith("/api/insights/auth")) {
+  if (pathname === LOGIN_PATH || pathname.startsWith("/api/info/auth")) {
     return NextResponse.next();
   }
 
@@ -17,7 +17,7 @@ export function proxy(request: NextRequest) {
   }
 
   const matchesPublicDashboard = PUBLIC_DASHBOARD_SLUGS.some(
-    (slug) => pathname === `/insights/${slug}` || pathname.startsWith(`/insights/${slug}/`),
+    (slug) => pathname === `/info/${slug}` || pathname.startsWith(`/info/${slug}/`),
   );
   if (matchesPublicDashboard) {
     return NextResponse.next();
@@ -36,5 +36,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/insights/:path*"],
+  matcher: ["/info/:path*"],
 };

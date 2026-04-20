@@ -17,7 +17,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "matriculaciones",
     label: "Matriculaciones",
-    href: "/insights/matriculaciones",
+    href: "/info/matriculaciones",
     tier: "public",
     ready: true,
     topNav: true,
@@ -28,7 +28,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "parque",
     label: "Parque activo",
-    href: "/insights/parque",
+    href: "/info/parque",
     tier: "private",
     ready: true,
     topNav: true,
@@ -39,7 +39,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "infraestructura",
     label: "Infraestructura",
-    href: "/insights/infraestructura",
+    href: "/info/infraestructura",
     tier: "private",
     ready: true,
     metric: "56K+",
@@ -49,7 +49,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "precios-energia",
     label: "Precios Energía",
-    href: "/insights/precios-energia",
+    href: "/info/precios-energia",
     tier: "private",
     ready: false,
     description: "Precios mayoristas y tarifas eléctricas relevantes para operación de carga.",
@@ -57,7 +57,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "licitaciones",
     label: "Licitaciones",
-    href: "/insights/licitaciones",
+    href: "/info/licitaciones",
     tier: "private",
     ready: false,
     description: "Concursos públicos y licitaciones de infraestructura de recarga en España.",
@@ -65,7 +65,7 @@ export const DASHBOARDS: Dashboard[] = [
   {
     slug: "social",
     label: "Social",
-    href: "/insights/social",
+    href: "/info/social",
     tier: "private",
     ready: true,
     adminOnly: true,

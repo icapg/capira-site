@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function InsightsLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
-  const authCookie = cookieStore.get("insights_auth");
+  const authCookie = cookieStore.get("info_auth");
   const isAdmin = !!authCookie?.value && authCookie.value === process.env.ADMIN_TOKEN;
 
   return (

@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") ?? "/insights";
+  const from = searchParams.get("from") ?? "/info";
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +18,7 @@ function LoginForm() {
     setError("");
 
     try {
-      const res = await fetch("/api/insights/auth", {
+      const res = await fetch("/api/info/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),

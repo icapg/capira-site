@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: "eMobility Insights by Capira",
   description:
     "Datos del mercado de movilidad eléctrica en España: matriculaciones, infraestructura de carga y tendencias.",
-  alternates: { canonical: "/insights" },
+  alternates: { canonical: "/info" },
 };
 
 export default async function InsightsPage() {
   const cookieStore = await cookies();
-  const authCookie = cookieStore.get("insights_auth");
+  const authCookie = cookieStore.get("info_auth");
   const isAdmin = !!authCookie?.value && authCookie.value === process.env.ADMIN_TOKEN;
 
   const cards = DASHBOARDS.filter((d) => isVisibleTo(d, isAdmin) && !d.adminOnly);
