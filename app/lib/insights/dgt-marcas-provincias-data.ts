@@ -10,6 +10,7 @@ export type DgtMarcaEntry = {
   bev: number;
   phev: number;
   por_tipo?: Record<string, number>;
+  por_provincia?: Record<string, { bev: number; phev: number; por_tipo?: Record<string, number> }>;
 };
 
 export type DgtModeloEntry = {
@@ -43,19 +44,39 @@ export const dgtPorAñoSummary: DgtAñoSummary[] =
 const ALL_YEARS = dgtPorAñoSummary;
 
 /**
- * Top marcas agregadas. Si se pasa `tipos`, filtra sumando solo esos tipos
- * usando el campo `por_tipo` de cada entrada.
+ * Top marcas agregadas. Filtra por tipos (por_tipo) y/o provincia (por_provincia).
  */
-export function getDgtMarcas(año: number | "todos", tipos?: string[]): DgtMarcaEntry[] {
+export function getDgtMarcas(año: number | "todos", tipos?: string[], provincia?: string): DgtMarcaEntry[] {
   const entries = año === "todos" ? ALL_YEARS : ALL_YEARS.filter((e) => e.año === año);
+  const prov = provincia && provincia !== "todas" ? provincia : null;
+  const hasTipos = tipos && tipos.length > 0;
   const agg: Record<string, { marca: string; bev: number; phev: number; total_tipo: number }> = {};
 
   for (const e of entries) {
     for (const m of e.marcas) {
       if (!agg[m.marca]) agg[m.marca] = { marca: m.marca, bev: 0, phev: 0, total_tipo: 0 };
-      if (tipos && tipos.length > 0 && m.por_tipo) {
-        // Proportional split: use por_tipo to estimate BEV/PHEV share within selected tipos
-        const tipoTotal = tipos.reduce((s, t) => s + (m.por_tipo![t] ?? 0), 0);
+
+      if (prov) {
+        const pp = m.por_provincia?.[prov];
+        if (!pp) continue;
+        if (hasTipos && pp.por_tipo) {
+          const tipoTotal = tipos!.reduce((s, t) => s + (pp.por_tipo![t] ?? 0), 0);
+          const allTotal  = Object.values(pp.por_tipo).reduce((s, n) => s + n, 0);
+          if (allTotal === 0) continue;
+          const ratio = tipoTotal / allTotal;
+          agg[m.marca].bev        += Math.round(pp.bev  * ratio);
+          agg[m.marca].phev       += Math.round(pp.phev * ratio);
+          agg[m.marca].total_tipo += tipoTotal;
+        } else {
+          agg[m.marca].bev        += pp.bev;
+          agg[m.marca].phev       += pp.phev;
+          agg[m.marca].total_tipo += pp.bev + pp.phev;
+        }
+        continue;
+      }
+
+      if (hasTipos && m.por_tipo) {
+        const tipoTotal = tipos!.reduce((s, t) => s + (m.por_tipo![t] ?? 0), 0);
         const allTotal  = Object.values(m.por_tipo).reduce((s, n) => s + n, 0);
         if (allTotal === 0) continue;
         const ratio = tipoTotal / allTotal;

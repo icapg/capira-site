@@ -42,6 +42,74 @@ function getPhevForTipo(m: MensualEntry, tipo: TipoVehiculo): number {
   return t[tipo] ?? 0;
 }
 
+function getBevForProvincia(m: MensualEntry, cod: string): number {
+  const p = (m as any).bev_por_provincia as Record<string, number> | undefined;
+  return p?.[cod] ?? 0;
+}
+
+function getPhevForProvincia(m: MensualEntry, cod: string): number {
+  const p = (m as any).phev_por_provincia as Record<string, number> | undefined;
+  return p?.[cod] ?? 0;
+}
+
+/**
+ * Combina filtros tipo + provincia usando el ratio del tipo para proyectar sobre
+ * el total de la provincia. Aproximación razonable (no tenemos cross tipo×prov
+ * en el dataset mensual).
+ */
+function getBevForTiposProvincia(m: MensualEntry, tipos: TipoVehiculo[], provincia: string | null): number {
+  const active = tipos.filter((t) => t !== "todos");
+  if (!provincia || provincia === "todas") {
+    if (active.length === 0) return m.bev.total;
+    return active.reduce((s, t) => s + getBevForTipo(m, t), 0);
+  }
+  const provTotal = getBevForProvincia(m, provincia);
+  if (active.length === 0) return provTotal;
+  if (m.bev.total === 0) return 0;
+  const tipoTotal = active.reduce((s, t) => s + getBevForTipo(m, t), 0);
+  return Math.round((tipoTotal / m.bev.total) * provTotal);
+}
+
+function getPhevForTiposProvincia(m: MensualEntry, tipos: TipoVehiculo[], provincia: string | null): number {
+  const active = tipos.filter((t) => t !== "todos");
+  if (!provincia || provincia === "todas") {
+    if (active.length === 0) return m.phev.total;
+    return active.reduce((s, t) => s + getPhevForTipo(m, t), 0);
+  }
+  const provTotal = getPhevForProvincia(m, provincia);
+  if (active.length === 0) return provTotal;
+  if (m.phev.total === 0) return 0;
+  const tipoTotal = active.reduce((s, t) => s + getPhevForTipo(m, t), 0);
+  return Math.round((tipoTotal / m.phev.total) * provTotal);
+}
+
+/** Lista de provincias disponibles (código DGT matrícula → nombre). */
+export const PROVINCIA_LABELS: Record<string, string> = {
+  A: "Alicante",       AB: "Albacete",        AL: "Almería",
+  AV: "Ávila",         B:  "Barcelona",        BA: "Badajoz",
+  BI: "Vizcaya",       BU: "Burgos",           C:  "A Coruña",
+  CA: "Cádiz",         CC: "Cáceres",          CE: "Ceuta",
+  CO: "Córdoba",       CR: "Ciudad Real",      CS: "Castellón",
+  CU: "Cuenca",        GC: "Las Palmas",       GI: "Girona",
+  GR: "Granada",       GU: "Guadalajara",      H:  "Huelva",
+  HU: "Huesca",        IB: "Illes Balears",    J:  "Jaén",
+  L:  "Lleida",        LE: "León",             LO: "La Rioja",
+  LU: "Lugo",          M:  "Madrid",           MA: "Málaga",
+  ME: "Melilla",       MU: "Murcia",           NA: "Navarra",
+  O:  "Asturias",      OR: "Ourense",          P:  "Palencia",
+  PM: "Illes Balears", PO: "Pontevedra",       S:  "Cantabria",
+  SA: "Salamanca",     SE: "Sevilla",          SG: "Segovia",
+  SO: "Soria",         SS: "Gipuzkoa",         T:  "Tarragona",
+  TE: "Teruel",        TF: "S.C. Tenerife",    TO: "Toledo",
+  V:  "Valencia",      VA: "Valladolid",       VI: "Álava",
+  Z:  "Zaragoza",      ZA: "Zamora",
+};
+
+/** Lista ordenada alfabéticamente por nombre para el selector. */
+export const PROVINCIAS_ORDENADAS: { cod: string; nombre: string }[] = Object.entries(PROVINCIA_LABELS)
+  .map(([cod, nombre]) => ({ cod, nombre }))
+  .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+
 // ─── Histórico pre-2020 (solo para acumulado — no se muestra en gráficos) ───
 // Agrupa los años 2014-2019 del DGT en arrays con el mismo shape que historicoPre2020
 function buildHistoricoPre2020(
@@ -66,6 +134,15 @@ export const dgtHistoricoPre2020 = buildHistoricoPre2020(
   (m) => m.bev.total,
   (m) => m.phev.total,
 );
+
+/** Pre-2020 DGT totals filtered por tipos + provincia */
+export function dgtHistoricoPre2020Tipos(tipos: TipoVehiculo[], provincia?: string | null) {
+  const prov = provincia && provincia !== "todas" ? provincia : null;
+  return buildHistoricoPre2020(
+    (m) => getBevForTiposProvincia(m, tipos, prov),
+    (m) => getPhevForTiposProvincia(m, tipos, prov),
+  );
+}
 
 /** Pre-2020 ANFAC totals (2014-2019) — solo para sumar al acumulado histórico */
 export const anfacHistoricoPre2020 = buildHistoricoPre2020(
@@ -129,30 +206,27 @@ export const anfacPorAño: YearData[] = buildPorAño(
 );
 
 /**
- * DGT filtrado por uno o varios tipos de vehículo.
- * tipos vacío o ["todos"] → equivalente a dgtPorAño (suma total).
+ * DGT filtrado por uno o varios tipos de vehículo y opcionalmente por provincia.
+ * tipos vacío o ["todos"] + provincia "todas" o null → equivalente a dgtPorAño.
  */
-export function dgtPorAñoTipos(tipos: TipoVehiculo[]): YearData[] {
+export function dgtPorAñoTipos(tipos: TipoVehiculo[], provincia?: string | null): YearData[] {
+  const prov = provincia && provincia !== "todas" ? provincia : null;
   const active = tipos.filter((t) => t !== "todos");
-  if (active.length === 0) return dgtPorAño;
+  if (active.length === 0 && !prov) return dgtPorAño;
   return buildPorAño(
-    (m) => active.reduce((s, t) => s + getBevForTipo(m, t),  0),
-    (m) => active.reduce((s, t) => s + getPhevForTipo(m, t), 0),
+    (m) => getBevForTiposProvincia(m, tipos, prov),
+    (m) => getPhevForTiposProvincia(m, tipos, prov),
   );
 }
 
 /**
- * DGT filtrado por tipos — incluye 2014+ (mismo alcance que dgtPorAñoCompleto).
+ * DGT filtrado por tipos + provincia — incluye 2014+ (mismo alcance que dgtPorAñoCompleto).
  * Para gráficos que necesitan histórico completo (heatmap, evolución mensual).
  */
-export function dgtPorAñoCompletoTipos(tipos: TipoVehiculo[]): YearData[] {
-  const active = tipos.filter((t) => t !== "todos");
-  const getBev  = active.length === 0
-    ? (m: MensualEntry) => m.bev.total
-    : (m: MensualEntry) => active.reduce((s, t) => s + getBevForTipo(m, t), 0);
-  const getPhev = active.length === 0
-    ? (m: MensualEntry) => m.phev.total
-    : (m: MensualEntry) => active.reduce((s, t) => s + getPhevForTipo(m, t), 0);
+export function dgtPorAñoCompletoTipos(tipos: TipoVehiculo[], provincia?: string | null): YearData[] {
+  const prov = provincia && provincia !== "todas" ? provincia : null;
+  const getBev  = (m: MensualEntry) => getBevForTiposProvincia(m, tipos, prov);
+  const getPhev = (m: MensualEntry) => getPhevForTiposProvincia(m, tipos, prov);
   const byYear: Record<number, { mes: string; bev: number; phev: number }[]> = {};
   for (const m of mensualJson.mensual) {
     const year = parseInt(m.periodo.split("-")[0]);

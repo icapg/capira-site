@@ -3,9 +3,9 @@
 import { useState, useMemo } from "react";
 import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
-import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
+import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
-import { getDgtMarcas, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { getDgtMarcas, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
 import { Card } from "../_components/Card";
@@ -188,17 +188,21 @@ export function Dashboard() {
   const [filtro, setFiltro] = useState<"ambos"|"bev"|"phev">("ambos");
   const { countryName } = useInsights();
   const [tiposVehiculo, setTiposVehiculo] = useState<TipoVehiculo[]>(TIPOS_DEFAULT);
+  const [provincia, setProvincia] = useState<string>("todas");
 
   const analytics = useMemo(
-    () => computeAnalytics(dgtPorAñoTipos(tiposVehiculo)),
-    [tiposVehiculo],
+    () => computeAnalytics(dgtPorAñoTipos(tiposVehiculo, provincia)),
+    [tiposVehiculo, provincia],
   );
 
   const { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL,
           N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY,
           PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ } = analytics;
 
-  const historico = dgtHistoricoPre2020;
+  const historico = useMemo(
+    () => dgtHistoricoPre2020Tipos(tiposVehiculo, provincia),
+    [tiposVehiculo, provincia],
+  );
 
   const [añoActivo, setAñoActivo] = useState<number | "todos">(LAST_FULL.año);
   const [heatPage, setHeatPage] = useState(0);
@@ -215,7 +219,7 @@ export function Dashboard() {
   const mainYears = REAL.filter((y) => y.año >= 2021);
 
   // Data tipo-filtered con mismo alcance (2015+) para los gráficos
-  const allYearsFiltered: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo)
+  const allYearsFiltered: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo, provincia)
     .filter((y) => y.año >= 2015);
 
   const safeAñoActivo: number | "todos" =
@@ -497,8 +501,8 @@ export function Dashboard() {
           opacity: i === yoyValsAll.length - 1 && ytdYoyVal !== null ? 0.65 : 1,
           color: v >= 0
             ? new echarts.graphic.LinearGradient(0,0,0,1,[
-                { offset: 0, color: v > 50 ? C.green : filtroColor },
-                { offset: 1, color: v > 50 ? "rgba(52,211,153,0.3)" : filtroColorAlpha(0.3) },
+                { offset: 0, color: filtroColor },
+                { offset: 1, color: filtroColorAlpha(0.3) },
               ])
             : new echarts.graphic.LinearGradient(0,0,0,1,[
                 { offset: 0, color: "rgba(248,113,113,0.3)" },
@@ -693,7 +697,7 @@ export function Dashboard() {
   };
 
   // ── Monthly heatmap ──────────────────────────────────────────────────────
-  const heatSource: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo);
+  const heatSource: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo, provincia);
   const HEAT_PAGE_SIZE = 5;
   const heatTotalPages = Math.ceil(heatSource.length / HEAT_PAGE_SIZE);
   // page 0 = most recent years; page N = oldest years
@@ -872,9 +876,6 @@ export function Dashboard() {
     })),
   };
 
-  // ── Provincias (concentración geográfica) ──────────────────────────────
-  const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
-
   // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
   const mixYearsAvailable: ("todos" | number)[] = ["todos", ...dgtAñosDisponibles];
 
@@ -888,7 +889,7 @@ export function Dashboard() {
 
   const mixMarcasData = (() => {
     const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
-    return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined).map((m) => {
+    return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined, provincia).map((m) => {
       const total = m.bev + m.phev;
       return {
         marca: m.marca,
@@ -994,6 +995,8 @@ export function Dashboard() {
         setFiltro={setFiltro}
         tiposVehiculo={tiposVehiculo}
         setTiposVehiculo={setTiposVehiculo}
+        provincia={provincia}
+        setProvincia={setProvincia}
       />
 
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: outerPad }}>
@@ -1088,22 +1091,6 @@ export function Dashboard() {
                 icon="🚢"
                 headline={`Usados importados ${filtroLabel}: +${yoy}% en ${last.año} — ${fmtN(lastUsados)} vehículos`}
                 body={`Representan el ${pct}% del total DGT ${last.año}. El mercado de segunda mano importada se acelera.`}
-                color={C.amber}
-              />
-            );
-          })()}
-          {(() => {
-            const provs = dgtProvs.map((p) => ({ nombre: p.provincia, total: filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total }));
-            if (provs.length === 0) return null;
-            const total = provs.reduce((s, p) => s + p.total, 0);
-            const top   = [...provs].sort((a, b) => b.total - a.total);
-            const top1pct  = ((top[0].total / total) * 100).toFixed(0);
-            const top3pct  = ((top.slice(0,3).reduce((s,p)=>s+p.total,0) / total) * 100).toFixed(0);
-            return (
-              <InsightCard
-                icon="🗺️"
-                headline={`${top[0].nombre} concentra el ${top1pct}% del mercado`}
-                body={`Top: ${top.slice(0,3).map(p=>p.nombre).join(", ")}.\nLas 3 primeras suman el ${top3pct}% del total nacional${filtro !== "ambos" ? ` (${filtro.toUpperCase()})` : ""}.`}
                 color={C.amber}
               />
             );
@@ -1348,36 +1335,6 @@ export function Dashboard() {
             </div>
           </Card>
         </div>
-
-        {/* ── Concentración geográfica ─────────────────────────────────────── */}
-        <Card style={{ marginBottom: GAP }}>
-          <SectionTitle sub="% sobre el total nacional acumulado" tooltip="Listado de provincias ordenadas por su peso relativo sobre el total nacional de matriculaciones enchufables. Muestra el porcentaje que representa cada provincia y la barra de proporción para comparar visualmente la concentración geográfica del mercado.">
-            Concentración geográfica
-          </SectionTitle>
-          <div style={{ display: "flex", flexDirection: "column", gap: 9, overflowY: "auto", maxHeight: 350, paddingRight: 4 }}>
-            {dgtProvs.slice(0, 15).map((p, i) => {
-              const val = filtro === "bev" ? p.bev : filtro === "phev" ? p.phev : p.total;
-              const provTotal = filtro === "bev"
-                ? dgtProvs.reduce((s, x) => s + x.bev, 0)
-                : filtro === "phev"
-                ? dgtProvs.reduce((s, x) => s + x.phev, 0)
-                : dgtProvs.reduce((s, x) => s + x.total, 0);
-              const pct = (val / provTotal) * 100;
-              const maxPct = ((filtro === "bev" ? dgtProvs[0].bev : filtro === "phev" ? dgtProvs[0].phev : dgtProvs[0].total) / provTotal) * 100;
-              return (
-                <div key={p.cod} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 10, color: C.dim, width: 16, textAlign: "right", flexShrink: 0 }}>{i + 1}</span>
-                  <span style={{ fontSize: 12, color: C.text, width: 96, flexShrink: 0 }}>{p.provincia}</span>
-                  <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${(pct / maxPct) * 100}%`, background: "linear-gradient(90deg,#34d399,#38bdf8)", borderRadius: 3 }} />
-                  </div>
-                  <span style={{ fontSize: 11, color: C.muted, width: 38, textAlign: "right", flexShrink: 0 }}>{pct.toFixed(1)}%</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: C.text, width: 68, textAlign: "right", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{fmtN(val)}</span>
-                </div>
-              );
-            })}
-          </div>
-        </Card>
 
         {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(241,245,249,0.18)", textAlign: "center", marginTop: 8 }}>

@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import type { TipoVehiculo } from "../lib/insights/dgt-bev-phev-data";
-import { TIPO_LABELS } from "../lib/insights/dgt-bev-phev-data";
+import { TIPO_LABELS, PROVINCIAS_ORDENADAS } from "../lib/insights/dgt-bev-phev-data";
 import { useIsMobile } from "../lib/useIsMobile";
 
 const BEV_COLOR  = "#38bdf8";
@@ -26,16 +27,38 @@ interface Props {
   setFiltro: (f: "ambos" | "bev" | "phev") => void;
   tiposVehiculo: TipoVehiculo[];
   setTiposVehiculo: (fn: (prev: TipoVehiculo[]) => TipoVehiculo[]) => void;
+  provincia?: string;
+  setProvincia?: (p: string) => void;
   showTipo?: boolean;
 }
 
-export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVehiculo, showTipo = true }: Props) {
+export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVehiculo, provincia, setProvincia, showTipo = true }: Props) {
   const isMobile = useIsMobile();
+  const [tipoOpen, setTipoOpen] = useState(false);
+  const tipoRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!tipoOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (tipoRef.current && !tipoRef.current.contains(e.target as Node)) setTipoOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [tipoOpen]);
+
   const tecOptions: { value: "ambos" | "bev" | "phev"; color?: string }[] = [
     { value: "ambos" },
     { value: "bev",  color: BEV_COLOR  },
     { value: "phev", color: PHEV_COLOR },
   ];
+
+  const tipoButtonLabel = tiposVehiculo.length === 0
+    ? "Ninguno"
+    : tiposVehiculo.length === TIPOS_ORDER.length
+      ? "Todos"
+      : tiposVehiculo.length === 1
+        ? TIPO_LABELS[tiposVehiculo[0]]
+        : `${tiposVehiculo.length} tipos`;
 
   return (
     <div style={{
@@ -116,15 +139,126 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
             </div>
           </div>
 
-          {/* Right: Tipo vehículo */}
-          {showTipo && (
-            <div style={{
-              display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
-              paddingTop: isMobile ? 10 : 0,
-              marginTop: isMobile ? 6 : 0,
-              borderTop: isMobile ? "1px solid rgba(255,255,255,0.22)" : "none",
-              width: isMobile ? "100%" : undefined,
-            }}>
+          {/* Middle+Right: Provincia + Tipo (mobile en la misma row) */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            flexWrap: isMobile ? "nowrap" : "wrap",
+            paddingTop: isMobile ? 10 : 0,
+            marginTop: isMobile ? 6 : 0,
+            borderTop: isMobile ? "1px solid rgba(255,255,255,0.22)" : "none",
+            width: isMobile ? "100%" : undefined,
+          }}>
+
+            {/* Provincia */}
+            {setProvincia && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flex: isMobile ? 1 : undefined, minWidth: 0 }}>
+                {!isMobile && (
+                  <span style={{
+                    fontSize: 11, color: "rgba(241,245,249,0.6)",
+                    letterSpacing: "0.03em", fontWeight: 600,
+                  }}>
+                    Prov.:
+                  </span>
+                )}
+                <select
+                  value={provincia ?? "todas"}
+                  onChange={(e) => setProvincia(e.target.value)}
+                  style={{
+                    padding: "4px 8px", borderRadius: 7, fontSize: isMobile ? 11 : 12, fontWeight: 700,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "#0b1020",
+                    color: "#f4f4f5",
+                    cursor: "pointer",
+                    maxWidth: isMobile ? "100%" : 200,
+                    flex: isMobile ? 1 : undefined,
+                    minWidth: 0,
+                    appearance: "none",
+                    WebkitAppearance: "none",
+                    textAlign: "center",
+                    textAlignLast: "center" as any,
+                  }}
+                >
+                  <option value="todas" style={{ background: "#0b1020", color: "#f4f4f5" }}>Todas</option>
+                  {PROVINCIAS_ORDENADAS.map((p) => (
+                    <option key={p.cod} value={p.cod} style={{ background: "#0b1020", color: "#f4f4f5" }}>{p.nombre}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Tipo */}
+            {showTipo && (isMobile ? (
+              <div ref={tipoRef} style={{ position: "relative", flex: 1, minWidth: 0 }}>
+                <button
+                  onClick={() => setTipoOpen((v) => !v)}
+                  style={{
+                    padding: "5px 10px", borderRadius: 7, fontSize: 11, fontWeight: 700,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "#0b1020",
+                    color: "#f4f4f5",
+                    cursor: "pointer",
+                    width: "100%",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  Tipo: {tipoButtonLabel}
+                </button>
+                {tipoOpen && (
+                  <div style={{
+                    position: "absolute",
+                    top: "calc(100% + 6px)",
+                    right: 0,
+                    left: "auto",
+                    minWidth: 200,
+                    background: "#0b1020",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: 8,
+                    padding: 6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    zIndex: 50,
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                  }}>
+                    {TIPOS_ORDER.map((t) => {
+                      const active = tiposVehiculo.includes(t);
+                      return (
+                        <button
+                          key={t}
+                          title={TIPO_TOOLTIP[t]}
+                          onClick={() => setTiposVehiculo((prev) =>
+                            prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
+                          )}
+                          style={{
+                            padding: "6px 10px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontWeight: 700,
+                            border: "1px solid transparent",
+                            background: active ? "rgba(241,245,249,0.08)" : "transparent",
+                            color: active ? "#f4f4f5" : "rgba(241,245,249,0.55)",
+                            textAlign: "left",
+                            display: "flex", alignItems: "center", gap: 8,
+                          }}
+                        >
+                          <span style={{
+                            width: 14, height: 14, borderRadius: 3,
+                            border: "1px solid rgba(241,245,249,0.3)",
+                            background: active ? "#38bdf8" : "transparent",
+                            display: "inline-flex", alignItems: "center", justifyContent: "center",
+                            color: "#0b1020", fontSize: 10, fontWeight: 900,
+                            flexShrink: 0,
+                          }}>{active ? "✓" : ""}</span>
+                          {TIPO_LABELS[t]}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ) : (
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                 {TIPOS_ORDER.map((t) => {
                   const active = tiposVehiculo.includes(t);
@@ -148,8 +282,9 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                   );
                 })}
               </div>
-            </div>
-          )}
+            ))}
+
+          </div>
 
         </div>
       </div>

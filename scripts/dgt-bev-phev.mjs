@@ -170,6 +170,21 @@ const tipoRows = db.prepare(`
   ORDER BY periodo
 `).all(DESDE);
 
+// Desglose mensual por provincia (cod_provincia_veh — consistente con el summary anual)
+const provRows = db.prepare(`
+  SELECT periodo, cat_vehiculo_ev, cod_provincia_veh, COUNT(*) as n
+  FROM matriculaciones
+  WHERE periodo >= ? AND cat_vehiculo_ev IN ('BEV','PHEV')
+  GROUP BY periodo, cat_vehiculo_ev, cod_provincia_veh
+`).all(DESDE);
+
+const provMensualMap = {}; // { periodo: { BEV: { "08": n, ... }, PHEV: {...} } }
+for (const row of provRows) {
+  if (!provMensualMap[row.periodo]) provMensualMap[row.periodo] = { BEV: {}, PHEV: {} };
+  const cod = row.cod_provincia_veh ?? 'ND';
+  provMensualMap[row.periodo][row.cat_vehiculo_ev][cod] = row.n;
+}
+
 function catToTipo(cat) {
   if (!cat) return 'otros';
   if (cat === 'M1' || cat === 'M1G') return 'turismo';
@@ -236,6 +251,7 @@ const mensual = Object.entries(mensualMap)
     const mercado = mercadoMap[periodo] ?? 0;
     const anfac   = anfacMap[periodo]   ?? { bev: 0, phev: 0 };
     const tipos   = tipoMap[periodo]    ?? {};
+    const provs   = provMensualMap[periodo] ?? {};
     const TIPOS   = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros'];
     const emptyTipo = () => Object.fromEntries(TIPOS.map(t => [t, 0]));
     return {
@@ -244,6 +260,8 @@ const mensual = Object.entries(mensualMap)
       phev: d.phev,
       bev_por_tipo:  { ...emptyTipo(), ...(tipos.BEV  ?? {}) },
       phev_por_tipo: { ...emptyTipo(), ...(tipos.PHEV ?? {}) },
+      bev_por_provincia:  provs.BEV  ?? {},
+      phev_por_provincia: provs.PHEV ?? {},
       anfac_bev:  anfac.bev,
       anfac_phev: anfac.phev,
       total_mercado_nuevos: mercado,
@@ -344,17 +362,29 @@ for (const año of años) {
   });
 
   // ── Slim summary para el dashboard ────────────────────────────────────────
-  // Marcas combinadas BEV+PHEV con desglose por tipo de vehículo
+  // Marcas combinadas BEV+PHEV con desglose por tipo y por provincia
   const TIPOS_LIST = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros'];
   const emptyTipos = () => Object.fromEntries(TIPOS_LIST.map(t => [t, 0]));
   const marcaMap = {};
   for (const r of rows) {
     const m    = r.marca ?? 'ND';
     const tipo = catToTipo(r.cat_homologacion_eu);
-    if (!marcaMap[m]) marcaMap[m] = { marca: m, bev: 0, phev: 0, por_tipo: emptyTipos() };
+    const cod  = r.cod_provincia_veh ?? 'ND';
+    if (!marcaMap[m]) marcaMap[m] = {
+      marca: m, bev: 0, phev: 0,
+      por_tipo: emptyTipos(),
+      por_provincia: {},           // { cod: { bev, phev, por_tipo } }
+    };
     if (r.cat_vehiculo_ev === 'BEV') marcaMap[m].bev++;
     else marcaMap[m].phev++;
     marcaMap[m].por_tipo[tipo]++;
+    if (!marcaMap[m].por_provincia[cod]) {
+      marcaMap[m].por_provincia[cod] = { bev: 0, phev: 0, por_tipo: emptyTipos() };
+    }
+    const pp = marcaMap[m].por_provincia[cod];
+    if (r.cat_vehiculo_ev === 'BEV') pp.bev++;
+    else pp.phev++;
+    pp.por_tipo[tipo]++;
   }
   const marcas = Object.values(marcaMap)
     .sort((a, b) => (b.bev + b.phev) - (a.bev + a.phev))
