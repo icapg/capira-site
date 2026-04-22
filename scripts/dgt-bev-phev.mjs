@@ -163,18 +163,18 @@ const mensualRows = db.prepare(`
 
 // Matriz mensual: periodo × BEV|PHEV × N|U × tipo × provincia
 const matrizRows = db.prepare(`
-  SELECT periodo, cat_vehiculo_ev, ind_nuevo_usado, cat_homologacion_eu, cod_provincia_veh, COUNT(*) as n
+  SELECT periodo, cat_vehiculo_ev, ind_nuevo_usado, tipo_grupo, cod_provincia_veh, COUNT(*) as n
   FROM matriculaciones
   WHERE periodo >= ? AND cat_vehiculo_ev IN ('BEV','PHEV')
-  GROUP BY periodo, cat_vehiculo_ev, ind_nuevo_usado, cat_homologacion_eu, cod_provincia_veh
+  GROUP BY periodo, cat_vehiculo_ev, ind_nuevo_usado, tipo_grupo, cod_provincia_veh
 `).all(DESDE);
 
 // Desglose mensual por tipo de vehículo
 const tipoRows = db.prepare(`
-  SELECT periodo, cat_vehiculo_ev, cat_homologacion_eu, COUNT(*) as n
+  SELECT periodo, cat_vehiculo_ev, tipo_grupo, COUNT(*) as n
   FROM matriculaciones
   WHERE periodo >= ? AND cat_vehiculo_ev IN ('BEV','PHEV')
-  GROUP BY periodo, cat_vehiculo_ev, cat_homologacion_eu
+  GROUP BY periodo, cat_vehiculo_ev, tipo_grupo
   ORDER BY periodo
 `).all(DESDE);
 
@@ -193,16 +193,29 @@ for (const row of provRows) {
   provMensualMap[row.periodo][row.cat_vehiculo_ev][cod] = row.n;
 }
 
-function catToTipo(cat) {
-  if (!cat) return 'otros';
-  if (cat === 'M1' || cat === 'M1G') return 'turismo';
-  if (cat === 'N1' || cat === 'N1G') return 'furgoneta';
-  if (cat === 'N2' || cat === 'N2G' || cat === 'N3' || cat === 'N3G') return 'camion';
-  if (cat === 'M2' || cat === 'M3') return 'autobus';
-  if (cat.startsWith('L') || cat === '*05' || cat === '*06') return 'moto_scooter';
-  if (cat === '*21' || cat === '*27') return 'microcar';
-  return 'otros';
+// Mapea tipo_grupo del DB (refinado) a las etiquetas que espera la UI.
+// DB taxonomía: turismo, furgoneta_van, moto, trimoto, quad_atv, microcar,
+//   camion, autobus, agricola, especial, remolque, otros.
+// UI taxonomía (TipoVehiculo): turismo, furgoneta, moto_scooter, trimoto,
+//   quad_atv, microcar, camion, autobus, agricola, especial, remolque, otros.
+const TIPO_GRUPO_TO_UI = {
+  turismo:       'turismo',
+  furgoneta_van: 'furgoneta',
+  moto:          'moto_scooter',
+  trimoto:       'trimoto',
+  quad_atv:      'quad_atv',
+  microcar:      'microcar',
+  camion:        'camion',
+  autobus:       'autobus',
+  agricola:      'agricola',
+  especial:      'especial',
+  remolque:      'remolque',
+  otros:         'otros',
+};
+function tipoGrupoToUi(tg) {
+  return TIPO_GRUPO_TO_UI[tg] ?? 'otros';
 }
+const TIPOS_UI = ['turismo','furgoneta','moto_scooter','trimoto','quad_atv','microcar','camion','autobus','agricola','especial','remolque','otros'];
 
 // Armado del cubo: { periodo: { BEV: { N: { tipo: { prov: n } }, U: {...} }, PHEV: {...} } }
 const matrizMap = {};
@@ -210,7 +223,7 @@ for (const row of matrizRows) {
   const p = row.periodo;
   const cat = row.cat_vehiculo_ev;
   const nu  = row.ind_nuevo_usado === 'N' ? 'N' : 'U';
-  const tipo = catToTipo(row.cat_homologacion_eu);
+  const tipo = tipoGrupoToUi(row.tipo_grupo);
   const prov = row.cod_provincia_veh ?? 'ND';
   if (!matrizMap[p]) matrizMap[p] = { BEV: { N: {}, U: {} }, PHEV: { N: {}, U: {} } };
   const target = matrizMap[p][cat][nu];
@@ -221,7 +234,7 @@ for (const row of matrizRows) {
 const tipoMap = {}; // { periodo: { BEV: { turismo:0, ...}, PHEV: {...} } }
 for (const row of tipoRows) {
   if (!tipoMap[row.periodo]) tipoMap[row.periodo] = { BEV: {}, PHEV: {} };
-  const tipo = catToTipo(row.cat_homologacion_eu);
+  const tipo = tipoGrupoToUi(row.tipo_grupo);
   const cat  = tipoMap[row.periodo][row.cat_vehiculo_ev];
   cat[tipo]  = (cat[tipo] ?? 0) + row.n;
 }
@@ -275,8 +288,7 @@ const mensual = Object.entries(mensualMap)
     const tipos   = tipoMap[periodo]    ?? {};
     const provs   = provMensualMap[periodo] ?? {};
     const mat     = matrizMap[periodo] ?? { BEV: { N: {}, U: {} }, PHEV: { N: {}, U: {} } };
-    const TIPOS   = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros'];
-    const emptyTipo = () => Object.fromEntries(TIPOS.map(t => [t, 0]));
+    const emptyTipo = () => Object.fromEntries(TIPOS_UI.map(t => [t, 0]));
     return {
       periodo,
       bev:  d.bev,
@@ -329,7 +341,7 @@ for (const año of años) {
       cod_provincia_veh, provincia_veh,
       municipio,
       persona_fisica_jur, servicio, renting,
-      cat_homologacion_eu, carroceria,
+      cat_homologacion_eu, tipo_grupo, carroceria,
       kw, autonomia_ev
     FROM matriculaciones
     WHERE año = ? AND cat_vehiculo_ev IN ('BEV','PHEV')
@@ -390,12 +402,11 @@ for (const año of años) {
 
   // ── Slim summary para el dashboard ────────────────────────────────────────
   // Marcas combinadas BEV+PHEV con desglose por tipo y por provincia
-  const TIPOS_LIST = ['turismo','furgoneta','moto_scooter','microcar','camion','autobus','otros'];
-  const emptyTipos = () => Object.fromEntries(TIPOS_LIST.map(t => [t, 0]));
+  const emptyTipos = () => Object.fromEntries(TIPOS_UI.map(t => [t, 0]));
   const marcaMap = {};
   for (const r of rows) {
     const m    = r.marca ?? 'ND';
-    const tipo = catToTipo(r.cat_homologacion_eu);
+    const tipo = tipoGrupoToUi(r.tipo_grupo);
     const cod  = r.cod_provincia_veh ?? 'ND';
     if (!marcaMap[m]) marcaMap[m] = {
       marca: m, bev: 0, phev: 0,
@@ -421,7 +432,7 @@ for (const año of años) {
   const provMap = {};
   for (const r of rows) {
     const cod = r.cod_provincia_veh ?? 'ND';
-    const tipo = catToTipo(r.cat_homologacion_eu);
+    const tipo = tipoGrupoToUi(r.tipo_grupo);
     if (!provMap[cod]) provMap[cod] = {
       cod, provincia: provinciaNombre(cod),
       bev: 0, phev: 0,
@@ -439,7 +450,7 @@ for (const año of años) {
     const map = {};
     for (const r of catRows) {
       const mod = r.modelo ?? 'ND';
-      const tipo = catToTipo(r.cat_homologacion_eu);
+      const tipo = tipoGrupoToUi(r.tipo_grupo);
       if (!map[mod]) map[mod] = { modelo: mod, marca: r.marca ?? 'ND', n: 0, por_tipo: emptyTipos() };
       map[mod].n++;
       map[mod].por_tipo[tipo]++;

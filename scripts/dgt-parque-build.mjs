@@ -55,7 +55,7 @@ function main() {
   const firstReal = realPeriodos[0];
   const lastReal  = realPeriodos[realPeriodos.length - 1];
 
-  // Mapa periodo → { total, por CATELECT, por tipo }
+  // Mapa periodo → { total, por CATELECT, por tipo, por provincia × tipo × cat }
   const realParque = new Map();
   for (const r of realRows) {
     const iso   = periodoDgtToIso(r.periodo);
@@ -83,7 +83,36 @@ function main() {
       tipoBreakdown[tipo].total = totalTipo;
       tipoBreakdown[tipo].no_enchufable = totalTipo - enchuf;
     }
-    realParque.set(iso, { total, porCat, tipoBreakdown });
+
+    // Provincia × Tipo × Cat (solo meses reales)
+    const porProvTipo = db.prepare(
+      `SELECT substr(clave, 25) as k, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'PROVINCIA_CATELECT_TIPO:%'`
+    ).all(r.periodo);
+    const provBreakdown = {};
+    for (const { k, n } of porProvTipo) {
+      const [prov, cat, tipo] = k.split(':');
+      if (!provBreakdown[prov]) provBreakdown[prov] = {};
+      if (!provBreakdown[prov][tipo]) provBreakdown[prov][tipo] = {};
+      provBreakdown[prov][tipo][cat] = n;
+    }
+    // completar total y no_enchufable por (prov, tipo)
+    for (const prov of Object.keys(provBreakdown)) {
+      for (const tipo of Object.keys(provBreakdown[prov])) {
+        const cats = provBreakdown[prov][tipo];
+        const tot = Object.values(cats).reduce((a, b) => a + b, 0);
+        const ench = (cats.BEV ?? 0) + (cats.PHEV ?? 0);
+        cats.total = tot;
+        cats.no_enchufable = tot - ench;
+      }
+    }
+
+    // Distintivo ambiental (DGT: 0, B, C, ECO, CERO) — solo meses reales
+    const distRows = db.prepare(
+      `SELECT substr(clave, 12) as etiqueta, n FROM parque_agregados_mes WHERE periodo = ? AND clave LIKE 'DISTINTIVO:%'`
+    ).all(r.periodo);
+    const distintivo = Object.fromEntries(distRows.map(x => [x.etiqueta || 'Sin', x.n]));
+
+    realParque.set(iso, { total, porCat, tipoBreakdown, provBreakdown, distintivo });
   }
 
   // 2) Flujos por mes POR TIPO × POR CATELECT ---------------------------------
@@ -97,7 +126,7 @@ function main() {
   // Con F6 el error promedio de reconstrucción vs snapshots reales es ~2,85%
   // (vs ~4,48% con la fórmula anterior mat(N) − bajas(=3)).
   // Tipos que existen en el ZIP parque (y por tanto en parque_por_tipo):
-  const TIPOS_PARQUE = ['turismo','suv_todo_terreno','furgoneta_van','moto','camion','autobus','especial','quad_atv','agricola','otros'];
+  const TIPOS_PARQUE = ['turismo','furgoneta_van','moto','trimoto','microcar','camion','autobus','especial','quad_atv','agricola','remolque','otros'];
 
   // Flujos: matriculaciones por (periodo, tipo, cat) — cat incluye NO_EV
   const flujoMatRows = db.prepare(`
@@ -166,6 +195,25 @@ function main() {
   const firstFlujo = [...totalMatMap.keys()].sort()[0]; // '2014-12'
   const todosPeriodos = mesesRange(firstFlujo, lastReal);
 
+  // 3.5) Primera matriculación por (tipo, cat) — para categorías esporádicas
+  //      (trimoto BEV/PHEV, microcar, etc) forzamos el stock a 0 antes de la
+  //      primera matric registrada. Evita el "parque fantasma" que genera el
+  //      backward-walk cuando bajas > matriculaciones en el histórico
+  //      (vehículos matriculados pre-2014 que aparecen en bajas pero no en
+  //      matriculaciones). Sin esto, trimoto PHEV mostraba 23 en 2014-12
+  //      cuando no existían.
+  const firstMatByTipoCat = new Map(); // `${tipo}|${cat}` → iso del primer mes con mat>0
+  for (const [periodo, byTipo] of matTipoMap) {
+    for (const [tipo, cats] of byTipo) {
+      for (const [cat, n] of Object.entries(cats)) {
+        if (n <= 0) continue;
+        const key = `${tipo}|${cat}`;
+        const prev = firstMatByTipoCat.get(key);
+        if (!prev || periodo < prev) firstMatByTipoCat.set(key, periodo);
+      }
+    }
+  }
+
   // 4) Ir hacia ATRÁS desde el ancla real ------------------------------------
   //    parque[m-1][tipo][cat] = parque[m][tipo][cat] − mat[m][tipo][cat] + baja[m][tipo][cat]
   //    Se hace por (tipo × cat) para que el filtro del dashboard cuadre.
@@ -205,7 +253,12 @@ function main() {
       let enchufTipo = 0;
       for (const cat of CATS_FULL) {
         const curr = prev[cat] ?? 0;
-        const v = Math.max(0, curr - (matT[cat] ?? 0) + (bajaT[cat] ?? 0));
+        let v = Math.max(0, curr - (matT[cat] ?? 0) + (bajaT[cat] ?? 0));
+        // Freeze a 0 antes de la primera matriculación registrada para este
+        // (tipo, cat). Evita parque fantasma por bajas sin mat correspondiente.
+        const firstMat = firstMatByTipoCat.get(`${tipo}|${cat}`);
+        if (firstMat && actual < firstMat) v = 0;
+        else if (!firstMat) v = 0; // nunca hubo matriculación de esta combo
         if (v > 0) nuevoTipo[cat] = v;
         totalTipo += v;
         if (cat === 'BEV' || cat === 'PHEV') enchufTipo += v;
@@ -231,6 +284,8 @@ function main() {
       total: r.total,
       porCat: { ...r.porCat },
       tipoBreakdown: JSON.parse(JSON.stringify(r.tipoBreakdown)),
+      provBreakdown: JSON.parse(JSON.stringify(r.provBreakdown)),
+      distintivo:    { ...r.distintivo },
       fuente: 'real',
     });
   }
@@ -276,6 +331,10 @@ function main() {
 
     // breakdown por tipo (real desde ZIP, calc desde flujos MATRABA por tipo×cat)
     if (parque.tipoBreakdown) entry.parque_por_tipo = parque.tipoBreakdown;
+    // breakdown por provincia × tipo × cat (solo meses reales — desde ZIP DGT)
+    if (parque.provBreakdown) entry.parque_por_provincia_tipo = parque.provBreakdown;
+    // distintivo ambiental (solo meses reales)
+    if (parque.distintivo) entry.parque_distintivo = parque.distintivo;
     return entry;
   });
 
@@ -310,6 +369,97 @@ function main() {
     };
   }
 
+  // ── Breakdown por MUNICIPIO del último mes real ─────────────────────────
+  // Solo último snapshot — incluir todos los meses inflaría el JSON ~10×.
+  // fuente: tabla `parque` cruzada por municipio × tipo_grupo × catelect.
+  const lastPeriodoKeyMun = lastReal.replace('-', '');
+  const munRows = db.prepare(`
+    SELECT municipio, provincia, tipo_grupo,
+           COALESCE(NULLIF(catelect,''), 'NO_EV') AS cat,
+           COUNT(*) AS n
+    FROM parque
+    WHERE periodo = ?
+      AND municipio IS NOT NULL AND municipio != ''
+      AND tipo_grupo IN (${TIPOS_PARQUE.map(() => '?').join(',')})
+    GROUP BY municipio, provincia, tipo_grupo, cat
+  `).all(lastPeriodoKeyMun, ...TIPOS_PARQUE);
+
+  const municipioBreakdown = {};
+  for (const { municipio, provincia, tipo_grupo, cat, n } of munRows) {
+    if (!municipioBreakdown[municipio]) {
+      municipioBreakdown[municipio] = { prov: provincia, tipos: {} };
+    }
+    const mun = municipioBreakdown[municipio];
+    if (!mun.tipos[tipo_grupo]) mun.tipos[tipo_grupo] = {};
+    mun.tipos[tipo_grupo][cat] = n;
+  }
+  // totales por municipio × tipo
+  for (const mun of Object.values(municipioBreakdown)) {
+    for (const tipo of Object.keys(mun.tipos)) {
+      const cats = mun.tipos[tipo];
+      const tot  = Object.values(cats).reduce((a, b) => a + b, 0);
+      const ench = (cats.BEV ?? 0) + (cats.PHEV ?? 0);
+      cats.total = tot;
+      cats.no_enchufable = Math.max(0, tot - ench);
+    }
+  }
+
+  // Inyectar en el último mes real
+  const lastMes = mensual.find(m => m.periodo === lastReal);
+  if (lastMes) lastMes.parque_por_municipio = municipioBreakdown;
+
+  // ── Edad del parque: distribución por año de matriculación y promedios ──
+  // Fuente: tabla `parque` (último snapshot). fec_prim_matr viene como DD/MM/YYYY.
+  // Usamos fec_prim_matr (primera matriculación original, incluye importaciones)
+  // en lugar de fecha_matr (re-matriculación española).
+  const hoyYear = new Date().getFullYear();
+  const lastPeriodoKey = lastReal.replace('-', ''); // 2026-03 → 202603
+  const edadRows = db.prepare(`
+    SELECT substr(fec_prim_matr, 7, 4) AS anio,
+           catelect,
+           tipo_grupo,
+           COUNT(*) AS n
+    FROM parque
+    WHERE periodo = ?
+      AND fec_prim_matr IS NOT NULL AND fec_prim_matr != ''
+      AND length(fec_prim_matr) >= 10
+    GROUP BY anio, catelect, tipo_grupo
+  `).all(lastPeriodoKey);
+
+  const porAnio = {};
+  const sumAgeByCat = {};
+  const countByCat  = {};
+  // sums_por_tipo[tipo_grupo][catelect] = { sum_age, count }
+  const sumsPorTipo = {};
+  for (const { anio, catelect, tipo_grupo, n } of edadRows) {
+    const y = parseInt(anio, 10);
+    if (!Number.isFinite(y) || y < 1950 || y > hoyYear + 1) continue; // filtrar ruido
+    if (!porAnio[y]) porAnio[y] = {};
+    porAnio[y][catelect] = (porAnio[y][catelect] ?? 0) + n;
+    const edad = hoyYear - y;
+    sumAgeByCat[catelect] = (sumAgeByCat[catelect] ?? 0) + edad * n;
+    countByCat[catelect]  = (countByCat[catelect]  ?? 0) + n;
+    const tg = tipo_grupo ?? 'otros';
+    if (!sumsPorTipo[tg]) sumsPorTipo[tg] = {};
+    if (!sumsPorTipo[tg][catelect]) sumsPorTipo[tg][catelect] = { sum_age: 0, count: 0 };
+    sumsPorTipo[tg][catelect].sum_age += edad * n;
+    sumsPorTipo[tg][catelect].count   += n;
+  }
+  const promedio = {};
+  for (const cat of Object.keys(countByCat)) {
+    promedio[cat] = countByCat[cat] > 0 ? +(sumAgeByCat[cat] / countByCat[cat]).toFixed(1) : 0;
+  }
+  const totalAge   = Object.values(sumAgeByCat).reduce((a, b) => a + b, 0);
+  const totalCount = Object.values(countByCat).reduce((a, b) => a + b, 0);
+  promedio.global = totalCount > 0 ? +(totalAge / totalCount).toFixed(1) : 0;
+
+  const edadParque = {
+    periodo: lastReal,
+    por_anio: porAnio,
+    promedio,
+    sums_por_tipo: sumsPorTipo,
+  };
+
   const meta = {
     ultimo_periodo:       lastReal,
     ultima_actualizacion: new Date().toISOString().slice(0, 10),
@@ -325,6 +475,7 @@ function main() {
     meta,
     resumen,
     resumen_por_tipo: resumenPorTipo,
+    edad_parque: edadParque,
     mensual,
   };
 
@@ -355,16 +506,28 @@ export type ParqueCatEv = {
 
 export type ParqueTipoGrupo = Record<string, ParqueCatEv>;
 
+/** Breakdown por provincia × tipo × cat. Solo se emite para meses reales (snapshot ZIP). */
+export type ParqueProvinciaTipo = Record<string, ParqueTipoGrupo>;
+
+/** Distintivo ambiental DGT: "0", "B", "C", "ECO", "CERO", "Sin" (no tiene). */
+export type ParqueDistintivo = Record<string, number>;
+
+/** Breakdown por municipio × tipo × cat. Solo se emite en el último mes real. */
+export type ParqueMunicipio = Record<string, { prov: string; tipos: ParqueTipoGrupo }>;
+
 export type ParqueMes = {
-  periodo:              string;
-  fuente:               ParqueFuente;
-  matriculaciones_mes:  ParqueCatEv;
-  bajas_mes:            ParqueCatEv;
-  total_bajas_mes:      number;
-  parque_acumulado:     ParqueCatEv;
-  parque_total:         number;
-  parque_no_enchufable: number;
-  parque_por_tipo?:     ParqueTipoGrupo;
+  periodo:                    string;
+  fuente:                     ParqueFuente;
+  matriculaciones_mes:        ParqueCatEv;
+  bajas_mes:                  ParqueCatEv;
+  total_bajas_mes:            number;
+  parque_acumulado:           ParqueCatEv;
+  parque_total:               number;
+  parque_no_enchufable:       number;
+  parque_por_tipo?:           ParqueTipoGrupo;
+  parque_por_provincia_tipo?: ParqueProvinciaTipo;
+  parque_por_municipio?:      ParqueMunicipio;
+  parque_distintivo?:         ParqueDistintivo;
 };
 
 export type ParqueResumenCat = {
@@ -374,9 +537,18 @@ export type ParqueResumenCat = {
   tasa_baja_pct: number;
 };
 
+/** Distribución del parque por año de matriculación (último snapshot). */
+export type ParqueEdad = {
+  periodo:       string;
+  por_anio:      Record<string, Record<string, number>>;   // { "2020": { BEV:1234, NO_EV:... }, ... }
+  promedio:      Record<string, number>;                    // { BEV:3.2, PHEV:4.1, NO_EV:14.1, global:12.8 }
+  sums_por_tipo: Record<string, Record<string, { sum_age: number; count: number }>>; // [tipo_grupo][catelect]
+};
+
 export const dgtParqueMeta             = raw.meta             as typeof raw.meta;
 export const dgtParqueResumen          = raw.resumen          as Record<string, ParqueResumenCat>;
 export const dgtParqueResumenPorTipo   = raw.resumen_por_tipo as Record<string, any>;
+export const dgtParqueEdad             = raw.edad_parque      as ParqueEdad;
 export const dgtParqueMensual          = raw.mensual          as ParqueMes[];
 `;
   writeFileSync(OUT_TS, ts, 'utf8');

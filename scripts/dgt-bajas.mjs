@@ -132,36 +132,101 @@ const PROPULSION = {
 
 const TIPO_NOMBRE = {
   '03': 'ciclomotor',        '04': 'motocicleta',      '05': 'motocarro',
-  '06': 'cuadricilo',        '10': 'turismo',           '11': 'autobus',
+  // cod_tipo '06' (spec: cuadricilo) contiene camiones antiguos. Solo va a
+  // microcar si la marca está en la whitelist. Ver nota en dgt-matriculaciones.mjs.
+  '06': 'camion_ligero',     '10': 'turismo',           '11': 'autobus',
   '12': 'autobus',           '13': 'autobus_articulado','14': 'autobus_mixto',
   '15': 'trolebus',          '16': 'autobus_2_pisos',   '20': 'camion_ligero',
   '21': 'camion_medio',      '22': 'camion_pesado',     '23': 'tractocamion',
   '24': 'furgoneta',         '25': 'furgon_medio',      '26': 'furgon_pesado',
-  '30': 'derivado_turismo',  '31': 'vehiculo_mixto',    '32': 'vehiculo_mixto',
+  // '30' en MATRABA → autobús (ver nota en dgt-matriculaciones.mjs)
+  // Subtipos 31/32 → autobuses articulados (spec "vehículo mixto" es inexacta).
+  // Auditoría 2026-04-22.
+  '30': 'autobus',           '31': 'autobus_articulado','32': 'autobus_articulado',
   '40': 'remolque_ligero',   '41': 'remolque',          '42': 'remolque',
   '43': 'semirremolque',     '44': 'semirremolque',     '50': 'tractor_agricola',
-  '51': 'maquinaria_agricola','52': 'maquinaria_agricola','53': 'maquinaria_agricola',
-  '54': 'maquinaria_agricola','55': 'maquinaria_agricola','60': 'especial',
+  // Subtipos 51-55 spec "maq. agrícola" pero en data son motos/triciclos/quads.
+  // Auditoría 2026-04-22. Override trimoto por marca+modelo abajo.
+  '51': 'ciclomotor',        '52': 'ciclomotor',        '53': 'motocarro',
+  '54': 'quad_atv',          '55': 'ciclomotor',        '60': 'especial',
   '61': 'especial',          '62': 'especial',          '63': 'especial',
   '64': 'especial',          '65': 'especial',          '66': 'quad_atv',
-  '70': 'militar',           '80': 'tren_turistico',    '81': 'autocaravana',
-  '82': 'autocaravana',      '90': 'quad_atv',          '91': 'quad_atv',
-  '92': 'moto',
+  '70': 'quad_atv',          '80': 'tren_turistico',    '81': 'autocaravana',
+  '82': 'autocaravana',      '90': 'ciclomotor',        '91': 'ciclomotor',
+  '92': 'motocarro',
+  // Subtipos alfanuméricos N1/M1 no documentados en spec pero presentes en datos:
+  '0G': 'furgoneta',         '02': 'camion_ligero',     '00': 'camion_ligero',
+  '07': 'camion_ligero',     '0A': 'camion_ligero',     '7A': 'autocaravana',
+  // Camiones industriales (auditoría 2026-04-21). Split MMA decide VCL vs industrial.
+  '01': 'camion_medio',      '08': 'camion_medio',      '09': 'camion_medio',
+  '0B': 'camion_ligero',     '0C': 'camion_pesado',     '0D': 'camion_pesado',
+  '0E': 'camion_ligero',     '0F': 'camion_pesado',     '1A': 'camion_ligero',
+  '1C': 'camion_pesado',     '1D': 'camion_medio',      '1E': 'camion_medio',
+  '1F': 'camion_medio',      '72': 'camion_medio',      '74': 'camion_pesado',
+  // Familia 8x: tractocamiones N3. Familia 7x mix: camiones especiales vs maquinaria.
+  '7C': 'camion_pesado',     '7E': 'camion_pesado',     '7F': 'camion_medio',
+  '71': 'especial',          '73': 'especial',          '7B': 'especial',
+  '7D': 'especial',          '7J': 'especial',
+  // Semirremolques alfanuméricos adicionales.
+  's3': 'semirremolque',     'SC': 'semirremolque',     'RC': 'remolque',
+  'R0': 'remolque_ligero',   'R1': 'remolque_ligero',   'R2': 'remolque_ligero',
+  'R3': 'remolque_ligero',   'R5': 'remolque_ligero',   'R6': 'remolque_ligero',
+  'R7': 'remolque_ligero',   'RA': 'remolque_ligero',   'RD': 'remolque_ligero',
+  'S0': 'semirremolque',     'S1': 'semirremolque',     'S2': 'semirremolque',
+  'S3': 'semirremolque',     'S5': 'semirremolque',     'S6': 'semirremolque',
+  'S7': 'semirremolque',     'S9': 'semirremolque',     'SA': 'semirremolque',
+  'SD': 'semirremolque',
 };
 
+const MICROCAR_MARCAS = new Set([
+  'AIXAM','MICROCAR','LIGIER','CHATENET','BELLIER','GRECAV','CASALINI','ESTRIMA',
+  'GOUPIL','JDM','J.D.M.','MEGA','MINAUTO','SECMA','ITALCAR','TAZZARI','DUE','CLUB CAR',
+]);
+
+// Marcas de maquinaria industrial/construcción (override para subtipo '70').
+const MAQUINARIA_MARCAS = new Set([
+  'JCB','MANITOU','CASE','CATERPILLAR','BOBCAT','KOMATSU',
+  'LIEBHERR','MERLO','LINDE','AUSA','CNH','HYSTER','STILL','JUNGHEINRICH',
+  'DOOSAN','TAKEUCHI','KRAMER','VOLVO CE','WACKER NEUSON','SANDVIK',
+]);
+
+// Marcas de tractor agrícola (whitelist). Ver nota en dgt-parque-import.mjs.
+const TRACTOR_MARCAS = new Set([
+  'JOHN DEERE','NEW HOLLAND','KUBOTA','CASE IH','FENDT','MASSEY FERGUSON',
+  'DEUTZ-FAHR','CLAAS','VALTRA','LANDINI','MCCORMICK','ZETOR','STEYR','SAME',
+  'DEUTZ','AGCO','SAMPO','URSUS','PASQUALI','BCS','GOLDONI','CARRARO',
+  'ANTONIO CARRARO','ARBOS','LAMBORGHINI','LINDNER','HURLIMANN',
+]);
+
 const TIPO_GRUPO = {
-  'turismo': 'turismo', 'derivado_turismo': 'turismo', 'vehiculo_mixto': 'suv_todo_terreno',
+  'turismo': 'turismo', 'derivado_turismo': 'turismo',
   'furgoneta': 'furgoneta_van', 'furgon_medio': 'furgoneta_van', 'furgon_pesado': 'furgoneta_van',
   'camion_ligero': 'camion', 'camion_medio': 'camion', 'camion_pesado': 'camion', 'tractocamion': 'camion',
   'autobus': 'autobus', 'autobus_articulado': 'autobus', 'autobus_mixto': 'autobus',
   'trolebus': 'autobus', 'autobus_2_pisos': 'autobus',
   'motocicleta': 'moto', 'ciclomotor': 'moto', 'motocarro': 'moto',
-  'cuadricilo': 'quad_atv', 'quad_atv': 'quad_atv',
+  'trimoto': 'trimoto',
+  'cuadricilo': 'microcar', 'microcar': 'microcar', 'quad_atv': 'quad_atv',
   'remolque_ligero': 'remolque', 'remolque': 'remolque', 'semirremolque': 'remolque',
   'tractor_agricola': 'agricola', 'maquinaria_agricola': 'agricola',
-  'especial': 'especial', 'autocaravana': 'especial',
+  'especial': 'especial', 'autocaravana': 'furgoneta_van',
   'militar': 'otros', 'tren_turistico': 'otros',
 };
+
+// Trimotos: scooters/motos 3 ruedas por marca+modelo. Auditoría 2026-04-22.
+function esTrimoto(marca, modelo) {
+  if (!marca || !modelo) return false;
+  if (marca === 'QUADRO' || marca === 'REWACO') return true;
+  if (marca === 'PIAGGIO' && /^MP3\b/.test(modelo)) return true;
+  if (marca === 'GILERA' && /\bFUOCO\b/.test(modelo)) return true;
+  if (marca === 'PEUGEOT' && /\bMETROPOLIS\b/.test(modelo)) return true;
+  if (marca === 'KYMCO' && /^CV3\b/.test(modelo)) return true;
+  if (marca === 'YAMAHA' && /^(MWD|MWS|MW|TRICITY|NIKEN)/.test(modelo)) return true;
+  if (marca === 'CAN-AM' && /\b(SPYDER|RYKER)\b/.test(modelo)) return true;
+  if (marca === 'HARLEY-DAVIDSON' && /\b(TRI GLIDE|FREEWHEELER)\b/.test(modelo)) return true;
+  if (/\b(TRIKE|TRICICLO|MOTOTRIKE)\b/.test(modelo)) return true;
+  return false;
+}
 
 const PROVINCIAS = {
   '01': 'Álava',       '02': 'Albacete',    '03': 'Alicante',    '04': 'Almería',
@@ -352,7 +417,30 @@ async function parsearEInsertar(filePath, periodo, db) {
     const codPropulsion = get(line, F.COD_PROPULSION).toUpperCase();
     const codProvVeh    = get(line, F.COD_PROVINCIA_VEH);
     const motivoCod     = get(line, F.MOTIVO_BAJA).toUpperCase();
-    const tipoVehiculo  = TIPO_NOMBRE[codTipo];
+    const marcaUp       = (get(line, F.MARCA_ITV) || '').toUpperCase().replace(/\s+/g, ' ');
+    let   tipoVehiculo  = TIPO_NOMBRE[codTipo];
+    if (['06','90','91','92'].includes(codTipo) && MICROCAR_MARCAS.has(marcaUp)) tipoVehiculo = 'cuadricilo';
+    if (codTipo === '70' && MAQUINARIA_MARCAS.has(marcaUp)) tipoVehiculo = 'especial';
+
+    let tipoGrupoFinal = TIPO_GRUPO[tipoVehiculo] ?? 'otros';
+    // Split ANFAC-style: comerciales por peso_max (proxy MMA, bajas no trae masa_max_tecnica).
+    const mmaBaja = toInt(get(line, F.PESO_MAX));
+    if (mmaBaja && (tipoGrupoFinal === 'camion' || tipoGrupoFinal === 'furgoneta_van')) {
+      if (mmaBaja <= 3500 && tipoGrupoFinal === 'camion') tipoGrupoFinal = 'furgoneta_van';
+      else if (mmaBaja > 3500 && tipoGrupoFinal === 'furgoneta_van' && tipoVehiculo !== 'autocaravana') tipoGrupoFinal = 'camion';
+    }
+    // Derivados de turismo (carroceria AC) subtipos 25/0G → turismo, no VCL.
+    const carroceriaBaja = (get(line, F.CARROCERIA) || '').toUpperCase();
+    if (tipoGrupoFinal === 'furgoneta_van' && carroceriaBaja === 'AC' && (codTipo === '25' || codTipo === '0G')) {
+      tipoGrupoFinal = 'turismo';
+    }
+    // Override trimoto por marca+modelo.
+    const modeloUp = (get(line, F.MODELO_ITV) || '').toUpperCase();
+    if (esTrimoto(marcaUp, modeloUp)) tipoGrupoFinal = 'trimoto';
+    // Override agricola: marcas tractoreras en subtipos 70/80/81.
+    if (TRACTOR_MARCAS.has(marcaUp) && ['70','80','81'].includes(codTipo)) {
+      tipoGrupoFinal = 'agricola';
+    }
 
     batch.push({
       periodo, año: year, mes: month,
@@ -362,7 +450,7 @@ async function parsearEInsertar(filePath, periodo, db) {
       fabricante:   get(line, F.FABRICANTE_ITV) || null,
       cod_tipo:     codTipo || null,
       tipo_vehiculo: tipoVehiculo || null,
-      tipo_grupo:   TIPO_GRUPO[tipoVehiculo] ?? 'otros',
+      tipo_grupo:   tipoGrupoFinal,
       cod_propulsion: codPropulsion || null,
       combustible:  PROPULSION[codPropulsion] ?? 'otros',
       cilindrada:   toInt(get(line, F.CILINDRADA_ITV)),

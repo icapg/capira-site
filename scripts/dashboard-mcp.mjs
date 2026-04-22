@@ -19,6 +19,8 @@
  *   list_api_endpoints     — rutas de app/api/insights con método y auth
  *   get_component_source   — source de un componente por nombre
  *   search_dashboard       — grep sobre app/insights para un término
+ *   list_patterns          — patrones de implementación reutilizables (maps, charts, etc.)
+ *   get_pattern            — detalle de un patrón (problema, solución, código de referencia)
  */
 
 import { Server }               from '@modelcontextprotocol/sdk/server/index.js';
@@ -119,6 +121,124 @@ const ROUTE_METADATA = {
     audiencia: 'publico',
     estado: 'vacio',
     kpis: [],
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────
+// PATTERNS — blueprints de implementación reutilizables.
+// Son "cómo lo hacemos acá". Cuando Claude vaya a armar un mapa o
+// chart, debe consultar estos patrones antes de inventar uno nuevo.
+// ─────────────────────────────────────────────────────────────────
+
+const PATTERNS = {
+  'spain-choropleth-canarias-inset': {
+    titulo: 'Mapa choropleth de España con Canarias como inset',
+    cuando_usar: 'Cualquier mapa ECharts con datos por provincia en capira-site. Siempre que la página muestre un mapa de España, usar este patrón — no un único `registerMap` con shift manual de Canarias.',
+    problema: 'ECharts auto-centra el bbox de todas las features dentro de layoutCenter/layoutSize. Si Canarias está en sus coords reales, el bbox es enorme y la península queda diminuta. Un shift manual (Canarias +7º lat) compensa pero ata la posición de Canarias al bbox — no se puede pegar al margen del card sin que la península drifte.',
+    solucion: 'Registrar DOS mapas ECharts separados (península+Baleares y Canarias) y renderizar dos series `type: "map"` en el mismo chart con sus propios layoutCenter/layoutSize. Un único visualMap con seriesIndex:[0,1] aplica colores a ambas. La península conserva su encuadre y Canarias se posiciona libremente como inset.',
+    geojson_requerido: 'data/spain-provinces.json con features.properties.cod_prov (INE numérico: "35"=Las Palmas, "38"=Sta Cruz Tenerife) y features.properties.name. Separar por cod_prov en dos geos.',
+    codigo: [
+      '// 1) Separar features y registrar dos mapas (a nivel módulo, una sola vez)',
+      'const CANARIAS_CODS = new Set(["35", "38"]);',
+      'const src = spainGeoJson;',
+      'const peninsulaGeo = { ...src, features: src.features.filter((f) => !CANARIAS_CODS.has(f.properties.cod_prov)) };',
+      'const canariasGeo  = { ...src, features: src.features.filter((f) =>  CANARIAS_CODS.has(f.properties.cod_prov)) };',
+      'echarts.registerMap("spain-peninsula", peninsulaGeo);',
+      'echarts.registerMap("spain-canarias",  canariasGeo);',
+      '',
+      '// 2) En el option del chart: una series por mapa + visualMap con seriesIndex:[0,1]',
+      'const buildData = (features) => features.map((f) => {',
+      '  const p = byIne.get(f.properties.cod_prov);',
+      '  return { name: f.properties.name, value: p ? +p.pen.toFixed(2) : 0, _prov: p?.prov, _evs: p?.evs, _total: p?.total };',
+      '});',
+      'const commonStyle = {',
+      '  itemStyle: { borderColor: "rgba(255,255,255,0.15)", borderWidth: 0.7, areaColor: "#1e293b" },',
+      '  emphasis:  { label: { show: true, color: C.text, fontSize: 11, fontWeight: 600 },',
+      '               itemStyle: { areaColor: accent, borderColor: C.text, borderWidth: 1 } },',
+      '  select:    { disabled: true },',
+      '};',
+      'option = {',
+      '  visualMap: {',
+      '    min: 0, max, calculable: true, orient: "horizontal",',
+      '    left: "center", top: 4, itemWidth: 8, itemHeight: 160,',
+      '    inRange: { color: MAP_RAMPS[tec] },',
+      '    seriesIndex: [0, 1],',
+      '  },',
+      '  series: [',
+      '    { // península + Baleares, ocupa la mayoría del card',
+      '      name: "peninsula", type: "map", map: "spain-peninsula",',
+      '      layoutCenter: ["50%", "52%"], layoutSize: "96%",',
+      '      aspectScale: 0.85, roam: false,',
+      '      data: buildData(peninsulaGeo.features), ...commonStyle,',
+      '    },',
+      '    { // Canarias, inset abajo-izquierda',
+      '      name: "canarias", type: "map", map: "spain-canarias",',
+      '      layoutCenter: ["12%", "90%"], layoutSize: "22%",',
+      '      aspectScale: 0.85, roam: false,',
+      '      data: buildData(canariasGeo.features), ...commonStyle,',
+      '    },',
+      '  ],',
+      '};',
+    ].join('\n'),
+    tips: [
+      'Península: layoutCenter ["50%", "52%"] + layoutSize "96%" maximiza tamaño y deja gap mínimo con la barra de visualMap en top:4.',
+      'layoutSize de Canarias ~22% queda bien en cards angostos; subir a 28% si el card es ancho.',
+      'layoutCenter ["12%", "90%"] apoya Canarias contra el borde inferior-izquierdo. Ajustable.',
+      'Compartir commonStyle entre las dos series para consistencia visual y borders idénticos.',
+      'visualMap.seriesIndex:[0,1] es crítico — sin eso sólo pinta la primera serie.',
+      'Tooltip único (definido a nivel option) funciona automáticamente sobre ambas series.',
+      'Para compactar el card a la izquierda sin achicar el mapa: marginLeft/Right: -20 en el div para cancelar el padding del sec card.',
+    ],
+    contra_ejemplo: 'NO registrar un único mapa con shift manual de Canarias (CANARIAS_SHIFT_LON/LAT sobre el mismo geojson). Ata la posición de Canarias al bbox y hace imposible pegarla al margen del card sin comprimir la península.',
+    referencia_codigo: 'app/info/parque/Dashboard.tsx — función ChartMapaEspana y bloque de echarts.registerMap al tope del archivo.',
+  },
+
+  'tec-filter-buttons': {
+    titulo: 'Botones de filtro de tecnología (BEV+PHEV / BEV / PHEV) con label bicolor',
+    cuando_usar: 'Cualquier dashboard que filtre entre enchufables combinados (ambos) y cada sub-tecnología. Siempre que haya toggle de "BEV + PHEV" activo, mantener esta codificación visual — no inventar otra.',
+    problema: 'Los tres botones comparten un mismo contenedor pero representan conceptos distintos: BEV y PHEV son "singles" con color propio; "BEV + PHEV" es la suma. Cuando uno está activo hay que comunicar visualmente qué está seleccionado sin que el "combinado" se confunda con un simple "todos" neutro.',
+    solucion: 'Asignar a cada opción su color (BEV=#38bdf8 azul, PHEV=#fb923c naranja, ambos=#34d399 verde). Cuando el botón está activo, el borde y el fondo translúcido se pintan del color de la opción (bg = color+"18", border = color+"44"). El texto del botón "BEV + PHEV" activo es bicolor inline: "BEV" en azul, " + " en verde, "PHEV" en naranja — refuerza que el verde es la combinación de ambos colores.',
+    codigo: [
+      'const BEV_COLOR   = "#38bdf8";',
+      'const PHEV_COLOR  = "#fb923c";',
+      'const AMBOS_COLOR = "#34d399";',
+      '',
+      'const tecOptions: { value: "ambos" | "bev" | "phev"; color: string }[] = [',
+      '  { value: "ambos", color: AMBOS_COLOR },',
+      '  { value: "bev",   color: BEV_COLOR   },',
+      '  { value: "phev",  color: PHEV_COLOR  },',
+      '];',
+      '',
+      '{tecOptions.map((opt) => {',
+      '  const active = filtro === opt.value;',
+      '  const col = opt.color;',
+      '  const label = opt.value === "ambos"',
+      '    ? (active',
+      '        ? <><span style={{ color: BEV_COLOR }}>BEV</span><span style={{ color: AMBOS_COLOR }}> + </span><span style={{ color: PHEV_COLOR }}>PHEV</span></>',
+      '        : "BEV + PHEV")',
+      '    : opt.value === "bev" ? "BEV" : "PHEV";',
+      '  return (',
+      '    <button key={opt.value} onClick={() => setFiltro(opt.value)} style={{',
+      '      padding: "5px 10px", borderRadius: 7, cursor: "pointer", fontSize: 12, fontWeight: 700,',
+      '      border:     active ? `1px solid ${col}44` : "1px solid transparent",',
+      '      background: active ? `${col}18`           : "transparent",',
+      '      color:      active ? col                  : "rgba(241,245,249,0.55)",',
+      '      transition: "all 0.15s", whiteSpace: "nowrap",',
+      '    }}>',
+      '      {label}',
+      '    </button>',
+      '  );',
+      '})}',
+    ].join('\n'),
+    tips: [
+      'El `color` del botón activo para "ambos" queda sobrescrito por los `<span>` inline del label bicolor — no hay conflicto. Igual se asigna para mantener el contrato de la interfaz uniforme.',
+      'Suffixes de color: "18" = ~9% alpha (fondo muy sutil), "44" = ~27% alpha (borde visible pero no duro). Respetar estos valores para coherencia entre dashboards.',
+      'AMBOS_COLOR = #34d399 debe coincidir con C.green del dashboard para que mapas/charts que usan verde al seleccionar "ambos" matcheen con el botón.',
+      'El separador " + " en verde es intencional: es la mezcla aditiva azul+naranja no da verde, pero semánticamente representa "la suma" que el color verde comunica.',
+      'Para charts/mapas que reciben el filtro, derivar el accent igual: `accent = tec === "bev" ? C.bev : tec === "phev" ? C.phev : C.green`.',
+    ],
+    contra_ejemplo: 'NO pintar el " + " en gris translúcido ni el borde/bg del "ambos" en blanco neutro — se pierde la asociación de verde = combinación.',
+    referencia_codigo: 'app/info/DashboardControls.tsx — tecOptions y el bloque {tecOptions.map(...)} dentro del contenedor sticky.',
   },
 };
 
@@ -392,6 +512,29 @@ async function getComponentSource(name) {
   return { name, found: true, matches: results };
 }
 
+async function listPatterns() {
+  return {
+    total: Object.keys(PATTERNS).length,
+    patrones: Object.entries(PATTERNS).map(([id, p]) => ({
+      id,
+      titulo:      p.titulo,
+      cuando_usar: p.cuando_usar,
+    })),
+    nota: 'Llamar a get_pattern con el id para obtener solución completa (código + tips + contra-ejemplos).',
+  };
+}
+
+async function getPattern(id) {
+  const p = PATTERNS[id];
+  if (!p) {
+    return {
+      error: `Patrón no encontrado: ${id}`,
+      disponibles: Object.keys(PATTERNS),
+    };
+  }
+  return { id, ...p };
+}
+
 async function searchDashboard(query) {
   if (!query) throw new Error('query es requerido');
   const needle = query.toLowerCase();
@@ -504,6 +647,29 @@ Parámetro: query (string a buscar)`,
         required: ['query'],
       },
     },
+    {
+      name: 'list_patterns',
+      description: `Lista los patrones de implementación reutilizables de capira-site.
+Son "cómo lo hacemos acá" para ciertos tipos de componentes (mapas, charts, filtros).
+Retorna: id + título + cuándo usar cada uno.
+IMPORTANTE: antes de armar un mapa, chart o filtro nuevo, llamar primero a list_patterns
+y luego a get_pattern sobre el id relevante. No inventar patrones nuevos si ya existe uno.`,
+      inputSchema: { type: 'object', properties: {} },
+    },
+    {
+      name: 'get_pattern',
+      description: `Detalle completo de un patrón: problema que resuelve, solución, código de referencia,
+tips de ajuste y contra-ejemplos (lo que NO hay que hacer).
+Usar antes de escribir código para una feature que encaje con algún patrón.
+Parámetro: id (string, ej: "spain-choropleth-canarias-inset")`,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'ID del patrón (ver list_patterns)' },
+        },
+        required: ['id'],
+      },
+    },
   ],
 }));
 
@@ -519,6 +685,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'list_api_endpoints':   data = await listApiEndpoints(); break;
       case 'get_component_source': data = await getComponentSource(args?.name); break;
       case 'search_dashboard':     data = await searchDashboard(args?.query); break;
+      case 'list_patterns':        data = await listPatterns(); break;
+      case 'get_pattern':          data = await getPattern(args?.id); break;
       default: throw new Error(`Herramienta desconocida: ${name}`);
     }
     return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };

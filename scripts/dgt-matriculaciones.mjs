@@ -143,7 +143,11 @@ const PROPULSION = {
 // Fuente: Tabla MATRABA DGT (VehicInputData.cs)
 const TIPO_NOMBRE = {
   '03': 'ciclomotor',        '04': 'motocicleta',
-  '05': 'motocarro',         '06': 'cuadricilo',
+  '05': 'motocarro',
+  // cod_tipo '06' en MATRABA (spec: cuadricilo) contiene camiones antiguos con
+  // modelo corrupto en la mayoría de los registros (IVECO, MAN, Pegaso, Scania,
+  // Toyota Dyna, Ford Transit). Solo va a microcar si la marca está en la whitelist.
+  '06': 'camion_ligero',
   '10': 'turismo',           '11': 'autobus',
   '12': 'autobus',           '13': 'autobus_articulado',
   '14': 'autobus_mixto',     '15': 'trolebus',
@@ -151,29 +155,93 @@ const TIPO_NOMBRE = {
   '21': 'camion_medio',      '22': 'camion_pesado',
   '23': 'tractocamion',      '24': 'furgoneta',
   '25': 'furgon_medio',      '26': 'furgon_pesado',
-  '30': 'derivado_turismo',  '31': 'vehiculo_mixto',
-  '32': 'vehiculo_mixto',
+  // cod_tipo '30' en MATRABA agrupa autobuses/autocares (Citaro, Irizar, MAN
+  // Lion, Setra, Iveco Bus, Ferqui, Sunsundegui) con ruido de furgonetas-minibús
+  // (Ford Transit, Renault Master). Se trata como autobús dado que ≥65% son bus.
+  // Subtipos 31/32: spec "vehículo mixto" pero en data real son AUTOBUSES
+  // ARTICULADOS (auditoría 2026-04-22).
+  '30': 'autobus',           '31': 'autobus_articulado',
+  '32': 'autobus_articulado',
   // 40 = turismo (código post-2015, reemplaza al 10 gradualmente)
   '40': 'turismo',
   '41': 'remolque_ligero',   '42': 'remolque',
   '43': 'semirremolque',     '44': 'semirremolque',
   // 50 = ciclomotor eléctrico/ligero (L1e-L2e), no tractor
   '50': 'ciclomotor',
-  '51': 'maquinaria_agricola','52': 'maquinaria_agricola',
-  '53': 'maquinaria_agricola','54': 'maquinaria_agricola',
-  '55': 'maquinaria_agricola',
+  // Subtipos 51-55: spec "maquinaria agrícola" pero en data real son motos
+  // 2-ruedas, triciclos (Piaggio MP3, Yamaha Tricity, Peugeot Metropolis) y
+  // quads (Kymco, Polaris, Bombardier). Ningún tractor. Override a 'trimoto'
+  // por marca+modelo abajo. Auditoría 2026-04-22.
+  '51': 'ciclomotor',        '52': 'ciclomotor',
+  '53': 'motocarro',         '54': 'quad_atv',
+  '55': 'ciclomotor',
   '60': 'especial',          '61': 'especial',
   '62': 'especial',          '63': 'especial',
   '64': 'especial',          '65': 'especial',
-  '66': 'quad_atv',          '70': 'militar',
-  '80': 'tren_turistico',
+  '66': 'quad_atv',
+  // Subtipo '70' (spec: militar) es mix quads + maquinaria. Default quad_atv;
+  // override a especial por marca (JCB, Manitou, Cat, etc). Ver dgt-parque-import.mjs.
+  '70': 'quad_atv',
+  '80': 'camion_pesado',
+  // En matriculaciones DGT, subtipos 90/91/92 son mayormente ciclomotores/triciclos.
+  // Solo van a microcar si la marca es de microcar reconocida (ver lógica abajo).
+  '90': 'ciclomotor',        '91': 'ciclomotor',
+  '92': 'motocarro',
+  // Códigos alfanuméricos N1 no documentados (ver dgt-parque-import.mjs)
+  '0G': 'furgoneta',         '02': 'camion_ligero',
+  '00': 'camion_ligero',     '07': 'camion_ligero',
+  '0A': 'camion_ligero',     '7A': 'autocaravana',
+  // Camiones industriales previamente en "otros" (auditoría 2026-04-21).
+  // El split por MMA decidirá VCL (≤3.5t) vs industrial (>3.5t).
+  '01': 'camion_medio',      '08': 'camion_medio',
+  '09': 'camion_medio',      '0B': 'camion_ligero',
+  '0C': 'camion_pesado',     '0D': 'camion_pesado',
+  '0E': 'camion_ligero',     '0F': 'camion_pesado',
+  '1A': 'camion_ligero',     '1C': 'camion_pesado',
+  '1D': 'camion_medio',      '1E': 'camion_medio',
+  '1F': 'camion_medio',      '72': 'camion_medio',
+  '74': 'camion_pesado',
+  // Familia 8x: tractocamiones N3. Familia 7x mix: camiones especiales vs maquinaria.
+  '81': 'tractocamion',      '7C': 'camion_pesado',
+  '7E': 'camion_pesado',     '7F': 'camion_medio',
+  '71': 'especial',          '73': 'especial',
+  '7B': 'especial',          '7D': 'especial',
+  '7J': 'especial',
+  // Semirremolques alfanuméricos.
+  's3': 'semirremolque',     'SC': 'semirremolque',
+  'RC': 'remolque',
+  // Remolques y semirremolques con códigos alfanuméricos
+  'R0': 'remolque_ligero',   'R1': 'remolque_ligero',
+  'R2': 'remolque_ligero',   'R3': 'remolque_ligero',
+  'R5': 'remolque_ligero',   'R6': 'remolque_ligero',
+  'R7': 'remolque_ligero',   'RA': 'remolque_ligero',
+  'RD': 'remolque_ligero',
+  'S0': 'semirremolque',     'S1': 'semirremolque',
+  'S2': 'semirremolque',     'S3': 'semirremolque',
+  'S5': 'semirremolque',     'S6': 'semirremolque',
+  'S7': 'semirremolque',     'S9': 'semirremolque',
+  'SA': 'semirremolque',     'SD': 'semirremolque',
 };
+
+// Marcas de maquinaria industrial/construcción (override para subtipo '70').
+const MAQUINARIA_MARCAS = new Set([
+  'JCB','MANITOU','CASE','CATERPILLAR','BOBCAT','KOMATSU',
+  'LIEBHERR','MERLO','LINDE','AUSA','CNH','HYSTER','STILL','JUNGHEINRICH',
+  'DOOSAN','TAKEUCHI','KRAMER','VOLVO CE','WACKER NEUSON','SANDVIK',
+]);
+
+// Marcas de tractor agrícola (whitelist). Ver nota en dgt-parque-import.mjs.
+const TRACTOR_MARCAS = new Set([
+  'JOHN DEERE','NEW HOLLAND','KUBOTA','CASE IH','FENDT','MASSEY FERGUSON',
+  'DEUTZ-FAHR','CLAAS','VALTRA','LANDINI','MCCORMICK','ZETOR','STEYR','SAME',
+  'DEUTZ','AGCO','SAMPO','URSUS','PASQUALI','BCS','GOLDONI','CARRARO',
+  'ANTONIO CARRARO','ARBOS','LAMBORGHINI','LINDNER','HURLIMANN',
+]);
 
 // Agrupación para el dashboard
 const TIPO_GRUPO = {
   'turismo':             'turismo',
   'derivado_turismo':    'turismo',
-  'vehiculo_mixto':      'suv_todo_terreno',
   'furgoneta':           'furgoneta_van',
   'furgon_medio':        'furgoneta_van',
   'furgon_pesado':       'furgoneta_van',
@@ -189,8 +257,11 @@ const TIPO_GRUPO = {
   'motocicleta':         'moto',
   'ciclomotor':          'moto',
   'motocarro':           'moto',
-  'cuadricilo':          'quad_atv',
+  'trimoto':             'trimoto',
+  'cuadricilo':          'microcar',
+  'microcar':            'microcar',
   'quad_atv':            'quad_atv',
+  'autocaravana':        'furgoneta_van',
   'remolque_ligero':     'remolque',
   'remolque':            'remolque',
   'semirremolque':       'remolque',
@@ -200,6 +271,27 @@ const TIPO_GRUPO = {
   'militar':             'otros',
   'tren_turistico':      'otros',
 };
+
+// Trimotos: scooters/motos de 3 ruedas detectadas por marca+modelo.
+// Override final del tipo_grupo. Auditoría 2026-04-22.
+function esTrimoto(marca, modelo) {
+  if (!marca || !modelo) return false;
+  if (marca === 'QUADRO' || marca === 'REWACO') return true;
+  if (marca === 'PIAGGIO' && /^MP3\b/.test(modelo)) return true;
+  if (marca === 'GILERA' && /\bFUOCO\b/.test(modelo)) return true;
+  if (marca === 'PEUGEOT' && /\bMETROPOLIS\b/.test(modelo)) return true;
+  if (marca === 'KYMCO' && /^CV3\b/.test(modelo)) return true;
+  if (marca === 'YAMAHA' && /^(MWD|MWS|MW|TRICITY|NIKEN)/.test(modelo)) return true;
+  if (marca === 'CAN-AM' && /\b(SPYDER|RYKER)\b/.test(modelo)) return true;
+  if (marca === 'HARLEY-DAVIDSON' && /\b(TRI GLIDE|FREEWHEELER)\b/.test(modelo)) return true;
+  if (/\b(TRIKE|TRICICLO|MOTOTRIKE)\b/.test(modelo)) return true;
+  return false;
+}
+
+const MICROCAR_MARCAS = new Set([
+  'AIXAM','MICROCAR','LIGIER','CHATENET','BELLIER','GRECAV','CASALINI','ESTRIMA',
+  'GOUPIL','JDM','J.D.M.','MEGA','MINAUTO','SECMA','ITALCAR','TAZZARI','DUE','CLUB CAR',
+]);
 
 const PROVINCIAS = {
   '01': 'Álava',          '02': 'Albacete',        '03': 'Alicante',
@@ -453,8 +545,33 @@ async function parsearEInsertar(filePath, periodo, db) {
     const codPropulsion = get(line, F.COD_PROPULSION).toUpperCase();
     const codProvMat    = get(line, F.COD_PROVINCIA_MAT);
     const codProvVeh    = get(line, F.COD_PROVINCIA_VEH);
-    const tipoVehiculo  = TIPO_NOMBRE[codTipo];
+    const marcaUp       = (get(line, F.MARCA_ITV) || '').toUpperCase().replace(/\s+/g, ' ');
+    let   tipoVehiculo  = TIPO_NOMBRE[codTipo];
+    // subtipos 90/91/92 → microcar si la marca es de microcar reconocida
+    if (['06','90','91','92'].includes(codTipo) && MICROCAR_MARCAS.has(marcaUp)) tipoVehiculo = 'cuadricilo';
+    if (codTipo === '70' && MAQUINARIA_MARCAS.has(marcaUp)) tipoVehiculo = 'especial';
     if (!tipoVehiculo && codTipo) unknownTypes.add(codTipo);
+
+    let tipoGrupoFinal = TIPO_GRUPO[tipoVehiculo] ?? 'otros';
+    // Split ANFAC-style: comerciales por masa_max_tecnica ≤3.5t = VCL, >3.5t = industriales.
+    const mmaMat = toInt(get(line, F.MASA_MAX_TECNICA));
+    if (mmaMat && (tipoGrupoFinal === 'camion' || tipoGrupoFinal === 'furgoneta_van')) {
+      if (mmaMat <= 3500 && tipoGrupoFinal === 'camion') tipoGrupoFinal = 'furgoneta_van';
+      else if (mmaMat > 3500 && tipoGrupoFinal === 'furgoneta_van' && tipoVehiculo !== 'autocaravana') tipoGrupoFinal = 'camion';
+    }
+    // Derivados de turismo (carroceria AC) subtipos 25/0G → turismo, no VCL.
+    const carroceriaMat = (get(line, F.CARROCERIA) || '').toUpperCase();
+    if (tipoGrupoFinal === 'furgoneta_van' && carroceriaMat === 'AC' && (codTipo === '25' || codTipo === '0G')) {
+      tipoGrupoFinal = 'turismo';
+    }
+    // Override trimoto por marca+modelo (MP3, Tricity, Metropolis, Quadro, CV3,
+    // Fuoco, Spyder, Ryker).
+    const modeloUp = (get(line, F.MODELO_ITV) || '').toUpperCase();
+    if (esTrimoto(marcaUp, modeloUp)) tipoGrupoFinal = 'trimoto';
+    // Override agricola: marcas tractoreras en subtipos 70/80/81.
+    if (TRACTOR_MARCAS.has(marcaUp) && ['70','80','81'].includes(codTipo)) {
+      tipoGrupoFinal = 'agricola';
+    }
 
     batch.push({
       periodo,
@@ -468,7 +585,7 @@ async function parsearEInsertar(filePath, periodo, db) {
 
       cod_tipo:      codTipo || null,
       tipo_vehiculo: tipoVehiculo || null,
-      tipo_grupo:    TIPO_GRUPO[tipoVehiculo] ?? 'otros',
+      tipo_grupo:    tipoGrupoFinal,
 
       cod_propulsion:   codPropulsion || null,
       combustible:      PROPULSION[codPropulsion] ?? 'otros',
@@ -697,7 +814,6 @@ export type CombustibleDGT = {
 
 export type TipoVehiculoDGT = {
   turismo?:          number;
-  suv_todo_terreno?: number;
   furgoneta_van?:    number;
   camion?:           number;
   autobus?:          number;

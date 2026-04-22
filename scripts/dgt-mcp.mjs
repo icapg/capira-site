@@ -147,6 +147,8 @@ El archivo \`app/lib/insights/dgt-parque-data.ts\` (generado por \`scripts/dgt-p
 | 2025-03 → 2026-03 (13 meses)   | ZIP mensual DGT | **Real**   | Conteo directo del snapshot por tipo × CATELECT    |
 | 2014-12 → 2025-02 (123 meses)  | MATRABA flows   | **Calc.**  | Retroceso desde ancla 2025-03                      |
 
+**Nota 2026-04-22**: los 13 snapshots 2025-03 → 2026-03 fueron reimportados con el clasificador actual (trimoto/remolque/microcar como categorías propias, sin suv_todo_terreno residual). Todos los meses reales tienen taxonomía consistente en tipoBreakdown, provBreakdown y agregados globales.
+
 **Fórmula del retroceso** (por tipo × CATELECT) — fórmula F6, calibrada empíricamente:
 \`\`\`
 parque[m-1, tipo, cat] = parque[m, tipo, cat]
@@ -164,6 +166,14 @@ Suma de tipos = total global en cada período (invariante verificado). El dashbo
 | F2 mat(N) − baja(3+6+7)       | 15.68%   | 15.42%    | 15.13%   |
 
 F6 minimiza error (promedio 2.85%) y minimiza bias (casi insesgado). El error residual es estocástico (random walk, no sistemático): viene de timing de snapshots + ajustes retroactivos DGT.
+
+**Campos adicionales en el JSON** (\`dgt-parque.json\`):
+- \`parque_por_tipo\` — emitido en todos los meses (real y calculado).
+- \`parque_por_provincia_tipo\` — solo meses reales. Indexado por código INE numérico (01-52), NO por letra.
+- \`parque_distintivo\` — solo meses reales. Etiqueta ambiental DGT.
+- \`parque_por_municipio\` — **SOLO último mes real** (se reescribe cada mes, el anterior se borra). Estructura: \`{ [cod_mun]: { prov: string, tipos: { [tipo]: { BEV, PHEV, HEV, REEV, FCEV, NO_EV, total, no_enchufable } } } }\`. 781 municipios en 2026-03. DGT censura municipios con muy pocos vehículos (~6% del parque queda con municipio vacío, agregado a nivel provincial). Incluir todos los meses inflaría el JSON 10× → decisión de producto: solo el último mes en el bundle estático de Vercel.
+
+**Hosting**: los JSONs se importan estáticamente en el build de Next.js → bundle embebido en el deploy de Vercel. No hay API route ni Supabase para estos datos. La SQLite (19 GB) no sube al repo (gitignored). Límite relevante: bandwidth Vercel Hobby 100 GB/mes.
 
 ### Caveats conocidos (no son bugs, son datos reales DGT)
 
@@ -187,7 +197,7 @@ Cada fila = un vehículo matriculado en España.
 | fabricante           | TEXT    | Fabricante según ITV |
 | cod_tipo             | TEXT    | Código original DGT 2 dígitos (ej: "10", "24") |
 | tipo_vehiculo        | TEXT    | Nombre derivado (turismo, furgoneta, motocicleta…) |
-| tipo_grupo           | TEXT    | Agrupación dashboard: turismo, furgoneta_van, camion, autobus, moto, quad_atv, remolque, agricola, especial, otros |
+| tipo_grupo           | TEXT    | Agrupación dashboard: turismo, furgoneta_van, camion, autobus, moto, trimoto, quad_atv, remolque, microcar, especial, otros |
 | cod_propulsion       | TEXT    | Código original: 0=gasolina, 1=diesel, 2=electrico_bev, 6=glp, 7=gnc, 8=gnl, 9=hidrogeno |
 | combustible          | TEXT    | Nombre: gasolina, diesel, electrico_bev, glp, gnc, gnl, hidrogeno, biometano, etanol, biodiesel, butano, solar, otros |
 | cilindrada           | INTEGER | cm³ |
@@ -238,7 +248,7 @@ Stock. Último snapshot oficial del parque activo publicado por DGT. Fuente: ZIP
 |-----------------|---------|-------------|
 | periodo         | TEXT    | Snapshot al que pertenece la fila, formato "YYYYMM" |
 | subtipo         | TEXT    | Subtipo DGT detallado |
-| tipo_grupo      | TEXT    | Agrupación dashboard (turismo, moto, furgoneta_van, camion, etc.) |
+| tipo_grupo      | TEXT    | Agrupación dashboard ANFAC-style: turismo, moto, trimoto (scooters 3 ruedas: MP3, Tricity, Metropolis, Quadro, CV3, Fuoco, Spyder/Ryker), furgoneta_van (VCL = N1 ≤3.5t no-derivado), camion (Industriales N2/N3 >3.5t), autobus, quad_atv, remolque, especial (maquinaria industrial), microcar, otros. |
 | catelect        | TEXT    | Categoría EV (BEV/PHEV/HEV/REEV/FCEV/NO_EV) — OJO nombre distinto a matriculaciones.cat_vehiculo_ev |
 | propulsion      | TEXT    | Combustible/propulsión |
 | distintivo      | TEXT    | Etiqueta ambiental DGT (0, B, C, ECO, CERO) |
@@ -251,7 +261,8 @@ Stock. Último snapshot oficial del parque activo publicado por DGT. Fuente: ZIP
 | clase_matr      | TEXT    | Clase de matrícula |
 | procedencia     | TEXT    | Procedencia del vehículo |
 | nuevo_usado     | TEXT    | "N"/"U" (análogo a ind_nuevo_usado de matriculaciones) |
-| carroceria      | TEXT    | Tipo de carrocería |
+| carroceria      | TEXT    | Tipo de carrocería (AA=sedán, AC=familiar, AF=MPV, BA=chasis-cabina, BB=furgón, BE=pickup, SA=autocaravana, etc.) |
+| mma             | INTEGER | Masa máxima autorizada en kg (desde MMTA del ZIP, fallback PESO_MAX). NULL si falta. Usar para split VCL/industrial. |
 
 ### parque_agregados_mes (agregados por clave, 13 snapshots 202503→202603)
 Stock agregado. Pre-calculado para queries rápidas de serie temporal. **PK compuesta (periodo, clave)**.
@@ -269,7 +280,10 @@ Stock agregado. Pre-calculado para queries rápidas de serie temporal. **PK comp
 - \`CATELECT_TIPO:<cat>:<tipo>\` — combinación cat × tipo
 - \`PROVINCIA:<cod>\` — por provincia INE (01-52)
 - \`PROVINCIA_CATELECT:<cod>:<cat>\` — combinación provincia × cat
+- \`PROVINCIA_CATELECT_TIPO:<cod>:<cat>:<tipo>\` — triple cross (usado por el dashboard para filtro por provincia × tipo)
 - \`DISTINTIVO:<etiqueta>\` — por etiqueta ambiental (0, B, C, ECO, CERO)
+
+**Breakdown por municipio**: NO existe como clave pre-agregada en \`parque_agregados_mes\` — hay que ir contra la tabla \`parque\` directamente (campo \`municipio\`, código INE 5 dígitos). 781 municipios distintos en el último snapshot. Para el dashboard solo se exporta el último mes al JSON (ver sección Parque real vs calculado).
 
 **Ejemplo** (obtener BEVs activos en último snapshot):
 \`\`\`sql
@@ -297,6 +311,109 @@ Control de qué meses MATRABA han sido importados.
 | mes            | INTEGER |
 | total_registros| INTEGER |
 | procesado_en   | TEXT    |
+
+## Reclasificación ANFAC-style (2026-04-21)
+
+El campo \`tipo_grupo\` en parque/matriculaciones/bajas ya está alineado con la
+definición ANFAC de VCL (Vehículo Comercial Ligero) vs Industriales:
+
+1. **Split por MMA**: comerciales con MMA ≤3500 kg → \`furgoneta_van\` (VCL).
+   MMA >3500 kg → \`camion\` (Industrial N2/N3). Excepciones: autocaravanas
+   siempre \`furgoneta_van\`. No aplica a turismos, buses, motos, remolques.
+2. **Derivados de turismo**: subtipos 25/0G con carroceria AC (familiar) →
+   \`turismo\` (no VCL). Afecta Berlingo Tepee, Caddy Life, Rifter, Dokker.
+3. **Subtipos alfanuméricos de "otros" verificados por marca**:
+   - \`01,08,09,0B,0C,0D,0E,0F,1A,1C,1D,1E,1F,72,74,80,81,7C,7E,7F\` → camion
+     (fabricantes: Volvo, Scania, DAF, MAN, Mercedes, Iveco, Renault, Pegaso,
+     Barreiros, hormigoneras Frumecar/Wazenmix, grúas Liebherr/Demag).
+   - \`71,73,7B,7D,7J\` → \`especial\` (maquinaria: Bobcat, Cat, JCB, Case,
+     Komatsu, Manitou, Linde, Still, Hyster, Jungheinrich, carretillas
+     elevadoras, retroexcavadoras, barredoras, mini-dumpers).
+   - \`s3,SC,RC\` → \`remolque\` (Lecitrailer, Leciñena, Schmitz, Fruehauf).
+
+Resultado parque 202603 vs ANFAC: turismo 26.4M (gap ~0%), furgoneta_van 4.45M
+(gap +6.4%), camion 613k (gap -1%), otros 3.3k (-99% vs pre-fix).
+
+Nota: en **bajas** el \`cod_tipo='81'\` significa autocaravana (distinto de
+parque/matriculaciones donde 81 es tractocamión). No reclasificar 81 en bajas.
+
+## Reclasificación de bugs heredados (2026-04-22)
+
+Tres bugs de la clasificación DGT original se corrigieron por auditoría:
+
+1. **suv_todo_terreno eliminada**: categoría residual. Subtipos 31/32 (spec
+   "vehículo mixto") en data real son autobuses articulados (MB Citaro G,
+   Volvo 7900, MAN Lion's City, Solaris, MMA ~29t, carrocerías
+   CG/CC/CE/AR/CA/CB/CI) → reclasificados a \`autobus\`. El resto de M1/M1G
+   (SUVs y todoterrenos homologados como turismo) → \`turismo\`. El clasificador
+   actual NO emite \`suv_todo_terreno\` en ninguna tabla. Cleanup final
+   2026-04-22: merge de 1275 filas residuales en \`parque_agregados_mes\`
+   (202503-202602) a sus claves equivalentes de \`turismo\` via
+   \`dgt-fix-drop-suv-todo-terreno.mjs\`.
+2. **agricola → moto / quad_atv**: subtipos 51-55 (spec "maquinaria agrícola")
+   no contienen ningún tractor real. Son scooters 2-ruedas (51=Vespa, SYM),
+   triciclos (53=Piaggio MP3, Yamaha MWD, Peugeot Metropolis) y quads
+   (54=Kymco MXU, Bombardier, Polaris, CFMoto). Redistribución:
+   - 51, 52, 53, 55 → \`moto\`
+   - 54 → \`quad_atv\`
+3. **trimoto (nueva categoría)**: scooters/trikes de 3 ruedas detectados por
+   marca+modelo y separados de \`moto\`. Reglas:
+   - Marcas enteras: \`QUADRO\`, \`REWACO\`
+   - \`PIAGGIO MP3*\`, \`YAMAHA MWD|MWS|MW|TRICITY|NIKEN*\`, \`PEUGEOT METROPOLIS\`,
+     \`KYMCO CV3*\`, \`GILERA *FUOCO*\`, \`CAN-AM SPYDER|RYKER\`,
+     \`HARLEY-DAVIDSON TRI GLIDE|FREEWHEELER\`
+   - Modelo con \`TRIKE\`/\`TRICICLO\`/\`MOTOTRIKE\` (cualquier marca)
+4. **agricola recuperada por whitelist de marcas tractoreras**: los tractores
+   caen en subtipos 70/80/81 (N1/N2/N3 de carga) y por defecto quedan en
+   \`quad_atv\`/\`camion\`/\`furgoneta_van\`. Regla: si \`marca\` ∈ TRACTOR_MARCAS
+   (27 marcas: JOHN DEERE, NEW HOLLAND, KUBOTA, CASE IH, FENDT, MASSEY
+   FERGUSON, DEUTZ-FAHR, CLAAS, VALTRA, LANDINI, MCCORMICK, ZETOR, STEYR,
+   SAME, DEUTZ, AGCO, SAMPO, URSUS, PASQUALI, BCS, GOLDONI, CARRARO, ANTONIO
+   CARRARO, ARBOS, LAMBORGHINI, LINDNER, HURLIMANN) y \`subtipo\` ∈ (70,80,81),
+   reclasificar a \`agricola\`. No toca subtipos 7J/71/7D (retros NH/JD/Kubota,
+   quedan en \`especial\`) ni sub 40 (LAMBORGHINI supercars).
+   Impacto: parque +6.601, matric +104.872, bajas +48.818.
+5. **otros recuperados por lookup (marca, modelo) → parque**: matriculaciones
+   y bajas con \`cod_tipo\` nulo pero marca+modelo reales (principalmente
+   importaciones de 2ª mano) se reclasifican usando un lookup construido
+   desde \`parque\`. Regla: el par (marca, modelo) debe tener ≥20 registros
+   en parque y ≥80% en un solo \`tipo_grupo\` dominante. No toca \`SIN MARCA\`.
+   Impacto: matric -58.815 de \`otros\` (47.7k→turismo, 7.2k→furgoneta_van,
+   2.3k→camion, 1.1k→moto), bajas -4.809.
+
+Totales parque 202603 tras reclasificación completa:
+turismo 26.4M, moto 6.35M, furgoneta_van 4.45M, camion 612k, remolque 579k,
+quad_atv 255k, especial 191k, autobus 70k, microcar 48k, trimoto 18.1k,
+agricola 6.6k, otros 3k.
+
+6. **bajas — alineación con matriculaciones (dgt-fix-bajas-consistencia.mjs)**:
+   algunos fixes (MMA split, AC familiar, subtipos alfanuméricos) no se
+   podían aplicar íntegramente en bajas por datos faltantes o vehículos
+   pre-2014 sin MATRABA. Fix final: lookup (cod_tipo, marca, modelo) →
+   tipo_grupo dominante en matriculaciones (≥80% con ≥20 filas), aplicado
+   en 3 passes con umbrales decrecientes:
+   - Pass 1 (cod_tipo, marca, modelo): 149.574 filas
+   - Pass 2 fallback (cod_tipo, marca, ≥85%, ≥50 filas): 124.291
+   - Pass 3 cod_tipo puro (≥90%, ≥100 filas): 17.321
+   - Fix directo cod_tipo=50 bajas agricola → moto: 14.079
+   - Fix AC familiar (cod_tipo=25 carroceria AC/AF → turismo): 19.098
+   Total ~420k filas reclasificadas. Inconsistencia vs matriculaciones
+   bajó de 3.64% a **2.25%** (~496k residuos). El residuo son vehículos
+   pre-2014 matriculados antes de que DGT publicara MATRABA microdatos —
+   no hay información de matric para inferir su reclasificación.
+
+## Estado final de depuración (2026-04-22)
+
+- **parque** (38.9M): 100% clasificado con taxonomía nueva de 12 categorías.
+- **matriculaciones** (18.8M): 100% clasificado.
+- **bajas** (22M): 97.75% consistente con matriculaciones (2.25% legacy).
+- **parque_agregados_mes** (13 meses 2025-03 → 2026-03): reimportados con
+  clasificador actual. Todos los snapshots tienen las 12 categorías.
+- **JSONs del dashboard**: \`dgt-parque.json\`, \`dgt-bev-phev-mensual.json\`,
+  \`dgt-bev-phev-YYYY.json\` (13), \`dgt-marcas-provincias.json\` regenerados.
+  Todos usan \`tipo_grupo\` de DB directamente.
+- Categoría \`suv_todo_terreno\` **eliminada** en todas las tablas, agregados
+  y código frontend.
 
 ## Índices disponibles (queries rápidas)
 - matriculaciones: periodo, combustible, tipo_grupo, cod_provincia_mat, marca, ind_nuevo_usado, año
