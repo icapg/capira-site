@@ -27,22 +27,32 @@ export type MonthBundle = {
 
 // ─── Taxonomía TipoVehiculo (bev-phev data) ↔ dgtMeses.por_tipo ─────────────
 const TIPO_MAP: Record<Exclude<TipoVehiculo, 'todos'>, string[]> = {
-  turismo:      ['turismo', 'suv_todo_terreno'],
+  turismo:      ['turismo'],
   furgoneta:    ['furgoneta_van'],
   moto_scooter: ['moto'],
-  microcar:     [],
+  trimoto:      ['trimoto'],
+  quad_atv:     ['quad_atv'],
+  microcar:     ['microcar'],
   camion:       ['camion'],
   autobus:      ['autobus'],
-  otros:        ['especial', 'otros', 'agricola', 'quad_atv', 'remolque'],
+  agricola:     ['agricola'],
+  especial:     ['especial'],
+  remolque:     ['remolque'],
+  otros:        ['otros'],
 }
 const TIPO_MAP_PARQUE: Record<Exclude<TipoVehiculo, 'todos'>, string[]> = {
-  turismo:      ['turismo', 'suv_todo_terreno'],
+  turismo:      ['turismo'],
   furgoneta:    ['furgoneta_van'],
   moto_scooter: ['moto'],
-  microcar:     [],
+  trimoto:      ['trimoto'],
+  quad_atv:     ['quad_atv'],
+  microcar:     ['microcar'],
   camion:       ['camion'],
   autobus:      ['autobus'],
-  otros:        ['especial', 'otros', 'agricola', 'quad_atv'],
+  agricola:     ['agricola'],
+  especial:     ['especial'],
+  remolque:     ['remolque'],
+  otros:        ['otros'],
 }
 
 function formatPeriodo(key: string)     { const [y, m] = key.split('-'); return `${MESES_ES[parseInt(m) - 1]} ${y}` }

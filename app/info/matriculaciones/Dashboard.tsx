@@ -134,30 +134,40 @@ function computeAnalytics(porAño: YearData[]) {
     return { año: y.año, bev, phev, total: bev + phev };
   });
   const FULL_ANNUAL = ANNUAL.filter((a) => !porAño.find((y) => y.año === a.año)?.parcial);
-  const FIRST     = FULL_ANNUAL[0];
-  const LAST_FULL = FULL_ANNUAL[FULL_ANNUAL.length - 1];
-  const LAST      = ANNUAL[ANNUAL.length - 1];
+  // Guard: filtro sin datos (ej. trimoto BEV+PHEV en años pre-2020).
+  // Devolvemos placeholders seguros para que el dashboard renderice "sin datos"
+  // en lugar de crashear por accesos a FIRST/LAST_FULL undefined.
+  const EMPTY = FULL_ANNUAL.length === 0;
+  const ZERO_YEAR = { año: new Date().getFullYear(), bev: 0, phev: 0, total: 0 };
+  const FIRST     = FULL_ANNUAL[0]                          ?? ZERO_YEAR;
+  const LAST_FULL = FULL_ANNUAL[FULL_ANNUAL.length - 1]     ?? ZERO_YEAR;
+  const LAST      = ANNUAL[ANNUAL.length - 1]               ?? ZERO_YEAR;
   const IS_LAST_PARTIAL = !!porAño.find((y) => y.año === LAST.año)?.parcial;
-  const N_YRS = LAST_FULL.año - FIRST.año;
+  const N_YRS = Math.max(1, LAST_FULL.año - FIRST.año);
   const YOY = FULL_ANNUAL.slice(1).map((curr, i) => {
     const prev = FULL_ANNUAL[i];
     return {
       año:      curr.año,
-      bevYoy:   +((curr.bev   - prev.bev)   / prev.bev   * 100).toFixed(1),
-      phevYoy:  +((curr.phev  - prev.phev)  / prev.phev  * 100).toFixed(1),
-      totalYoy: +((curr.total - prev.total) / prev.total * 100).toFixed(1),
+      bevYoy:   prev.bev   > 0 ? +((curr.bev   - prev.bev)   / prev.bev   * 100).toFixed(1) : 0,
+      phevYoy:  prev.phev  > 0 ? +((curr.phev  - prev.phev)  / prev.phev  * 100).toFixed(1) : 0,
+      totalYoy: prev.total > 0 ? +((curr.total - prev.total) / prev.total * 100).toFixed(1) : 0,
     };
   });
-  const CAGR_TOTAL = +((Math.pow(LAST_FULL.total / FIRST.total, 1 / N_YRS) - 1) * 100).toFixed(1);
-  const CAGR_BEV   = +((Math.pow(LAST_FULL.bev   / FIRST.bev,   1 / N_YRS) - 1) * 100).toFixed(1);
-  const CAGR_PHEV  = FIRST.phev > 0 ? +((Math.pow(LAST_FULL.phev / FIRST.phev, 1 / N_YRS) - 1) * 100).toFixed(1) : null;
+  const safeCagr = (lastV: number, firstV: number) =>
+    firstV > 0 && lastV > 0 ? +((Math.pow(lastV / firstV, 1 / N_YRS) - 1) * 100).toFixed(1) : null;
+  const CAGR_TOTAL = safeCagr(LAST_FULL.total, FIRST.total);
+  const CAGR_BEV   = safeCagr(LAST_FULL.bev,   FIRST.bev);
+  const CAGR_PHEV  = safeCagr(LAST_FULL.phev,  FIRST.phev);
   const TOTAL_ACUM = ANNUAL.reduce((s, a) => s + a.total, 0);
   const ALL_MONTHLY = REAL.flatMap((y) =>
     y.meses.map((m) => ({ ...m, año: y.año, label: `${m.mes} ${y.año}` }))
   );
-  const PEAK_MONTH = ALL_MONTHLY.reduce((b, m) => m.bev + m.phev > b.bev + b.phev ? m : b);
-  const LAST_MONTH = ALL_MONTHLY[ALL_MONTHLY.length - 1];
-  const BEV_SHARE  = FULL_ANNUAL.map((a) => ({ año: a.año, share: +((a.bev / a.total) * 100).toFixed(1) }));
+  const ZERO_MONTH = { mes: "Ene", año: FIRST.año, bev: 0, phev: 0, label: `Ene ${FIRST.año}` };
+  const PEAK_MONTH = ALL_MONTHLY.length > 0
+    ? ALL_MONTHLY.reduce((b, m) => m.bev + m.phev > b.bev + b.phev ? m : b)
+    : ZERO_MONTH;
+  const LAST_MONTH = ALL_MONTHLY[ALL_MONTHLY.length - 1] ?? ZERO_MONTH;
+  const BEV_SHARE  = FULL_ANNUAL.map((a) => ({ año: a.año, share: a.total > 0 ? +((a.bev / a.total) * 100).toFixed(1) : 0 }));
   const QUARTERLY  = REAL.map((y) =>
     QUARTERS.map((q) => ({
       label: `${q.label} ${y.año}`,
@@ -171,7 +181,7 @@ function computeAnalytics(porAño: YearData[]) {
     { año: 2027, conservador: Math.round(LAST_FULL.total * 1.25), base: Math.round(LAST_FULL.total * 1.32), agresivo: Math.round(LAST_FULL.total * 1.42) },
     { año: 2028, conservador: Math.round(LAST_FULL.total * 1.25 * 1.20), base: Math.round(LAST_FULL.total * 1.32 * 1.30), agresivo: Math.round(LAST_FULL.total * 1.42 * 1.40) },
   ];
-  return { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL, N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY, PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ };
+  return { REAL, ANNUAL, FULL_ANNUAL, FIRST, LAST_FULL, LAST, IS_LAST_PARTIAL, N_YRS, YOY, CAGR_TOTAL, CAGR_BEV, CAGR_PHEV, TOTAL_ACUM, ALL_MONTHLY, PEAK_MONTH, LAST_MONTH, BEV_SHARE, QUARTERLY, PROJ, EMPTY };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

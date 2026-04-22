@@ -15,17 +15,35 @@ function periodoToMes(periodo: string): string {
 
 const currentYear = new Date().getFullYear();
 
-export type TipoVehiculo = "todos" | "turismo" | "furgoneta" | "moto_scooter" | "microcar" | "camion" | "autobus" | "otros";
+export type TipoVehiculo =
+  | "todos"
+  | "turismo"
+  | "furgoneta"
+  | "moto_scooter"
+  | "trimoto"
+  | "quad_atv"
+  | "microcar"
+  | "camion"
+  | "autobus"
+  | "agricola"
+  | "especial"
+  | "remolque"
+  | "otros";
 
 export const TIPO_LABELS: Record<TipoVehiculo, string> = {
-  todos:       "Todos",
-  turismo:     "Turismo",
-  furgoneta:   "Furgoneta",
-  moto_scooter:"Moto / Scooter",
-  microcar:    "Microcar",
-  camion:      "Camión",
-  autobus:     "Autobús",
-  otros:       "Otros",
+  todos:             "Todos",
+  turismo:           "Turismo",
+  furgoneta:         "Furgoneta",
+  moto_scooter:      "Moto / Scooter",
+  trimoto:           "Trimoto",
+  quad_atv:          "Quad / ATV",
+  microcar:          "Microcar",
+  camion:            "Camión",
+  autobus:           "Autobús",
+  agricola:          "Agrícola",
+  especial:          "Maquinaria especial",
+  remolque:          "Remolque",
+  otros:             "Otros",
 };
 
 type MensualEntry = typeof mensualJson.mensual[number];
