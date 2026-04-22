@@ -40,7 +40,7 @@ export const DASHBOARDS: Dashboard[] = [
     slug: "marca-perfil",
     label: "Marca · Perfil",
     href: "/info/marca-perfil",
-    tier: "public",
+    tier: "private",
     ready: true,
     topNav: true,
     description: "Perfil tecnológico de cada fabricante: % BEV vs PHEV de sus matriculaciones enchufables.",
