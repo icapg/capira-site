@@ -5,7 +5,8 @@ import * as echarts from "echarts";
 import type { YearData } from "../../lib/insights/matriculaciones-data";
 import { dgtPorAñoCompleto, dgtPorAñoCompletoTipos, dgtPorAñoTipos, dgtHistoricoPre2020Tipos, dgtUsadosAnual, dgtUsadosAnualTipos } from "../../lib/insights/dgt-bev-phev-data";
 import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
-import { getDgtMarcas, getDgtProvincias, dgtAñosDisponibles } from "../../lib/insights/dgt-marcas-provincias-data";
+import { getDgtProvincias } from "../../lib/insights/dgt-marcas-provincias-data";
+import { dgtParqueMensual } from "../../lib/insights/dgt-parque-data";
 import { useInsights } from "../../info/InsightsContext";
 import { DashboardControls } from "../../info/DashboardControls";
 import { Card } from "../_components/Card";
@@ -32,6 +33,13 @@ const QUARTERS = [
   { label: "Q3", months: [6, 7, 8] },
   { label: "Q4", months: [9, 10, 11] },
 ];
+
+// Series mensuales del parque DGT (nacional, sin filtro tipo/provincia) ──
+const PARQUE_PERIODOS = dgtParqueMensual.map((m) => m.periodo);
+const PARQUE_MAT_BEV  = dgtParqueMensual.map((m) => m.matriculaciones_mes.BEV  ?? 0);
+const PARQUE_BAJA_BEV = dgtParqueMensual.map((m) => m.bajas_mes.BEV            ?? 0);
+const PARQUE_MAT_PHEV = dgtParqueMensual.map((m) => m.matriculaciones_mes.PHEV ?? 0);
+const PARQUE_BAJA_PHEV= dgtParqueMensual.map((m) => m.bajas_mes.PHEV           ?? 0);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DESIGN TOKENS
@@ -216,7 +224,6 @@ export function Dashboard() {
 
   const [añoActivo, setAñoActivo] = useState<number | "todos">(LAST_FULL.año);
   const [heatPage, setHeatPage] = useState(0);
-  const [marcaMixYear, setMarcaMixYear] = useState<"todos" | number>("todos");
   const winW = useWindowWidth();
   const isMobile = winW < 768;
   const isNarrow = winW < 520;
@@ -665,51 +672,6 @@ export function Dashboard() {
         ],
       };
 
-  // ── Mix evolution (stacked 100%) ─────────────────────────────────────────
-  const mixOpt: Record<string, any> = {
-    backgroundColor: "transparent",
-    tooltip: {
-      ...TT, trigger: "axis",
-      formatter: (params: Record<string, any>[]) => {
-        const seriesColor = (name: string) => name === "BEV" ? C.bev : C.phev;
-        return `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
-          params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${p.value.toFixed(1)}%</b>`).join("<br/>");
-      },
-    },
-    grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 36 : 52 },
-    xAxis: {
-      type: "category",
-      data: [
-        ...FULL_ANNUAL.map((a) => String(a.año)),
-        ...(IS_LAST_PARTIAL ? [`${LAST.año} YTD`] : []),
-      ],
-      axisLine: { lineStyle: { color: C.grid } },
-      axisLabel: { color: C.muted, fontSize: 12 },
-      axisTick: { show: false },
-    },
-    yAxis: {
-      type: "value", max: 100,
-      splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
-      axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => `${v}%` },
-    },
-    series: [
-      {
-        name: "BEV", type: "bar", stack: "s",
-        data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => +((a.bev / a.total) * 100).toFixed(1)),
-        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.6)"}]) },
-        barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
-      },
-      {
-        name: "PHEV", type: "bar", stack: "s",
-        data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => +((a.phev / a.total) * 100).toFixed(1)),
-        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.6)"}]), borderRadius: [4,4,0,0] },
-        barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
-      },
-    ],
-  };
-
   // ── Monthly heatmap ──────────────────────────────────────────────────────
   const heatSource: YearData[] = dgtPorAñoCompletoTipos(tiposVehiculo, provincia);
   const HEAT_PAGE_SIZE = 5;
@@ -890,87 +852,115 @@ export function Dashboard() {
     })),
   };
 
-  // ── Mix tecnológico por marca (100% stacked horizontal) ─────────────────
-  const mixYearsAvailable: ("todos" | number)[] = ["todos", ...dgtAñosDisponibles];
-
-  const abbrevMarca = (m: string) => {
-    if (!isMobile) return m;
-    const up = m.toUpperCase();
-    if (up.includes("MERCEDES")) return "MB";
-    if (up.includes("VOLKSWAGEN")) return "VW";
-    return m;
-  };
-
   // Ranking nacional de provincias (respeta tipos, nunca se filtra por provincia
   // porque necesitamos las 52 para rankear)
   const dgtProvs = getDgtProvincias("todos", tiposVehiculo.length > 0 ? tiposVehiculo : undefined);
 
-  const mixMarcasData = (() => {
-    const year = marcaMixYear === "todos" ? "todos" : Number(marcaMixYear);
-    return getDgtMarcas(year, tiposVehiculo.length > 0 ? tiposVehiculo : undefined, provincia).map((m) => {
-      const total = m.bev + m.phev;
-      return {
-        marca: m.marca,
-        displayMarca: abbrevMarca(m.marca),
-        bevPct: +((m.bev / total) * 100).toFixed(1),
-        phevPct: +((m.phev / total) * 100).toFixed(1),
-        bev: m.bev, phev: m.phev, total,
-      };
-    });
-  })();
-
-  const mixMarcasOpt: Record<string, any> = {
+  // ── Mix tecnológico (matriculaciones — área 100% BEV vs PHEV anual) ──────
+  const mixOpt: Record<string, any> = {
     backgroundColor: "transparent",
     tooltip: {
       ...TT, trigger: "axis",
       formatter: (params: Record<string, any>[]) => {
-        const axisLabel = params[0]?.axisValue;
-        const d = mixMarcasData.find((m) => m.displayMarca === axisLabel);
-        if (!d) return "";
-        const totLabel = d.total >= 1000 ? `${(d.total / 1000).toFixed(1)}k` : fmtN(d.total);
-        return `<b style="color:${C.text}">${d.marca}</b><br/>` +
-          `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${C.bev};margin-right:6px"></span>BEV: <b>${d.bevPct}%</b> (${fmtN(d.bev)})<br/>` +
-          `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${C.phev};margin-right:6px"></span>PHEV: <b>${d.phevPct}%</b> (${fmtN(d.phev)})<br/>` +
-          `Total: <b>${totLabel}</b>`;
+        const seriesColor = (name: string) => name === "BEV" ? C.bev : C.phev;
+        return `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
+          params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${p.value.toFixed(1)}%</b>`).join("<br/>");
       },
     },
-    grid: { top: 8, right: 52, bottom: 8, left: 8, containLabel: true },
+    grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 36 : 52 },
     xAxis: {
+      type: "category",
+      data: [
+        ...FULL_ANNUAL.map((a) => String(a.año)),
+        ...(IS_LAST_PARTIAL ? [`${LAST.año} YTD`] : []),
+      ],
+      axisLine: { lineStyle: { color: C.grid } },
+      axisLabel: { color: C.muted, fontSize: 12 },
+      axisTick: { show: false },
+    },
+    yAxis: {
       type: "value", max: 100,
       splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
       axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => `${v}%` },
     },
-    yAxis: {
-      type: "category",
-      data: mixMarcasData.map((m) => m.displayMarca),
-      axisLabel: { color: C.muted, fontSize: 11 },
-      axisLine: { lineStyle: { color: C.grid } },
-      axisTick: { show: false },
-      inverse: true,
-    },
     series: [
       {
         name: "BEV", type: "bar", stack: "s",
-        data: mixMarcasData.map((m) => m.bevPct),
-        itemStyle: { color: C.bev, borderRadius: [3, 0, 0, 3] },
-        barMaxWidth: 22,
-        label: { show: true, position: "inside", formatter: (p: any) => p.value >= 10 ? `${p.value}%` : "", color: "#0f172a", fontSize: 9, fontWeight: 700 },
+        data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => a.total > 0 ? +((a.bev / a.total) * 100).toFixed(1) : 0),
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.6)"}]) },
+        barMaxWidth: 64,
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
       },
       {
         name: "PHEV", type: "bar", stack: "s",
-        data: mixMarcasData.map((m) => m.phevPct),
-        itemStyle: { color: C.phev, borderRadius: [0, 3, 3, 0] },
-        barMaxWidth: 22,
-        label: { show: true, position: "inside", formatter: (p: any) => p.value >= 10 ? `${p.value}%` : "", color: "#0f172a", fontSize: 9, fontWeight: 700 },
+        data: [...FULL_ANNUAL, ...(IS_LAST_PARTIAL ? [LAST] : [])].map((a) => a.total > 0 ? +((a.phev / a.total) * 100).toFixed(1) : 0),
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.6)"}]), borderRadius: [4,4,0,0] },
+        barMaxWidth: 64,
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
+      },
+    ],
+  };
+
+  // ── Mat vs bajas (portado desde Parque) ──────────────────────────────────
+  const xAxisFormatterParque = (v: string) => {
+    const [y, m] = v.split("-");
+    return m === "01" ? y : (m === "07" ? `Jul ${y.slice(2)}` : "");
+  };
+
+  const mvbFromIdx = PARQUE_PERIODOS.findIndex((p) => p >= "2020-01");
+  const mvbPeriodos = PARQUE_PERIODOS.slice(mvbFromIdx);
+  const mvbMatRaw = filtro === "bev"  ? PARQUE_MAT_BEV
+                  : filtro === "phev" ? PARQUE_MAT_PHEV
+                  : PARQUE_MAT_BEV.map((v, i) => v + PARQUE_MAT_PHEV[i]);
+  const mvbBajRaw = filtro === "bev"  ? PARQUE_BAJA_BEV
+                  : filtro === "phev" ? PARQUE_BAJA_PHEV
+                  : PARQUE_BAJA_BEV.map((v, i) => v + PARQUE_BAJA_PHEV[i]);
+  const mvbMat = mvbMatRaw.slice(mvbFromIdx);
+  const mvbBaj = mvbBajRaw.slice(mvbFromIdx).map((v) => -v);
+  const mvbColor = filtro === "bev" ? C.bev : filtro === "phev" ? C.phev : C.green;
+  const mvbLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "BEV + PHEV";
+  const matVsBajasOpt: Record<string, any> = {
+    backgroundColor: "transparent",
+    grid: { top: 28, right: 24, bottom: 48, left: 64 },
+    tooltip: {
+      ...TT, trigger: "axis",
+      formatter: (params: Record<string, any>[]) => {
+        const first = params[0];
+        const p = first?.axisValue;
+        const i = first?.dataIndex;
+        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p} — ${mvbLabel}</div>` +
+          `<div>Nuevas: <strong style="color:${mvbColor}">${fmtN(mvbMat[i])}</strong></div>` +
+          `<div>Bajas: <strong style="color:${C.red}">${fmtN(Math.abs(mvbBaj[i]))}</strong></div>`;
+      },
+    },
+    legend: {
+      top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 },
+      data: [
+        { name: `Matriculaciones ${mvbLabel}`, icon: "circle", itemStyle: { color: mvbColor } },
+        { name: `Bajas ${mvbLabel}`,           icon: "circle", itemStyle: { color: C.red } },
+      ],
+    },
+    xAxis: {
+      type: "category", data: mvbPeriodos,
+      axisLabel: { color: C.muted, fontSize: 11, formatter: xAxisFormatterParque },
+      axisLine: { lineStyle: { color: C.grid } },
+      splitLine: { show: false },
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => fmtN(Math.abs(v)) },
+      splitLine: { lineStyle: { color: C.grid } },
+    },
+    series: [
+      {
+        name: `Matriculaciones ${mvbLabel}`, type: "bar", data: mvbMat, stack: "t",
+        barMaxWidth: 16,
+        itemStyle: { color: mvbColor, opacity: 0.9, borderRadius: [2, 2, 0, 0] },
       },
       {
-        // Dummy series at stack end — carries total label outside bar
-        type: "bar", stack: "s", silent: true,
-        data: mixMarcasData.map((m) => ({ value: 0, label: { formatter: () => m.total >= 1000 ? `${(m.total / 1000).toFixed(0)}k` : String(m.total) } })),
-        itemStyle: { color: "transparent" },
-        barMaxWidth: 22,
-        label: { show: true, position: "right", color: C.muted, fontSize: 10, fontWeight: 600 },
-        tooltip: { show: false },
+        name: `Bajas ${mvbLabel}`, type: "bar", data: mvbBaj, stack: "t",
+        barMaxWidth: 16,
+        itemStyle: { color: C.red, opacity: 0.8, borderRadius: [0, 0, 2, 2] },
       },
     ],
   };
@@ -1344,7 +1334,7 @@ export function Dashboard() {
           </Card>
         </div>
 
-        {/* ── Mix tecnológico + Mix por marca ──────────────────────────────── */}
+        {/* ── Mix tecnológico + Matriculaciones vs bajas ──────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
           <Card>
             <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
@@ -1354,7 +1344,8 @@ export function Dashboard() {
             {(() => {
               const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
               const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
-              const pct     = Math.round(Math.abs(totPhev - totBev) / Math.min(totPhev, totBev) * 100);
+              const minVal  = Math.min(totPhev, totBev);
+              const pct     = minVal > 0 ? Math.round(Math.abs(totPhev - totBev) / minVal * 100) : 0;
               const [winner, loser, wColor, lColor] = totPhev >= totBev
                 ? ["PHEV", "BEV", C.phev, C.bev] as const
                 : ["BEV", "PHEV", C.bev, C.phev] as const;
@@ -1368,29 +1359,11 @@ export function Dashboard() {
               );
             })()}
           </Card>
-          <Card style={{ minWidth: 0, overflow: "hidden" }}>
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18, gap: 8, flexWrap: "wrap" }}>
-              <SectionTitle sub="% BEV vs PHEV por fabricante · DGT" tooltip="Para cada fabricante, muestra qué proporción de sus ventas enchufables son BEV y cuáles PHEV. Permite ver la apuesta tecnológica de cada marca: las que van a por el eléctrico puro vs las que mantienen el híbrido enchufable como producto principal.">
-                Mix por marca
-              </SectionTitle>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, flexWrap: "wrap" }}>
-                <select
-                  value={marcaMixYear}
-                  onChange={(e) => setMarcaMixYear(e.target.value === "todos" ? "todos" : Number(e.target.value))}
-                  style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, background: "#1e293b", border: `1px solid rgba(255,255,255,0.25)`, color: "#ffffff", cursor: "pointer", outline: "none", colorScheme: "dark" } as React.CSSProperties}
-                >
-                  {mixYearsAvailable.map((y) => (
-                    <option key={y} value={y}>{y === "todos" ? "Todos" : y}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div style={{
-              maxHeight: isMobile ? 5 * 34 + 20 : 7 * 34 + 20,
-              overflowY: "auto",
-            }}>
-              <EChart theme="dark" option={mixMarcasOpt} style={{ height: Math.max(mixMarcasData.length * 34 + 16, 60) }} />
-            </div>
+          <Card>
+            <SectionTitle sub="Serie nacional — sin filtro por tipo ni provincia (no disponible a nivel mensual)" tooltip="Compara mes a mes el alta de matriculaciones (positivo, hacia arriba) con las bajas (negativo, hacia abajo) del parque BEV/PHEV. La diferencia es el saldo neto que alimenta el crecimiento del parque activo.">
+              Matriculaciones vs bajas {mvbLabel} (desde 2020)
+            </SectionTitle>
+            <EChart theme="dark" option={matVsBajasOpt} style={{ height: 260 }} />
           </Card>
         </div>
 

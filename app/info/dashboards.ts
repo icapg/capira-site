@@ -37,6 +37,15 @@ export const DASHBOARDS: Dashboard[] = [
     description: "Flota activa real: matriculaciones menos bajas, desglosada por tipo de vehículo.",
   },
   {
+    slug: "marca-perfil",
+    label: "Marca · Perfil",
+    href: "/info/marca-perfil",
+    tier: "public",
+    ready: true,
+    topNav: true,
+    description: "Perfil tecnológico de cada fabricante: % BEV vs PHEV de sus matriculaciones enchufables.",
+  },
+  {
     slug: "infraestructura",
     label: "Infraestructura",
     href: "/info/infraestructura",

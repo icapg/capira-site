@@ -14,6 +14,7 @@ import {
   dgtParqueEdad,
   dgtParqueMensual,
 } from "../../lib/insights/dgt-parque-data";
+import { EChart } from "../../components/ui/EChart";
 import spainGeoJson from "../../../data/spain-provinces.json";
 
 // Registro del mapa (una sola vez a nivel módulo — antes de que cualquier chart lo use)
@@ -92,10 +93,6 @@ function filtroToParqueTipos(filtros: TipoVehiculo[]): string[] {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const PERIODOS  = dgtParqueMensual.map((m) => m.periodo);
-const MAT_BEV   = dgtParqueMensual.map((m) => m.matriculaciones_mes.BEV  ?? 0);
-const BAJA_BEV  = dgtParqueMensual.map((m) => m.bajas_mes.BEV            ?? 0);
-const MAT_PHEV  = dgtParqueMensual.map((m) => m.matriculaciones_mes.PHEV ?? 0);
-const BAJA_PHEV = dgtParqueMensual.map((m) => m.bajas_mes.PHEV           ?? 0);
 
 const IDX_PRIMER_REAL = dgtParqueMensual.findIndex((m) => m.fuente === "real");
 const PERIODO_PRIMER_REAL = IDX_PRIMER_REAL >= 0 ? dgtParqueMensual[IDX_PRIMER_REAL].periodo : null;
@@ -527,131 +524,6 @@ function ChartParqueEvolucion({
     };
   }, [parBev, parPhev, parNoEnch, tec]);
   return <div ref={ref} style={{ width: "100%", height: 400 }} />;
-}
-
-function ChartSaldoNeto({ netBev, netPhev, tec }: { netBev: number[]; netPhev: number[]; tec: TecFiltro }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const from = PERIODOS.findIndex((p) => p >= "2019-01");
-  const periodos  = PERIODOS.slice(from);
-  const slicedBev  = netBev.slice(from);
-  const slicedPhev = netPhev.slice(from);
-
-  useChart(ref, () => {
-    const series: Record<string, unknown>[] = [];
-    const legendData: Record<string, unknown>[] = [];
-    if (tec !== "phev") {
-      series.push({
-        name: "BEV neto", type: "bar", data: slicedBev, barMaxWidth: 10,
-        itemStyle: { color: (p: { value: number }) => p.value >= 0 ? C.bev : C.red, borderRadius: 2 },
-      });
-      legendData.push({ name: "BEV neto", icon: "circle", itemStyle: { color: C.bev } });
-    }
-    if (tec !== "bev") {
-      series.push({
-        name: "PHEV neto", type: "bar", data: slicedPhev, barMaxWidth: 10,
-        itemStyle: { color: (p: { value: number }) => p.value >= 0 ? C.phev : C.red, borderRadius: 2 },
-      });
-      legendData.push({ name: "PHEV neto", icon: "circle", itemStyle: { color: C.phev } });
-    }
-
-    return {
-      backgroundColor: "transparent",
-      grid: { top: 28, right: 24, bottom: 48, left: 64 },
-      tooltip: { ...TT, trigger: "axis",
-        formatter: (params: Record<string, unknown>[]) => {
-          const p = (params[0] as { axisValue: string }).axisValue;
-          return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p}</div>` +
-            (params as { value: number; seriesName: string; color: string }[]).map((s) =>
-              `<div style="display:flex;gap:12px;justify-content:space-between">` +
-              `<span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${s.color};margin-right:5px"></span>${s.seriesName}</span>` +
-              `<span style="font-weight:600;color:${s.value >= 0 ? C.green : C.red}">${s.value >= 0 ? "+" : ""}${fmtN(s.value)}</span></div>`
-            ).join("");
-        }
-      },
-      legend: { top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 }, data: legendData },
-      xAxis: { type: "category", data: periodos,
-        axisLabel: { color: C.muted, fontSize: 11,
-          formatter: (v: string) => {
-            const [y, m] = v.split("-");
-            return m === "01" ? y : (m === "07" ? `Jul ${y.slice(2)}` : "");
-          }
-        },
-        axisLine: { lineStyle: { color: C.grid } },
-        splitLine: { show: false },
-      },
-      yAxis: { type: "value",
-        axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => fmtN(v) },
-        splitLine: { lineStyle: { color: C.grid } },
-      },
-      series,
-    };
-  }, [netBev, netPhev, tec]);
-  return <div ref={ref} style={{ width: "100%", height: 280 }} />;
-}
-
-function ChartMatVsBajas({ tec }: { tec: TecFiltro }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const from = PERIODOS.findIndex((p) => p >= "2020-01");
-  const periodos = PERIODOS.slice(from);
-  const matRaw = tec === "bev"  ? MAT_BEV
-               : tec === "phev" ? MAT_PHEV
-               : MAT_BEV.map((v, i) => v + MAT_PHEV[i]);
-  const bajRaw = tec === "bev"  ? BAJA_BEV
-               : tec === "phev" ? BAJA_PHEV
-               : BAJA_BEV.map((v, i) => v + BAJA_PHEV[i]);
-  const mat = matRaw.slice(from);
-  const baj = bajRaw.slice(from).map((v) => -v);
-  const serieColor = tec === "bev" ? C.bev : tec === "phev" ? C.phev : C.green;
-  const seriesLabel = tec === "bev" ? "BEV" : tec === "phev" ? "PHEV" : "BEV + PHEV";
-
-  useChart(ref, () => ({
-    backgroundColor: "transparent",
-    grid: { top: 28, right: 24, bottom: 48, left: 64 },
-    tooltip: { ...TT, trigger: "axis",
-      formatter: (params: Record<string, unknown>[]) => {
-        const first = params[0] as { axisValue: string; dataIndex: number };
-        const p = first.axisValue;
-        const i = first.dataIndex;
-        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p} — ${seriesLabel}</div>` +
-          `<div>Nuevas: <strong style="color:${serieColor}">${fmtN(mat[i])}</strong></div>` +
-          `<div>Bajas: <strong style="color:${C.red}">${fmtN(Math.abs(baj[i]))}</strong></div>`;
-      }
-    },
-    legend: {
-      top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 },
-      data: [
-        { name: `Matriculaciones ${seriesLabel}`, icon: "circle", itemStyle: { color: serieColor } },
-        { name: `Bajas ${seriesLabel}`,           icon: "circle", itemStyle: { color: C.red } },
-      ],
-    },
-    xAxis: { type: "category", data: periodos,
-      axisLabel: { color: C.muted, fontSize: 11,
-        formatter: (v: string) => {
-          const [y, m] = v.split("-");
-          return m === "01" ? y : (m === "07" ? `Jul ${y.slice(2)}` : "");
-        }
-      },
-      axisLine: { lineStyle: { color: C.grid } },
-      splitLine: { show: false },
-    },
-    yAxis: { type: "value",
-      axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => fmtN(Math.abs(v)) },
-      splitLine: { lineStyle: { color: C.grid } },
-    },
-    series: [
-      {
-        name: `Matriculaciones ${seriesLabel}`, type: "bar", data: mat, stack: "t",
-        barMaxWidth: 16,
-        itemStyle: { color: serieColor, opacity: 0.9, borderRadius: [2, 2, 0, 0] },
-      },
-      {
-        name: `Bajas ${seriesLabel}`, type: "bar", data: baj, stack: "t",
-        barMaxWidth: 16,
-        itemStyle: { color: C.red, opacity: 0.8, borderRadius: [0, 0, 2, 2] },
-      },
-    ],
-  }), [tec]);
-  return <div ref={ref} style={{ width: "100%", height: 260 }} />;
 }
 
 function ChartPorTipo({ entries, tec }: { entries: { tipo: string; BEV: number; PHEV: number }[]; tec: TecFiltro }) {
@@ -1322,8 +1194,34 @@ export function Dashboard() {
     };
   }, [tiposVehiculo]);
 
-  const netBev  = useMemo(() => parBev.map((v, i)  => i === 0 ? v : v - parBev[i-1]),  [parBev]);
-  const netPhev = useMemo(() => parPhev.map((v, i) => i === 0 ? v : v - parPhev[i-1]), [parPhev]);
+  // Distintivo filtrado por provincia × tipos × tec — último mes real
+  const distintivoFiltrado = useMemo((): Record<string, number> | null => {
+    const last = dgtParqueMensual[dgtParqueMensual.length - 1];
+    const breakdown = (last as unknown as { parque_distintivo_breakdown?: Record<string, Record<string, Record<string, { BEV?: number; PHEV?: number; NO_EV?: number }>>> }).parque_distintivo_breakdown;
+    if (!breakdown) return last?.parque_distintivo ?? null;
+    const tiposParque = Array.from(new Set(tiposVehiculo.flatMap((t) => FILTRO_TO_PARQUE_TIPOS[t])));
+    const wantProv = provincia === "todas" ? null : provIne(provincia);
+    const catsToInclude: ("BEV" | "PHEV" | "NO_EV")[] =
+      filtro === "bev"  ? ["BEV"]
+      : filtro === "phev" ? ["PHEV"]
+      :                     ["BEV", "PHEV", "NO_EV"];
+    const acc: Record<string, number> = {};
+    for (const prov of Object.keys(breakdown)) {
+      if (wantProv && prov !== wantProv) continue;
+      const byTipo = breakdown[prov];
+      for (const tg of tiposParque) {
+        const byDist = byTipo[tg];
+        if (!byDist) continue;
+        for (const dist of Object.keys(byDist)) {
+          const cats = byDist[dist];
+          let sum = 0;
+          for (const cat of catsToInclude) sum += cats[cat] ?? 0;
+          if (sum > 0) acc[dist] = (acc[dist] ?? 0) + sum;
+        }
+      }
+    }
+    return acc;
+  }, [tiposVehiculo, provincia, filtro]);
 
   // ── Entradas para ChartPorTipo — último mes real, respeta filtros ──────
   const tipoEntries = useMemo(() => {
@@ -1488,6 +1386,74 @@ export function Dashboard() {
     dgtParqueMensual.map((m) => (m.parque_acumulado.BEV ?? 0) + (m.parque_acumulado.PHEV ?? 0)),
   []);
 
+  // ── Mix tecnológico — calculado desde el PARQUE ACTIVO (snapshot anual) ──
+  // Toma el último mes disponible de cada año (ej. dic) y deriva % BEV / (BEV+PHEV)
+  // sobre el stock acumulado del parque, respetando filtros tipo/provincia.
+  const mixParqueAnual = useMemo(() => {
+    const lastIdxByYear = new Map<string, number>();
+    PERIODOS.forEach((p, i) => {
+      const año = p.slice(0, 4);
+      lastIdxByYear.set(año, i);
+    });
+    const ultimoPeriodo = PERIODOS[PERIODOS.length - 1] ?? "";
+    const añoUltimo = ultimoPeriodo.slice(0, 4);
+    const mesUltimo = ultimoPeriodo.slice(5, 7);
+    return Array.from(lastIdxByYear.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([año, idx]) => {
+        const bev  = parBev[idx]  ?? 0;
+        const phev = parPhev[idx] ?? 0;
+        const total = bev + phev;
+        const parcial = año === añoUltimo && mesUltimo !== "12";
+        return {
+          año, bev, phev, total, parcial,
+          bevPct:  total > 0 ? +((bev  / total) * 100).toFixed(1) : 0,
+          phevPct: total > 0 ? +((phev / total) * 100).toFixed(1) : 0,
+        };
+      });
+  }, [parBev, parPhev]);
+
+  const mixOpt: Record<string, any> = {
+    backgroundColor: "transparent",
+    tooltip: {
+      ...TT, trigger: "axis",
+      formatter: (params: Record<string, any>[]) => {
+        const seriesColor = (name: string) => name === "BEV" ? C.bev : C.phev;
+        return `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
+          params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${p.value.toFixed(1)}%</b>`).join("<br/>");
+      },
+    },
+    grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 36 : 52 },
+    xAxis: {
+      type: "category",
+      data: mixParqueAnual.map((a) => a.parcial ? `${a.año} YTD` : a.año),
+      axisLine: { lineStyle: { color: C.grid } },
+      axisLabel: { color: C.muted, fontSize: 12 },
+      axisTick: { show: false },
+    },
+    yAxis: {
+      type: "value", max: 100,
+      splitLine: { lineStyle: { color: C.grid, type: "dashed" } },
+      axisLabel: { color: C.muted, fontSize: 10, formatter: (v: number) => `${v}%` },
+    },
+    series: [
+      {
+        name: "BEV", type: "bar", stack: "s",
+        data: mixParqueAnual.map((a) => a.bevPct),
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.6)"}]) },
+        barMaxWidth: 64,
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
+      },
+      {
+        name: "PHEV", type: "bar", stack: "s",
+        data: mixParqueAnual.map((a) => a.phevPct),
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.6)"}]), borderRadius: [4,4,0,0] },
+        barMaxWidth: 64,
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
+      },
+    ],
+  };
+
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,sans-serif" }}>
 
@@ -1577,7 +1543,7 @@ export function Dashboard() {
                   ? <><span style={{ color: C.bev }}>BEV</span> / Parque total</>
                   : filtro === "phev"
                   ? <><span style={{ color: C.phev }}>PHEV</span> / Parque total</>
-                  : <><span style={{ color: C.bev }}>BEV</span> + <span style={{ color: C.phev }}>PHEV</span> / Parque total</>}
+                  : <>(<span style={{ color: C.bev }}>BEV</span> + <span style={{ color: C.phev }}>PHEV</span>) / Parque total</>}
                 value={`${pctEV.toFixed(2)}%`}
                 color={C.green}
                 yoyPct={yoyPctEV}
@@ -1649,7 +1615,7 @@ export function Dashboard() {
                 fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH,
                 borderRadius: 5, padding: "2px 8px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase",
               }}>
-                Exagerado
+                Amplificado
               </span>
             </div>
             <div style={sDesc}>
@@ -1664,36 +1630,41 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* 2-col row: saldo neto + mat vs bajas */}
+        {/* 2-col row: mix tecnológico + mix por marca (intercambiados con Matriculaciones) */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
           <div style={sec}>
-            <div style={sTitle}>Saldo neto mensual {filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "BEV + PHEV"}</div>
-            <div style={sDesc}>Variación mensual del parque filtrado. Verde = creció, rojo = se redujo</div>
-            <ChartSaldoNeto netBev={netBev} netPhev={netPhev} tec={filtro} />
+            <div style={sTitle}>Mix tecnológico — ¿quién gana terreno?</div>
+            <div style={sDesc}>Evolución del mix BEV vs PHEV como % del parque activo enchufable (snapshot al cierre de cada año)</div>
+            <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
           </div>
           <div style={sec}>
-            <div style={sTitle}>Matriculaciones vs bajas {filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "BEV + PHEV"} (desde 2020)</div>
-            <div style={sDesc}>Serie nacional — sin filtro por tipo ni provincia (no disponible a nivel mensual)</div>
-            <ChartMatVsBajas tec={filtro} />
+            <div style={sTitle}>Saldo neto del último mes por tipo</div>
+            <div style={sDesc}>
+              Variación <strong style={{ color: C.text }}>{lastMes.periodo}</strong> vs mes anterior, desagregada por tipo de vehículo.
+              {provincia !== "todas" ? ` · ${provinciaLabel}` : ""}
+            </div>
+            {saldoNetoPorTipo.length > 0
+              ? <ChartSaldoNetoPorTipo entries={saldoNetoPorTipo} tec={filtro} />
+              : <div style={{ padding: "24px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin variación en la combinación seleccionada</div>
+            }
           </div>
         </div>
 
         {/* Distintivo ambiental + Pirámide de edad */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
           <div style={sec}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16 }}>
-              <div style={{ ...sTitle, marginBottom: 0 }}>Distintivo ambiental DGT</div>
-              <span style={{ fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH, borderRadius: 5, padding: "2px 8px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                Solo nacional
-              </span>
-            </div>
+            <div style={sTitle}>Distintivo ambiental DGT</div>
             <div style={sDesc}>
-              Distribución del parque por etiqueta · snapshot {lastMes.periodo}.
-              Dato agregado a nivel país — <strong style={{ color: C.text }}>no responde a filtros de tipo ni provincia</strong>.
+              Distribución por etiqueta · snapshot {lastMes.periodo}
+              {provincia !== "todas" ? ` · ${provinciaLabel}` : ""}
+              {filtro !== "ambos"
+                ? <> · solo <span style={{ color: filtro === "bev" ? C.bev : C.phev }}>{filtro === "bev" ? "BEV" : "PHEV"}</span></>
+                : null}
+              .
             </div>
-            {lastMes.parque_distintivo
-              ? <ChartDistintivo data={lastMes.parque_distintivo} />
-              : <div style={{ padding: "40px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin datos de distintivo para este snapshot</div>
+            {distintivoFiltrado && Object.keys(distintivoFiltrado).length > 0
+              ? <ChartDistintivo data={distintivoFiltrado} />
+              : <div style={{ padding: "40px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin datos de distintivo para esta combinación</div>
             }
           </div>
           <div style={sec}>
@@ -1704,19 +1675,6 @@ export function Dashboard() {
               : <div style={{ padding: "40px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin datos de edad — regenerar JSON</div>
             }
           </div>
-        </div>
-
-        {/* Saldo neto por tipo (último mes) */}
-        <div style={{ ...sec, marginBottom: 20 }}>
-          <div style={sTitle}>Saldo neto del último mes por tipo</div>
-          <div style={sDesc}>
-            Variación <strong style={{ color: C.text }}>{lastMes.periodo}</strong> vs mes anterior, desagregada por tipo de vehículo.
-            {provincia !== "todas" ? ` · ${provinciaLabel}` : ""}
-          </div>
-          {saldoNetoPorTipo.length > 0
-            ? <ChartSaldoNetoPorTipo entries={saldoNetoPorTipo} tec={filtro} />
-            : <div style={{ padding: "24px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin variación en la combinación seleccionada</div>
-          }
         </div>
 
         {/* Proyección PNIEC 5M */}
