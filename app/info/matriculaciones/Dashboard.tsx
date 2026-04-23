@@ -1078,15 +1078,20 @@ export function Dashboard() {
             sub="tasa anual compuesta"
             tooltip={`Tasa de Crecimiento Anual Compuesta (CAGR): a qué ritmo anual creció el mercado de forma sostenida entre ${FIRST.año} y ${LAST_FULL.año}. Elimina la volatilidad año a año. (Según filtros seleccionados)`}
           />
-          {/* Box 5: récord mensual */}
-          <KPI
-            label="Récord Mensual"
-            sublabel={`${MESES_FULL[peakMonth_filtered.mes] ?? peakMonth_filtered.mes} ${peakMonth_filtered.año}`}
-            sublabelColor={C.text}
-            value={fmtN(filtro === "bev" ? peakMonth_filtered.bev : filtro === "phev" ? peakMonth_filtered.phev : peakMonth_filtered.bev + peakMonth_filtered.phev)}
-            color={filtroColor} icon="🏆"
-            tooltip={`El mes con más matrículas registradas en toda la serie histórica. Suelen concentrarse en diciembre por efecto de fin de año y cierres de cuota. (Según filtros seleccionados)`}
-          />
+          {/* Box 5: récord mensual — en mobile ocupa las 2 columnas (5º box impar) */}
+          <div style={isMobile
+            ? { gridColumn: "span 2", display: "flex", minWidth: 0 }
+            : { display: "contents" }
+          }>
+            <KPI
+              label="Récord Mensual"
+              sublabel={`${MESES_FULL[peakMonth_filtered.mes] ?? peakMonth_filtered.mes} ${peakMonth_filtered.año}`}
+              sublabelColor={C.text}
+              value={fmtN(filtro === "bev" ? peakMonth_filtered.bev : filtro === "phev" ? peakMonth_filtered.phev : peakMonth_filtered.bev + peakMonth_filtered.phev)}
+              color={filtroColor} icon="🏆"
+              tooltip={`El mes con más matrículas registradas en toda la serie histórica. Suelen concentrarse en diciembre por efecto de fin de año y cierres de cuota. (Según filtros seleccionados)`}
+            />
+          </div>
         </div>
 
         {/* ── Auto-insights ─────────────────────────────────────────────────── */}

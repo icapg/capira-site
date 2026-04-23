@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Dashboard } from "./Dashboard";
 
 export const metadata: Metadata = {
-  title: "Marca — Perfil tecnológico (BEV vs PHEV) | Capira",
+  title: "Marca · Perfil completo en España | Capira",
   description:
-    "Mix tecnológico por fabricante: % BEV vs PHEV de cada marca en España. Fuente: DGT.",
+    "Perfil de cada marca de vehículos en España: parque activo, matriculaciones, mix tecnológico, geografía, sociología del cliente y envejecimiento. Datos DGT.",
   alternates: { canonical: "/info/marca-perfil" },
 };
 

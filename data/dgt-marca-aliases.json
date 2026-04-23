@@ -1,0 +1,25 @@
+{
+  "_comment": "Map de marca DGT original (upper) → marca canónica. Consumido por app/lib/insights/marcas-data.ts y scripts/dgt-marca-perfil-build.mjs. Agregar aquí aliases obvios para evitar fragmentación del dashboard Marca-Perfil.",
+  "aliases": {
+    "MERCEDES BENZ": "MERCEDES-BENZ",
+    "MERCEDES": "MERCEDES-BENZ",
+    "MB": "MERCEDES-BENZ",
+    "S.Y.M": "SYM",
+    "KÖGEL": "KOGEL",
+    "LECIÑENA": "LECINENA",
+    "CITROËN": "CITROEN",
+    "ŠKODA": "SKODA",
+    "MASSEY FERGUSON": "MASSEY-FERGUSON",
+    "HARLEY DAVIDSON": "HARLEY-DAVIDSON",
+    "ROLLS ROYCE": "ROLLS-ROYCE",
+    "GAS GAS": "GAS-GAS",
+    "ROS ROCA": "ROS-ROCA",
+    "F. X. MEILLER": "F.X.MEILLER",
+    "J-H-N": "J.H.N.",
+    "MG ROEWE": "MG,ROEWE",
+    "VOLKSWAGEN VW": "VOLKSWAGEN, VW",
+    "WAYSCRAL.": "WAYSCRAL",
+    "FORD CNG TECHNIK": "FORD-CNG-TECHNIK"
+  },
+  "excluir": ["SIN MARCA", "SIN NIF", "", "¡"]
+}

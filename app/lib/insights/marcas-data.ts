@@ -1,3 +1,28 @@
+import aliasesJson from "../../../data/dgt-marca-aliases.json";
+
+/**
+ * Normalización de marcas — misma lógica que consume scripts/dgt-marca-perfil-build.mjs.
+ * Fuente de aliases: data/dgt-marca-aliases.json.
+ */
+const MARCAS_ALIASES: Record<string, string> = aliasesJson.aliases as Record<string, string>;
+const MARCAS_EXCLUIR = new Set<string>((aliasesJson.excluir as string[]).map((s) => s.toUpperCase()));
+
+export function normalizarMarca(raw: string | null | undefined): string {
+  if (!raw) return "";
+  const upper = raw.trim().toUpperCase();
+  if (MARCAS_EXCLUIR.has(upper)) return "";
+  return MARCAS_ALIASES[upper] ?? upper;
+}
+
+export function slugMarca(marca: string): string {
+  return marca
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 // Top modelos EV en España — Fuente: AEDIVE 2025
 export type ModeloData = {
   modelo: string;

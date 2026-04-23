@@ -522,8 +522,10 @@ function ChartParqueEvolucion({
       },
       xAxis: { type: "category", data: periods,
         axisLabel: { color: C.muted, fontSize: 11,
+          // Mobile: solo año en cada enero. Desktop: año + Jun XX como ancla.
           formatter: (v: string) => {
             const [y, m] = v.split("-");
+            if (isMobile) return m === "01" ? y : "";
             return m === "01" ? y : (m === "06" ? `Jun ${y}` : "");
           }
         },
