@@ -9,15 +9,17 @@ import { ChartMixAnual } from "./adn/ChartMixAnual";
 import { ChartRadar } from "./adn/ChartRadar";
 import type { MarcaPerfil } from "../types";
 
-type Props = { perfil: MarcaPerfil };
+type Props = { perfil: MarcaPerfil; perfilB?: MarcaPerfil };
 
 /**
  * Sección "ADN de la marca" — qué vende, mix, posicionamiento vs mercado.
  * Layout:
  *   - Desktop: treemap a la izquierda (2x alto) + columna derecha con donut + mix anual + radar.
  *   - Mobile:  1 columna, orden natural.
+ * En modo comparación (perfilB) solo el radar superpone B. Los demás charts
+ * son difíciles de comparar visualmente — el user puede alternar A/B en el selector.
  */
-export function AdnMarca({ perfil }: Props) {
+export function AdnMarca({ perfil, perfilB }: Props) {
   const isMobile = useIsMobile();
 
   const hayModelosParque = perfil.top_modelos_parque.length > 0;
@@ -74,10 +76,10 @@ export function AdnMarca({ perfil }: Props) {
           </Card>
 
           <Card style={{ minWidth: 0 }}>
-            <SectionTitle sub="Turismos nuevos · últimos 24 meses">
+            <SectionTitle sub={perfilB ? `${perfil.marca} vs ${perfilB.marca} vs mercado · turismos 24m` : "Turismos nuevos · últimos 24 meses"}>
               Posicionamiento vs mercado
             </SectionTitle>
-            <ChartRadar perfil={perfil} height={280} />
+            <ChartRadar perfil={perfil} perfilB={perfilB} height={280} />
           </Card>
         </div>
       </div>

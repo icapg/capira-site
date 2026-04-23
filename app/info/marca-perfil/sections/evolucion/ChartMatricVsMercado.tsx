@@ -6,6 +6,7 @@ import type { MarcaPerfil, MercadoAgregados } from "../../types";
 
 type Props = {
   perfil: MarcaPerfil;
+  perfilB?: MarcaPerfil;
   mercado: MercadoAgregados;
   height?: number;
 };
@@ -22,16 +23,21 @@ function fmtPeriodo(p: string): string {
  * Una tercera serie (oculta por defecto) muestra la cuota de mercado %
  * de la marca mes a mes — cruza los otros dos ejes vía rescale.
  */
-export function ChartMatricVsMercado({ perfil, mercado, height = 280 }: Props) {
+export function ChartMatricVsMercado({ perfil, perfilB, mercado, height = 280 }: Props) {
   const option = useMemo(() => {
     const periodos = mercado.serie_mensual.map((m) => m.periodo);
     const byPerfil = new Map(perfil.serie_mensual.map((m) => [m.periodo, m]));
+    const byPerfilB = perfilB ? new Map(perfilB.serie_mensual.map((m) => [m.periodo, m])) : null;
 
     const marcaTotal = periodos.map((p) => {
       const d = byPerfil.get(p);
       if (!d) return 0;
       return d.bev + d.phev + d.hev + d.otro;
     });
+    const marcaBTotal = byPerfilB ? periodos.map((p) => {
+      const d = byPerfilB.get(p);
+      return d ? d.bev + d.phev + d.hev + d.otro : 0;
+    }) : null;
     const mercadoTotal = mercado.serie_mensual.map((m) => m.bev + m.phev + m.hev + m.otro);
     const cuotaPct = periodos.map((_, i) => mercadoTotal[i] > 0 ? +((marcaTotal[i] / mercadoTotal[i]) * 100).toFixed(3) : 0);
 
@@ -51,9 +57,13 @@ export function ChartMatricVsMercado({ perfil, mercado, height = 280 }: Props) {
         },
       },
       legend: {
-        data: [perfil.marca, "Mercado total", "Cuota %"],
+        data: perfilB
+          ? [perfil.marca, perfilB.marca, "Mercado total", "Cuota %"]
+          : [perfil.marca, "Mercado total", "Cuota %"],
         top: 0,
-        selected: { [perfil.marca]: true, "Mercado total": true, "Cuota %": false },
+        selected: perfilB
+          ? { [perfil.marca]: true, [perfilB.marca]: true, "Mercado total": true, "Cuota %": false }
+          : { [perfil.marca]: true, "Mercado total": true, "Cuota %": false },
         textStyle: { color: "rgba(241,245,249,0.7)", fontSize: 11 },
         itemWidth: 10, itemHeight: 10, itemGap: 14,
       },
@@ -102,6 +112,17 @@ export function ChartMatricVsMercado({ perfil, mercado, height = 280 }: Props) {
           itemStyle: { color: "#38bdf8" },
           areaStyle: { color: "rgba(56,189,248,0.12)" },
         },
+        ...(perfilB && marcaBTotal ? [{
+          name: perfilB.marca,
+          type: "line" as const,
+          yAxisIndex: 0,
+          data: marcaBTotal,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { color: "#fb923c", width: 2 },
+          itemStyle: { color: "#fb923c" },
+          areaStyle: { color: "rgba(251,146,60,0.12)" },
+        }] : []),
         {
           name: "Mercado total",
           type: "line",
@@ -124,7 +145,7 @@ export function ChartMatricVsMercado({ perfil, mercado, height = 280 }: Props) {
         },
       ],
     };
-  }, [perfil, mercado]);
+  }, [perfil, perfilB, mercado]);
 
   return <EChart option={option} style={{ height }} />;
 }

@@ -6,11 +6,11 @@ import type { MarcaDistintivoAmbiental } from "../../types";
 
 // Paleta oficial DGT de las etiquetas.
 const COLORS: Record<keyof MarcaDistintivoAmbiental, string> = {
-  CERO: "#3b82f6",  // azul — 0 emisiones
-  ECO:  "#10b981",  // verde — híbridos / GLP / GNC
-  C:    "#eab308",  // amarillo — gasolina post-2006 o diésel post-2014
-  B:    "#f59e0b",  // amarillo oscuro — gasolina 2000-2006 o diésel 2006-2014
-  SIN:  "#64748b",  // gris — sin distintivo (pre-2000 diésel o pre-2001 gasolina)
+  CERO: "#3b82f6",
+  ECO:  "#10b981",
+  C:    "#eab308",
+  B:    "#f59e0b",
+  SIN:  "#64748b",
 };
 const ORDER: (keyof MarcaDistintivoAmbiental)[] = ["CERO", "ECO", "C", "B", "SIN"];
 const LABEL: Record<keyof MarcaDistintivoAmbiental, string> = {
@@ -21,36 +21,48 @@ const LABEL: Record<keyof MarcaDistintivoAmbiental, string> = {
   SIN:  "Sin distintivo (pre-2000)",
 };
 
-type Props = { distintivo: MarcaDistintivoAmbiental; height?: number };
+type Props = {
+  distintivo: MarcaDistintivoAmbiental;
+  distintivoB?: MarcaDistintivoAmbiental;
+  etiquetaA?: string;
+  etiquetaB?: string;
+  height?: number;
+};
 
 /**
- * Barra horizontal apilada 100% con el mix de distintivos ambientales
- * DGT del parque activo. Útil para ver restricciones ZBE.
+ * Stacked 100% del mix de distintivos ambientales. En modo comparación
+ * renderiza dos barras (A arriba, B abajo) con la misma paleta DGT.
  */
-export function ChartDistintivo({ distintivo, height = 140 }: Props) {
+export function ChartDistintivo({ distintivo, distintivoB, etiquetaA = "A", etiquetaB = "B", height = 140 }: Props) {
   const option = useMemo(() => {
-    const total = ORDER.reduce((s, k) => s + distintivo[k], 0);
-    if (total === 0) return null;
+    const pctOf = (d: MarcaDistintivoAmbiental, k: keyof MarcaDistintivoAmbiental) => {
+      const total = ORDER.reduce((s, kk) => s + d[kk], 0);
+      return total > 0 ? +((d[k] / total) * 100).toFixed(2) : 0;
+    };
 
-    // Stacked single-bar chart: cada serie es una categoría
-    const series = ORDER.map((k) => {
-      const n = distintivo[k];
-      const pct = total > 0 ? (n / total) * 100 : 0;
-      return {
-        name: LABEL[k],
-        type: "bar",
-        stack: "d",
-        data: [+pct.toFixed(2)],
-        itemStyle: { color: COLORS[k] },
-        label: {
-          show: pct >= 6,
-          formatter: `${pct.toFixed(1)}%`,
-          color: "#0b1020",
-          fontWeight: 800,
-          fontSize: 11,
-        },
-      };
-    });
+    const categories = distintivoB ? [etiquetaB, etiquetaA] : [""];
+    // yAxis es category con el orden A arriba → invertimos el order (top → bottom)
+    const dataA = (k: keyof MarcaDistintivoAmbiental) => pctOf(distintivo,   k);
+    const dataB = (k: keyof MarcaDistintivoAmbiental) => distintivoB ? pctOf(distintivoB, k) : 0;
+
+    const series = ORDER.map((k) => ({
+      name: LABEL[k],
+      type: "bar",
+      stack: "d",
+      data: distintivoB
+        ? [dataB(k), dataA(k)]
+        : [dataA(k)],
+      itemStyle: { color: COLORS[k] },
+      label: {
+        show: true,
+        formatter: (p: { value: number }) => p.value >= 6 ? `${p.value.toFixed(1)}%` : "",
+        color: "#0b1020",
+        fontWeight: 800,
+        fontSize: 11,
+      },
+    }));
+
+    if (ORDER.every((k) => dataA(k) === 0) && (!distintivoB || ORDER.every((k) => dataB(k) === 0))) return null;
 
     return {
       backgroundColor: "transparent",
@@ -59,10 +71,11 @@ export function ChartDistintivo({ distintivo, height = 140 }: Props) {
         backgroundColor: "rgba(5,8,16,0.97)",
         borderColor: "rgba(255,255,255,0.12)",
         textStyle: { color: "#f1f5f9", fontSize: 12 },
-        formatter: (p: { seriesName: string; value: number; color: string }) => {
+        formatter: (p: { seriesName: string; value: number; color: string; name: string }) => {
           const key = ORDER.find((k) => LABEL[k] === p.seriesName);
-          const n = key ? distintivo[key] : 0;
-          return `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${p.seriesName}<br/><b>${n.toLocaleString("es-ES")}</b> · ${p.value.toFixed(1)}%`;
+          const d = p.name === etiquetaB ? distintivoB : distintivo;
+          const n = d && key ? d[key] : 0;
+          return `<b>${p.name || ""}</b><br/><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${p.seriesName}<br/><b>${n.toLocaleString("es-ES")}</b> · ${p.value.toFixed(1)}%`;
         },
       },
       legend: {
@@ -70,12 +83,18 @@ export function ChartDistintivo({ distintivo, height = 140 }: Props) {
         textStyle: { color: "rgba(241,245,249,0.7)", fontSize: 10 },
         itemWidth: 10, itemHeight: 10, itemGap: 10,
       },
-      grid: { left: 4, right: 4, top: 18, bottom: 50, containLabel: false },
+      grid: { left: distintivoB ? 70 : 4, right: 4, top: 12, bottom: 50, containLabel: false },
       xAxis: { type: "value", max: 100, show: false, splitLine: { show: false } },
-      yAxis: { type: "category", data: [""], show: false },
+      yAxis: {
+        type: "category",
+        data: categories,
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { color: "rgba(241,245,249,0.72)", fontSize: 11, fontWeight: 700 },
+      },
       series,
     };
-  }, [distintivo]);
+  }, [distintivo, distintivoB, etiquetaA, etiquetaB]);
 
   if (!option) {
     return (

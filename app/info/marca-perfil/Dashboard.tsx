@@ -36,39 +36,58 @@ const TOC_ITEMS: TocItem[] = [
 const IDX = indexJson as unknown as MarcaIndex;
 const MERCADO = mercadoJson as unknown as MercadoAgregados;
 
-function defaultSlugFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
+function slugsFromUrl(): { m: string | null; vs: string | null } {
+  if (typeof window === "undefined") return { m: null, vs: null };
   const params = new URLSearchParams(window.location.search);
-  return params.get("m");
+  return { m: params.get("m"), vs: params.get("vs") };
+}
+
+function pushUrl(m: string | null, vs: string | null) {
+  const url = new URL(window.location.href);
+  if (m) url.searchParams.set("m", m); else url.searchParams.delete("m");
+  if (vs) url.searchParams.set("vs", vs); else url.searchParams.delete("vs");
+  window.history.pushState({}, "", url);
 }
 
 export function Dashboard() {
   const { countryName } = useInsights();
   const isMobile = useIsMobile();
 
-  // SSR-safe: en cliente arranca desde URL, en servidor queda null y se re-hidrata.
-  const [slug, setSlug] = useState<string | null>(defaultSlugFromUrl);
+  const [slug, setSlug]     = useState<string | null>(() => slugsFromUrl().m);
+  const [slugB, setSlugB]   = useState<string | null>(() => slugsFromUrl().vs);
 
   useEffect(() => {
-    const onPop = () => setSlug(defaultSlugFromUrl());
+    const onPop = () => {
+      const s = slugsFromUrl();
+      setSlug(s.m);
+      setSlugB(s.vs);
+    };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  const onSelect = (s: string) => {
+  const selectA = (s: string) => {
+    // Si elegís A igual a B, limpio B (no compara consigo mismo)
+    const nextB = s === slugB ? null : slugB;
     setSlug(s);
-    const url = new URL(window.location.href);
-    url.searchParams.set("m", s);
-    window.history.pushState({}, "", url);
+    setSlugB(nextB);
+    pushUrl(s, nextB);
+  };
+  const selectB = (s: string | null) => {
+    const nextB = s === slug ? null : s;
+    setSlugB(nextB);
+    pushUrl(slug, nextB);
   };
 
-  const { data: perfil, loading, error } = useMarcaData(slug);
+  const { data: perfil,  loading: lA, error: errA } = useMarcaData(slug);
+  const { data: perfilB, loading: lB, error: errB } = useMarcaData(slugB);
 
   const marcasIndex = useMemo(() => IDX.marcas, []);
 
+  const comparando = !!perfilB;
+
   return (
     <div style={{ background: C.bg, minHeight: "100vh", color: C.text, fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
-      {/* Header con título + selector sticky */}
       <div
         style={{
           position: "sticky",
@@ -92,7 +111,13 @@ export function Dashboard() {
         >
           <div style={{ flex: 1, minWidth: 0 }}>
             <h1 style={{ fontSize: isMobile ? 16 : 20, fontWeight: 700, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
-              {perfil ? `${perfil.marca}` : "Marca · Perfil"}
+              {perfil ? perfil.marca : "Marca · Perfil"}
+              {perfilB && (
+                <>
+                  <span style={{ color: C.muted, fontWeight: 500, margin: "0 6px" }}>vs</span>
+                  <span style={{ color: "#fb923c" }}>{perfilB.marca}</span>
+                </>
+              )}
               <span style={{ color: C.muted, fontWeight: 500, marginLeft: 8, fontSize: isMobile ? 11 : 13 }}>
                 · {countryName}
               </span>
@@ -101,7 +126,55 @@ export function Dashboard() {
               {perfil ? `${IDX.meta.total_marcas_visibles} marcas · datos a ${perfil.ultimo_periodo}` : `${IDX.meta.total_marcas_visibles} marcas disponibles`}
             </p>
           </div>
-          <MarcaSelector marcas={marcasIndex} slugActivo={slug} onSelect={onSelect} />
+
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: isMobile ? "stretch" : "flex-end" }}>
+            <MarcaSelector marcas={marcasIndex} slugActivo={slug} onSelect={selectA} />
+            {slug && (
+              comparando ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, maxWidth: isMobile ? "100%" : 360, flex: isMobile ? "1 0 100%" : undefined }}>
+                  <MarcaSelector marcas={marcasIndex} slugActivo={slugB} onSelect={selectB} />
+                  <button
+                    onClick={() => selectB(null)}
+                    aria-label="Quitar comparación"
+                    title="Quitar comparación"
+                    style={{
+                      padding: "6px 10px",
+                      borderRadius: 8,
+                      background: "rgba(251,146,60,0.15)",
+                      border: "1px solid rgba(251,146,60,0.4)",
+                      color: "#fb923c",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    // Abrir el selector B con una marca default distinta (la #2 del ranking)
+                    const defaultB = marcasIndex.find((m) => m.destacada && m.slug !== slug)?.slug ?? null;
+                    if (defaultB) selectB(defaultB);
+                  }}
+                  style={{
+                    padding: "10px 14px",
+                    borderRadius: 10,
+                    background: "rgba(251,146,60,0.08)",
+                    border: "1px dashed rgba(251,146,60,0.4)",
+                    color: "#fb923c",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  + Comparar con…
+                </button>
+              )
+            )}
+          </div>
         </div>
       </div>
 
@@ -116,7 +189,6 @@ export function Dashboard() {
           alignItems: "start",
         }}
       >
-        {/* ToC — desktop sticky lateral, mobile oculto en v1 */}
         {!isMobile && perfil && (
           <div style={{ minWidth: 0 }}>
             <StickyToc items={TOC_ITEMS} />
@@ -124,22 +196,36 @@ export function Dashboard() {
         )}
 
         <div style={{ minWidth: 0 }}>
-          {!slug && <PickerHero marcas={marcasIndex} onSelect={onSelect} />}
+          {!slug && <PickerHero marcas={marcasIndex} onSelect={selectA} />}
 
-          {slug && loading && <LoadingState />}
-          {slug && error && <ErrorState msg={error} />}
+          {slug && lA && <LoadingState />}
+          {slug && errA && <ErrorState msg={errA} />}
 
           {perfil && (
             <>
               {perfil.pocos_datos && (
                 <PocosDatosBanner marca={perfil.marca} totalHist={perfil.total_hist} />
               )}
-              <HeroKpis perfil={perfil} mercado={MERCADO} />
-              <AdnMarca perfil={perfil} />
+              {perfilB?.pocos_datos && (
+                <PocosDatosBanner marca={perfilB.marca} totalHist={perfilB.total_hist} />
+              )}
+              {slugB && lB && (
+                <div style={{ padding: "8px 12px", color: "rgba(251,146,60,0.7)", fontSize: 12, textAlign: "center" }}>
+                  Cargando {slugB}…
+                </div>
+              )}
+              {slugB && errB && (
+                <div style={{ padding: "8px 12px", color: "#f87171", fontSize: 12, textAlign: "center" }}>
+                  Error cargando {slugB}: {errB}
+                </div>
+              )}
+
+              <HeroKpis perfil={perfil} perfilB={perfilB ?? undefined} mercado={MERCADO} />
+              <AdnMarca perfil={perfil} perfilB={perfilB ?? undefined} />
               <Geografia perfil={perfil} />
-              <Evolucion perfil={perfil} mercado={MERCADO} />
+              <Evolucion perfil={perfil} perfilB={perfilB ?? undefined} mercado={MERCADO} />
               <Sociologia perfil={perfil} />
-              <Parque perfil={perfil} />
+              <Parque perfil={perfil} perfilB={perfilB ?? undefined} />
             </>
           )}
         </div>
@@ -167,12 +253,7 @@ function ErrorState({ msg }: { msg: string }) {
 function PickerHero({ marcas, onSelect }: { marcas: MarcaIndex["marcas"]; onSelect: (s: string) => void }) {
   const destacadas = marcas.filter((m) => m.destacada).sort((a, b) => b.parque_activo - a.parque_activo).slice(0, 12);
   return (
-    <div
-      style={{
-        padding: "28px 0 8px",
-        textAlign: "center",
-      }}
-    >
+    <div style={{ padding: "28px 0 8px", textAlign: "center" }}>
       <h2 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 6px" }}>
         Elegí una marca para explorarla
       </h2>

@@ -7,7 +7,7 @@ import { ChartPiramideEdad } from "./parque/ChartPiramideEdad";
 import { ChartDistintivo } from "./parque/ChartDistintivo";
 import type { MarcaPerfil } from "../types";
 
-type Props = { perfil: MarcaPerfil };
+type Props = { perfil: MarcaPerfil; perfilB?: MarcaPerfil };
 
 function fmt(n: number): string {
   return n.toLocaleString("es-ES", { useGrouping: "always" });
@@ -19,7 +19,7 @@ function fmt(n: number): string {
  *   - Mix de distintivos ambientales DGT.
  *   - Mini-KPIs: edad media, ratio de renovación (bajas/matric YTD), % CERO/ECO.
  */
-export function Parque({ perfil }: Props) {
+export function Parque({ perfil, perfilB }: Props) {
   const isMobile = useIsMobile();
   const { stats, distintivo_ambiental } = perfil;
 
@@ -56,7 +56,13 @@ export function Parque({ perfil }: Props) {
             <SectionTitle sub="Distribución por etiqueta DGT · clave para acceso a ZBE">
               Distintivo ambiental
             </SectionTitle>
-            <ChartDistintivo distintivo={distintivo_ambiental} height={140} />
+            <ChartDistintivo
+              distintivo={distintivo_ambiental}
+              distintivoB={perfilB?.distintivo_ambiental}
+              etiquetaA={perfil.marca}
+              etiquetaB={perfilB?.marca}
+              height={perfilB ? 200 : 140}
+            />
           </Card>
 
           <Card style={{ minWidth: 0 }}>

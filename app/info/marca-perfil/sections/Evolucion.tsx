@@ -7,14 +7,16 @@ import { ChartMatricVsMercado } from "./evolucion/ChartMatricVsMercado";
 import { ChartMixMensual } from "./evolucion/ChartMixMensual";
 import type { MarcaPerfil, MercadoAgregados } from "../types";
 
-type Props = { perfil: MarcaPerfil; mercado: MercadoAgregados };
+type Props = { perfil: MarcaPerfil; perfilB?: MarcaPerfil; mercado: MercadoAgregados };
 
 /**
  * Sección "La película" — evolución temporal de la marca.
  * - Matric mensual vs mercado total (dos ejes Y, cuota % opcional).
  * - Mix tecnológico mensual (apilado absoluto o 100%).
+ * En modo comparación agrega serie de B al primer chart. El segundo (mix)
+ * solo muestra A — comparar dos stacked areas es confuso.
  */
-export function Evolucion({ perfil, mercado }: Props) {
+export function Evolucion({ perfil, perfilB, mercado }: Props) {
   const isMobile = useIsMobile();
   const haySerie = perfil.serie_mensual.length > 0;
 
@@ -39,7 +41,7 @@ export function Evolucion({ perfil, mercado }: Props) {
             Tracción vs mercado
           </SectionTitle>
           {haySerie ? (
-            <ChartMatricVsMercado perfil={perfil} mercado={mercado} height={isMobile ? 260 : 320} />
+            <ChartMatricVsMercado perfil={perfil} perfilB={perfilB} mercado={mercado} height={isMobile ? 260 : 320} />
           ) : (
             <EmptyState msg="Sin serie mensual." />
           )}
