@@ -7,6 +7,7 @@ import { MarcaSelector } from "./components/MarcaSelector";
 import { StickyToc, type TocItem } from "./components/StickyToc";
 import { PocosDatosBanner } from "./components/PocosDatosBanner";
 import { HeroKpis } from "./sections/HeroKpis";
+import { AdnMarca } from "./sections/AdnMarca";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
 import type { MarcaIndex } from "./types";
@@ -128,7 +129,7 @@ export function Dashboard() {
                 <PocosDatosBanner marca={perfil.marca} totalHist={perfil.total_hist} />
               )}
               <HeroKpis perfil={perfil} />
-              <Placeholder id="adn"        label="Qué vende (treemap + mix + radar)"    />
+              <AdnMarca perfil={perfil} />
               <Placeholder id="geografia"  label="Dónde manda (mapa provincias + top 10)" />
               <Placeholder id="evolucion"  label="Película (línea vs mercado + área 100%)" />
               <Placeholder id="sociologia" label="Quién compra (F/J + renting + servicio)" />
