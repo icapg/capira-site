@@ -8,6 +8,7 @@ import { StickyToc, type TocItem } from "./components/StickyToc";
 import { PocosDatosBanner } from "./components/PocosDatosBanner";
 import { HeroKpis } from "./sections/HeroKpis";
 import { AdnMarca } from "./sections/AdnMarca";
+import { Geografia } from "./sections/Geografia";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
 import type { MarcaIndex } from "./types";
@@ -130,7 +131,7 @@ export function Dashboard() {
               )}
               <HeroKpis perfil={perfil} />
               <AdnMarca perfil={perfil} />
-              <Placeholder id="geografia"  label="Dónde manda (mapa provincias + top 10)" />
+              <Geografia perfil={perfil} />
               <Placeholder id="evolucion"  label="Película (línea vs mercado + área 100%)" />
               <Placeholder id="sociologia" label="Quién compra (F/J + renting + servicio)" />
               <Placeholder id="parque"     label="Flota activa (pirámide + distintivo)" />
