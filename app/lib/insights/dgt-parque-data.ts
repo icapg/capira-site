@@ -2,7 +2,7 @@
 // Genera: node scripts/dgt-parque-build.mjs
 // Fuente real:      DGT Parque de Vehículos (ZIP microdatos mensual, desde 2025-03)
 // Fuente calculada: MATRABA matriculaciones − bajas (periodos anteriores a 2025-03)
-// Última actualización: 2026-04-22
+// Última actualización: 2026-04-23
 // ⚠️  No editar manualmente
 // ────────────────────────────────────────────────────────────────────────────
 import raw from '../../../data/dgt-parque.json' assert { type: 'json' };
@@ -66,8 +66,14 @@ export type ParqueResumenCat = {
 export type ParqueEdad = {
   periodo:       string;
   por_anio:      Record<string, Record<string, number>>;   // { "2020": { BEV:1234, NO_EV:... }, ... }
+  /** Breakdown por año × tipo_grupo × catelect — permite pirámide filtrada por tipo. */
+  por_anio_por_tipo?: Record<string, Record<string, Record<string, number>>>;
+  /** Breakdown por año × provincia × tipo × catelect — permite pirámide filtrada por provincia (acotado a últimos 35 años). */
+  por_anio_por_prov_tipo?: Record<string, Record<string, Record<string, Record<string, number>>>>;
   promedio:      Record<string, number>;                    // { BEV:3.2, PHEV:4.1, NO_EV:14.1, global:12.8 }
   sums_por_tipo: Record<string, Record<string, { sum_age: number; count: number }>>; // [tipo_grupo][catelect]
+  /** Sumas de edad por provincia × tipo_grupo × catelect — permite antigüedad filtrada por provincia. */
+  sums_por_provincia_tipo?: Record<string, Record<string, Record<string, { sum_age: number; count: number }>>>;
 };
 
 export const dgtParqueMeta             = raw.meta             as typeof raw.meta;

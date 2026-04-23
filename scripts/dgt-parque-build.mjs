@@ -457,6 +457,8 @@ function main() {
   `).all(lastPeriodoKey);
 
   const porAnio = {};
+  // por_anio_por_tipo[anio][tipo_grupo][catelect] — permite filtrar la pirámide por tipo
+  const porAnioPorTipo = {};
   const sumAgeByCat = {};
   const countByCat  = {};
   // sums_por_tipo[tipo_grupo][catelect] = { sum_age, count }
@@ -474,6 +476,9 @@ function main() {
     if (!sumsPorTipo[tg][catelect]) sumsPorTipo[tg][catelect] = { sum_age: 0, count: 0 };
     sumsPorTipo[tg][catelect].sum_age += edad * n;
     sumsPorTipo[tg][catelect].count   += n;
+    if (!porAnioPorTipo[y])     porAnioPorTipo[y]     = {};
+    if (!porAnioPorTipo[y][tg]) porAnioPorTipo[y][tg] = {};
+    porAnioPorTipo[y][tg][catelect] = (porAnioPorTipo[y][tg][catelect] ?? 0) + n;
   }
   const promedio = {};
   for (const cat of Object.keys(countByCat)) {
@@ -483,11 +488,70 @@ function main() {
   const totalCount = Object.values(countByCat).reduce((a, b) => a + b, 0);
   promedio.global = totalCount > 0 ? +(totalAge / totalCount).toFixed(1) : 0;
 
+  // ── Antigüedad agregada por provincia × tipo × cat ─────────────────────
+  // Permite calcular promedio de edad filtrado por provincia (y opcionalmente tipo).
+  // SQLite hace sum(edad)+count directo por grupo — muy eficiente.
+  const edadProvRows = db.prepare(`
+    SELECT provincia,
+           tipo_grupo,
+           catelect,
+           SUM(CAST(? AS INTEGER) - CAST(substr(fec_prim_matr, 7, 4) AS INTEGER)) AS sum_age,
+           COUNT(*) AS count
+    FROM parque
+    WHERE periodo = ?
+      AND fec_prim_matr IS NOT NULL AND fec_prim_matr != ''
+      AND length(fec_prim_matr) >= 10
+      AND provincia IS NOT NULL AND provincia != ''
+      AND CAST(substr(fec_prim_matr, 7, 4) AS INTEGER) BETWEEN 1950 AND ?
+    GROUP BY provincia, tipo_grupo, catelect
+  `).all(hoyYear, lastPeriodoKey, hoyYear + 1);
+
+  const sumsPorProvTipo = {};
+  for (const { provincia, tipo_grupo, catelect, sum_age, count } of edadProvRows) {
+    const prov = provincia;
+    const tg = tipo_grupo ?? 'otros';
+    if (!sumsPorProvTipo[prov])     sumsPorProvTipo[prov]     = {};
+    if (!sumsPorProvTipo[prov][tg]) sumsPorProvTipo[prov][tg] = {};
+    sumsPorProvTipo[prov][tg][catelect] = { sum_age, count };
+  }
+
+  // ── Pirámide de edad por provincia × tipo: por_anio_por_prov_tipo ───────
+  // Permite que la pirámide responda a provincia (combinable con tipo).
+  // Acotamos a años recientes (últimos 35) para mantener tamaño razonable.
+  const cutoffAge = hoyYear - 35;
+  const edadProvAnioRows = db.prepare(`
+    SELECT CAST(substr(fec_prim_matr, 7, 4) AS INTEGER) AS anio,
+           provincia,
+           tipo_grupo,
+           catelect,
+           COUNT(*) AS n
+    FROM parque
+    WHERE periodo = ?
+      AND fec_prim_matr IS NOT NULL AND fec_prim_matr != ''
+      AND length(fec_prim_matr) >= 10
+      AND provincia IS NOT NULL AND provincia != ''
+      AND CAST(substr(fec_prim_matr, 7, 4) AS INTEGER) BETWEEN ? AND ?
+    GROUP BY anio, provincia, tipo_grupo, catelect
+  `).all(lastPeriodoKey, cutoffAge, hoyYear + 1);
+
+  const porAnioPorProvTipo = {};
+  for (const { anio, provincia, tipo_grupo, catelect, n } of edadProvAnioRows) {
+    const y = String(anio);
+    const tg = tipo_grupo ?? 'otros';
+    if (!porAnioPorProvTipo[y])                    porAnioPorProvTipo[y]                    = {};
+    if (!porAnioPorProvTipo[y][provincia])         porAnioPorProvTipo[y][provincia]         = {};
+    if (!porAnioPorProvTipo[y][provincia][tg])     porAnioPorProvTipo[y][provincia][tg]     = {};
+    porAnioPorProvTipo[y][provincia][tg][catelect] = (porAnioPorProvTipo[y][provincia][tg][catelect] ?? 0) + n;
+  }
+
   const edadParque = {
     periodo: lastReal,
     por_anio: porAnio,
+    por_anio_por_tipo: porAnioPorTipo,
+    por_anio_por_prov_tipo: porAnioPorProvTipo,
     promedio,
     sums_por_tipo: sumsPorTipo,
+    sums_por_provincia_tipo: sumsPorProvTipo,
   };
 
   const meta = {
@@ -581,8 +645,14 @@ export type ParqueResumenCat = {
 export type ParqueEdad = {
   periodo:       string;
   por_anio:      Record<string, Record<string, number>>;   // { "2020": { BEV:1234, NO_EV:... }, ... }
+  /** Breakdown por año × tipo_grupo × catelect — permite pirámide filtrada por tipo. */
+  por_anio_por_tipo?: Record<string, Record<string, Record<string, number>>>;
+  /** Breakdown por año × provincia × tipo × catelect — permite pirámide filtrada por provincia (acotado a últimos 35 años). */
+  por_anio_por_prov_tipo?: Record<string, Record<string, Record<string, Record<string, number>>>>;
   promedio:      Record<string, number>;                    // { BEV:3.2, PHEV:4.1, NO_EV:14.1, global:12.8 }
   sums_por_tipo: Record<string, Record<string, { sum_age: number; count: number }>>; // [tipo_grupo][catelect]
+  /** Sumas de edad por provincia × tipo_grupo × catelect — permite antigüedad filtrada por provincia. */
+  sums_por_provincia_tipo?: Record<string, Record<string, Record<string, { sum_age: number; count: number }>>>;
 };
 
 export const dgtParqueMeta             = raw.meta             as typeof raw.meta;

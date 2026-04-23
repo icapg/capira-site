@@ -670,7 +670,7 @@ function ChartDistintivo({ data }: { data: Record<string, number> }) {
 }
 
 // ─── Chart 3 — Pirámide de edad del parque ──────────────────────────────────
-function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEdad>; tec: TecFiltro }) {
+function ChartPiramideEdad({ edad, tec, tipos, provincia }: { edad: NonNullable<typeof dgtParqueEdad>; tec: TecFiltro; tipos: TipoVehiculo[]; provincia: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const winW = useWindowWidth();
   const isMobile = winW < 768;
@@ -679,10 +679,41 @@ function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEd
     if (años.length === 0) return { backgroundColor: "transparent" };
     const cutoff = años[años.length - 1] - 30; // últimos 30 años de antigüedad
     const used  = años.filter((y) => y >= cutoff);
-    const bev   = used.map((y) => edad.por_anio[y]?.BEV ?? 0);
-    const phev  = used.map((y) => edad.por_anio[y]?.PHEV ?? 0);
-    const hev   = used.map((y) => (edad.por_anio[y]?.HEV ?? 0) + (edad.por_anio[y]?.REEV ?? 0) + (edad.por_anio[y]?.FCEV ?? 0));
-    const noev  = used.map((y) => edad.por_anio[y]?.NO_EV ?? 0);
+
+    const byTipo  = (edad as unknown as { por_anio_por_tipo?: Record<string, Record<string, Record<string, number>>> })?.por_anio_por_tipo;
+    const byProv  = (edad as unknown as { por_anio_por_prov_tipo?: Record<string, Record<string, Record<string, Record<string, number>>>> })?.por_anio_por_prov_tipo;
+    const isAllTipos = tipos.length === TIPOS_ORDER.length;
+    const tiposParque = isAllTipos
+      ? FILTRO_TO_PARQUE_TIPOS.todos
+      : Array.from(new Set(tipos.flatMap((t) => FILTRO_TO_PARQUE_TIPOS[t])));
+    const provKey = provincia !== "todas" ? provIne(provincia) : null;
+
+    const sumByCat = (y: number, cat: string): number => {
+      // Provincia concreta: usar por_anio_por_prov_tipo
+      if (provKey && byProv) {
+        const yearRow = byProv[String(y)];
+        const provRow = yearRow?.[provKey];
+        if (!provRow) return 0;
+        let s = 0;
+        for (const tg of tiposParque) s += provRow[tg]?.[cat] ?? 0;
+        return s;
+      }
+      // Nacional + filtro de tipo: usar por_anio_por_tipo
+      if (byTipo && !isAllTipos) {
+        const yearRow = byTipo[String(y)];
+        if (!yearRow) return 0;
+        let s = 0;
+        for (const tg of tiposParque) s += yearRow[tg]?.[cat] ?? 0;
+        return s;
+      }
+      // Nacional + todos los tipos: cae al por_anio agregado
+      return edad.por_anio[y]?.[cat] ?? 0;
+    };
+
+    const bev   = used.map((y) => sumByCat(y, "BEV"));
+    const phev  = used.map((y) => sumByCat(y, "PHEV"));
+    const hev   = used.map((y) => sumByCat(y, "HEV") + sumByCat(y, "REEV") + sumByCat(y, "FCEV"));
+    const noev  = used.map((y) => sumByCat(y, "NO_EV"));
     type Serie = { name: string; data: number[]; color: string };
     const allSeries: Serie[] = [
       { name: "No enchufables", data: noev, color: C_NOENCH },
@@ -724,7 +755,7 @@ function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEd
         name: s.name, type: "bar", stack: "t", data: s.data, barMaxWidth: 14, itemStyle: { color: s.color },
       })),
     };
-  }, [edad, tec, isMobile]);
+  }, [edad, tec, tipos, provincia, isMobile]);
   return <div ref={ref} style={{ width: "100%", height: isMobile ? 240 : 300 }} />;
 }
 
@@ -1357,23 +1388,43 @@ export function Dashboard() {
   const parNoEnch  = useMemo(() => buildSerie(tiposVehiculo, provincia, "no_enchufable"), [tiposVehiculo, provincia]);
   const parTotal   = useMemo(() => buildSerie(tiposVehiculo, provincia, "total"),         [tiposVehiculo, provincia]);
 
-  // Antigüedad promedio filtrada por tipos de vehículo seleccionados
+  // Antigüedad promedio filtrada por tipos de vehículo y provincia.
+  // Si provincia="todas" usa sums_por_tipo (nacional). Si es provincia concreta,
+  // usa sums_por_provincia_tipo[prov_ine][tipo][cat] (regenerado en el JSON).
   const edadFiltrada = useMemo(() => {
-    const sums = (dgtParqueEdad as any)?.sums_por_tipo as
-      | Record<string, Record<string, { sum_age: number; count: number }>>
-      | undefined;
-    if (!sums) return null;
+    const sumsNac = (dgtParqueEdad as unknown as { sums_por_tipo?: Record<string, Record<string, { sum_age: number; count: number }>> })?.sums_por_tipo;
+    const sumsProv = (dgtParqueEdad as unknown as { sums_por_provincia_tipo?: Record<string, Record<string, Record<string, { sum_age: number; count: number }>>> })?.sums_por_provincia_tipo;
     const tiposParque = Array.from(new Set(tiposVehiculo.flatMap((t) => FILTRO_TO_PARQUE_TIPOS[t])));
     const acc: Record<string, { sum_age: number; count: number }> = {};
-    for (const tg of tiposParque) {
-      const byCat = sums[tg];
-      if (!byCat) continue;
-      for (const cat of Object.keys(byCat)) {
-        if (!acc[cat]) acc[cat] = { sum_age: 0, count: 0 };
-        acc[cat].sum_age += byCat[cat].sum_age;
-        acc[cat].count   += byCat[cat].count;
+
+    if (provincia !== "todas" && sumsProv) {
+      const provKey = provIne(provincia);
+      const byTipo = sumsProv[provKey];
+      if (byTipo) {
+        for (const tg of tiposParque) {
+          const byCat = byTipo[tg];
+          if (!byCat) continue;
+          for (const cat of Object.keys(byCat)) {
+            if (!acc[cat]) acc[cat] = { sum_age: 0, count: 0 };
+            acc[cat].sum_age += byCat[cat].sum_age;
+            acc[cat].count   += byCat[cat].count;
+          }
+        }
       }
+    } else if (sumsNac) {
+      for (const tg of tiposParque) {
+        const byCat = sumsNac[tg];
+        if (!byCat) continue;
+        for (const cat of Object.keys(byCat)) {
+          if (!acc[cat]) acc[cat] = { sum_age: 0, count: 0 };
+          acc[cat].sum_age += byCat[cat].sum_age;
+          acc[cat].count   += byCat[cat].count;
+        }
+      }
+    } else {
+      return null;
     }
+
     const avg = (cat: string) => (acc[cat]?.count > 0 ? acc[cat].sum_age / acc[cat].count : 0);
     const totalSum = Object.values(acc).reduce((a, b) => a + b.sum_age, 0);
     const totalCnt = Object.values(acc).reduce((a, b) => a + b.count, 0);
@@ -1383,7 +1434,7 @@ export function Dashboard() {
       PHEV:   avg("PHEV"),
       NO_EV:  avg("NO_EV"),
     };
-  }, [tiposVehiculo]);
+  }, [tiposVehiculo, provincia]);
 
   // Distintivo filtrado por provincia × tipos × tec — último mes real
   const distintivoFiltrado = useMemo((): Record<string, number> | null => {
@@ -1875,23 +1926,13 @@ export function Dashboard() {
             }
           </div>
           <div style={sec}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: isMobile ? 8 : 16, flexWrap: "wrap" }}>
-              <div style={{ ...sTitle, marginBottom: 0 }}>Pirámide de edad del parque</div>
-              <span style={{
-                fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH,
-                border: `1px solid rgba(${hex2rgb(C_NOENCH)},0.35)`,
-                borderRadius: 5, padding: "2px 8px", fontWeight: 600,
-                letterSpacing: "0.04em", textTransform: "uppercase",
-              }}>
-                Solo nacional
-              </span>
-            </div>
+            <div style={sTitle}>Pirámide de edad del parque</div>
             <div style={sDesc}>
               Vehículos por año de matriculación (últimos 30 años). Muestra la penetración progresiva de BEV/PHEV en las cohortes recientes.
-              Responde al filtro de tecnología; <strong style={{ color: C.text }}>no responde a tipo ni provincia</strong> (dato agregado a nivel país).
+              {provincia !== "todas" ? ` · ${provinciaLabel}` : ""}
             </div>
             {dgtParqueEdad && Object.keys(dgtParqueEdad.por_anio).length > 0
-              ? <ChartPiramideEdad edad={dgtParqueEdad} tec={filtro} />
+              ? <ChartPiramideEdad edad={dgtParqueEdad} tec={filtro} tipos={tiposVehiculo} provincia={provincia} />
               : <div style={{ padding: "40px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin datos de edad — regenerar JSON</div>
             }
           </div>
