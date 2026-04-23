@@ -464,7 +464,7 @@ function ChartParqueEvolucion({
         label: {
           show: true, position: "middle", color: C.muted, fontSize: 10,
           rotate: 90, distance: 6,
-          formatter: `DGT real ${PERIODO_PRIMER_REAL} →`,
+          formatter: `DGT ${PERIODO_PRIMER_REAL} →`,
         },
         data: [{ xAxis: PERIODO_PRIMER_REAL as string }],
       },
@@ -538,7 +538,13 @@ function ChartParqueEvolucion({
         axisLabel: {
           color: C.muted, fontSize: 11,
           customValues: customTicks,
-          formatter: (v: number) => kLabel(toReal(v)),
+          // Millones con 1 decimal (XX.XM); miles igual que kLabel (XXk).
+          formatter: (v: number) => {
+            const n = toReal(v);
+            if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+            if (n >= 1_000)     return `${(n / 1_000).toFixed(0)}k`;
+            return String(n);
+          },
         },
         axisLine:  { show: true, lineStyle: { color: C.grid } },
         splitLine: { show: true, lineStyle: { color: C.grid, opacity: 0.35 } },
@@ -1291,7 +1297,21 @@ function ChartProyeccionPniec({
       ],
     };
   }, [parEnchFull, periodosFull, isMobile]);
-  return <div ref={ref} style={{ width: "100%", height: isMobile ? 280 : 360 }} />;
+  return (
+    <div style={{
+      width: "100%",
+      overflowX: isMobile ? "auto" : "visible",
+      WebkitOverflowScrolling: "touch",
+    }}>
+      <div
+        ref={ref}
+        style={{
+          width: isMobile ? 800 : "100%",
+          height: isMobile ? 320 : 360,
+        }}
+      />
+    </div>
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

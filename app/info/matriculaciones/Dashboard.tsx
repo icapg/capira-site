@@ -1028,7 +1028,12 @@ export function Dashboard() {
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: outerPad }}>
 
         {/* ── KPIs ─────────────────────────────────────────────────────────── */}
-        <div style={{ display: "flex", gap: GAP, marginBottom: GAP, flexWrap: "wrap" }}>
+        <div style={{
+          display: isMobile ? "grid" : "flex",
+          gridTemplateColumns: isMobile ? "minmax(0,1fr) minmax(0,1fr)" : undefined,
+          gap: isMobile ? 10 : GAP, marginBottom: GAP,
+          flexWrap: isMobile ? undefined : "wrap",
+        }}>
           {/* Box 1: último mes de data vs mismo mes año anterior */}
           <KPI
             label="Matriculaciones de"
@@ -1085,7 +1090,12 @@ export function Dashboard() {
         </div>
 
         {/* ── Auto-insights ─────────────────────────────────────────────────── */}
-        <div style={{ display: "flex", gap: GAP, marginBottom: GAP, flexWrap: "wrap" }}>
+        <div style={{
+          display: isMobile ? "grid" : "flex",
+          gridTemplateColumns: isMobile ? "1fr" : undefined,
+          gap: GAP, marginBottom: GAP,
+          flexWrap: isMobile ? undefined : "wrap",
+        }}>
           <InsightCard
             icon="🚀"
             headline={`+${lastYoyVal}% ${filtroLabel} en ${LAST_FULL.año}: ${bestYoy_f.año === LAST_FULL.año ? "el mayor salto histórico" : `mejor año: ${bestYoy_f.año} (+${bestYoy_f.val}%)`}`}
