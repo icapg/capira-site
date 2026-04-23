@@ -408,6 +408,36 @@ function main() {
   const lastMes = mensual.find(m => m.periodo === lastReal);
   if (lastMes) lastMes.parque_por_municipio = municipioBreakdown;
 
+  // ── Breakdown DISTINTIVO × PROVINCIA × TIPO × [BEV/PHEV/NO_EV] ─────────
+  // Solo último mes real. Usa la tabla `parque` (snapshot completo).
+  // Costo: ~2.500-3.500 filas no-zero; ~30-45 KB gzipped en el bundle.
+  const distBreakdownRows = db.prepare(`
+    SELECT provincia,
+           tipo_grupo,
+           COALESCE(NULLIF(distintivo, ''), 'SIN DISTINTIVO') AS dist,
+           CASE
+             WHEN catelect = 'BEV'  THEN 'BEV'
+             WHEN catelect = 'PHEV' THEN 'PHEV'
+             ELSE 'NO_EV'
+           END AS cat,
+           COUNT(*) AS n
+    FROM parque
+    WHERE periodo = ?
+      AND provincia IS NOT NULL AND provincia != ''
+      AND tipo_grupo IN (${TIPOS_PARQUE.map(() => '?').join(',')})
+    GROUP BY provincia, tipo_grupo, dist, cat
+  `).all(lastPeriodoKeyMun, ...TIPOS_PARQUE);
+
+  const distintivoBreakdown = {};
+  for (const { provincia, tipo_grupo, dist, cat, n } of distBreakdownRows) {
+    if (!distintivoBreakdown[provincia])                                 distintivoBreakdown[provincia] = {};
+    if (!distintivoBreakdown[provincia][tipo_grupo])                     distintivoBreakdown[provincia][tipo_grupo] = {};
+    if (!distintivoBreakdown[provincia][tipo_grupo][dist])               distintivoBreakdown[provincia][tipo_grupo][dist] = {};
+    distintivoBreakdown[provincia][tipo_grupo][dist][cat] = n;
+  }
+
+  if (lastMes) lastMes.parque_distintivo_breakdown = distintivoBreakdown;
+
   // ── Edad del parque: distribución por año de matriculación y promedios ──
   // Fuente: tabla `parque` (último snapshot). fec_prim_matr viene como DD/MM/YYYY.
   // Usamos fec_prim_matr (primera matriculación original, incluye importaciones)
@@ -512,22 +542,32 @@ export type ParqueProvinciaTipo = Record<string, ParqueTipoGrupo>;
 /** Distintivo ambiental DGT: "0", "B", "C", "ECO", "CERO", "Sin" (no tiene). */
 export type ParqueDistintivo = Record<string, number>;
 
+/** Sub-breakdown por categoría EV dentro de un distintivo (solo BEV/PHEV/NO_EV relevantes). */
+export type ParqueDistintivoCats = { BEV?: number; PHEV?: number; NO_EV?: number };
+
+/**
+ * Breakdown DISTINTIVO × PROVINCIA × TIPO × [BEV/PHEV/NO_EV]. Solo en el último mes real.
+ * Estructura: breakdown[codProvINE][tipo_grupo][distintivo] = { BEV, PHEV, NO_EV }
+ */
+export type ParqueDistintivoBreakdown = Record<string, Record<string, Record<string, ParqueDistintivoCats>>>;
+
 /** Breakdown por municipio × tipo × cat. Solo se emite en el último mes real. */
 export type ParqueMunicipio = Record<string, { prov: string; tipos: ParqueTipoGrupo }>;
 
 export type ParqueMes = {
-  periodo:                    string;
-  fuente:                     ParqueFuente;
-  matriculaciones_mes:        ParqueCatEv;
-  bajas_mes:                  ParqueCatEv;
-  total_bajas_mes:            number;
-  parque_acumulado:           ParqueCatEv;
-  parque_total:               number;
-  parque_no_enchufable:       number;
-  parque_por_tipo?:           ParqueTipoGrupo;
-  parque_por_provincia_tipo?: ParqueProvinciaTipo;
-  parque_por_municipio?:      ParqueMunicipio;
-  parque_distintivo?:         ParqueDistintivo;
+  periodo:                      string;
+  fuente:                       ParqueFuente;
+  matriculaciones_mes:          ParqueCatEv;
+  bajas_mes:                    ParqueCatEv;
+  total_bajas_mes:              number;
+  parque_acumulado:             ParqueCatEv;
+  parque_total:                 number;
+  parque_no_enchufable:         number;
+  parque_por_tipo?:             ParqueTipoGrupo;
+  parque_por_provincia_tipo?:   ParqueProvinciaTipo;
+  parque_por_municipio?:        ParqueMunicipio;
+  parque_distintivo?:           ParqueDistintivo;
+  parque_distintivo_breakdown?: ParqueDistintivoBreakdown;
 };
 
 export type ParqueResumenCat = {

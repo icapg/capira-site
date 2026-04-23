@@ -27,22 +27,32 @@ export type ParqueProvinciaTipo = Record<string, ParqueTipoGrupo>;
 /** Distintivo ambiental DGT: "0", "B", "C", "ECO", "CERO", "Sin" (no tiene). */
 export type ParqueDistintivo = Record<string, number>;
 
+/** Sub-breakdown por categoría EV dentro de un distintivo (solo BEV/PHEV/NO_EV relevantes). */
+export type ParqueDistintivoCats = { BEV?: number; PHEV?: number; NO_EV?: number };
+
+/**
+ * Breakdown DISTINTIVO × PROVINCIA × TIPO × [BEV/PHEV/NO_EV]. Solo en el último mes real.
+ * Estructura: breakdown[codProvINE][tipo_grupo][distintivo] = { BEV, PHEV, NO_EV }
+ */
+export type ParqueDistintivoBreakdown = Record<string, Record<string, Record<string, ParqueDistintivoCats>>>;
+
 /** Breakdown por municipio × tipo × cat. Solo se emite en el último mes real. */
 export type ParqueMunicipio = Record<string, { prov: string; tipos: ParqueTipoGrupo }>;
 
 export type ParqueMes = {
-  periodo:                    string;
-  fuente:                     ParqueFuente;
-  matriculaciones_mes:        ParqueCatEv;
-  bajas_mes:                  ParqueCatEv;
-  total_bajas_mes:            number;
-  parque_acumulado:           ParqueCatEv;
-  parque_total:               number;
-  parque_no_enchufable:       number;
-  parque_por_tipo?:           ParqueTipoGrupo;
-  parque_por_provincia_tipo?: ParqueProvinciaTipo;
-  parque_por_municipio?:      ParqueMunicipio;
-  parque_distintivo?:         ParqueDistintivo;
+  periodo:                      string;
+  fuente:                       ParqueFuente;
+  matriculaciones_mes:          ParqueCatEv;
+  bajas_mes:                    ParqueCatEv;
+  total_bajas_mes:              number;
+  parque_acumulado:             ParqueCatEv;
+  parque_total:                 number;
+  parque_no_enchufable:         number;
+  parque_por_tipo?:             ParqueTipoGrupo;
+  parque_por_provincia_tipo?:   ParqueProvinciaTipo;
+  parque_por_municipio?:        ParqueMunicipio;
+  parque_distintivo?:           ParqueDistintivo;
+  parque_distintivo_breakdown?: ParqueDistintivoBreakdown;
 };
 
 export type ParqueResumenCat = {

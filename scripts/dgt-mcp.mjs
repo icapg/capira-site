@@ -170,7 +170,8 @@ F6 minimiza error (promedio 2.85%) y minimiza bias (casi insesgado). El error re
 **Campos adicionales en el JSON** (\`dgt-parque.json\`):
 - \`parque_por_tipo\` — emitido en todos los meses (real y calculado).
 - \`parque_por_provincia_tipo\` — solo meses reales. Indexado por código INE numérico (01-52), NO por letra.
-- \`parque_distintivo\` — solo meses reales. Etiqueta ambiental DGT.
+- \`parque_distintivo\` — solo meses reales. Etiqueta ambiental DGT nacional (total por etiqueta, sin cross).
+- \`parque_distintivo_breakdown\` — **SOLO último mes real** (agregado 2026-04). Cross DISTINTIVO × PROVINCIA × TIPO × [BEV/PHEV/NO_EV] para filtros interactivos del dashboard. Estructura: \`{ [cod_prov_ine]: { [tipo_grupo]: { [distintivo]: { BEV?, PHEV?, NO_EV? } } } }\`. Distintivos: "CERO", "ECO", "DISTINTIVO C", "DISTINTIVO B", "SIN DISTINTIVO". Fuente: query directa a tabla \`parque\` (no hay pre-agregado en \`parque_agregados_mes\` para este cross — si necesita consultar datos, ir a \`parque\` filtrado por último \`periodo\`). Costo: ~2.5-3.5k filas no-zero, ~30-45 KB gzip sobre el bundle.
 - \`parque_por_municipio\` — **SOLO último mes real** (se reescribe cada mes, el anterior se borra). Estructura: \`{ [cod_mun]: { prov: string, tipos: { [tipo]: { BEV, PHEV, HEV, REEV, FCEV, NO_EV, total, no_enchufable } } } }\`. 781 municipios en 2026-03. DGT censura municipios con muy pocos vehículos (~6% del parque queda con municipio vacío, agregado a nivel provincial). Incluir todos los meses inflaría el JSON 10× → decisión de producto: solo el último mes en el bundle estático de Vercel.
 
 **Hosting**: los JSONs se importan estáticamente en el build de Next.js → bundle embebido en el deploy de Vercel. No hay API route ni Supabase para estos datos. La SQLite (19 GB) no sube al repo (gitignored). Límite relevante: bandwidth Vercel Hobby 100 GB/mes.
