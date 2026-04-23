@@ -228,7 +228,9 @@ export function Dashboard() {
   const isMobile = winW < 768;
   const isNarrow = winW < 520;
   const cols2 = isMobile ? "1fr" : "1fr 1fr";
-  const outerPad = isMobile ? "20px 14px 48px" : "28px 24px 56px";
+  const outerPad = isMobile ? "12px 6px 40px" : "28px 24px 56px";
+  // Override de padding/borderRadius para los <Card> en mobile (más aire para los charts).
+  const cardCompact: React.CSSProperties = isMobile ? { padding: "12px 10px", borderRadius: 10 } : {};
 
   const allYearsForSelector: YearData[] = dgtPorAñoCompleto
     .filter((y) => y.año >= 2015);  // 2014 excluido (datos incompletos en el dataset)
@@ -313,7 +315,7 @@ export function Dashboard() {
     return null;
   })();
 
-  const GAP = 16;
+  const GAP = isMobile ? 10 : 16;
 
   // ── Evolución anual + proyección (histórico pre-2020 + mensual 2020+) ──
   // Q1 YoY: compara Q1 del año parcial vs Q1 del año anterior completo
@@ -1180,11 +1182,11 @@ export function Dashboard() {
 
         {/* ── Evolución + proyección + YoY ────────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card>
+          <Card style={cardCompact}>
             <SectionTitle sub="Histórico matriculaciones anuales" tooltip="Línea continua con el total anual de matriculaciones enchufables desde 2014. Las últimas barras incluyen proyección estimada para años futuros. Útil para ver la tendencia general de adopción.">
               Evolución del mercado
             </SectionTitle>
-            <EChart theme="dark" option={forecastOpt} style={{ height: 270 }} />
+            <EChart theme="dark" option={forecastOpt} style={{ height: isMobile ? 220 : 270 }} />
             <div style={{ display: "flex", gap: 16, marginTop: 10, flexWrap: "wrap", alignItems: "center" }}>
               {(() => {
                 const firstYear = historico[0]?.año ?? REAL[0]?.año ?? 2014;
@@ -1208,7 +1210,7 @@ export function Dashboard() {
             </div>
             {IS_LAST_PARTIAL && <p style={{ fontSize: 10, color: C.dim, marginTop: 6 }}>* Proyección anual basada en estacionalidad histórica (no es dato oficial)</p>}
           </Card>
-          <Card>
+          <Card style={cardCompact}>
             <SectionTitle sub="Crecimiento porcentual año a año" tooltip="Variación porcentual del total de matriculaciones respecto al año anterior. Un valor positivo indica que ese año se matricularon más vehículos que el anterior. Permite detectar años de aceleración o desaceleración del mercado.">
               Crecimiento interanual (YoY)
             </SectionTitle>
@@ -1217,7 +1219,7 @@ export function Dashboard() {
                 {LAST.año} YTD: se comparan los {ytdStats!.n} meses disponibles de {LAST.año} vs el mismo período de {LAST.año - 1}
               </p>
             )}
-            <EChart theme="dark" option={yoyOpt} style={{ height: 270 }} />
+            <EChart theme="dark" option={yoyOpt} style={{ height: isMobile ? 220 : 270 }} />
             {worstYoy_f.val < 0 && (
               <p style={{ fontSize: 11, color: C.red, marginTop: 8, marginLeft: 4 }}>
                 ⚠️ {worstYoy_f.año}: único año con retroceso ({worstYoy_f.val}%) — posible efecto fin de subsidios
@@ -1233,7 +1235,7 @@ export function Dashboard() {
 
         {/* ── Tendencia mensual + YoY mensual ─────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card style={{ minWidth: 0, overflow: "hidden" }}>
+          <Card style={{ ...cardCompact, minWidth: 0, overflow: "hidden" }}>
             <div style={{ display: "flex", alignItems: isMobile ? "stretch" : "center", justifyContent: "space-between", marginBottom: 18, gap: 8, flexDirection: isMobile ? "column" : "row", flexWrap: "wrap" }}>
               <SectionTitle sub="Matriculaciones por mes" tooltip="Líneas mensuales por año. Cada línea representa un año completo (o parcial si es el año en curso). Permite comparar la forma de la curva entre años y detectar patrones estacionales como los picos de diciembre.">Evolución mensual</SectionTitle>
               <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", maxWidth: "100%" }}>
@@ -1301,15 +1303,15 @@ export function Dashboard() {
                 </div>
               </div>
             </div>
-            <EChart theme="dark" option={trendOpt} style={{ height: 248 }} />
+            <EChart theme="dark" option={trendOpt} style={{ height: isMobile ? 200 : 248 }} />
           </Card>
-          <Card style={{ minWidth: 0, overflow: "hidden" }}>
+          <Card style={{ ...cardCompact, minWidth: 0, overflow: "hidden" }}>
             <SectionTitle sub="Variación mensual respecto al año anterior" tooltip="Para cada mes, compara las matriculaciones con el mismo mes del año anterior. Barras verdes = más que el año pasado, rojas = menos. Útil para ver si el ritmo de crecimiento se mantiene, acelera o frena mes a mes.">
               Aceleración mes a mes
             </SectionTitle>
             <div style={{ overflowX: isMobile ? "auto" : "visible", WebkitOverflowScrolling: "touch" }}>
               <div style={{ minWidth: isMobile ? 560 : undefined }}>
-                <EChart theme="dark" option={monthlyYoyOpt} style={{ height: 270 }} />
+                <EChart theme="dark" option={monthlyYoyOpt} style={{ height: isMobile ? 220 : 270 }} />
               </div>
             </div>
           </Card>
@@ -1317,7 +1319,7 @@ export function Dashboard() {
 
         {/* ── Heatmap + momentum trimestral ───────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card style={{ display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
+          <Card style={{ ...cardCompact, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
               <SectionTitle sub="Volumen mensual por año — detectá patrones de estacionalidad" tooltip="Cuadrícula con meses en el eje X y años en el eje Y. El color de cada celda indica el volumen de matriculaciones: más oscuro = más registros. Ideal para detectar qué meses son sistemáticamente más altos (ej: diciembre) y cómo evoluciona cada mes a lo largo de los años.">
                 Heatmap estacional
@@ -1359,21 +1361,21 @@ export function Dashboard() {
               Agosto siempre es el mes más débil. El cierre de año (Nov–Dic) concentra el mayor volumen.
             </p>
           </Card>
-          <Card>
+          <Card style={cardCompact}>
             <SectionTitle sub="Volumen por trimestre y año" tooltip="Barras agrupadas por trimestre (Q1–Q4) para cada año. Permite ver si el crecimiento es sostenido a lo largo del año o se concentra en ciertos trimestres, y comparar el mismo trimestre entre distintos años.">
               Momentum trimestral
             </SectionTitle>
-            <EChart theme="dark" option={momentumOpt} style={{ height: 240 }} />
+            <EChart theme="dark" option={momentumOpt} style={{ height: isMobile ? 200 : 240 }} />
           </Card>
         </div>
 
         {/* ── Mix tecnológico + Matriculaciones vs bajas ──────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: cols2, gap: GAP, marginBottom: GAP }}>
-          <Card>
+          <Card style={cardCompact}>
             <SectionTitle sub="Evolución del mix BEV vs PHEV como % del total anual" tooltip="Área apilada al 100% que muestra qué proporción del mercado enchufable corresponde a BEV (eléctrico puro) y PHEV (híbrido enchufable) cada año. Refleja hacia qué tecnología se está desplazando la demanda.">
               Mix tecnológico — ¿quién gana terreno?
             </SectionTitle>
-            <EChart theme="dark" option={mixOpt} style={{ height: 220 }} />
+            <EChart theme="dark" option={mixOpt} style={{ height: isMobile ? 190 : 220 }} />
             {(() => {
               const totBev  = ANNUAL.reduce((s, a) => s + a.bev,  0) + historico.reduce((s, h) => s + h.bev,  0);
               const totPhev = ANNUAL.reduce((s, a) => s + a.phev, 0) + historico.reduce((s, h) => s + h.phev, 0);
@@ -1392,11 +1394,11 @@ export function Dashboard() {
               );
             })()}
           </Card>
-          <Card>
+          <Card style={cardCompact}>
             <SectionTitle sub="Serie nacional — sin filtro por tipo ni provincia (no disponible a nivel mensual)" tooltip="Compara mes a mes el alta de matriculaciones (positivo, hacia arriba) con las bajas (negativo, hacia abajo) del parque BEV/PHEV. La diferencia es el saldo neto que alimenta el crecimiento del parque activo.">
               Matriculaciones vs bajas {tecLabelNode} (desde 2020)
             </SectionTitle>
-            <EChart theme="dark" option={matVsBajasOpt} style={{ height: 260 }} />
+            <EChart theme="dark" option={matVsBajasOpt} style={{ height: isMobile ? 220 : 260 }} />
           </Card>
         </div>
 
