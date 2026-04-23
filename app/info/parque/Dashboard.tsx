@@ -249,14 +249,17 @@ function KpiCard({
   badge?: React.ReactNode; yoyPct?: number; yoyLabel?: string;
   secondary?: { label: React.ReactNode; value: React.ReactNode; sub?: React.ReactNode; color?: string; size?: number };
 }) {
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   return (
     <div style={{
       background: "rgba(255,255,255,0.06)",
       border: "1px solid rgba(255,255,255,0.11)",
-      borderRadius: 18,
-      padding: "20px 22px",
-      display: "flex", flexDirection: "column", gap: 8,
+      borderRadius: isMobile ? 14 : 18,
+      padding: isMobile ? "12px 12px" : "20px 22px",
+      display: "flex", flexDirection: "column", gap: isMobile ? 6 : 8,
       position: "relative", overflow: "hidden",
+      minWidth: 0,
     }}>
       <div style={{
         position: "absolute", top: -24, right: -24,
@@ -265,45 +268,63 @@ function KpiCard({
         pointerEvents: "none",
       }} />
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span style={{ fontSize: 20 }}>{emoji}</span>
-        <span style={{ fontSize: 11, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 6 : 8, minWidth: 0 }}>
+        <span style={{ fontSize: isMobile ? 16 : 20, flexShrink: 0 }}>{emoji}</span>
+        <span style={{
+          fontSize: isMobile ? 9 : 11, color: C.muted,
+          textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600,
+          lineHeight: 1.25, minWidth: 0, overflow: "hidden",
+        }}>
           {label}
         </span>
       </div>
 
-      <span style={{ fontSize: 30, fontWeight: 800, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>
+      <span style={{
+        fontSize: isMobile ? 22 : 30, fontWeight: 800, color: C.text,
+        letterSpacing: "-0.03em", lineHeight: 1,
+      }}>
         {value}
       </span>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
         {yoyPct !== undefined && <YoyBadge pct={yoyPct} />}
         {yoyPct !== undefined && yoyLabel && (
-          <span style={{ fontSize: 11, color: C.muted }}>vs {yoyLabel}</span>
+          <span style={{ fontSize: isMobile ? 10 : 11, color: C.muted }}>vs {yoyLabel}</span>
         )}
         {badge && (
-          <span style={{ fontSize: 11, background: `rgba(${hex2rgb(color)},0.15)`, color, borderRadius: 5, padding: "2px 8px", fontWeight: 600 }}>
+          <span style={{
+            fontSize: isMobile ? 10 : 11, background: `rgba(${hex2rgb(color)},0.15)`,
+            color, borderRadius: 5, padding: "2px 6px", fontWeight: 600,
+          }}>
             {badge}
           </span>
         )}
       </div>
 
-      {sub && <span style={{ fontSize: 11, color: C.muted, lineHeight: 1.4 }}>{sub}</span>}
+      {sub && <span style={{ fontSize: isMobile ? 10 : 11, color: C.muted, lineHeight: 1.4 }}>{sub}</span>}
 
       {secondary && (
         <div style={{
-          marginTop: 10, paddingTop: 12,
+          marginTop: isMobile ? 6 : 10, paddingTop: isMobile ? 8 : 12,
           borderTop: "1px solid rgba(255,255,255,0.11)",
           display: "flex", flexDirection: "column", gap: 4,
         }}>
-          <span style={{ fontSize: 10, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600 }}>
+          <span style={{
+            fontSize: isMobile ? 9 : 10, color: C.muted,
+            textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600,
+            lineHeight: 1.25,
+          }}>
             {secondary.label}
           </span>
-          <span style={{ fontSize: secondary.size ?? 26, fontWeight: 700, color: secondary.color ?? C.text, letterSpacing: "-0.02em", lineHeight: 1 }}>
+          <span style={{
+            fontSize: secondary.size ?? (isMobile ? 18 : 26),
+            fontWeight: 700, color: secondary.color ?? C.text,
+            letterSpacing: "-0.02em", lineHeight: 1,
+          }}>
             {secondary.value}
           </span>
           {secondary.sub && (
-            <span style={{ fontSize: 11, color: C.muted, lineHeight: 1.4 }}>{secondary.sub}</span>
+            <span style={{ fontSize: isMobile ? 10 : 11, color: C.muted, lineHeight: 1.4 }}>{secondary.sub}</span>
           )}
         </div>
       )}
@@ -330,6 +351,8 @@ function ChartParqueEvolucion({
   parBev, parPhev, parNoEnch, tec,
 }: { parBev: number[]; parPhev: number[]; parNoEnch: number[]; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
 
   // Recortar a 2020+ (evita años pre-2020 con datos calculados de baja calidad)
   const from2020 = PERIODOS.findIndex((p) => p.startsWith("2020"));
@@ -449,7 +472,7 @@ function ChartParqueEvolucion({
 
     return {
       backgroundColor: "transparent",
-      grid: { top: 32, right: 80, bottom: 48, left: 24 },
+      grid: { top: isMobile ? 56 : 32, right: isMobile ? 12 : 80, bottom: isMobile ? 36 : 48, left: isMobile ? 16 : 24 },
       tooltip: { ...TT, trigger: "axis",
         formatter: (params: Record<string, unknown>[]) => {
           const p = (params[0] as { axisValue: string }).axisValue;
@@ -522,12 +545,14 @@ function ChartParqueEvolucion({
       },
       series,
     };
-  }, [parBev, parPhev, parNoEnch, tec]);
-  return <div ref={ref} style={{ width: "100%", height: 400 }} />;
+  }, [parBev, parPhev, parNoEnch, tec, isMobile]);
+  return <div ref={ref} style={{ width: "100%", height: isMobile ? 280 : 400 }} />;
 }
 
 function ChartPorTipo({ entries, tec }: { entries: { tipo: string; BEV: number; PHEV: number }[]; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   const labelFor = (t: string) => (TIPO_LABELS[t as TipoVehiculo] ?? t.replace(/_/g, " "));
   const tipos    = entries.map((t) => labelFor(t.tipo));
   const bevData  = entries.map((t) => t.BEV);
@@ -546,7 +571,7 @@ function ChartPorTipo({ entries, tec }: { entries: { tipo: string; BEV: number; 
 
     return {
       backgroundColor: "transparent",
-      grid: { top: 36, right: 12, bottom: 48, left: 56 },
+      grid: { top: 36, right: 12, bottom: 48, left: isMobile ? 30 : 56 },
       tooltip: { ...TT, trigger: "axis", axisPointer: { type: "shadow" },
         formatter: (params: Record<string, unknown>[]) => {
           const tg = (params[0] as { axisValue: string }).axisValue;
@@ -569,8 +594,8 @@ function ChartPorTipo({ entries, tec }: { entries: { tipo: string; BEV: number; 
       },
       series,
     };
-  }, [entries, tec]);
-  return <div ref={ref} style={{ width: "100%", height: 360 }} />;
+  }, [entries, tec, isMobile]);
+  return <div ref={ref} style={{ width: "100%", height: isMobile ? 280 : 360 }} />;
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -639,6 +664,8 @@ function ChartDistintivo({ data }: { data: Record<string, number> }) {
 // ─── Chart 3 — Pirámide de edad del parque ──────────────────────────────────
 function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEdad>; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   useChart(ref, () => {
     const años = Object.keys(edad.por_anio).map(Number).sort((a, b) => a - b);
     if (años.length === 0) return { backgroundColor: "transparent" };
@@ -663,7 +690,7 @@ function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEd
       : allSeries;
     return {
       backgroundColor: "transparent",
-      grid: { top: 30, right: 24, bottom: 36, left: 60 },
+      grid: { top: 30, right: isMobile ? 8 : 24, bottom: 36, left: isMobile ? 38 : 60 },
       tooltip: { ...TT, trigger: "axis", axisPointer: { type: "shadow" },
         formatter: (params: Record<string, unknown>[]) => {
           const año = (params[0] as { axisValue: string }).axisValue;
@@ -689,8 +716,8 @@ function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEd
         name: s.name, type: "bar", stack: "t", data: s.data, barMaxWidth: 14, itemStyle: { color: s.color },
       })),
     };
-  }, [edad, tec]);
-  return <div ref={ref} style={{ width: "100%", height: 300 }} />;
+  }, [edad, tec, isMobile]);
+  return <div ref={ref} style={{ width: "100%", height: isMobile ? 240 : 300 }} />;
 }
 
 // ─── Chart 13 — Saldo neto por tipo (último mes) ───────────────────────────
@@ -698,6 +725,8 @@ function ChartSaldoNetoPorTipo({
   entries, tec,
 }: { entries: { tipo: string; netBev: number; netPhev: number }[]; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   const labelFor = (t: string) => (TIPO_LABELS[t as TipoVehiculo] ?? t.replace(/_/g, " "));
   useChart(ref, () => {
     const tipos    = entries.map((e) => labelFor(e.tipo)).reverse();
@@ -714,7 +743,7 @@ function ChartSaldoNetoPorTipo({
     });
     return {
       backgroundColor: "transparent",
-      grid: { top: 20, right: 28, bottom: 8, left: 110, containLabel: false },
+      grid: { top: 20, right: isMobile ? 14 : 28, bottom: 8, left: isMobile ? 70 : 110, containLabel: false },
       tooltip: { ...TT, trigger: "axis", axisPointer: { type: "shadow" },
         formatter: (params: Record<string, unknown>[]) => {
           const tg = (params[0] as { axisValue: string }).axisValue;
@@ -732,13 +761,13 @@ function ChartSaldoNetoPorTipo({
         splitLine: { lineStyle: { color: C.grid } },
       },
       yAxis: { type: "category", data: tipos,
-        axisLabel: { color: C.muted, fontSize: 12 },
+        axisLabel: { color: C.muted, fontSize: isMobile ? 10 : 12 },
         axisLine: { show: false },
       },
       series,
     };
-  }, [entries, tec]);
-  return <div ref={ref} style={{ width: "100%", height: Math.max(200, entries.length * 44) }} />;
+  }, [entries, tec, isMobile]);
+  return <div ref={ref} style={{ width: "100%", height: Math.max(200, entries.length * (isMobile ? 36 : 44)) }} />;
 }
 
 // ─── Chart 10 — Scatter penetración EV × volumen por provincia ──────────────
@@ -951,6 +980,8 @@ function ChartMapaEspana({
   points, tec,
 }: { points: { ine: string; prov: string; pen: number; evs: number; total: number }[]; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   const accent = tec === "bev" ? C.bev : tec === "phev" ? C.phev : C.green;
   useChart(ref, () => {
     const max = Math.max(0.5, ...points.map((p) => p.pen));
@@ -1021,8 +1052,8 @@ function ChartMapaEspana({
         },
       ],
     };
-  }, [points, tec]);
-  return <div ref={ref} style={{ width: "auto", height: 440, marginLeft: -20, marginRight: -20 }} />;
+  }, [points, tec, isMobile]);
+  return <div ref={ref} style={{ width: "auto", height: isMobile ? 320 : 440, marginLeft: isMobile ? -10 : -20, marginRight: isMobile ? -10 : -20 }} />;
 }
 
 // ─── Chart 14 — Proyección al objetivo PNIEC (5,5M enchufables 2030) ────────
@@ -1030,6 +1061,8 @@ function ChartProyeccionPniec({
   parEnch: parEnchFull, periodos: periodosFull,
 }: { parEnch: number[]; periodos: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const winW = useWindowWidth();
+  const isMobile = winW < 768;
   useChart(ref, () => {
     const TARGET = 5_500_000;
     const TARGET_PERIODO = "2030-12";
@@ -1103,7 +1136,7 @@ function ChartProyeccionPniec({
 
     return {
       backgroundColor: "transparent",
-      grid: { top: 36, right: 24, bottom: 44, left: 68 },
+      grid: { top: isMobile ? 56 : 36, right: isMobile ? 12 : 24, bottom: isMobile ? 30 : 44, left: isMobile ? 38 : 68 },
       tooltip: { ...TT, trigger: "axis",
         formatter: (params: Record<string, unknown>[]) => {
           const p = (params[0] as { axisValue: string }).axisValue;
@@ -1257,31 +1290,39 @@ function ChartProyeccionPniec({
         },
       ],
     };
-  }, [parEnchFull, periodosFull]);
-  return <div ref={ref} style={{ width: "100%", height: 360 }} />;
+  }, [parEnchFull, periodosFull, isMobile]);
+  return <div ref={ref} style={{ width: "100%", height: isMobile ? 280 : 360 }} />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LAYOUT
 // ─────────────────────────────────────────────────────────────────────────────
 
-const sec: React.CSSProperties = {
-  background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px",
-};
-
-const sTitle: React.CSSProperties = {
-  fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 16, letterSpacing: "-0.01em",
-};
-
-const sDesc: React.CSSProperties = {
-  fontSize: 12, color: C.muted, marginTop: -10, marginBottom: 16,
-};
+// Estilos base; los responsive (con padding/margin reducido en mobile) viven
+// dentro del componente Dashboard para poder usar isMobile.
 
 export function Dashboard() {
   const { countryName } = useInsights();
   const winW = useWindowWidth();
   const isMobile = winW < 768;
   const cols2 = isMobile ? "1fr" : "1fr 1fr";
+
+  // Layout tokens responsive (reducidos en mobile para que los charts respiren)
+  const sec: React.CSSProperties = {
+    background: C.card, border: `1px solid ${C.border}`,
+    borderRadius: isMobile ? 10 : 12,
+    padding: isMobile ? "12px 10px" : "20px 24px",
+  };
+  const sTitle: React.CSSProperties = {
+    fontSize: isMobile ? 12 : 13, fontWeight: 600, color: C.text,
+    marginBottom: isMobile ? 8 : 16, letterSpacing: "-0.01em",
+    lineHeight: 1.3,
+  };
+  const sDesc: React.CSSProperties = {
+    fontSize: isMobile ? 11 : 12, color: C.muted,
+    marginTop: isMobile ? -4 : -10, marginBottom: isMobile ? 10 : 16,
+    lineHeight: 1.45,
+  };
 
   // ── Filtros — mismo patrón que matriculaciones ──────────────────────────
   const [filtro, setFiltro] = useState<TecFiltro>("ambos");
@@ -1617,7 +1658,7 @@ export function Dashboard() {
         setProvincia={setProvincia}
       />
 
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "20px 14px 48px" : "32px 24px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: isMobile ? "12px 6px 40px" : "32px 24px" }}>
 
         {/* Top row: 4 KPIs combinados (volumen + antigüedad) */}
         {(() => {
@@ -1706,7 +1747,7 @@ export function Dashboard() {
         })()}
 
         {/* Parque activo por tipo (col izq, 1/3) + Evolución del parque (col der, 2/3) */}
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: isMobile ? 14 : 20, marginBottom: isMobile ? 20 : 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: isMobile ? 10 : 20, marginBottom: isMobile ? 12 : 28 }}>
           <div style={sec}>
             <div style={sTitle}>Parque activo por tipo de vehículo</div>
             <div style={sDesc}>Desglose según los tipos seleccionados{provincia !== "todas" ? ` en ${provinciaLabel}` : ""}</div>
@@ -1727,9 +1768,9 @@ export function Dashboard() {
         </div>
 
         {/* Mapa + scatter (dos columnas, el mapa ya no ocupa toda la fila) */}
-        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 10 : 20, marginBottom: isMobile ? 12 : 20 }}>
           <div style={sec}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: isMobile ? 8 : 16, flexWrap: "wrap" }}>
               <div style={{ ...sTitle, marginBottom: 0 }}>Mapa de penetración por provincia</div>
               <span style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.02em",
@@ -1753,7 +1794,7 @@ export function Dashboard() {
             }
           </div>
           <div style={sec}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: isMobile ? 8 : 16, flexWrap: "wrap" }}>
               <div style={{ ...sTitle, marginBottom: 0 }}>Distribución del parque activo</div>
               <span style={{
                 fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH,
@@ -1775,7 +1816,7 @@ export function Dashboard() {
         </div>
 
         {/* 2-col row: mix tecnológico + mix por marca (intercambiados con Matriculaciones) */}
-        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 10 : 20, marginBottom: isMobile ? 12 : 20 }}>
           <div style={sec}>
             <div style={sTitle}>Mix tecnológico — ¿quién gana terreno?</div>
             <div style={sDesc}>Evolución del mix BEV vs PHEV como % del parque activo enchufable (snapshot al cierre de cada año)</div>
@@ -1795,7 +1836,7 @@ export function Dashboard() {
         </div>
 
         {/* Distintivo ambiental + Pirámide de edad */}
-        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 14 : 20, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: cols2, gap: isMobile ? 10 : 20, marginBottom: isMobile ? 12 : 20 }}>
           <div style={sec}>
             <div style={sTitle}>Distintivo ambiental DGT</div>
             <div style={sDesc}>
@@ -1812,7 +1853,7 @@ export function Dashboard() {
             }
           </div>
           <div style={sec}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: isMobile ? 8 : 16, flexWrap: "wrap" }}>
               <div style={{ ...sTitle, marginBottom: 0 }}>Pirámide de edad del parque</div>
               <span style={{
                 fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH,
@@ -1836,7 +1877,7 @@ export function Dashboard() {
 
         {/* Proyección PNIEC 5,5M */}
         <div style={{ ...sec, marginBottom: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: isMobile ? 8 : 16, flexWrap: "wrap" }}>
             <div style={{ ...sTitle, marginBottom: 0 }}>Proyección al objetivo PNIEC (5,5M enchufables en 2030)</div>
             <span style={{
               fontSize: 10, background: "rgba(251,191,36,0.14)", color: "#fbbf24",

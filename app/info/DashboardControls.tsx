@@ -272,7 +272,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
               </div>
             ))}
 
-            {/* Tipo — 4 chips visibles (turismo, furgoneta, camion, autobus) + "Más" con popover */}
+            {/* Tipo — desktop: 4 chips primarios + "Más" popover. Mobile: un solo botón con seleccionados truncados + popover con todos. */}
             {showTipo && (() => {
               const PRIMARIOS: TipoVehiculo[] = ["turismo", "furgoneta", "camion", "autobus"];
               const EXTRA = TIPOS_ORDER.filter((t) => !PRIMARIOS.includes(t));
@@ -280,16 +280,113 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
               const toggle = (t: TipoVehiculo) => setTiposVehiculo((prev) =>
                 prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
               );
+
+              // ── Mobile: dropdown único con label de seleccionados (truncado) ──
+              if (isMobile) {
+                const selectedLabel = tiposVehiculo.length === 0
+                  ? "Ninguno"
+                  : tiposVehiculo.length === TIPOS_ORDER.length
+                    ? "Todos"
+                    : tiposVehiculo.map((t) => TIPO_LABELS[t]).join(", ");
+                return (
+                  <div ref={tipoRef} style={{ position: "relative", flex: 1, minWidth: 0 }}>
+                    <button
+                      onClick={() => setTipoOpen((v) => !v)}
+                      style={{
+                        padding: "5px 10px", borderRadius: 7, fontSize: 11, fontWeight: 700,
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        background: "#0b1020",
+                        color: "#f4f4f5",
+                        cursor: "pointer",
+                        width: "100%",
+                        textAlign: "center",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      Tipo: {selectedLabel}
+                    </button>
+                    {tipoOpen && (
+                      <div style={{
+                        position: "absolute",
+                        top: "calc(100% + 6px)",
+                        left: 0, right: 0,
+                        maxHeight: 360,
+                        overflowY: "auto",
+                        background: "#0b1020",
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        borderRadius: 8,
+                        padding: 6,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        zIndex: 50,
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                      }}>
+                        <div style={{ display: "flex", gap: 4, padding: "2px 4px 6px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 4 }}>
+                          <button
+                            onClick={() => setTiposVehiculo(() => [...TIPOS_ORDER])}
+                            style={{
+                              flex: 1, padding: "4px 8px", borderRadius: 5, cursor: "pointer",
+                              fontSize: 11, fontWeight: 700,
+                              border: "1px solid rgba(255,255,255,0.08)",
+                              background: "transparent", color: "rgba(241,245,249,0.7)",
+                            }}
+                          >Todos</button>
+                          <button
+                            onClick={() => setTiposVehiculo(() => [])}
+                            style={{
+                              flex: 1, padding: "4px 8px", borderRadius: 5, cursor: "pointer",
+                              fontSize: 11, fontWeight: 700,
+                              border: "1px solid rgba(255,255,255,0.08)",
+                              background: "transparent", color: "rgba(241,245,249,0.7)",
+                            }}
+                          >Ninguno</button>
+                        </div>
+                        {TIPOS_ORDER.map((t) => {
+                          const active = tiposVehiculo.includes(t);
+                          return (
+                            <button
+                              key={t}
+                              title={TIPO_TOOLTIP[t]}
+                              onClick={() => toggle(t)}
+                              style={{
+                                padding: "6px 10px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontWeight: 600,
+                                border: "1px solid transparent",
+                                background: active ? "rgba(56,189,248,0.08)" : "transparent",
+                                color: active ? "#f4f4f5" : "rgba(241,245,249,0.6)",
+                                textAlign: "left",
+                                display: "flex", alignItems: "center", gap: 10,
+                              }}
+                            >
+                              <span style={{
+                                width: 14, height: 14, borderRadius: 3,
+                                border: `1px solid ${active ? "#38bdf8" : "rgba(241,245,249,0.3)"}`,
+                                background: active ? "#38bdf8" : "transparent",
+                                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                                color: "#0b1020", fontSize: 10, fontWeight: 900,
+                                flexShrink: 0,
+                              }}>{active ? "✓" : ""}</span>
+                              {TIPO_LABELS[t]}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              // ── Desktop: chips primarios + "Más (N)" popover con extras ──
               return (
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "nowrap" }}>
-                  {!isMobile && (
-                    <span style={{
-                      fontSize: 11, color: "rgba(241,245,249,0.6)",
-                      letterSpacing: "0.03em", fontWeight: 600,
-                    }}>
-                      Tipo:
-                    </span>
-                  )}
+                  <span style={{
+                    fontSize: 11, color: "rgba(241,245,249,0.6)",
+                    letterSpacing: "0.03em", fontWeight: 600,
+                  }}>
+                    Tipo:
+                  </span>
                   <div style={{ display: "inline-flex", gap: 3, padding: 2, background: "rgba(255,255,255,0.04)", borderRadius: 8, border: "1px solid rgba(255,255,255,0.08)" }}>
                     {PRIMARIOS.map((t) => {
                       const active = tiposVehiculo.includes(t);
@@ -299,8 +396,8 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                           title={TIPO_TOOLTIP[t]}
                           onClick={() => toggle(t)}
                           style={{
-                            padding: isMobile ? "4px 8px" : "4px 10px",
-                            borderRadius: 6, cursor: "pointer", fontSize: isMobile ? 11 : 12, fontWeight: 700,
+                            padding: "4px 10px",
+                            borderRadius: 6, cursor: "pointer", fontSize: 12, fontWeight: 700,
                             border: "1px solid transparent",
                             background: active ? "rgba(241,245,249,0.10)" : "transparent",
                             color: active ? "#f4f4f5" : "rgba(241,245,249,0.45)",
@@ -316,8 +413,8 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                       <button
                         onClick={() => setTipoOpen((v) => !v)}
                         style={{
-                          padding: isMobile ? "4px 8px" : "4px 10px",
-                          borderRadius: 6, cursor: "pointer", fontSize: isMobile ? 11 : 12, fontWeight: 700,
+                          padding: "4px 10px",
+                          borderRadius: 6, cursor: "pointer", fontSize: 12, fontWeight: 700,
                           border: "1px solid transparent",
                           background: "transparent",
                           color: "rgba(241,245,249,0.6)",
@@ -332,8 +429,7 @@ export function DashboardControls({ filtro, setFiltro, tiposVehiculo, setTiposVe
                         <div style={{
                           position: "absolute",
                           top: "calc(100% + 6px)",
-                          right: isMobile ? undefined : 0,
-                          left: isMobile ? 0 : "auto",
+                          right: 0,
                           minWidth: 240,
                           maxHeight: 360,
                           overflowY: "auto",
