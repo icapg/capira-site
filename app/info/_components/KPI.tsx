@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type Props = {
   label: string;
   sublabel?: string;
@@ -9,6 +11,8 @@ type Props = {
   icon?: string;
   tag?: string;
   tooltip?: string;
+  /** Contenido extra opcional renderizado en la esquina sup-derecha (ej. Sparkline). */
+  extra?: ReactNode;
 };
 
 export function KPI({
@@ -22,6 +26,7 @@ export function KPI({
   icon,
   tag,
   tooltip,
+  extra,
 }: Props) {
   const glow = color ?? "#38bdf8";
   return (
@@ -54,6 +59,11 @@ export function KPI({
           pointerEvents: "none",
         }}
       />
+      {extra && (
+        <div style={{ position: "absolute", top: 14, right: 14, opacity: 0.9, pointerEvents: "none" }}>
+          {extra}
+        </div>
+      )}
       <div
         style={{
           minHeight: 72,

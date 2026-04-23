@@ -134,7 +134,7 @@ export function Dashboard() {
               {perfil.pocos_datos && (
                 <PocosDatosBanner marca={perfil.marca} totalHist={perfil.total_hist} />
               )}
-              <HeroKpis perfil={perfil} />
+              <HeroKpis perfil={perfil} mercado={MERCADO} />
               <AdnMarca perfil={perfil} />
               <Geografia perfil={perfil} />
               <Evolucion perfil={perfil} mercado={MERCADO} />
