@@ -919,6 +919,10 @@ export function Dashboard() {
   const mvbBaj = mvbBajRaw.slice(mvbFromIdx).map((v) => -v);
   const mvbColor = filtro === "bev" ? C.bev : filtro === "phev" ? C.phev : C.green;
   const mvbLabel = filtro === "bev" ? "BEV" : filtro === "phev" ? "PHEV" : "BEV + PHEV";
+  // Tooltip header: "BEV + PHEV" bicolor cuando filtro=ambos (sigue patrón tec-filter-buttons)
+  const mvbLabelHtml = filtro === "ambos"
+    ? `<span style="color:${C.bev}">BEV</span><span style="color:${C.green}"> + </span><span style="color:${C.phev}">PHEV</span>`
+    : `<span style="color:${mvbColor}">${mvbLabel}</span>`;
   const matVsBajasOpt: Record<string, any> = {
     backgroundColor: "transparent",
     grid: { top: 28, right: 24, bottom: 48, left: 64 },
@@ -928,13 +932,31 @@ export function Dashboard() {
         const first = params[0];
         const p = first?.axisValue;
         const i = first?.dataIndex;
-        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p} — ${mvbLabel}</div>` +
+        return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p} — ${mvbLabelHtml}</div>` +
           `<div>Nuevas: <strong style="color:${mvbColor}">${fmtN(mvbMat[i])}</strong></div>` +
           `<div>Bajas: <strong style="color:${C.red}">${fmtN(Math.abs(mvbBaj[i]))}</strong></div>`;
       },
     },
     legend: {
-      top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 },
+      top: 0, right: 0,
+      textStyle: {
+        color: C.muted, fontSize: 12,
+        rich: {
+          bev:  { color: C.bev,   fontSize: 12 },
+          phev: { color: C.phev,  fontSize: 12 },
+          plus: { color: C.green, fontSize: 12 },
+          base: { color: C.muted, fontSize: 12 },
+        },
+      },
+      // Reemplaza "BEV + PHEV" por bicolor (BEV azul · "+" verde · PHEV naranja)
+      formatter: (name: string) => {
+        if (filtro !== "ambos") return name;
+        if (name.endsWith("BEV + PHEV")) {
+          const prefix = name.slice(0, -"BEV + PHEV".length);
+          return `{base|${prefix}}{bev|BEV}{plus| + }{phev|PHEV}`;
+        }
+        return name;
+      },
       data: [
         { name: `Matriculaciones ${mvbLabel}`, icon: "circle", itemStyle: { color: mvbColor } },
         { name: `Bajas ${mvbLabel}`,           icon: "circle", itemStyle: { color: C.red } },
@@ -964,6 +986,13 @@ export function Dashboard() {
       },
     ],
   };
+
+  // Label tecnológico bicolor para títulos JSX (sigue patrón tec-filter-buttons)
+  const tecLabelNode = filtro === "bev"
+    ? <span style={{ color: C.bev }}>BEV</span>
+    : filtro === "phev"
+    ? <span style={{ color: C.phev }}>PHEV</span>
+    : <><span style={{ color: C.bev }}>BEV</span><span style={{ color: C.green }}> + </span><span style={{ color: C.phev }}>PHEV</span></>;
 
   // Auto-insights
   const bevShareLast  = BEV_SHARE[BEV_SHARE.length - 1].share;
@@ -1361,7 +1390,7 @@ export function Dashboard() {
           </Card>
           <Card>
             <SectionTitle sub="Serie nacional — sin filtro por tipo ni provincia (no disponible a nivel mensual)" tooltip="Compara mes a mes el alta de matriculaciones (positivo, hacia arriba) con las bajas (negativo, hacia abajo) del parque BEV/PHEV. La diferencia es el saldo neto que alimenta el crecimiento del parque activo.">
-              Matriculaciones vs bajas {mvbLabel} (desde 2020)
+              Matriculaciones vs bajas {tecLabelNode} (desde 2020)
             </SectionTitle>
             <EChart theme="dark" option={matVsBajasOpt} style={{ height: 260 }} />
           </Card>
