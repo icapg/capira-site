@@ -939,22 +939,11 @@ export function Dashboard() {
     },
     legend: {
       top: 0, right: 0,
-      textStyle: {
-        color: C.muted, fontSize: 12,
-        rich: {
-          bev:  { color: C.bev,   fontSize: 12 },
-          phev: { color: C.phev,  fontSize: 12 },
-          plus: { color: C.green, fontSize: 12 },
-          base: { color: C.muted, fontSize: 12 },
-        },
-      },
-      // Reemplaza "BEV + PHEV" por bicolor (BEV azul · "+" verde · PHEV naranja)
+      textStyle: { color: C.muted, fontSize: 12 },
+      // Solo mostrar "Matriculaciones" / "Bajas" (sin sufijo tecnológico)
       formatter: (name: string) => {
-        if (filtro !== "ambos") return name;
-        if (name.endsWith("BEV + PHEV")) {
-          const prefix = name.slice(0, -"BEV + PHEV".length);
-          return `{base|${prefix}}{bev|BEV}{plus| + }{phev|PHEV}`;
-        }
+        if (name.startsWith("Matriculaciones")) return "Matriculaciones";
+        if (name.startsWith("Bajas")) return "Bajas";
         return name;
       },
       data: [
