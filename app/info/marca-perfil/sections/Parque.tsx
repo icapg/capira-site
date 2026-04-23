@@ -5,6 +5,8 @@ import { SectionTitle } from "../../_components/SectionTitle";
 import { useIsMobile } from "../../../lib/useIsMobile";
 import { ChartPiramideEdad } from "./parque/ChartPiramideEdad";
 import { ChartDistintivo } from "./parque/ChartDistintivo";
+import { ChartFlujoSankey } from "./parque/ChartFlujoSankey";
+import { ChartSupervivencia } from "./parque/ChartSupervivencia";
 import type { MarcaPerfil } from "../types";
 
 type Props = { perfil: MarcaPerfil; perfilB?: MarcaPerfil };
@@ -107,6 +109,36 @@ export function Parque({ perfil, perfilB }: Props) {
             </p>
           </Card>
         </div>
+      </div>
+
+      {/* v2: Sankey de flujo + curva de supervivencia */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1.1fr) minmax(0, 1fr)",
+          gap: 14,
+          marginTop: 14,
+        }}
+      >
+        <Card style={{ minWidth: 0 }}>
+          <SectionTitle
+            sub="Matriculaciones 2014+ → activas hoy / bajas por motivo"
+            tooltip="Flujo del parque de la marca desde dic-2014. Desguace = salida real; transferencia = cambio administrativo que NO saca del parque real."
+          >
+            Flujo del parque
+          </SectionTitle>
+          <ChartFlujoSankey perfil={perfil} height={isMobile ? 320 : 380} />
+        </Card>
+
+        <Card style={{ minWidth: 0 }}>
+          <SectionTitle
+            sub="% de la cohorte anual que sigue activa hoy"
+            tooltip="Por cada año desde 2014, qué % de las matriculaciones nuevas sigue activa en el último snapshot DGT. Mayor supervivencia sugiere mejor durabilidad o retención en el parque español (vs exportación/desguace)."
+          >
+            Supervivencia por cohorte
+          </SectionTitle>
+          <ChartSupervivencia perfil={perfil} perfilB={perfilB} height={isMobile ? 280 : 320} />
+        </Card>
       </div>
     </section>
   );

@@ -98,6 +98,26 @@ export type MarcaMixAnualEntry = {
   otro: number;
 };
 
+export type MarcaBajasPorMotivo = {
+  /** Desguace (motivo_baja='3'). Salida real del parque. */
+  '3': number;
+  /** Voluntaria (motivo_baja='7'). */
+  '7': number;
+  /** Transferencia (motivo_baja='6'). */
+  '6': number;
+  /** Exportación (motivo_baja='8'). */
+  '8': number;
+  otros: number;
+};
+
+export type MarcaCohorte = {
+  año: number;
+  /** Matriculaciones nuevas (ind_nuevo_usado='N') de ese año. */
+  matriculadas: number;
+  /** Vehículos activos hoy (último snapshot) cuya fec_prim_matr es de ese año. */
+  activas_hoy: number;
+};
+
 export type MarcaPerfil = {
   slug: string;
   marca: string;
@@ -118,6 +138,27 @@ export type MarcaPerfil = {
   distintivo_ambiental: MarcaDistintivoAmbiental;
   piramide_edad: MarcaPiramideEdadEntry[];
   radar_vs_mercado: MarcaRadar;
+  /** v2: motivos de baja para Sankey. Emitido solo en builds post-v2. */
+  bajas_por_motivo?: MarcaBajasPorMotivo;
+  /** v2: cohortes anuales para curva de supervivencia. Emitido solo en builds post-v2. */
+  cohortes?: MarcaCohorte[];
+};
+
+export type RacingMarcaEntry = {
+  slug: string;
+  marca: string;
+  /** Matriculaciones totales por mes, alineado con meta.periodos. */
+  serie: number[];
+};
+
+export type RacingDataset = {
+  meta: {
+    generado_en: string;
+    ultimo_periodo: string;
+    top_n: number;
+    periodos: string[];
+  };
+  marcas: RacingMarcaEntry[];
 };
 
 export type MarcaIndexEntry = {

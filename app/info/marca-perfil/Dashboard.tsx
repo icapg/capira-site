@@ -12,10 +12,13 @@ import { Geografia } from "./sections/Geografia";
 import { Evolucion } from "./sections/Evolucion";
 import { Sociologia } from "./sections/Sociologia";
 import { Parque } from "./sections/Parque";
+import { Comercial } from "./sections/Comercial";
+import { Racing } from "./sections/Racing";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
 import mercadoJson from "../../../data/dgt-marca-perfil-mercado.json";
-import type { MarcaIndex, MercadoAgregados } from "./types";
+import racingJson from "../../../data/dgt-marca-perfil-racing.json";
+import type { MarcaIndex, MercadoAgregados, RacingDataset } from "./types";
 
 const C = {
   bg:     "#050810",
@@ -31,10 +34,13 @@ const TOC_ITEMS: TocItem[] = [
   { id: "evolucion",   label: "4 · Película" },
   { id: "sociologia",  label: "5 · Quién compra" },
   { id: "parque",      label: "6 · Flota activa" },
+  { id: "comercial",   label: "7 · Vista comercial" },
+  { id: "racing",      label: "8 · El podio" },
 ];
 
 const IDX = indexJson as unknown as MarcaIndex;
 const MERCADO = mercadoJson as unknown as MercadoAgregados;
+const RACING  = racingJson  as unknown as RacingDataset;
 
 function slugsFromUrl(): { m: string | null; vs: string | null } {
   if (typeof window === "undefined") return { m: null, vs: null };
@@ -128,6 +134,29 @@ export function Dashboard() {
           </div>
 
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: isMobile ? "stretch" : "flex-end" }}>
+            {slug && !comparando && (
+              <a
+                href={`/api/info/marca-perfil/og?m=${slug}`}
+                target="_blank"
+                rel="noreferrer"
+                title="Descargar tarjeta PNG compartible"
+                aria-label="Descargar tarjeta"
+                style={{
+                  padding: "10px 12px",
+                  borderRadius: 10,
+                  background: "rgba(56,189,248,0.08)",
+                  border: "1px dashed rgba(56,189,248,0.4)",
+                  color: "#38bdf8",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  textDecoration: "none",
+                }}
+              >
+                🖼️ Tarjeta
+              </a>
+            )}
             <MarcaSelector marcas={marcasIndex} slugActivo={slug} onSelect={selectA} />
             {slug && (
               comparando ? (
@@ -226,6 +255,10 @@ export function Dashboard() {
               <Evolucion perfil={perfil} perfilB={perfilB ?? undefined} mercado={MERCADO} />
               <Sociologia perfil={perfil} />
               <Parque perfil={perfil} perfilB={perfilB ?? undefined} />
+              <Comercial perfil={perfil} />
+              {RACING.marcas.length > 0 && (
+                <Racing racing={RACING} highlightSlug={slug} highlightSlugB={slugB} />
+              )}
             </>
           )}
         </div>

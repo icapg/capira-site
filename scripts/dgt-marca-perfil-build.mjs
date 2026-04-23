@@ -24,7 +24,18 @@ const DB_FILE   = join(ROOT, 'data', 'dgt-matriculaciones.db');
 const ALIAS_FILE = join(ROOT, 'data', 'dgt-marca-aliases.json');
 const OUT_INDEX   = join(ROOT, 'data', 'dgt-marca-perfil-index.json');
 const OUT_MERCADO = join(ROOT, 'data', 'dgt-marca-perfil-mercado.json');
+const OUT_RACING  = join(ROOT, 'data', 'dgt-marca-perfil-racing.json');
 const OUT_DIR     = join(ROOT, 'public', 'data', 'marca-perfil');
+
+const RACING_TOP_N = 30;
+
+// Motivo de baja DGT: 3=desguace, 7=voluntaria, 6=transferencia, 8=exportación, otros.
+const MOTIVO_LABEL = {
+  '3': 'Desguace',
+  '7': 'Voluntaria',
+  '6': 'Transferencia',
+  '8': 'Exportación',
+};
 
 const MIN_TOTAL_HIST   = 100;    // umbral matric para aparecer en el selector
 const MIN_PARQUE       = 1000;   // umbral parque activo alternativo (marcas viejas sin matric)
@@ -145,6 +156,10 @@ async function main() {
       soc_renting: { S: 0, N: 0 },
       soc_servicio: new Map(),
       radar: { co2_sum:0, co2_n:0, kw_sum:0, kw_n:0, peso_sum:0, peso_n:0, auto_sum:0, auto_n:0 },
+      // v2: motivos de baja (Sankey) y cohortes (curva de supervivencia)
+      bajas_por_motivo: { '3':0, '7':0, '6':0, '8':0, otros:0 },
+      mat_nuevas_por_año: new Map(),   // año → n (solo ind_nuevo_usado='N')
+      parque_por_año_matric: new Map(), // año → n (de parque.fec_prim_matr)
     };
     marcas.set(canon, e);
     return e;
@@ -341,6 +356,8 @@ async function main() {
     else if (row.cat === 'PHEV') p.phev  += row.n;
     else if (row.cat === 'HEV')  p.hev   += row.n;
     else                          p.no_ev += row.n;
+    // Acumulado por año de primera matriculación (para cohortes / supervivencia)
+    e.parque_por_año_matric.set(y, (e.parque_por_año_matric.get(y) ?? 0) + row.n);
   }
   console.log(`   ok (${(Date.now() - t0) / 1000}s)`);
 
@@ -455,6 +472,45 @@ async function main() {
     autonomia_bev_km: rMerc.auto_n > 0 ? +((rMerc.auto_sum / rMerc.auto_n) / 100).toFixed(0) : 0,
     n_muestra:      rMerc.co2_n,
   };
+  console.log(`   ok (${(Date.now() - t0) / 1000}s)`);
+
+  // 12) MATRICULACIONES NUEVAS por marca × año (solo ind_nuevo_usado='N')
+  //     Base para curva de supervivencia: de las matriculadas en año X, cuántas siguen activas.
+  console.log('⏳ [Q12] Matric nuevas por marca × año...');
+  t0 = Date.now();
+  const qMatN = db.prepare(`
+    SELECT marca, año AS anio, COUNT(*) AS n
+    FROM matriculaciones
+    WHERE marca IS NOT NULL AND marca != ''
+      AND ind_nuevo_usado = 'N'
+    GROUP BY marca, anio
+  `);
+  for (const row of qMatN.iterate()) {
+    const canon = normalizarMarca(row.marca);
+    if (!canon) continue;
+    const e = getOrCreate(canon);
+    e.mat_nuevas_por_año.set(row.anio, (e.mat_nuevas_por_año.get(row.anio) ?? 0) + row.n);
+  }
+  console.log(`   ok (${(Date.now() - t0) / 1000}s)`);
+
+  // 13) BAJAS POR MOTIVO por marca (para Sankey)
+  console.log('⏳ [Q13] Bajas por motivo × marca...');
+  t0 = Date.now();
+  const qBajMotivo = db.prepare(`
+    SELECT marca,
+           COALESCE(NULLIF(motivo_baja,''), 'otros') AS motivo,
+           COUNT(*) AS n
+    FROM bajas
+    WHERE marca IS NOT NULL AND marca != ''
+    GROUP BY marca, motivo
+  `);
+  for (const row of qBajMotivo.iterate()) {
+    const canon = normalizarMarca(row.marca);
+    if (!canon) continue;
+    const e = getOrCreate(canon);
+    const bucket = ['3','7','6','8'].includes(row.motivo) ? row.motivo : 'otros';
+    e.bajas_por_motivo[bucket] += row.n;
+  }
   console.log(`   ok (${(Date.now() - t0) / 1000}s)`);
 
   db.close();
@@ -635,6 +691,19 @@ async function main() {
       ratio_bajas_matric_ytd: matYtdTotal > 0 ? +((bajasYtd / matYtdTotal) * 100).toFixed(2) : 0,
     };
 
+    // Cohortes anuales: matriculadas nuevas vs activas hoy (por año de primera matric).
+    // Emite solo años con datos (matriculadas > 0 O activas_hoy > 0).
+    const cohorteAños = new Set([...e.mat_nuevas_por_año.keys(), ...e.parque_por_año_matric.keys()]);
+    const cohortes = [...cohorteAños]
+      .sort((a, b) => a - b)
+      .filter((año) => año >= 2014) // MATRABA empieza dic-2014
+      .map((año) => ({
+        año,
+        matriculadas: e.mat_nuevas_por_año.get(año) ?? 0,
+        activas_hoy:  e.parque_por_año_matric.get(año) ?? 0,
+      }))
+      .filter((c) => c.matriculadas > 0 || c.activas_hoy > 0);
+
     const perfil = {
       slug: e.slug,
       marca: e.marca,
@@ -655,6 +724,9 @@ async function main() {
       distintivo_ambiental: e.distintivo,
       piramide_edad,
       radar_vs_mercado,
+      // v2
+      bajas_por_motivo: e.bajas_por_motivo,
+      cohortes,
     };
 
     writeFileSync(join(OUT_DIR, `${e.slug}.json`), JSON.stringify(perfil), 'utf8');
@@ -719,6 +791,32 @@ async function main() {
   };
   writeFileSync(OUT_MERCADO, JSON.stringify(mercadoOut, null, 2), 'utf8');
   console.log(`✅ Mercado escrito: ${OUT_MERCADO}`);
+
+  // ── Racing dataset: top N marcas × serie mensual ─────────────────────
+  // Para el racing bar chart animado. Top N por total_hist.
+  const racingTopMarcas = [...marcas.values()]
+    .filter((e) => e.total_hist >= MIN_TOTAL_HIST || e.parque_activo >= MIN_PARQUE)
+    .sort((a, b) => b.total_hist - a.total_hist)
+    .slice(0, RACING_TOP_N);
+  const racingOut = {
+    meta: {
+      generado_en: new Date().toISOString().slice(0, 10),
+      ultimo_periodo: ultPer,
+      top_n: RACING_TOP_N,
+      periodos: periodosTodos,
+    },
+    marcas: racingTopMarcas.map((e) => ({
+      slug: e.slug,
+      marca: e.marca,
+      // Para cada periodo, matriculaciones totales (bev+phev+hev+otro)
+      serie: periodosTodos.map((p) => {
+        const m = e.mat_mensual.get(p);
+        return m ? m.bev + m.phev + m.hev + m.otro : 0;
+      }),
+    })),
+  };
+  writeFileSync(OUT_RACING, JSON.stringify(racingOut, null, 2), 'utf8');
+  console.log(`✅ Racing escrito: ${OUT_RACING}  (${racingTopMarcas.length} marcas × ${periodosTodos.length} meses)`);
 
   console.log('🎉 Listo.');
 }
