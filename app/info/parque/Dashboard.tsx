@@ -8,8 +8,6 @@ import type { TipoVehiculo } from "../../lib/insights/dgt-bev-phev-data";
 import { TIPO_LABELS, PROVINCIAS_ORDENADAS } from "../../lib/insights/dgt-bev-phev-data";
 import * as echarts from "echarts";
 import {
-  dgtParqueMeta,
-  dgtParqueResumen,
   dgtParqueResumenPorTipo,
   dgtParqueEdad,
   dgtParqueMensual,
@@ -253,17 +251,19 @@ function KpiCard({
 }) {
   return (
     <div style={{
-      background: `linear-gradient(135deg, rgba(${hex2rgb(color)},0.07) 0%, rgba(${hex2rgb(color)},0.02) 100%)`,
-      border: `1px solid rgba(${hex2rgb(color)},0.18)`,
-      borderRadius: 16,
-      padding: "22px 24px",
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.11)",
+      borderRadius: 18,
+      padding: "20px 22px",
       display: "flex", flexDirection: "column", gap: 8,
       position: "relative", overflow: "hidden",
     }}>
       <div style={{
-        position: "absolute", right: 16, top: 10,
-        fontSize: 48, opacity: 0.1, lineHeight: 1, userSelect: "none",
-      }}>{emoji}</div>
+        position: "absolute", top: -24, right: -24,
+        width: 80, height: 80, borderRadius: "50%",
+        background: `${color}18`, filter: "blur(24px)",
+        pointerEvents: "none",
+      }} />
 
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 20 }}>{emoji}</span>
@@ -293,7 +293,7 @@ function KpiCard({
       {secondary && (
         <div style={{
           marginTop: 10, paddingTop: 12,
-          borderTop: `1px solid rgba(${hex2rgb(color)},0.16)`,
+          borderTop: "1px solid rgba(255,255,255,0.11)",
           display: "flex", flexDirection: "column", gap: 4,
         }}>
           <span style={{ fontSize: 10, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600 }}>
@@ -637,7 +637,7 @@ function ChartDistintivo({ data }: { data: Record<string, number> }) {
 }
 
 // ─── Chart 3 — Pirámide de edad del parque ──────────────────────────────────
-function ChartPiramideEdad({ edad }: { edad: NonNullable<typeof dgtParqueEdad> }) {
+function ChartPiramideEdad({ edad, tec }: { edad: NonNullable<typeof dgtParqueEdad>; tec: TecFiltro }) {
   const ref = useRef<HTMLDivElement>(null);
   useChart(ref, () => {
     const años = Object.keys(edad.por_anio).map(Number).sort((a, b) => a - b);
@@ -648,6 +648,19 @@ function ChartPiramideEdad({ edad }: { edad: NonNullable<typeof dgtParqueEdad> }
     const phev  = used.map((y) => edad.por_anio[y]?.PHEV ?? 0);
     const hev   = used.map((y) => (edad.por_anio[y]?.HEV ?? 0) + (edad.por_anio[y]?.REEV ?? 0) + (edad.por_anio[y]?.FCEV ?? 0));
     const noev  = used.map((y) => edad.por_anio[y]?.NO_EV ?? 0);
+    type Serie = { name: string; data: number[]; color: string };
+    const allSeries: Serie[] = [
+      { name: "No enchufables", data: noev, color: C_NOENCH },
+      { name: "HEV/otros",      data: hev,  color: "#a78bfa" },
+      { name: "PHEV",           data: phev, color: C.phev },
+      { name: "BEV",            data: bev,  color: C.bev },
+    ];
+    // Filtrar series según filtro de tecnología
+    const visibles: Serie[] = tec === "bev"
+      ? [{ name: "BEV", data: bev, color: C.bev }]
+      : tec === "phev"
+      ? [{ name: "PHEV", data: phev, color: C.phev }]
+      : allSeries;
     return {
       backgroundColor: "transparent",
       grid: { top: 30, right: 24, bottom: 36, left: 60 },
@@ -672,14 +685,11 @@ function ChartPiramideEdad({ edad }: { edad: NonNullable<typeof dgtParqueEdad> }
         axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => kLabel(v) },
         splitLine: { lineStyle: { color: C.grid } },
       },
-      series: [
-        { name: "No enchufables", type: "bar", stack: "t", data: noev, barMaxWidth: 14, itemStyle: { color: C_NOENCH } },
-        { name: "HEV/otros",      type: "bar", stack: "t", data: hev,  barMaxWidth: 14, itemStyle: { color: "#a78bfa" } },
-        { name: "PHEV",           type: "bar", stack: "t", data: phev, barMaxWidth: 14, itemStyle: { color: C.phev } },
-        { name: "BEV",            type: "bar", stack: "t", data: bev,  barMaxWidth: 14, itemStyle: { color: C.bev } },
-      ],
+      series: visibles.map((s) => ({
+        name: s.name, type: "bar", stack: "t", data: s.data, barMaxWidth: 14, itemStyle: { color: s.color },
+      })),
     };
-  }, [edad]);
+  }, [edad, tec]);
   return <div ref={ref} style={{ width: "100%", height: 300 }} />;
 }
 
@@ -716,7 +726,7 @@ function ChartSaldoNetoPorTipo({
             ).join("");
         }
       },
-      legend: { top: 0, right: 0, textStyle: { color: C.muted, fontSize: 11 } },
+      legend: { show: false },
       xAxis: { type: "value",
         axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => v >= 0 ? `+${fmtN(v)}` : fmtN(v) },
         splitLine: { lineStyle: { color: C.grid } },
@@ -1015,121 +1025,240 @@ function ChartMapaEspana({
   return <div ref={ref} style={{ width: "auto", height: 440, marginLeft: -20, marginRight: -20 }} />;
 }
 
-// ─── Chart 14 — Proyección al objetivo PNIEC (5M enchufables 2030) ──────────
+// ─── Chart 14 — Proyección al objetivo PNIEC (5,5M enchufables 2030) ────────
 function ChartProyeccionPniec({
-  parEnch, periodos,
+  parEnch: parEnchFull, periodos: periodosFull,
 }: { parEnch: number[]; periodos: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
   useChart(ref, () => {
-    const TARGET = 5_000_000;
+    const TARGET = 5_500_000;
     const TARGET_PERIODO = "2030-12";
-    // Regresión lineal sobre últimos 12 meses reales
-    const nHist = Math.min(12, parEnch.length);
-    const slice = parEnch.slice(-nHist);
-    const n = slice.length;
-    const xs = Array.from({ length: n }, (_, i) => i);
-    const xMean = xs.reduce((a, b) => a + b, 0) / n;
-    const yMean = slice.reduce((a, b) => a + b, 0) / n;
-    let num = 0, den = 0;
-    for (let i = 0; i < n; i++) { num += (xs[i] - xMean) * (slice[i] - yMean); den += (xs[i] - xMean) ** 2; }
-    const slope = den > 0 ? num / den : 0; // vehículos/mes
+    const END_PERIODO    = "2035-12"; // hasta dónde se extiende el eje X
 
-    // Proyectar desde último mes hasta 2030-12
+    // Recorta histórico visible a partir de 2018-01 (cálculos de slope/CAGR
+    // siguen usando los últimos N meses, no se ven afectados).
+    const startIdx = periodosFull.findIndex((p) => p >= "2018-01");
+    const periodos = startIdx >= 0 ? periodosFull.slice(startIdx) : periodosFull;
+    const parEnch  = startIdx >= 0 ? parEnchFull.slice(startIdx)  : parEnchFull;
+
     const lastPer = periodos[periodos.length - 1];
     const [ly, lm] = lastPer.split("-").map(Number);
-    const [ty, tm] = TARGET_PERIODO.split("-").map(Number);
-    const mesesFalt = (ty - ly) * 12 + (tm - lm);
+    const [ey, em] = END_PERIODO.split("-").map(Number);
+    const mesesFalt = (ey - ly) * 12 + (em - lm); // proyectar hasta END_PERIODO
     const lastVal = parEnch[parEnch.length - 1];
+
+    // Regresión lineal genérica sobre los últimos N meses (para 12M)
+    const linRegSlope = (nMonths: number): number => {
+      const n = Math.min(nMonths, parEnch.length);
+      if (n < 2) return 0;
+      const slice = parEnch.slice(-n);
+      const xs = Array.from({ length: n }, (_, i) => i);
+      const xMean = xs.reduce((a, b) => a + b, 0) / n;
+      const yMean = slice.reduce((a, b) => a + b, 0) / n;
+      let num = 0, den = 0;
+      for (let i = 0; i < n; i++) { num += (xs[i] - xMean) * (slice[i] - yMean); den += (xs[i] - xMean) ** 2; }
+      return den > 0 ? num / den : 0;
+    };
+    const slope12 = linRegSlope(12);
+
+    // CAGR mensual sobre últimos 24 meses → proyección exponencial (aceleración)
+    const cagrSpan = Math.min(24, parEnch.length);
+    const firstValForCagr = parEnch[parEnch.length - cagrSpan] ?? lastVal;
+    const monthlyGrowthRate = (cagrSpan > 1 && firstValForCagr > 0)
+      ? Math.pow(lastVal / firstValForCagr, 1 / (cagrSpan - 1)) - 1
+      : 0;
+
     const projPeriodos: string[] = [];
-    const projValues: number[] = [];
+    const proj12:  number[] = [];
+    const projExp: number[] = [];
     for (let i = 1; i <= mesesFalt; i++) {
       const d = new Date(ly, lm - 1 + i, 1);
-      const p = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-      projPeriodos.push(p);
-      projValues.push(Math.max(0, Math.round(lastVal + slope * i)));
+      projPeriodos.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+      proj12.push(Math.max(0, Math.round(lastVal + slope12 * i)));
+      projExp.push(Math.max(0, Math.round(lastVal * Math.pow(1 + monthlyGrowthRate, i))));
     }
 
-    // Fecha estimada en que se alcanzaría 5M (extrapolando al ritmo actual)
-    const faltan = TARGET - lastVal;
-    const mesesAl5M = slope > 0 ? Math.ceil(faltan / slope) : null;
-    const etaPeriodo = (() => {
-      if (!mesesAl5M || mesesAl5M <= 0) return "ya alcanzado";
-      const d = new Date(ly, lm - 1 + mesesAl5M, 1);
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    })();
+    // Valor de cada proyección al cruzar la fecha límite (TARGET_PERIODO)
+    const [tyDl, tmDl] = TARGET_PERIODO.split("-").map(Number);
+    const mesesHastaDeadline = (tyDl - ly) * 12 + (tmDl - lm);
+    const val12AtDeadline  = mesesHastaDeadline > 0
+      ? Math.max(0, Math.round(lastVal + slope12 * mesesHastaDeadline))
+      : lastVal;
+    const valExpAtDeadline = mesesHastaDeadline > 0
+      ? Math.max(0, Math.round(lastVal * Math.pow(1 + monthlyGrowthRate, mesesHastaDeadline)))
+      : lastVal;
+    const fmtM = (n: number) => `${(n / 1_000_000).toFixed(2)}M`;
+    const etaColor = (eta: string) =>
+      eta === "ya alcanzado" || (eta !== "no alcanza" && eta <= TARGET_PERIODO) ? C.green : C.red;
 
+    // Eje X: histórico (para que las markLines de 2020/2024 caigan en su lugar)
+    // + proyecciones hasta END_PERIODO. Las proyecciones arrancan en lastVal.
     const fullPeriodos = [...periodos, ...projPeriodos];
-    const histSerie   = [...parEnch, ...projPeriodos.map(() => null)];
-    const projSerie   = [...periodos.slice(0, -1).map(() => null), lastVal, ...projValues];
-    const targetLine  = fullPeriodos.map(() => TARGET);
+    const padHist      = projPeriodos.map(() => null);
+    const padProj      = periodos.slice(0, -1).map(() => null);
+    const histSerie    = [...parEnch, ...padHist];
+    const proj12Serie  = [...padProj, lastVal, ...proj12];
+    const projExpSerie = [...padProj, lastVal, ...projExp];
+    const targetLine   = fullPeriodos.map(() => TARGET);
 
     return {
       backgroundColor: "transparent",
-      grid: { top: 52, right: 24, bottom: 44, left: 68 },
+      grid: { top: 36, right: 24, bottom: 44, left: 68 },
       tooltip: { ...TT, trigger: "axis",
         formatter: (params: Record<string, unknown>[]) => {
           const p = (params[0] as { axisValue: string }).axisValue;
+          const arr = params as { value: number | null; seriesName: string; color: string }[];
+          // Excluir target (constante en todos los meses) y nulls
+          const validas = arr.filter((s) => s.value !== null && s.value !== undefined && s.seriesName !== "Objetivo PNIEC 5,5M");
+          const hist = validas.find((s) => s.seriesName === "Histórico");
+          // Si hay histórico en este punto, solo lo mostramos.
+          // Si no, mostramos las proyecciones (las que tengan valor).
+          const items = hist ? [hist] : validas.filter((s) => s.seriesName !== "Histórico");
+          if (items.length === 0) return "";
+          // Marcador como segmento de línea con el tipo correspondiente a la serie
+          const lineStyleFor = (name: string): string =>
+            name === "Proyección lineal últimos 12 meses" ? "dotted"
+              : name === "Proyección con aceleración"     ? "dashed"
+              : "solid";
+          const marker = (s: { color: string; seriesName: string }) =>
+            `<span style="display:inline-block;width:20px;height:0;border-top:2px ${lineStyleFor(s.seriesName)} ${s.color};margin-right:6px;vertical-align:middle"></span>`;
           return `<div style="color:${C.text};font-size:13px;font-weight:600;margin-bottom:6px">${p}</div>` +
-            (params as { value: number | null; seriesName: string; color: string }[]).filter((s) => s.value !== null).map((s) =>
-              `<div style="display:flex;gap:12px;justify-content:space-between">` +
-              `<span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${s.color};margin-right:5px"></span>${s.seriesName}</span>` +
+            items.map((s) =>
+              `<div style="display:flex;gap:12px;justify-content:space-between;align-items:center">` +
+              `<span>${marker(s)}${s.seriesName}</span>` +
               `<span style="font-weight:600;color:${C.text}">${fmtN(s.value as number)}</span></div>`
             ).join("");
         }
       },
-      legend: {
-        top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 },
-        data: ["Histórico (real+calc)", "Proyección", "Objetivo PNIEC 5M"],
-      },
-      graphic: [{
-        type: "text", right: 24, top: 24,
-        style: {
-          text: `ETA a 5M: ${etaPeriodo}`,
-          fill: slope > 0 && etaPeriodo <= TARGET_PERIODO ? C.green : C.phev,
-          fontSize: 11, fontWeight: 600,
-        },
-      }],
+      legend: (() => {
+        // Iconos como paths SVG que simulan línea sólida / dashed / dotted
+        const ICON_SOLID  = "path://M0,0 L24,0 L24,2 L0,2 Z";
+        const ICON_DASHED = "path://M0,0 L6,0 L6,2 L0,2 Z M9,0 L15,0 L15,2 L9,2 Z M18,0 L24,0 L24,2 L18,2 Z";
+        const ICON_DOTTED = "path://M0,0 L2,0 L2,2 L0,2 Z M5,0 L7,0 L7,2 L5,2 Z M10,0 L12,0 L12,2 L10,2 Z M15,0 L17,0 L17,2 L15,2 Z M20,0 L22,0 L22,2 L20,2 Z";
+        return {
+          top: 0, right: 0, textStyle: { color: C.muted, fontSize: 12 },
+          itemWidth: 24, itemHeight: 6, itemGap: 14,
+          data: [
+            { name: "Histórico",                          icon: ICON_SOLID,  itemStyle: { color: C.green } },
+            { name: "Proyección lineal últimos 12 meses", icon: ICON_DOTTED, itemStyle: { color: C.green } },
+            { name: "Proyección con aceleración",         icon: ICON_DASHED, itemStyle: { color: C.green } },
+            { name: "Objetivo PNIEC 5,5M",                icon: ICON_DOTTED, itemStyle: { color: C.red } },
+          ],
+        };
+      })(),
       xAxis: { type: "category", data: fullPeriodos,
         axisLabel: { color: C.muted, fontSize: 10,
-          formatter: (v: string) => {
-            const [y, m] = v.split("-");
-            return m === "01" ? y : "";
+          interval: (idx: number, val: string) => {
+            const m = val.split("-")[1];
+            // Tick por año (enero) + el primer punto de la serie como ancla
+            return m === "01" || idx === 0;
           },
+          formatter: (v: string) => v.split("-")[0],
         },
         axisLine: { lineStyle: { color: C.grid } },
         splitLine: { show: false },
       },
       yAxis: { type: "value",
+        min: 0, max: 10_000_000,
         axisLabel: { color: C.muted, fontSize: 11, formatter: (v: number) => kLabel(v) },
         splitLine: { lineStyle: { color: C.grid } },
       },
       series: [
         {
-          name: "Histórico (real+calc)", type: "line", data: histSerie,
+          name: "Histórico", type: "line", data: histSerie,
+          color: C.green,
           smooth: true, symbol: "none",
           lineStyle: { color: C.green, width: 2.4 },
           areaStyle: { color: linGrad(C.green, 0.18, 0.02) },
+          markLine: {
+            silent: false,
+            symbol: ["none", "none"],
+            lineStyle: { color: "#fbbf24", type: "dashed", width: 1, opacity: 0.7 },
+            label: {
+              show: true,
+              position: "insideEndTop",
+              color: "#fbbf24",
+              fontSize: 10,
+              fontWeight: 600,
+              backgroundColor: "rgba(5,8,16,0.85)",
+              padding: [3, 6, 3, 6],
+              borderRadius: 4,
+            },
+            data: [
+              { xAxis: "2020-01", label: { formatter: "Meta 5M a 2030" } },
+              { xAxis: "2024-09", label: { formatter: "Meta actualizada: 5,5M a 2030", position: "insideEndBottom" } },
+            ],
+          },
         },
         {
-          name: "Proyección", type: "line", data: projSerie,
+          name: "Proyección lineal últimos 12 meses", type: "line", data: proj12Serie,
+          color: C.green,
           smooth: true, symbol: "none",
-          lineStyle: { color: C.green, width: 1.6, type: "dashed", opacity: 0.65 },
+          lineStyle: { color: C.green, width: 1.6, type: "dotted", opacity: 0.85 },
+          markPoint: {
+            symbol: "circle", symbolSize: 9,
+            itemStyle: { color: C.green, borderColor: "#0b1020", borderWidth: 2 },
+            label: {
+              show: true, position: "right", offset: [4, 0],
+              color: C.green, fontSize: 11, fontWeight: 700,
+              backgroundColor: "rgba(5,8,16,0.85)",
+              padding: [3, 6, 3, 6], borderRadius: 4,
+              formatter: fmtM(val12AtDeadline),
+            },
+            data: [{ coord: [TARGET_PERIODO, val12AtDeadline] }],
+          },
         },
         {
-          name: "Objetivo PNIEC 5M", type: "line", data: targetLine,
+          name: "Proyección con aceleración", type: "line", data: projExpSerie,
+          color: C.green,
+          smooth: true, symbol: "none",
+          lineStyle: { color: C.green, width: 1.8, type: "dashed", opacity: 0.9 },
+          markPoint: {
+            symbol: "circle", symbolSize: 9,
+            itemStyle: { color: C.green, borderColor: "#0b1020", borderWidth: 2 },
+            label: {
+              show: true, position: "right", offset: [4, 0],
+              color: C.green, fontSize: 11, fontWeight: 700,
+              backgroundColor: "rgba(5,8,16,0.85)",
+              padding: [3, 6, 3, 6], borderRadius: 4,
+              formatter: fmtM(valExpAtDeadline),
+            },
+            data: [{ coord: [TARGET_PERIODO, valExpAtDeadline] }],
+          },
+        },
+        {
+          name: "Objetivo PNIEC 5,5M", type: "line", data: targetLine,
+          color: C.red,
           symbol: "none",
-          lineStyle: { color: C.phev, width: 1, type: "dotted", opacity: 0.65 },
+          lineStyle: { color: C.red, width: 1, type: "dotted", opacity: 0.7 },
           markPoint: {
             symbol: "circle", symbolSize: 8,
-            itemStyle: { color: C.phev },
-            label: { show: true, position: "right", formatter: "5M", color: C.phev, fontSize: 11, fontWeight: 600 },
+            itemStyle: { color: C.red },
+            label: { show: true, position: "right", formatter: "5,5M", color: C.red, fontSize: 11, fontWeight: 600 },
             data: [{ coord: [TARGET_PERIODO, TARGET] }],
+          },
+          markLine: {
+            silent: false,
+            symbol: ["none", "none"],
+            lineStyle: { color: C.red, type: "dashed", width: 1.4, opacity: 0.85 },
+            label: {
+              show: true,
+              position: "insideEndTop",
+              color: C.red,
+              fontSize: 10,
+              fontWeight: 600,
+              backgroundColor: "rgba(5,8,16,0.85)",
+              padding: [3, 6, 3, 6],
+              borderRadius: 4,
+              formatter: "Fecha límite",
+            },
+            data: [{ xAxis: TARGET_PERIODO }],
           },
         },
       ],
     };
-  }, [parEnch, periodos]);
-  return <div ref={ref} style={{ width: "100%", height: 320 }} />;
+  }, [parEnchFull, periodosFull]);
+  return <div ref={ref} style={{ width: "100%", height: 360 }} />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1149,7 +1278,6 @@ const sDesc: React.CSSProperties = {
 };
 
 export function Dashboard() {
-  const R = dgtParqueResumen;
   const { countryName } = useInsights();
   const winW = useWindowWidth();
   const isMobile = winW < 768;
@@ -1362,10 +1490,16 @@ export function Dashboard() {
     const L = dgtParqueMensual[dgtParqueMensual.length - 1];
     const pb = L?.parque_por_provincia_tipo;
     if (!pb) return [] as { ine: string; prov: string; pen: number; evs: number; total: number }[];
+    const isAllTipos = tiposVehiculo.length === TIPOS_ORDER.length;
+    const tiposParque = isAllTipos
+      ? FILTRO_TO_PARQUE_TIPOS.todos
+      : Array.from(new Set(tiposVehiculo.flatMap((t) => FILTRO_TO_PARQUE_TIPOS[t])));
     return Object.entries(pb).map(([ine, tb]) => {
+      const byTipo = tb as Record<string, Record<string, number>>;
       let bev = 0, phev = 0, tot = 0;
-      for (const pt of Object.keys(tb as Record<string, Record<string, number>>)) {
-        const row = (tb as Record<string, Record<string, number>>)[pt];
+      for (const pt of tiposParque) {
+        const row = byTipo[pt];
+        if (!row) continue;
         bev  += row.BEV   ?? 0;
         phev += row.PHEV  ?? 0;
         tot  += row.total ?? 0;
@@ -1379,12 +1513,22 @@ export function Dashboard() {
         pen: tot > 0 ? (evs / tot) * 100 : 0,
       };
     }).filter((p) => p.total > 0);
-  }, [filtro]);
+  }, [filtro, tiposVehiculo]);
 
-  // ── Enchufables nacional (para proyección PNIEC — no usa filtros) ────────
-  const parqueEnchNacional = useMemo(() =>
-    dgtParqueMensual.map((m) => (m.parque_acumulado.BEV ?? 0) + (m.parque_acumulado.PHEV ?? 0)),
-  []);
+  // ── Enchufables PNIEC: nacional, BEV+PHEV, alcance fijo (insensible a filtros) ──
+  // Tipos cubiertos por el objetivo PNIEC 5,5M: turismo, furgoneta, camión, autobús, moto, trimoto.
+  const parqueEnchNacional = useMemo(() => {
+    const TIPOS_PNIEC = ["turismo", "furgoneta_van", "camion", "autobus", "moto", "trimoto"];
+    return dgtParqueMensual.map((m) => {
+      if (!m.parque_por_tipo) return (m.parque_acumulado.BEV ?? 0) + (m.parque_acumulado.PHEV ?? 0);
+      const pt = m.parque_por_tipo as Record<string, Record<string, number>>;
+      let s = 0;
+      for (const t of TIPOS_PNIEC) {
+        s += (pt[t]?.BEV ?? 0) + (pt[t]?.PHEV ?? 0);
+      }
+      return s;
+    });
+  }, []);
 
   // ── Mix tecnológico — calculado desde el PARQUE ACTIVO (snapshot anual) ──
   // Toma el último mes disponible de cada año (ej. dic) y deriva % BEV / (BEV+PHEV)
@@ -1407,8 +1551,8 @@ export function Dashboard() {
         const parcial = año === añoUltimo && mesUltimo !== "12";
         return {
           año, bev, phev, total, parcial,
-          bevPct:  total > 0 ? +((bev  / total) * 100).toFixed(1) : 0,
-          phevPct: total > 0 ? +((phev / total) * 100).toFixed(1) : 0,
+          bevPct:  total > 0 ? Math.round((bev  / total) * 100) : 0,
+          phevPct: total > 0 ? Math.round((phev / total) * 100) : 0,
         };
       });
   }, [parBev, parPhev]);
@@ -1420,7 +1564,7 @@ export function Dashboard() {
       formatter: (params: Record<string, any>[]) => {
         const seriesColor = (name: string) => name === "BEV" ? C.bev : C.phev;
         return `<b style="color:${C.text}">${params[0].axisValue}</b><br/>` +
-          params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${p.value.toFixed(1)}%</b>`).join("<br/>");
+          params.map((p) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${seriesColor(p.seriesName)};margin-right:6px"></span>${p.seriesName}: <b>${Math.round(p.value)}%</b>`).join("<br/>");
       },
     },
     grid: { top: 12, right: 16, bottom: 32, left: isMobile ? 36 : 52 },
@@ -1442,14 +1586,14 @@ export function Dashboard() {
         data: mixParqueAnual.map((a) => a.bevPct),
         itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.bev},{offset:1,color:"rgba(56,189,248,0.6)"}]) },
         barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${Math.round(p.value)}%` },
       },
       {
         name: "PHEV", type: "bar", stack: "s",
         data: mixParqueAnual.map((a) => a.phevPct),
         itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C.phev},{offset:1,color:"rgba(251,146,60,0.6)"}]), borderRadius: [4,4,0,0] },
         barMaxWidth: 64,
-        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${isMobile ? Math.round(p.value) : p.value}%` },
+        label: { show: true, position: "inside", color: "#fff", fontSize: 11, fontWeight: 700, formatter: (p: Record<string, any>) => `${Math.round(p.value)}%` },
       },
     ],
   };
@@ -1668,74 +1812,45 @@ export function Dashboard() {
             }
           </div>
           <div style={sec}>
-            <div style={sTitle}>Pirámide de edad del parque</div>
-            <div style={sDesc}>Vehículos por año de matriculación (últimos 30 años). Muestra la penetración progresiva de BEV/PHEV en las cohortes recientes.</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+              <div style={{ ...sTitle, marginBottom: 0 }}>Pirámide de edad del parque</div>
+              <span style={{
+                fontSize: 10, background: `rgba(${hex2rgb(C_NOENCH)},0.14)`, color: C_NOENCH,
+                border: `1px solid rgba(${hex2rgb(C_NOENCH)},0.35)`,
+                borderRadius: 5, padding: "2px 8px", fontWeight: 600,
+                letterSpacing: "0.04em", textTransform: "uppercase",
+              }}>
+                Solo nacional
+              </span>
+            </div>
+            <div style={sDesc}>
+              Vehículos por año de matriculación (últimos 30 años). Muestra la penetración progresiva de BEV/PHEV en las cohortes recientes.
+              Responde al filtro de tecnología; <strong style={{ color: C.text }}>no responde a tipo ni provincia</strong> (dato agregado a nivel país).
+            </div>
             {dgtParqueEdad && Object.keys(dgtParqueEdad.por_anio).length > 0
-              ? <ChartPiramideEdad edad={dgtParqueEdad} />
+              ? <ChartPiramideEdad edad={dgtParqueEdad} tec={filtro} />
               : <div style={{ padding: "40px 0", color: C.muted, fontSize: 13, textAlign: "center" }}>Sin datos de edad — regenerar JSON</div>
             }
           </div>
         </div>
 
-        {/* Proyección PNIEC 5M */}
+        {/* Proyección PNIEC 5,5M */}
         <div style={{ ...sec, marginBottom: 20 }}>
-          <div style={sTitle}>Proyección al objetivo PNIEC (5M enchufables en 2030)</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ ...sTitle, marginBottom: 0 }}>Proyección al objetivo PNIEC (5,5M enchufables en 2030)</div>
+            <span style={{
+              fontSize: 10, background: "rgba(251,191,36,0.14)", color: "#fbbf24",
+              border: "1px solid rgba(251,191,36,0.35)",
+              borderRadius: 5, padding: "2px 8px", fontWeight: 600,
+              letterSpacing: "0.04em", textTransform: "uppercase",
+            }}>
+              Filtros fijos
+            </span>
+          </div>
           <div style={sDesc}>
-            Extrapolación lineal del crecimiento de los últimos 12 meses. El objetivo del Plan Nacional Integrado de Energía y Clima fija 5M de turismos eléctricos/híbridos enchufables para diciembre de 2030.
-            Serie nacional, no aplica filtro por provincia.
+            Histórico del parque enchufable más dos extrapolaciones: lineal con los últimos 12 meses y exponencial considerando la aceleración de los últimos 24 meses (CAGR mensual).
           </div>
           <ChartProyeccionPniec parEnch={parqueEnchNacional} periodos={PERIODOS} />
-        </div>
-
-        {/* Tabla resumen */}
-        <div style={sec}>
-          <div style={sTitle}>Resumen por categoría EV</div>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-            <thead>
-              <tr style={{ borderBottom: `1px solid ${C.border}` }}>
-                {["Categoría", "Matriculadas", "Bajas", "Parque activo", "Tasa de baja"].map((h) => (
-                  <th key={h} style={{ textAlign: h === "Categoría" ? "left" : "right", padding: "8px 12px", color: C.muted, fontWeight: 500 }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {(["BEV", "PHEV"] as const).filter((cat) => R[cat]).map((cat) => {
-                const d = R[cat]!;
-                const color = cat === "BEV" ? C.bev : C.phev;
-                return (
-                  <tr key={cat} style={{ borderBottom: `1px solid ${C.border}` }}>
-                    <td style={{ padding: "10px 12px" }}>
-                      <span style={{ background: `rgba(${hex2rgb(color)},0.15)`, color, borderRadius: 4, padding: "2px 8px", fontWeight: 600, fontSize: 12 }}>{cat}</span>
-                    </td>
-                    <td style={{ padding: "10px 12px", textAlign: "right", color: C.text }}>{fmtN(d.matriculadas)}</td>
-                    <td style={{ padding: "10px 12px", textAlign: "right", color: C.red }}>{fmtN(d.bajas)}</td>
-                    <td style={{ padding: "10px 12px", textAlign: "right", color, fontWeight: 700 }}>{fmtN(d.parque_activo)}</td>
-                    <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted }}>{d.tasa_baja_pct}%</td>
-                  </tr>
-                );
-              })}
-              <tr style={{ borderBottom: `1px solid ${C.border}` }}>
-                <td style={{ padding: "10px 12px" }}>
-                  <span style={{ background: `rgba(${hex2rgb(C_NOENCH)},0.12)`, color: C_NOENCH, borderRadius: 4, padding: "2px 8px", fontWeight: 600, fontSize: 12 }}>No enchufables</span>
-                  <span style={{ fontSize: 10, color: C.dim, marginLeft: 6 }}>Gasolina · Diésel · HEV · otros</span>
-                </td>
-                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
-                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
-                <td style={{ padding: "10px 12px", textAlign: "right", color: C_NOENCH, fontWeight: 700 }}>{fmtN(lastMes.parque_no_enchufable)}</td>
-                <td style={{ padding: "10px 12px", textAlign: "right", color: C.muted, fontSize: 11 }}>—</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style={{ marginTop: 16, fontSize: 11, color: C.dim, lineHeight: 1.6 }}>
-            <div>
-              <strong style={{ color: C.muted }}>Fuente real:</strong> DGT — ZIP mensual Parque de Vehículos (microdatos).
-              {" "}Snapshots reales desde {dgtParqueMeta.primer_periodo_real} hasta {dgtParqueMeta.ultimo_periodo_real}.
-            </div>
-            <div>
-              <strong style={{ color: C.muted }}>Fuente calculada:</strong> DGT MATRABA (matriculaciones − bajas), aplicada hacia atrás desde el primer snapshot real.
-            </div>
-            <div style={{ marginTop: 6 }}>Actualizado {dgtParqueMeta.ultima_actualizacion}.</div>
-          </div>
         </div>
 
       </div>

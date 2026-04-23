@@ -27,7 +27,7 @@ export const DASHBOARDS: Dashboard[] = [
   },
   {
     slug: "parque",
-    label: "Parque activo",
+    label: "Parque Activo",
     href: "/info/parque",
     tier: "public",
     ready: true,
