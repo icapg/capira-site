@@ -11,6 +11,7 @@ import { AdnMarca } from "./sections/AdnMarca";
 import { Geografia } from "./sections/Geografia";
 import { Evolucion } from "./sections/Evolucion";
 import { Sociologia } from "./sections/Sociologia";
+import { Parque } from "./sections/Parque";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
 import mercadoJson from "../../../data/dgt-marca-perfil-mercado.json";
@@ -138,7 +139,7 @@ export function Dashboard() {
               <Geografia perfil={perfil} />
               <Evolucion perfil={perfil} mercado={MERCADO} />
               <Sociologia perfil={perfil} />
-              <Placeholder id="parque"     label="Flota activa (pirámide + distintivo)" />
+              <Parque perfil={perfil} />
             </>
           )}
         </div>
@@ -160,29 +161,6 @@ function ErrorState({ msg }: { msg: string }) {
     <div style={{ padding: "40px 20px", textAlign: "center", color: "#f87171", fontSize: 13 }}>
       ⚠ No se pudo cargar el perfil: {msg}
     </div>
-  );
-}
-
-function Placeholder({ id, label }: { id: string; label: string }) {
-  return (
-    <section
-      id={id}
-      style={{
-        marginTop: 28,
-        padding: "40px 24px",
-        borderRadius: 16,
-        background: "rgba(255,255,255,0.03)",
-        border: "1px dashed rgba(255,255,255,0.10)",
-        textAlign: "center",
-        color: "rgba(241,245,249,0.35)",
-        fontSize: 13,
-      }}
-    >
-      <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.6, marginBottom: 6 }}>
-        Próximamente
-      </div>
-      {label}
-    </section>
   );
 }
 
