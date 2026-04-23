@@ -10,6 +10,7 @@ import { HeroKpis } from "./sections/HeroKpis";
 import { AdnMarca } from "./sections/AdnMarca";
 import { Geografia } from "./sections/Geografia";
 import { Evolucion } from "./sections/Evolucion";
+import { Sociologia } from "./sections/Sociologia";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
 import mercadoJson from "../../../data/dgt-marca-perfil-mercado.json";
@@ -136,7 +137,7 @@ export function Dashboard() {
               <AdnMarca perfil={perfil} />
               <Geografia perfil={perfil} />
               <Evolucion perfil={perfil} mercado={MERCADO} />
-              <Placeholder id="sociologia" label="Quién compra (F/J + renting + servicio)" />
+              <Sociologia perfil={perfil} />
               <Placeholder id="parque"     label="Flota activa (pirámide + distintivo)" />
             </>
           )}
