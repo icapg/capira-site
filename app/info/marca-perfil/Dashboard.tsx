@@ -9,9 +9,11 @@ import { PocosDatosBanner } from "./components/PocosDatosBanner";
 import { HeroKpis } from "./sections/HeroKpis";
 import { AdnMarca } from "./sections/AdnMarca";
 import { Geografia } from "./sections/Geografia";
+import { Evolucion } from "./sections/Evolucion";
 import { useMarcaData } from "./useMarcaData";
 import indexJson from "../../../data/dgt-marca-perfil-index.json";
-import type { MarcaIndex } from "./types";
+import mercadoJson from "../../../data/dgt-marca-perfil-mercado.json";
+import type { MarcaIndex, MercadoAgregados } from "./types";
 
 const C = {
   bg:     "#050810",
@@ -30,6 +32,7 @@ const TOC_ITEMS: TocItem[] = [
 ];
 
 const IDX = indexJson as unknown as MarcaIndex;
+const MERCADO = mercadoJson as unknown as MercadoAgregados;
 
 function defaultSlugFromUrl(): string | null {
   if (typeof window === "undefined") return null;
@@ -132,7 +135,7 @@ export function Dashboard() {
               <HeroKpis perfil={perfil} />
               <AdnMarca perfil={perfil} />
               <Geografia perfil={perfil} />
-              <Placeholder id="evolucion"  label="Película (línea vs mercado + área 100%)" />
+              <Evolucion perfil={perfil} mercado={MERCADO} />
               <Placeholder id="sociologia" label="Quién compra (F/J + renting + servicio)" />
               <Placeholder id="parque"     label="Flota activa (pirámide + distintivo)" />
             </>
