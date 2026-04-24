@@ -1,0 +1,21 @@
+{
+  "_comment": "Overrides manuales NIF → nombre_comercial. Se aplican sobre el mapping automático de infraestructura.db (CPOs). Usar cuando: (a) la empresa no es CPO y no está en infraestructura.db, (b) el cleaning automático no produce el comercial correcto.",
+
+  "A28002143": { "comercial": "Stellantis & You" },
+  "A28278026": { "comercial": "Stellantis & You" },
+  "A79486833": { "comercial": "Elecnor" },
+  "A58486739": { "comercial": "Grau Maquinaria" },
+  "B63520712": { "comercial": "Icamotor" },
+  "A34001081": { "comercial": "Endesa" },
+  "A81948077": { "comercial": "Endesa X" },
+
+  "B87797361": { "comercial": "Acciona" },
+  "A95758389": { "comercial": "Iberdrola" },
+  "A80298839": { "comercial": "Repsol" },
+  "B72528326": { "comercial": "Qwello" },
+  "A34277434": { "comercial": "Zunder" },
+
+  "A05482328": { "comercial": "Allego" },
+  "B09817859": { "comercial": "Atlante" },
+  "B09378720": { "comercial": "Aduriz Energía" }
+}
