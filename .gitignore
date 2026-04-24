@@ -50,6 +50,14 @@ data/*.db-wal
 # Archivos pesados de datos crudos
 data/*.zip
 
+# PLACSP (Plataforma Contratación Sector Público) — ZIPs Atom y extracción temporal
+data/placsp-raw/
+data/placsp-work/
+# PDFs crudos de pliegos/actas (58 MB) — se extraen localmente, la web consume el JSON compactado
+data/placsp-pdfs/
+# Scripts one-shot de validación/análisis — sólo locales, backup en OneDrive
+data/_scripts-archive/
+
 # Posts drafts y backups locales — nunca subir
 data/Posts/
 data/env.local.backup
