@@ -88,6 +88,11 @@ export function ChartTreemap({ perfil, height = 360 }: Props) {
         backgroundColor: "rgba(5,8,16,0.97)",
         borderColor: "rgba(255,255,255,0.12)",
         textStyle: { color: "#f1f5f9", fontSize: 12 },
+        // Mantiene el tooltip dentro del contenedor del chart (si el contenido
+        // es alto, ECharts lo reubica automáticamente en vez de salirse).
+        confine: true,
+        // Ancho máximo para que no sea ultra-ancho en hover.
+        extraCssText: "max-width: 340px; white-space: normal;",
         formatter: (info: { name: string; value: number; treePathInfo?: Array<{ name: string }>; data?: { _tipo?: string } }) => {
           const path = info.treePathInfo?.map((p) => p.name).filter(Boolean).join(" → ") ?? info.name;
           const base = `<b>${path}</b><br/>${info.value.toLocaleString("es-ES")} vehículos`;
@@ -101,9 +106,9 @@ export function ChartTreemap({ perfil, height = 360 }: Props) {
           const imp = imputacion.por_tipo?.[tipo];
           if (!imp || imp.imputacion.length === 0) return base;
 
-          const lines = imp.imputacion.slice(0, 6).map((x) => {
+          const lines = imp.imputacion.slice(0, 4).map((x) => {
             const pct = (x.pct * 100).toFixed(x.pct < 0.05 ? 1 : 0);
-            return `<span style="color:#94a3b8">${x.modelo}</span> <span style="color:#f1f5f9;font-weight:700">~${pct}%</span> <span style="color:rgba(241,245,249,0.5);font-size:11px">(~${x.count_estimado.toLocaleString("es-ES")})</span>`;
+            return `<span style="color:#94a3b8">${x.modelo}</span> <b style="color:#f1f5f9">~${pct}%</b>`;
           }).join("<br/>");
 
           const totalImp = imp.total.toLocaleString("es-ES");
@@ -115,12 +120,12 @@ export function ChartTreemap({ perfil, height = 360 }: Props) {
             const t3 = imp.confianza_top3 != null ? Math.round(imp.confianza_top3 * 100) : null;
             const col = t1 >= 70 ? "#4ade80" : t1 >= 50 ? "#facc15" : "#fb923c";
             const t3Txt = t3 != null ? ` · top-3 ${t3}%` : "";
-            confianzaBadge = `<br/><span style="color:${col};font-size:11px;font-weight:700">🎯 Confianza: top-1 ${t1}%${t3Txt}</span>`;
+            confianzaBadge = `<br/><span style="color:${col};font-size:11px;font-weight:700">🎯 top-1 ${t1}%${t3Txt}</span>`;
           }
 
-          const explicacion = `<span style="color:rgba(241,245,249,0.4);font-size:10px;font-style:italic">Confianza = accuracy esperada de predecir el modelo más frecuente, según cuán concentrada está la distribución en cada perfil técnico. No mide sesgo sistemático de los registros '¡'.</span>`;
+          const explicacion = `<span style="color:rgba(241,245,249,0.4);font-size:10px;font-style:italic">Imputación sobre vehículos con modelo='¡' en DGT (no es dato real). Confianza estimada por concentración del perfil técnico.</span>`;
 
-          return `${base}<hr style="border:0;border-top:1px dashed rgba(255,255,255,0.15);margin:6px 0"/><b style="color:#fb923c">Estimación de los sin clasificar</b><br/><span style="color:rgba(241,245,249,0.55);font-size:11px">~${totalImp} vehículos en DGT con modelo='¡' — imputación por perfil técnico (no es dato real):</span><br/>${lines}${confianzaBadge}<br/><br/>${explicacion}`;
+          return `${base}<hr style="border:0;border-top:1px dashed rgba(255,255,255,0.15);margin:6px 0"/><b style="color:#fb923c;font-size:11px">Estimación sin clasificar (~${totalImp})</b><br/>${lines}${confianzaBadge}<br/><br/>${explicacion}`;
         },
       },
       series: [
