@@ -68,8 +68,10 @@ export const DASHBOARDS: Dashboard[] = [
     label: "Licitaciones",
     href: "/info/licitaciones",
     tier: "private",
-    ready: false,
-    description: "Concursos públicos y licitaciones de infraestructura de recarga en España.",
+    ready: true,
+    metric: "4.229",
+    metricLabel: "licitaciones e-mov clasificadas",
+    description: "Licitaciones públicas de e-movilidad en España (PLACSP): concesiones, infraestructura, VE, buses y servicios.",
   },
   {
     slug: "social",
