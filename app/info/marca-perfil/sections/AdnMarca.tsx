@@ -29,7 +29,7 @@ export function AdnMarca({ perfil, perfilB }: Props) {
     <section id="adn" style={{ scrollMarginTop: 140, marginTop: 28 }}>
       <SectionTitle
         sub="Qué vende esta marca, cómo cambió su mix y cómo se posiciona"
-        tooltip="Composición del parque activo por tipo de vehículo y modelo, evolución del mix tecnológico a lo largo de los años, y posicionamiento técnico comparado con el promedio del mercado de turismos."
+        tooltip="Composición del parque activo por tipo de vehículo y modelo, evolución del mix tecnológico a lo largo de los años, y posicionamiento técnico comparado con el promedio del mercado de turismos. Categorías tec: BEV = 100% eléctrico; PHEV = híbrido enchufable; HEV = híbrido no enchufable; Gasolina/diesel y otros = motor térmico (ICE), REEV, FCEV y vehículos sin clasificación tecnológica en DGT (típicamente pre-2018). En marcas legacy esta última suele dominar porque abarca todo el parque ICE histórico."
       >
         ADN de la marca
       </SectionTitle>

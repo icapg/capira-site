@@ -46,7 +46,7 @@ export function ChartMixAnual({ perfil, height = 260 }: Props) {
         },
       },
       legend: {
-        data: ["BEV", "PHEV", "HEV", "Combustión/otros"],
+        data: ["BEV", "PHEV", "HEV", "Gasolina, diesel y otros"],
         top: 0,
         textStyle: { color: "rgba(241,245,249,0.7)", fontSize: 11 },
         itemWidth: 10, itemHeight: 10, itemGap: 12,
@@ -69,7 +69,7 @@ export function ChartMixAnual({ perfil, height = 260 }: Props) {
         { name: "BEV",  type: "line", stack: "t", areaStyle: { opacity: 0.85 }, showSymbol: false, smooth: false, data: sBev,  itemStyle: { color: COL.bev },  lineStyle: { width: 0 } },
         { name: "PHEV", type: "line", stack: "t", areaStyle: { opacity: 0.85 }, showSymbol: false, smooth: false, data: sPhev, itemStyle: { color: COL.phev }, lineStyle: { width: 0 } },
         { name: "HEV",  type: "line", stack: "t", areaStyle: { opacity: 0.75 }, showSymbol: false, smooth: false, data: sHev,  itemStyle: { color: COL.hev },  lineStyle: { width: 0 } },
-        { name: "Combustión/otros", type: "line", stack: "t", areaStyle: { opacity: 0.7 }, showSymbol: false, smooth: false, data: sOtro, itemStyle: { color: COL.otro }, lineStyle: { width: 0 } },
+        { name: "Gasolina, diesel y otros", type: "line", stack: "t", areaStyle: { opacity: 0.7 }, showSymbol: false, smooth: false, data: sOtro, itemStyle: { color: COL.otro }, lineStyle: { width: 0 } },
       ],
     };
   }, [perfil]);

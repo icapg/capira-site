@@ -13,9 +13,9 @@ type Props = {
 };
 
 /**
- * Sección "El podio" — racing bar animado del top 15 marcas por matriculaciones
- * rolling-12m, desde 2015 hasta el último período. La marca A se resalta en
- * azul, B (si hay comparación) en naranja.
+ * Sección "El podio" — racing bar animado del top 15/20/30 marcas por
+ * matriculaciones rolling-12m, desde 2015 hasta el último período. La marca A
+ * se resalta en azul, B (si hay comparación) en naranja.
  */
 export function Racing({ racing, highlightSlug, highlightSlugB }: Props) {
   const isMobile = useIsMobile();
@@ -23,8 +23,8 @@ export function Racing({ racing, highlightSlug, highlightSlugB }: Props) {
   return (
     <section id="racing" style={{ scrollMarginTop: 140, marginTop: 28 }}>
       <SectionTitle
-        sub={`Top 15 marcas · matriculaciones rolling-12m · ${racing.meta.periodos[0]} → ${racing.meta.ultimo_periodo}`}
-        tooltip="Ranking animado: para cada mes, suma las matriculaciones de los últimos 12 meses (suavizado anti-estacionalidad) y ordena las 15 primeras marcas. Presioná reproducir para ver cómo cambia la pole position. La marca que tenés seleccionada queda resaltada en color."
+        sub={`Top marcas · matriculaciones rolling-12m · ${racing.meta.periodos[0]} → ${racing.meta.ultimo_periodo}`}
+        tooltip="Ranking animado: para cada mes, suma las matriculaciones de los últimos 12 meses (suavizado anti-estacionalidad) y ordena las primeras N marcas. Alternás N con el selector Top 15/20/30. Presioná reproducir para ver cómo cambia la pole position. La marca que tenés seleccionada queda resaltada en color."
       >
         El podio
       </SectionTitle>

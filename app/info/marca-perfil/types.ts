@@ -118,6 +118,29 @@ export type MarcaCohorte = {
   activas_hoy: number;
 };
 
+export type ImputacionTopModelo = {
+  modelo: string;
+  count_estimado: number;
+  pct: number;
+};
+
+export type ImputacionPorTipo = {
+  total: number;
+  imputacion: ImputacionTopModelo[];
+  /** Accuracy esperada top-1 (0..1). Null si no calculable. */
+  confianza_top1?: number | null;
+  /** Accuracy esperada top-3 (0..1). Null si no calculable. */
+  confianza_top3?: number | null;
+};
+
+export type ImputacionSinClasificar = {
+  marca: string;
+  total_sin_clasificar: number;
+  residual_no_matcheable: number;
+  cobertura: number;
+  por_tipo: Record<string, ImputacionPorTipo>;
+};
+
 export type MarcaPerfil = {
   slug: string;
   marca: string;
@@ -142,6 +165,8 @@ export type MarcaPerfil = {
   bajas_por_motivo?: MarcaBajasPorMotivo;
   /** v2: cohortes anuales para curva de supervivencia. Emitido solo en builds post-v2. */
   cohortes?: MarcaCohorte[];
+  /** v3: imputación probabilística de los vehículos con modelo='¡' en DGT. null si no aplica. */
+  imputacion_sin_clasificar?: ImputacionSinClasificar | null;
 };
 
 export type RacingMarcaEntry = {

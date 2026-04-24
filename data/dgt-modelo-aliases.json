@@ -1,0 +1,41 @@
+{
+  "_doc": {
+    "proposito": "Normalización de nombres de modelo en DGT para consolidar variantes ortográficas del mismo modelo (ej: CLIO, CLIO 1.5, R. CLIO → CLIO). Se aplica en scripts/dgt-marca-perfil-build.mjs después de leer cada fila de la tabla parque.",
+    "orden_aplicacion": [
+      "1) trim + uppercase",
+      "2) strip_prefijos (regex) — ej: 'R. CLIO' → 'CLIO'",
+      "3) strip_sufijos (regex) — ej: 'CLIO 1.5' → 'CLIO', 'CLIO E-TECH HYBRID' → 'CLIO'",
+      "4) aliases_por_marca[marca_canonica][modelo_limpio] — overrides manuales que el regex no resuelve",
+      "5) aliases_global[modelo_limpio] — overrides que aplican a cualquier marca"
+    ],
+    "notas": [
+      "El SQL del build ya filtra modelo='¡' y NULL/empty. Este JSON NO maneja esos casos.",
+      "B2B: mantener separadas versiones comerciales (ej. KANGOO VAN ≠ KANGOO) porque para concesionarios son productos distintos.",
+      "Agregar aliases nuevos acá antes que tocar el regex — es más seguro y auditable."
+    ]
+  },
+  "strip_prefijos": [
+    "^[A-ZÁÉÍÓÚÑ]\\.\\s+"
+  ],
+  "strip_sufijos": [
+    "\\s+\\d\\.\\d\\s*$",
+    "\\s+(E-TECH HYBRID|E-TECH|PLUG-IN HYBRID|PLUG-IN|MILD HYBRID|FULL HYBRID|HYBRID)\\s*$"
+  ],
+  "aliases_por_marca": {
+    "RENAULT": {
+      "MEGANE SCENIC": "SCENIC",
+      "MEGANE GR SCENIC": "SCENIC",
+      "GRAND SCENIC": "SCENIC",
+      "MEGANE CLASSIC": "MEGANE",
+      "MEGANE COUPE": "MEGANE",
+      "MEGANE SPORT TOURER": "MEGANE",
+      "KANGOO VAN": "KANGOO",
+      "R-4 F": "R-4",
+      "R-4 TL": "R-4",
+      "R-4 FS": "R-4",
+      "R-4 F6-A": "R-4",
+      "R-18 GTS": "R-18"
+    }
+  },
+  "aliases_global": {}
+}

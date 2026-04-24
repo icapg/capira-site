@@ -22,6 +22,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT      = join(__dirname, '..');
 const DB_FILE   = join(ROOT, 'data', 'dgt-matriculaciones.db');
 const ALIAS_FILE = join(ROOT, 'data', 'dgt-marca-aliases.json');
+const MODELO_ALIAS_FILE = join(ROOT, 'data', 'dgt-modelo-aliases.json');
+const IMPUTACION_FILE   = join(ROOT, 'data', 'dgt-modelo-imputacion.json');
 const OUT_INDEX   = join(ROOT, 'data', 'dgt-marca-perfil-index.json');
 const OUT_MERCADO = join(ROOT, 'data', 'dgt-marca-perfil-mercado.json');
 const OUT_RACING  = join(ROOT, 'data', 'dgt-marca-perfil-racing.json');
@@ -54,6 +56,48 @@ function normalizarMarca(raw) {
   const upper = String(raw).trim().toUpperCase();
   if (MARCAS_EXCLUIR.has(upper)) return '';
   return MARCAS_ALIASES[upper] ?? upper;
+}
+
+// ── Normalización de modelos ────────────────────────────────────────────────
+const modeloAliases = JSON.parse(readFileSync(MODELO_ALIAS_FILE, 'utf8'));
+const MODELO_STRIP_PREFIJOS = (modeloAliases.strip_prefijos ?? []).map((re) => new RegExp(re));
+const MODELO_STRIP_SUFIJOS  = (modeloAliases.strip_sufijos  ?? []).map((re) => new RegExp(re));
+const MODELO_ALIASES_POR_MARCA = modeloAliases.aliases_por_marca ?? {};
+const MODELO_ALIASES_GLOBAL    = modeloAliases.aliases_global ?? {};
+
+// Imputación de modelos sin clasificar (opcional — requiere correr antes
+// scripts/dgt-modelo-imputar.mjs). Si no existe, el build sigue sin imputación.
+let IMPUTACION_POR_MARCA = {};
+try {
+  const imp = JSON.parse(readFileSync(IMPUTACION_FILE, 'utf8'));
+  IMPUTACION_POR_MARCA = imp.marcas ?? {};
+  console.log(`🔮 Imputación cargada: ${Object.keys(IMPUTACION_POR_MARCA).length} marcas`);
+} catch {
+  console.log('ℹ️  Sin imputación de modelos (correr scripts/dgt-modelo-imputar.mjs para generarla)');
+}
+
+function normalizarModelo(raw, marcaCanon) {
+  let s = String(raw ?? '').trim().toUpperCase();
+  if (!s || !/[A-Z0-9]/.test(s)) return null;
+
+  // Quitar prefijos legacy (ej. "R. CLIO" → "CLIO")
+  for (const re of MODELO_STRIP_PREFIJOS) s = s.replace(re, '');
+
+  // Quitar sufijos (cilindrada, propulsión) aplicando varias pasadas hasta estabilizar —
+  // un modelo como "CLIO 1.5 E-TECH HYBRID" requiere 2 pasadas para dejarlo en "CLIO".
+  let prev;
+  do {
+    prev = s;
+    for (const re of MODELO_STRIP_SUFIJOS) s = s.replace(re, '').trim();
+  } while (s !== prev);
+
+  if (!s) return null;
+
+  // Aliases manuales: primero por marca, después global.
+  const porMarca = MODELO_ALIASES_POR_MARCA[marcaCanon];
+  if (porMarca && porMarca[s]) return porMarca[s];
+  if (MODELO_ALIASES_GLOBAL[s]) return MODELO_ALIASES_GLOBAL[s];
+  return s;
 }
 
 function slugMarca(marca) {
@@ -241,11 +285,14 @@ async function main() {
   for (const row of qMod.iterate()) {
     const canon = normalizarMarca(row.marca);
     if (!canon) continue;
+    const modelo = normalizarModelo(row.modelo, canon);
+    if (!modelo) continue;
     const e = getOrCreate(canon);
-    const key = `${row.modelo}|${row.tipo_grupo || 'otros'}`;
+    const tipo = row.tipo_grupo || 'otros';
+    const key = `${modelo}|${tipo}`;
     let m = e.top_modelos.get(key);
     if (!m) {
-      m = { modelo: row.modelo, tipo_grupo: row.tipo_grupo || 'otros', total: 0, bev: 0, phev: 0, hev: 0, no_ev: 0 };
+      m = { modelo, tipo_grupo: tipo, total: 0, bev: 0, phev: 0, hev: 0, no_ev: 0 };
       e.top_modelos.set(key, m);
     }
     m.total += row.n;
@@ -727,6 +774,10 @@ async function main() {
       // v2
       bajas_por_motivo: e.bajas_por_motivo,
       cohortes,
+      // v3: imputación probabilística de modelos sin clasificar (modelo='¡' en DGT).
+      // Usado solo en el tooltip del treemap para dar transparencia al bucket "— otros —".
+      // Nunca se suma al parque real — es una estimación, no un dato.
+      imputacion_sin_clasificar: IMPUTACION_POR_MARCA[e.slug] ?? null,
     };
 
     writeFileSync(join(OUT_DIR, `${e.slug}.json`), JSON.stringify(perfil), 'utf8');

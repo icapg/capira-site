@@ -42,6 +42,8 @@ const IDX = indexJson as unknown as MarcaIndex;
 const MERCADO = mercadoJson as unknown as MercadoAgregados;
 const RACING  = racingJson  as unknown as RacingDataset;
 
+const STORAGE_KEY = "capira:marca-perfil:last";
+
 function slugsFromUrl(): { m: string | null; vs: string | null } {
   if (typeof window === "undefined") return { m: null, vs: null };
   const params = new URLSearchParams(window.location.search);
@@ -55,12 +57,83 @@ function pushUrl(m: string | null, vs: string | null) {
   window.history.pushState({}, "", url);
 }
 
+function replaceUrl(m: string | null, vs: string | null) {
+  const url = new URL(window.location.href);
+  if (m) url.searchParams.set("m", m); else url.searchParams.delete("m");
+  if (vs) url.searchParams.set("vs", vs); else url.searchParams.delete("vs");
+  window.history.replaceState({}, "", url);
+}
+
+function pickDefaultSlug(): string | null {
+  const destacadas = IDX.marcas.filter((m) => m.destacada);
+  const pool = destacadas.length > 0 ? destacadas : IDX.marcas;
+  const sorted = [...pool].sort((a, b) => b.parque_activo - a.parque_activo);
+  return sorted[0]?.slug ?? null;
+}
+
+function readInitialSlug(): string | null {
+  if (typeof window === "undefined") return null;
+  const urlSlug = slugsFromUrl().m;
+  if (urlSlug) return urlSlug;
+  const validSlugs = new Set(IDX.marcas.map((m) => m.slug));
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored && validSlugs.has(stored)) return stored;
+  } catch {}
+  return pickDefaultSlug();
+}
+
+function persistSlug(s: string | null) {
+  if (typeof window === "undefined" || !s) return;
+  try { window.localStorage.setItem(STORAGE_KEY, s); } catch {}
+}
+
+/**
+ * Top N rivales de una marca por proximidad de tamaño (parque activo).
+ * Criterio: menor |log(parque_A) - log(parque_X)|. Se excluyen marcas sin
+ * parque, marcas con pocos_datos y la propia A. Se prioriza destacadas ante
+ * empates dejándolas primero entre candidatas de similar distancia.
+ */
+function pickRivals(slugA: string | null, marcas: MarcaIndex["marcas"], n = 4): MarcaIndex["marcas"] {
+  if (!slugA) return [];
+  const a = marcas.find((m) => m.slug === slugA);
+  if (!a || a.parque_activo <= 0) return [];
+  const logA = Math.log(a.parque_activo);
+  return marcas
+    .filter((m) => m.slug !== slugA && m.parque_activo > 0 && !m.pocos_datos)
+    .map((m) => ({ m, d: Math.abs(Math.log(m.parque_activo) - logA) }))
+    .sort((x, y) => {
+      if (x.d !== y.d) return x.d - y.d;
+      // Desempate: destacadas primero
+      if (x.m.destacada !== y.m.destacada) return x.m.destacada ? -1 : 1;
+      return y.m.parque_activo - x.m.parque_activo;
+    })
+    .slice(0, n)
+    .map((x) => x.m);
+}
+
 export function Dashboard() {
   const { countryName } = useInsights();
   const isMobile = useIsMobile();
 
-  const [slug, setSlug]     = useState<string | null>(() => slugsFromUrl().m);
-  const [slugB, setSlugB]   = useState<string | null>(() => slugsFromUrl().vs);
+  // Arranca siempre en null para matchear el render del servidor y evitar
+  // hydration mismatch. La inicialización real (URL → localStorage → top-1)
+  // corre en el useEffect de abajo, apenas se monta el componente.
+  const [slug, setSlug]     = useState<string | null>(null);
+  const [slugB, setSlugB]   = useState<string | null>(null);
+  // UI: "quiero comparar pero todavía no elegí B" → muestra el selector vacío.
+  const [pickingB, setPickingB] = useState(false);
+
+  useEffect(() => {
+    const initial = readInitialSlug();
+    const { m: urlA, vs: urlB } = slugsFromUrl();
+    setSlug(initial);
+    setSlugB(urlB);
+    // Si el slug viene de localStorage/default (no de la URL), reflejarlo en
+    // la URL con replaceState (no generar history entry).
+    if (!urlA && initial) replaceUrl(initial, urlB);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const onPop = () => {
@@ -78,11 +151,13 @@ export function Dashboard() {
     setSlug(s);
     setSlugB(nextB);
     pushUrl(s, nextB);
+    persistSlug(s);
   };
   const selectB = (s: string | null) => {
     const nextB = s === slug ? null : s;
     setSlugB(nextB);
     pushUrl(slug, nextB);
+    setPickingB(false);
   };
 
   const { data: perfil,  loading: lA, error: errA } = useMarcaData(slug);
@@ -159,11 +234,11 @@ export function Dashboard() {
             )}
             <MarcaSelector marcas={marcasIndex} slugActivo={slug} onSelect={selectA} />
             {slug && (
-              comparando ? (
+              (comparando || pickingB) ? (
                 <div style={{ display: "flex", alignItems: "center", gap: 6, maxWidth: isMobile ? "100%" : 360, flex: isMobile ? "1 0 100%" : undefined }}>
                   <MarcaSelector marcas={marcasIndex} slugActivo={slugB} onSelect={selectB} />
                   <button
-                    onClick={() => selectB(null)}
+                    onClick={() => { selectB(null); setPickingB(false); }}
                     aria-label="Quitar comparación"
                     title="Quitar comparación"
                     style={{
@@ -182,11 +257,7 @@ export function Dashboard() {
                 </div>
               ) : (
                 <button
-                  onClick={() => {
-                    // Abrir el selector B con una marca default distinta (la #2 del ranking)
-                    const defaultB = marcasIndex.find((m) => m.destacada && m.slug !== slug)?.slug ?? null;
-                    if (defaultB) selectB(defaultB);
-                  }}
+                  onClick={() => setPickingB(true)}
                   style={{
                     padding: "10px 14px",
                     borderRadius: 10,
@@ -247,6 +318,10 @@ export function Dashboard() {
                 <div style={{ padding: "8px 12px", color: "#f87171", fontSize: 12, textAlign: "center" }}>
                   Error cargando {slugB}: {errB}
                 </div>
+              )}
+
+              {!comparando && (
+                <RivalSuggestions slugA={slug} marcas={marcasIndex} onPick={selectB} />
               )}
 
               <HeroKpis perfil={perfil} perfilB={perfilB ?? undefined} mercado={MERCADO} />
@@ -316,6 +391,49 @@ function PickerHero({ marcas, onSelect }: { marcas: MarcaIndex["marcas"]; onSele
       <p style={{ fontSize: 11, color: "rgba(241,245,249,0.35)", marginTop: 18 }}>
         O usá el buscador arriba para encontrar cualquiera de las {marcas.length} marcas.
       </p>
+    </div>
+  );
+}
+
+function RivalSuggestions({
+  slugA,
+  marcas,
+  onPick,
+}: {
+  slugA: string | null;
+  marcas: MarcaIndex["marcas"];
+  onPick: (s: string | null) => void;
+}) {
+  const rivals = useMemo(() => pickRivals(slugA, marcas, 4), [slugA, marcas]);
+  if (rivals.length === 0) return null;
+  return (
+    <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8, margin: "0 0 20px", padding: "10px 12px", background: "rgba(251,146,60,0.04)", border: "1px dashed rgba(251,146,60,0.22)", borderRadius: 10 }}>
+      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(251,146,60,0.85)", letterSpacing: "0.02em", textTransform: "uppercase" }}>
+        Comparar con
+      </span>
+      {rivals.map((r) => (
+        <button
+          key={r.slug}
+          onClick={() => onPick(r.slug)}
+          title={`Comparar contra ${r.marca}`}
+          style={{
+            padding: "5px 11px",
+            borderRadius: 100,
+            background: "rgba(251,146,60,0.1)",
+            border: "1px solid rgba(251,146,60,0.3)",
+            color: "#fb923c",
+            fontSize: 12,
+            fontWeight: 700,
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+          }}
+        >
+          vs {r.marca}
+        </button>
+      ))}
+      <span style={{ fontSize: 10, color: "rgba(241,245,249,0.4)", marginLeft: "auto" }}>
+        Sugerencias por tamaño de parque
+      </span>
     </div>
   );
 }

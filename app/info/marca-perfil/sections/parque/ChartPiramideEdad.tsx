@@ -61,7 +61,7 @@ export function ChartPiramideEdad({ perfil, height = 440 }: Props) {
         },
       },
       legend: {
-        data: ["BEV", "PHEV", "HEV", "Combustión/otros"],
+        data: ["BEV", "PHEV", "HEV", "Gasolina, diesel y otros"],
         top: 0,
         textStyle: { color: "rgba(241,245,249,0.7)", fontSize: 11 },
         itemWidth: 10, itemHeight: 10, itemGap: 14,
@@ -87,7 +87,7 @@ export function ChartPiramideEdad({ perfil, height = 440 }: Props) {
         { name: "BEV",  type: "bar", stack: "t", data: bev,  itemStyle: { color: COL.bev } },
         { name: "PHEV", type: "bar", stack: "t", data: phev, itemStyle: { color: COL.phev } },
         { name: "HEV",  type: "bar", stack: "t", data: hev,  itemStyle: { color: COL.hev } },
-        { name: "Combustión/otros", type: "bar", stack: "t", data: noEv, itemStyle: { color: COL.no_ev } },
+        { name: "Gasolina, diesel y otros", type: "bar", stack: "t", data: noEv, itemStyle: { color: COL.no_ev } },
       ],
     };
   }, [perfil]);

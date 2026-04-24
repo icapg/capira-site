@@ -1,8 +1,8 @@
 /**
- * Dashboard MCP Server — Especialista en el dashboard /insights de capira-site
+ * Dashboard MCP Server — Especialista en el dashboard /info de capira-site
  *
  * Qué es: servidor MCP que expone la estructura del dashboard eMobility Insights
- * (Next.js App Router en capira-site/app/insights). Permite a Claude responder
+ * (Next.js App Router en capira-site/app/info). Permite a Claude responder
  * preguntas sobre rutas, KPIs, componentes, fuentes de datos y endpoints sin
  * re-explorar el codebase cada vez.
  *
@@ -13,12 +13,12 @@
  *   de Claude Code, no a través de este MCP.
  *
  * Herramientas expuestas:
- *   get_overview           — árbol de rutas /insights con estado y propósito
+ *   get_overview           — árbol de rutas /info con estado y propósito
  *   get_page               — detalle de una ruta (KPIs, componentes, data sources)
  *   list_data_sources      — archivos de app/lib/insights con descripción
- *   list_api_endpoints     — rutas de app/api/insights con método y auth
+ *   list_api_endpoints     — rutas de app/api/info con método y auth
  *   get_component_source   — source de un componente por nombre
- *   search_dashboard       — grep sobre app/insights para un término
+ *   search_dashboard       — grep sobre app/info para un término
  *   list_patterns          — patrones de implementación reutilizables (maps, charts, etc.)
  *   get_pattern            — detalle de un patrón (problema, solución, código de referencia)
  */
@@ -32,10 +32,10 @@ import {
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { join, relative, basename } from 'node:path';
 
-const REPO_ROOT      = 'C:/Users/ignacio.capurro/capira-site';
-const INSIGHTS_DIR   = join(REPO_ROOT, 'app/insights');
-const LIB_DIR        = join(REPO_ROOT, 'app/lib/insights');
-const API_DIR        = join(REPO_ROOT, 'app/api/insights');
+const REPO_ROOT = 'C:/Users/ignacio.capurro/capira-site';
+const INFO_DIR  = join(REPO_ROOT, 'app/info');
+const LIB_DIR   = join(REPO_ROOT, 'app/lib/insights');
+const API_DIR   = join(REPO_ROOT, 'app/api/info');
 
 // ─────────────────────────────────────────────────────────────────
 // Metadata curada — lo que NO se puede inferir del codebase
@@ -43,13 +43,13 @@ const API_DIR        = join(REPO_ROOT, 'app/api/insights');
 // ─────────────────────────────────────────────────────────────────
 
 const ROUTE_METADATA = {
-  '/insights': {
-    proposito: 'Landing pública del dashboard. Grid con 4 cards de acceso.',
+  '/info': {
+    proposito: 'Landing pública del dashboard. Grid con cards de acceso a cada sección.',
     audiencia: 'publico',
     estado: 'live',
     kpis: [],
   },
-  '/insights/matriculaciones': {
+  '/info/matriculaciones': {
     proposito: 'Evolución mensual y anual de matriculaciones BEV/PHEV en España.',
     audiencia: 'publico',
     estado: 'live',
@@ -62,7 +62,7 @@ const ROUTE_METADATA = {
     ],
     fuente_datos: 'DGT MATRABA (primaria) + ANFAC (alternativa vía toggle admin)',
   },
-  '/insights/parque': {
+  '/info/parque': {
     proposito: 'Flota activa de EV en España (matriculaciones menos bajas).',
     audiencia: 'publico',
     estado: 'live',
@@ -73,7 +73,7 @@ const ROUTE_METADATA = {
     ],
     fuente_datos: 'DGT (matriculaciones + bajas)',
   },
-  '/insights/infraestructura': {
+  '/info/infraestructura': {
     proposito: 'Puntos de recarga públicos en España (56K+ puntos).',
     audiencia: 'publico',
     estado: 'live',
@@ -84,22 +84,61 @@ const ROUTE_METADATA = {
     ],
     fuente_datos: 'infraestructura-data.ts (dataset estático)',
   },
-  '/insights/social': {
-    proposito: 'Landing de sección social (kanban mensual + anual).',
+  '/info/marca-perfil': {
+    proposito: 'Perfil individual de cada marca de vehículos en España (selector A + comparador opcional B). 8 secciones: KPIs, ADN/mix, geografía, evolución, sociología del cliente, parque activo, vista comercial y racing bar histórico.',
+    audiencia: 'publico',
+    estado: 'live',
+    kpis: [
+      'Hero: parque activo, matric YTD, cuota mercado YTD, ranking, % enchufables, edad media',
+      'ADN: treemap tipo→modelo, top-5 modelos, mix tecnológico anual, radar CO2/kW/peso/autonomía vs mercado',
+      'Geografía: choropleth España por provincia + top provincias con cuota y ranking',
+      'Evolución: mix mensual BEV/PHEV/HEV/otro + matric marca vs mercado',
+      'Sociología: persona física/jurídica, servicio (particular/empresa), renting',
+      'Parque: pirámide de edad, distintivo ambiental, Sankey flujos de baja, curva supervivencia por cohorte',
+      'Vista comercial: heatmap estacionalidad, renting share por provincia',
+      'Racing: top-15 marcas rolling-12m desde 2015 animado',
+    ],
+    fuente_datos: 'DGT pre-agregado por scripts/dgt-marca-perfil-build.mjs → data/dgt-marca-perfil-{index,mercado,racing}.json + public/data/marca-perfil/<slug>.json',
+    url_state: '?m=<slug>&vs=<slug_b> — marca A y comparador opcional B',
+  },
+  '/info/licitaciones': {
+    proposito: 'Licitaciones públicas España relacionadas con e-movilidad (CPO, flotas eléctricas, puntos de recarga, servicios).',
+    audiencia: 'publico',
+    estado: 'en_construccion',
+    kpis: [
+      'Licitaciones agregadas de todo e-movilidad (no solo CPO)',
+      'Taxonomía v3 de 11 categorías',
+      'Benchmark = mercado observado, no valores externos',
+    ],
+    fuente_datos: 'PLACSP via MCP placsp-specialist (1M licitaciones, 4229 e-mov clasificadas)',
+  },
+  '/info/social': {
+    proposito: 'Landing admin de la sección social (generador + aprobación + automatización de contenido para redes).',
     audiencia: 'admin',
     estado: 'live',
     kpis: [],
   },
-  '/insights/social/mensual': {
-    proposito: 'Kanban mensual para generar contenido de redes sociales.',
+  '/info/social/generador': {
+    proposito: 'Playground para generar piezas de contenido (templates Matriculaciones/Bajas/Acumulado por mes).',
     audiencia: 'admin',
     estado: 'live',
     kpis: [
-      'Cards por mes con matriculaciones, bajas y parque activo',
       'Templates: BajasMes, AcumuladoMes, MatriculacionesMes',
     ],
   },
-  '/insights/dgt-status': {
+  '/info/social/aprobacion': {
+    proposito: 'Cola de aprobación de piezas generadas antes de publicar.',
+    audiencia: 'admin',
+    estado: 'live',
+    kpis: [],
+  },
+  '/info/social/automatizacion': {
+    proposito: 'Config de automatizaciones programadas para publicar contenido social.',
+    audiencia: 'admin',
+    estado: 'live',
+    kpis: [],
+  },
+  '/info/dgt-status': {
     proposito: 'Diagnóstico técnico de ingesta DGT (estado al día de matriculaciones/bajas + comparativa AEDIVE).',
     audiencia: 'admin',
     estado: 'live',
@@ -110,16 +149,10 @@ const ROUTE_METADATA = {
       'Comparativa DGT vs AEDIVE',
     ],
   },
-  '/insights/login': {
+  '/info/login': {
     proposito: 'Form de password → cookie insights_auth (30 días).',
     audiencia: 'admin',
     estado: 'live',
-    kpis: [],
-  },
-  '/insights/bajas': {
-    proposito: 'Carpeta reservada, sin contenido todavía.',
-    audiencia: 'publico',
-    estado: 'vacio',
     kpis: [],
   },
 };
@@ -245,13 +278,14 @@ const PATTERNS = {
 const DATA_SOURCE_DESC = {
   'dgt-data.ts':                 'Histórico DGT matriculaciones 2014-presente (auto-gen por scripts/dgt-matriculaciones.mjs).',
   'dgt-bev-phev-data.ts':        'Clasificación BEV/PHEV por cod_propulsion + cod_tipo DGT.',
-  'dgt-parque-data.ts':          'Parque activo mensual: real desde 2025-03 (ZIP DGT) + calculado hacia atrás (matric − bajas). Consumido por /insights/parque.',
+  'dgt-parque-data.ts':          'Parque activo mensual: real desde 2025-03 (ZIP DGT) + calculado hacia atrás (matric − bajas). Consumido por /info/parque.',
   'dgt-marcas-provincias-data.ts':'Agregaciones DGT por marca y provincia.',
   'anfac-data.ts':               'Datos ANFAC (mercado total turismos/VCL/industriales).',
   'infraestructura-data.ts':     'Puntos de recarga públicos por provincia y CCAA.',
   'matriculaciones-data.ts':     'Agregaciones por año/mes para UI de matriculaciones.',
-  'marcas-data.ts':              'Lista de marcas y normalización.',
+  'marcas-data.ts':              'Lista de marcas y normalización (aliases, exclusiones).',
   'provincias-data.ts':          'Lista de provincias y códigos DGT.',
+  'licitaciones-data.ts':        'Agregaciones de licitaciones públicas (PLACSP) para /info/licitaciones.',
 };
 
 // ─────────────────────────────────────────────────────────────────
@@ -308,16 +342,16 @@ function extractComponentRefs(source) {
 // ─────────────────────────────────────────────────────────────────
 
 async function getOverview() {
-  const files = await listDirRecursive(INSIGHTS_DIR);
+  const files = await listDirRecursive(INFO_DIR);
   const routes = [];
 
-  // page.tsx de cada subfolder → ruta
+  // page.tsx de cada subfolder → ruta (soporta rutas anidadas como /info/social/generador)
   const pageFiles = files.filter(f => f.endsWith('page.tsx') || f.endsWith('layout.tsx'));
-  const routeSet = new Set(['/insights']);
+  const routeSet = new Set();
   for (const f of pageFiles) {
-    if (f === 'page.tsx') routeSet.add('/insights');
+    if (f === 'page.tsx') routeSet.add('/info');
     else if (f.endsWith('/page.tsx')) {
-      routeSet.add('/insights/' + f.replace(/\/page\.tsx$/, ''));
+      routeSet.add('/info/' + f.replace(/\/page\.tsx$/, ''));
     }
   }
 
@@ -331,10 +365,10 @@ async function getOverview() {
     routes.push({ route, ...meta });
   }
 
-  // detectar rutas con carpeta pero sin page.tsx (ej: bajas)
-  const dirs = new Set(files.map(f => f.split('/')[0]).filter(d => !d.endsWith('.tsx')));
-  for (const dir of dirs) {
-    const route = '/insights/' + dir;
+  // detectar rutas con carpeta pero sin page.tsx (carpetas vacías / WIP)
+  const topDirs = new Set(files.map(f => f.split('/')[0]).filter(d => !d.endsWith('.tsx') && !d.endsWith('.ts')));
+  for (const dir of topDirs) {
+    const route = '/info/' + dir;
     const hasPage = files.some(f => f === dir + '/page.tsx');
     if (!hasPage && !routeSet.has(route)) {
       routes.push({
@@ -348,13 +382,15 @@ async function getOverview() {
   }
 
   return {
-    dashboard: 'eMobility Insights',
-    base_path: relative(REPO_ROOT, INSIGHTS_DIR).replace(/\\/g, '/'),
+    dashboard: 'capira info (eMobility Insights)',
+    base_path: relative(REPO_ROOT, INFO_DIR).replace(/\\/g, '/'),
     total_rutas: routes.length,
     routes,
     componentes_compartidos: [
       'InsightsContext.tsx', 'InsightsProvider', 'InsightsNav.tsx',
       'DashboardControls.tsx', 'InsightsFuente.tsx', 'layout.tsx',
+      '_components/Card.tsx', '_components/KPI.tsx', '_components/SectionTitle.tsx',
+      '_components/InsightCard.tsx', '_components/NoData.tsx',
     ],
     stack: {
       framework: 'Next.js 16.1.1 + React 19 + TS 5',
@@ -366,13 +402,13 @@ async function getOverview() {
 }
 
 async function getPage(route) {
-  if (!route || !route.startsWith('/insights')) {
-    throw new Error('route debe empezar con /insights (ej: /insights/matriculaciones)');
+  if (!route || !route.startsWith('/info')) {
+    throw new Error('route debe empezar con /info (ej: /info/matriculaciones)');
   }
 
-  const subPath = route === '/insights' ? '' : route.replace(/^\/insights\//, '');
-  const pageFile = join(INSIGHTS_DIR, subPath, 'page.tsx');
-  const dir = join(INSIGHTS_DIR, subPath);
+  const subPath = route === '/info' ? '' : route.replace(/^\/info\//, '');
+  const pageFile = join(INFO_DIR, subPath, 'page.tsx');
+  const dir = join(INFO_DIR, subPath);
 
   if (!(await fileExists(pageFile))) {
     return {
@@ -404,7 +440,7 @@ async function getPage(route) {
     .map(i => i.split('/').pop() + '.ts');
 
   // identificar API calls en el source
-  const apiCalls = [...source.matchAll(/['"](\/api\/insights\/[^'"\s]+)['"]/g)]
+  const apiCalls = [...source.matchAll(/['"](\/api\/info\/[^'"\s]+)['"]/g)]
     .map(m => m[1]);
 
   return {
@@ -414,7 +450,7 @@ async function getPage(route) {
     page_lines: source.split('\n').length,
     componentes_referenciados: components,
     archivos_vecinos: siblings,
-    imports_destacados: imports.filter(i => !i.startsWith('.') || i.includes('insights')).slice(0, 20),
+    imports_destacados: imports.filter(i => !i.startsWith('.') || i.includes('insights') || i.includes('info')).slice(0, 20),
     data_sources_detectados: [...new Set(dataSources)],
     api_calls_detectados: [...new Set(apiCalls)],
   };
@@ -458,7 +494,7 @@ async function listApiEndpoints() {
     const todos = [...source.matchAll(/\/\/\s*TODO[:\s].{0,120}/gi)].map(m => m[0].trim());
 
     endpoints.push({
-      route: '/api/insights/' + f.replace(/\/route\.tsx?$/, ''),
+      route: '/api/info/' + f.replace(/\/route\.tsx?$/, ''),
       file: relative(REPO_ROOT, full).replace(/\\/g, '/'),
       metodos: methods,
       auth_admin: hasAuth,
@@ -477,9 +513,9 @@ async function listApiEndpoints() {
 async function getComponentSource(name) {
   if (!name) throw new Error('name es requerido (ej: DashboardControls, InsightsNav)');
 
-  // Buscar en insights y en components
+  // Buscar en info y en components
   const searchDirs = [
-    INSIGHTS_DIR,
+    INFO_DIR,
     join(REPO_ROOT, 'app/components'),
   ];
 
@@ -538,11 +574,11 @@ async function getPattern(id) {
 async function searchDashboard(query) {
   if (!query) throw new Error('query es requerido');
   const needle = query.toLowerCase();
-  const files = await listDirRecursive(INSIGHTS_DIR);
+  const files = await listDirRecursive(INFO_DIR);
   const hits = [];
 
   for (const f of files) {
-    const full = join(INSIGHTS_DIR, f);
+    const full = join(INFO_DIR, f);
     const source = await readFile(full, 'utf8');
     const lines = source.split('\n');
     const matches = [];
@@ -553,7 +589,7 @@ async function searchDashboard(query) {
     }
     if (matches.length > 0) {
       hits.push({
-        file: 'app/insights/' + f.replace(/\\/g, '/'),
+        file: 'app/info/' + f.replace(/\\/g, '/'),
         matches: matches.slice(0, 10),
         total_matches: matches.length,
       });
@@ -573,7 +609,7 @@ async function searchDashboard(query) {
 // ─────────────────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: 'dashboard-specialist', version: '1.0.0' },
+  { name: 'dashboard-specialist', version: '1.1.0' },
   { capabilities: { tools: {} } }
 );
 
@@ -581,11 +617,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     {
       name: 'get_overview',
-      description: `Árbol de rutas del dashboard /insights de capira-site.
+      description: `Árbol de rutas del dashboard /info de capira-site.
 Retorna: lista de todas las rutas detectadas (de page.tsx), con estado (live/wip/vacio),
 audiencia (publico/admin), propósito y KPIs conceptuales de cada una.
 También lista componentes compartidos y stack técnico.
-Usar cuando se pregunte qué secciones tiene el dashboard o qué hay en /insights.`,
+Usar cuando se pregunte qué secciones tiene el dashboard o qué hay en /info.`,
       inputSchema: { type: 'object', properties: {} },
     },
     {
@@ -593,13 +629,13 @@ Usar cuando se pregunte qué secciones tiene el dashboard o qué hay en /insight
       description: `Detalle de una ruta concreta del dashboard.
 Retorna: metadata curada (propósito, KPIs), path del page.tsx, componentes JSX referenciados,
 archivos vecinos (Dashboard.tsx, Charts.tsx, etc.), imports, data sources detectados y
-llamadas a /api/insights.
+llamadas a /api/info.
 Usar cuando se pregunte "qué hace/muestra/usa la página X".
-Parámetro: route (string, ej: "/insights/matriculaciones")`,
+Parámetro: route (string, ej: "/info/matriculaciones")`,
       inputSchema: {
         type: 'object',
         properties: {
-          route: { type: 'string', description: 'Ruta completa, ej: /insights/matriculaciones' },
+          route: { type: 'string', description: 'Ruta completa, ej: /info/matriculaciones' },
         },
         required: ['route'],
       },
@@ -608,20 +644,20 @@ Parámetro: route (string, ej: "/insights/matriculaciones")`,
       name: 'list_data_sources',
       description: `Lista archivos de app/lib/insights/*.ts con descripción, líneas y bytes.
 Son los datasets estáticos que alimentan los dashboards (agregaciones DGT/ANFAC,
-clasificación BEV/PHEV, infraestructura).
+clasificación BEV/PHEV, infraestructura, licitaciones).
 Usar cuando se pregunte de dónde vienen los datos o qué data files existen.`,
       inputSchema: { type: 'object', properties: {} },
     },
     {
       name: 'list_api_endpoints',
-      description: `Lista rutas de app/api/insights/** con métodos HTTP, si requieren auth admin,
+      description: `Lista rutas de app/api/info/** con métodos HTTP, si requieren auth admin,
 líneas y TODOs encontrados en el código.
 Usar cuando se pregunte por endpoints, APIs o qué se puede consultar desde el cliente.`,
       inputSchema: { type: 'object', properties: {} },
     },
     {
       name: 'get_component_source',
-      description: `Source completo de un componente por nombre (busca en app/insights y app/components).
+      description: `Source completo de un componente por nombre (busca en app/info y app/components).
 Retorna: path y contenido del archivo.
 Usar cuando se pregunte cómo está implementado un componente concreto.
 Parámetro: name (string, ej: "DashboardControls", "InsightsNav", "MatriculacionesCharts")`,
@@ -635,7 +671,7 @@ Parámetro: name (string, ej: "DashboardControls", "InsightsNav", "Matriculacion
     },
     {
       name: 'search_dashboard',
-      description: `Grep case-insensitive sobre todos los archivos de app/insights.
+      description: `Grep case-insensitive sobre todos los archivos de app/info.
 Retorna: archivos con matches, número de línea y texto de cada coincidencia (hasta 10 por archivo).
 Usar para localizar dónde aparece un string, variable, clase CSS o concepto.
 Parámetro: query (string a buscar)`,

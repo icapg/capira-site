@@ -23,12 +23,22 @@ const PALETA = ["#a78bfa","#34d399","#f472b6","#facc15","#60a5fa","#fb7185","#22
  * Racing bar chart: ranking de marcas por matriculaciones rolling-12m,
  * animado mes a mes desde 2015 hasta el último periodo.
  */
+const TOP_N_OPTIONS = [15, 20, 30] as const;
+type TopN = typeof TOP_N_OPTIONS[number];
+const ROW_PX = 26; // alto por barra + padding vertical
+
 export function ChartRacingBar({ data, rollingMonths = 12, highlightSlug, highlightSlugB, height = 420 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
   const timerRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [idx, setIdx] = useState(() => Math.max(0, data.meta.periodos.length - 1));
+  const [topN, setTopN] = useState<TopN>(20);
+
+  // El dataset puede traer menos marcas de las pedidas (top_n del build).
+  const maxTop = Math.min(topN, data.marcas.length);
+  // Altura dinámica: crece con el N seleccionado para que cada barra siga siendo legible.
+  const effectiveHeight = Math.max(height, maxTop * ROW_PX + 60);
 
   // Rolling sums precomputadas por marca × periodo
   const rolling = useMemo(() => {
@@ -59,7 +69,7 @@ export function ChartRacingBar({ data, rollingMonths = 12, highlightSlug, highli
     const topMarcas = [...rolling]
       .map((m) => ({ slug: m.slug, marca: m.marca, value: m.rolling[idx] ?? 0 }))
       .sort((a, b) => b.value - a.value)
-      .slice(0, 15)
+      .slice(0, maxTop)
       .reverse(); // yAxis category bottom-to-top → invertir para que el top esté arriba
 
     const colorFor = (slug: string, i: number) => {
@@ -115,7 +125,12 @@ export function ChartRacingBar({ data, rollingMonths = 12, highlightSlug, highli
         },
       }],
     }, { notMerge: true });
-  }, [idx, data, rolling, highlightSlug, highlightSlugB]);
+  }, [idx, data, rolling, highlightSlug, highlightSlugB, maxTop]);
+
+  // Resize cuando cambia el alto (al alternar topN).
+  useEffect(() => {
+    chartRef.current?.resize();
+  }, [effectiveHeight]);
 
   // Play/stop loop
   useEffect(() => {
@@ -156,6 +171,30 @@ export function ChartRacingBar({ data, rollingMonths = 12, highlightSlug, highli
           )}
           <button onClick={reset} style={btnStyle}>↺ Reset</button>
         </div>
+        <div style={{ display: "inline-flex", background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3, gap: 2, border: "1px solid rgba(255,255,255,0.08)" }}>
+          {TOP_N_OPTIONS.map((n) => {
+            const active = n === topN;
+            const disabled = n > data.marcas.length;
+            return (
+              <button
+                key={n}
+                onClick={() => !disabled && setTopN(n)}
+                disabled={disabled}
+                title={disabled ? `Solo hay ${data.marcas.length} marcas disponibles` : `Mostrar top ${n}`}
+                style={{
+                  ...btnStyle,
+                  background: active ? "rgba(56,189,248,0.12)" : "transparent",
+                  color:      active ? "#38bdf8" : btnStyle.color,
+                  borderColor: active ? "rgba(56,189,248,0.35)" : "rgba(255,255,255,0.12)",
+                  opacity: disabled ? 0.35 : 1,
+                  cursor: disabled ? "not-allowed" : "pointer",
+                }}
+              >
+                Top {n}
+              </button>
+            );
+          })}
+        </div>
         <input
           type="range"
           min={0}
@@ -169,7 +208,7 @@ export function ChartRacingBar({ data, rollingMonths = 12, highlightSlug, highli
           {periodo}
         </div>
       </div>
-      <div ref={ref} style={{ width: "100%", height }} />
+      <div ref={ref} style={{ width: "100%", height: effectiveHeight }} />
     </div>
   );
 }
