@@ -326,7 +326,7 @@ function main() {
       quality_score_ubicacion,
       -- Fase 2 LLM: bloque común
       criterios_valoracion, peso_criterios_economicos, peso_criterios_tecnicos,
-      mejoras_puntuables, tipo_adjudicacion, idioma_pliego,
+      mejoras_puntuables, criterios_juicio_valor, tipo_adjudicacion, idioma_pliego,
       extraccion_llm_fecha, extraccion_llm_modelo, extraccion_llm_warnings,
       extraccion_llm_notas_pliego, extraccion_llm_notas_adjudicacion,
       -- Fase 2 LLM: bloque cat=1
@@ -338,6 +338,7 @@ function main() {
       canon_por_ubicacion_anual,
       canon_variable_pct, canon_variable_eur_kwh,
       canon_mix_fijo_anual, canon_mix_var_pct, canon_mix_var_eur_kwh, canon_mix_fijo_por_cargador,
+      precio_max_kwh_usuario, precio_kwh_ofertado_ganador, mantenimiento_precio_anos,
       peso_construccion_tiempo, peso_proyecto_tecnico, peso_mas_hw_potencia, peso_mas_ubicaciones, peso_otros,
       peso_canon_fijo, peso_canon_variable,
       garantia_provisional_eur, garantia_provisional_pct, garantia_provisional_exigida,
@@ -356,6 +357,7 @@ function main() {
     SELECT l.licitacion_id, l.empresa_nif, l.empresa_nombre, l.rol, l.es_ute, l.miembros_ute,
            l.oferta_economica, l.oferta_canon_anual, l.oferta_canon_por_cargador,
            l.oferta_canon_variable_eur_kwh, l.oferta_canon_variable_pct, l.oferta_descuento_residentes_pct,
+           l.oferta_precio_kwh_usuario, l.oferta_mantenimiento_precio_anos,
            l.inversion_comprometida,
            l.puntuacion_economica, l.puntuacion_tecnica, l.puntuacion_total,
            l.puntuaciones_detalle,
@@ -380,6 +382,8 @@ function main() {
       oferta_canon_variable_eur_kwh: r.oferta_canon_variable_eur_kwh,
       oferta_canon_variable_pct:     r.oferta_canon_variable_pct,
       oferta_descuento_residentes_pct: r.oferta_descuento_residentes_pct,
+      oferta_precio_kwh_usuario: r.oferta_precio_kwh_usuario,
+      oferta_mantenimiento_precio_anos: r.oferta_mantenimiento_precio_anos,
       inversion_comprometida:   r.inversion_comprometida,
       puntuacion_economica:     r.puntuacion_economica,
       puntuacion_tecnica:       r.puntuacion_tecnica,
@@ -398,7 +402,7 @@ function main() {
     const qUbic = db.prepare(`
       SELECT licitacion_id, nombre, direccion, municipio, ciudad_ine, latitud, longitud,
              plazas, num_cargadores_ac, num_cargadores_dc, num_cargadores_dc_plus, num_cargadores_hpc, num_cargadores_total,
-             potencia_total_kw, potencia_por_cargador_kw, tipo_hw, plazo_pem_meses, google_maps_url, notas, es_opcional
+             potencia_total_kw, potencia_por_cargador_kw, tipo_hw, plazo_pem_meses, google_maps_url, notas, es_opcional, es_existente, plano_url, plano_label
       FROM ubicaciones_concesion
       ORDER BY licitacion_id, id
     `);
@@ -422,6 +426,9 @@ function main() {
         notas:            u.notas,
         es_opcional:      !!u.es_opcional,
       };
+      if (u.es_existente) ubic.es_existente = true;
+      if (u.plano_url)    ubic.plano_url    = u.plano_url;
+      if (u.plano_label)  ubic.plano_label  = u.plano_label;
       if (u.latitud != null && u.longitud != null) { ubic.latitud = u.latitud; ubic.longitud = u.longitud; }
       ubicacionesByLic.get(u.licitacion_id).push(ubic);
     }
@@ -433,7 +440,7 @@ function main() {
   console.log(`⏳ Cruzando documentos...`);
   const docsByLic = new Map();
   const qDoc = db.prepare(`
-    SELECT d.licitacion_id, d.tipo, d.url, d.fecha_subida, d.descargado, d.resumen_ia
+    SELECT d.licitacion_id, d.tipo, d.nombre_original, d.url, d.fecha_subida, d.descargado, d.resumen_ia
     FROM documentos d
     JOIN licitaciones li ON li.id = d.licitacion_id
     WHERE li.categoria_emov IS NOT NULL AND li.categoria_emov != 'no_emov'
@@ -441,10 +448,12 @@ function main() {
   `);
   for (const d of qDoc.iterate()) {
     if (!docsByLic.has(d.licitacion_id)) docsByLic.set(d.licitacion_id, []);
-    docsByLic.get(d.licitacion_id).push({
+    const doc = {
       tipo: d.tipo, url: d.url, fecha: d.fecha_subida,
       descargado: !!d.descargado, resumen_ia: d.resumen_ia,
-    });
+    };
+    if (d.nombre_original) doc.nombre = d.nombre_original;
+    docsByLic.get(d.licitacion_id).push(doc);
   }
 
   // CPVs por licitación
@@ -514,6 +523,14 @@ function main() {
     put(it, 'fecha_formalizacion', r.fecha_formalizacion);
     put(it, 'dias_aviso',   r.dias_aviso);
     put(it, 'estado',       r.estado_actual);
+    // Última actualización del item: el max entre la última extracción LLM y
+    // la fecha que viene del feed XML del PLACSP. Permite mostrarle al usuario
+    // qué tan "fresca" está la info y si conviene refrescar el expediente.
+    const fechaActualizacion = [r.extraccion_llm_fecha, r.fecha_ultima_actualizacion]
+      .filter(Boolean)
+      .sort()
+      .pop();
+    put(it, 'fecha_actualizacion', fechaActualizacion);
     if (r.financiacion_ue) it.financiacion_ue = true;
     put(it, 'programa_ue',  r.programa_ue);
     put(it, 'subcategoria', r.subcategoria);
@@ -557,6 +574,10 @@ function main() {
       put(concesion, 'canon_mix_var_pct',               r.canon_mix_var_pct);
       put(concesion, 'canon_mix_var_eur_kwh',           r.canon_mix_var_eur_kwh);
       put(concesion, 'canon_mix_fijo_por_cargador',     r.canon_mix_fijo_por_cargador);
+      // Variante venta de energía al usuario
+      put(concesion, 'precio_max_kwh_usuario',          r.precio_max_kwh_usuario);
+      put(concesion, 'precio_kwh_ofertado_ganador',     r.precio_kwh_ofertado_ganador);
+      put(concesion, 'mantenimiento_precio_anos',       r.mantenimiento_precio_anos);
       // Ubicaciones detalladas
       put(concesion, 'ubicaciones',                 ubicacionesByLic.get(r.id));
       if (Object.keys(concesion).length) it.concesion = concesion;
@@ -566,6 +587,7 @@ function main() {
     const proceso = {};
     const criterios = safeJson(r.criterios_valoracion);
     const mejoras   = safeJson(r.mejoras_puntuables);
+    const criteriosJV = safeJson(r.criterios_juicio_valor);
     const warnings        = safeJson(r.extraccion_llm_warnings);
     const notasPliego       = safeJson(r.extraccion_llm_notas_pliego);
     const notasAdjudicacion = safeJson(r.extraccion_llm_notas_adjudicacion);
@@ -600,6 +622,7 @@ function main() {
     if (reqAdi) requisitos.adicionales         = reqAdi;
     if (Object.keys(requisitos).length) proceso.requisitos = requisitos;
     if (mejoras)  proceso.mejoras_puntuables = mejoras;
+    if (criteriosJV) proceso.criterios_juicio_valor = criteriosJV;
     put(proceso, 'tipo_adjudicacion', r.tipo_adjudicacion);
     put(proceso, 'idioma_pliego',     r.idioma_pliego);
     if (r.extraccion_llm_fecha) {
@@ -632,6 +655,8 @@ function main() {
         put(o, 'oferta_canon_variable_eur_kwh', l.oferta_canon_variable_eur_kwh);
         put(o, 'oferta_canon_variable_pct',     l.oferta_canon_variable_pct);
         put(o, 'oferta_descuento_residentes_pct', l.oferta_descuento_residentes_pct);
+        put(o, 'oferta_precio_kwh_usuario', l.oferta_precio_kwh_usuario);
+        put(o, 'oferta_mantenimiento_precio_anos', l.oferta_mantenimiento_precio_anos);
         put(o, 'inversion_comprometida',    l.inversion_comprometida);
         put(o, 'puntuacion_economica',      l.puntuacion_economica);
         put(o, 'puntuacion_tecnica',        l.puntuacion_tecnica);

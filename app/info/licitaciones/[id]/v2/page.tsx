@@ -411,7 +411,7 @@ function KpiBar({ lic, esConcesion }: { lic: LicitacionItem; esConcesion: boolea
       sub1:   mix || (con?.tecnologia_requerida ? `tecnología ${con.tecnologia_requerida}` : undefined),
       label2: "Ubicaciones",
       value2: nUbic != null ? String(nUbic) : "—",
-      sub2:   nUbic != null ? (nUbic === 1 ? "punto de instalación" : "puntos de instalación") : undefined,
+      sub2:   nUbic != null ? (nUbic === 1 ? "ubicación" : "ubicaciones") : undefined,
       accent: P.blue,
     });
   }

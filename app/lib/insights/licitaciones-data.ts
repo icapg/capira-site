@@ -7,7 +7,7 @@ import itemsRaw from '../../../data/licitaciones-emov.json' assert { type: 'json
 import summaryRaw from '../../../data/licitaciones-cat-summary.json' assert { type: 'json' };
 
 export type CategoriaId = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11';
-export type EstadoCodigo = 'PUB' | 'EV' | 'ADJ' | 'RES' | 'ANUL' | 'PRE' | 'CERR' | 'BORR' | string;
+export type EstadoCodigo = 'PUB' | 'EV' | 'ADJ' | 'RES' | 'ANUL' | 'DES' | 'PRE' | 'CERR' | 'BORR' | string;
 
 export type CategoriaMeta = {
   label: string;
@@ -43,6 +43,10 @@ export type Licitador = {
   oferta_economica?:          number;
   oferta_canon_anual?:        number;
   oferta_canon_por_cargador?: number;
+  /** Variante "venta_energia_usuario": precio €/kWh que el licitador propone cobrar al usuario. */
+  oferta_precio_kwh_usuario?: number;
+  /** Años de compromiso de mantener el precio del kWh sin actualización. */
+  oferta_mantenimiento_precio_anos?: number;
   /** Parte variable del canon ofertado (canon mixto): euros por kWh dispensado. */
   oferta_canon_variable_eur_kwh?: number;
   /** Parte variable como % sobre facturación. */
@@ -62,7 +66,15 @@ export type Licitador = {
 };
 
 export type Snapshot  = { estado: string; fecha: string };
-export type Documento = { tipo: string; url: string; fecha?: string; descargado?: boolean; resumen_ia?: string };
+export type Documento = {
+  tipo: string;
+  /** Nombre tal como lo subió el órgano contratante en PLACSP (ej. "ACTA MESA CONTRATACIÓN Apertura sobre 1"). */
+  nombre?: string;
+  url: string;
+  fecha?: string;
+  descargado?: boolean;
+  resumen_ia?: string;
+};
 
 export type UbicacionConcesion = {
   nombre?:        string;
@@ -83,6 +95,12 @@ export type UbicacionConcesion = {
   google_maps_url?: string;
   notas?:           string;
   es_opcional?:     boolean;
+  /** Cargador ya existente que se asume sin reemplazo (no cuenta como instalación nueva del pliego). */
+  es_existente?:    boolean;
+  /** URL al plano/anexo del pliego asociado a esta ubicación (PDF o ZIP). */
+  plano_url?:       string;
+  /** Etiqueta del plano (ej. "Anexo 3 del PPT"). */
+  plano_label?:     string;
 };
 
 export type CriterioValoracion = {
@@ -143,7 +161,10 @@ export type ProcesoLicitacion = {
   peso_mas_hw_potencia?:     number;
   peso_mas_ubicaciones?:     number;
   peso_otros?:               number;
+  /** Criterios automáticos por fórmulas (lo que el licitador ofrece sobre el mínimo del pliego, evaluable mecánicamente). */
   mejoras_puntuables?:  MejoraPuntuable[];
+  /** Criterios cualitativos evaluados por la mesa con juicio de valor (proyecto técnico, plan de mantenimiento, etc.). */
+  criterios_juicio_valor?: MejoraPuntuable[];
   tipo_adjudicacion?:   "subasta" | "concurso" | "concurso_multicriterio" | "acuerdo_marco" | string;
   idioma_pliego?:       "es" | "ca" | "gl" | "eu" | "mixto" | string;
   garantias?:           Garantias;
@@ -164,7 +185,7 @@ export type Concesion = {
   /** Del pliego (XML) */
   plazo_anos?:        number;
   renovacion_anos?:   number;
-  tipo_retribucion?:  "canon_fijo" | "canon_variable_pct" | "mixto" | "contraprestacion" | "compra" | string;
+  tipo_retribucion?:  "canon_fijo" | "canon_variable_pct" | "mixto" | "contraprestacion" | "compra" | "venta_energia_usuario" | string;
   canon_minimo_anual?: number;
   canon_ganador?:     number;
   canon_por_cargador?: number;
@@ -194,6 +215,10 @@ export type Concesion = {
   canon_mix_var_pct?:           number;
   canon_mix_var_eur_kwh?:       number;
   canon_mix_fijo_por_cargador?: number;
+  /** Variante "venta_energia_usuario": el adjudicatario no paga canon — vende energía al usuario y el órgano puntúa el precio bajo. */
+  precio_max_kwh_usuario?:      number;
+  precio_kwh_ofertado_ganador?: number;
+  mantenimiento_precio_anos?:   number;
   ubicaciones?:                 UbicacionConcesion[];
 };
 
@@ -223,6 +248,8 @@ export type LicitacionItem = {
   fecha_limite?:        string;
   fecha_adjudicacion?:  string;
   fecha_formalizacion?: string;
+  /** Última fecha en que actualizamos los datos de esta licitación (max entre extracción LLM y feed XML). */
+  fecha_actualizacion?: string;
   dias_aviso?:          number;
 
   estado?:         EstadoCodigo;
@@ -339,11 +366,12 @@ export function findLicitacionBySlug(slug: string): LicitacionItem | undefined {
 
 /** Etiquetas de estado PLACSP (UI-friendly). */
 export const ESTADO_LABEL: Record<string, string> = {
-  PUB:  'Publicada',
+  PUB:  'Abierta',
   EV:   'En evaluación',
   ADJ:  'Adjudicada',
   RES:  'Resuelta',
   ANUL: 'Anulada',
+  DES:  'Desierta',
   PRE:  'Preliminar',
   CERR: 'Cerrada',
   BORR: 'Borrador',
@@ -356,6 +384,7 @@ export const ESTADO_COLOR: Record<string, string> = {
   ADJ:  '#a78bfa', // adjudicada pendiente de formalización
   RES:  '#34d399', // resuelta / formalizada
   ANUL: '#f87171', // anulada
+  DES:  '#f87171', // desierta (mismo color que anulada)
   PRE:  '#06b6d4', // preliminar
   CERR: '#6b7280',
   BORR: '#6b7280',

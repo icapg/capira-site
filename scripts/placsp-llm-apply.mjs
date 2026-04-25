@@ -52,6 +52,54 @@ const now    = new Date().toISOString();
 const isConcesion = row.categoria_emov === '1';
 
 console.log(`📝 Aplicando extracción a ${slug} (${row.expediente ?? ''})`);
+
+// ─── Auto-completado (spec v2 §3.bis) ────────────────────────────────────
+// Rellenamos campos derivables ANTES del UPDATE para que las invariantes se
+// cumplan aunque el LLM/sesión no los haya emitido.
+let autoFilled = 0;
+if (isConcesion && Array.isArray(parsed.ubicaciones)) {
+  // 1) num_ubicaciones ← ubicaciones.length si null
+  if (parsed.num_ubicaciones == null && parsed.ubicaciones.length > 0) {
+    parsed.num_ubicaciones = parsed.ubicaciones.length;
+    autoFilled++;
+  }
+  // 2) Por ubicación: direccion ← nombre, google_maps_url ← search query
+  for (const u of parsed.ubicaciones) {
+    if (!u.direccion && u.nombre) { u.direccion = u.nombre; autoFilled++; }
+    if (!u.google_maps_url) {
+      if (u.latitud != null && u.longitud != null) {
+        u.google_maps_url = `https://www.google.com/maps?q=${u.latitud},${u.longitud}`;
+        autoFilled++;
+      } else if (u.direccion) {
+        const q = `${u.direccion}${u.municipio ? `, ${u.municipio}` : ''}`;
+        u.google_maps_url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+        autoFilled++;
+      }
+    }
+  }
+}
+// 3) Detectar declaración desierta EXPLÍCITA en notas_adjudicacion → estado_actual = DES
+// Buscamos solo decisiones administrativas explícitas (acto formal de declarar
+// desierta), no frases ambiguas como "sin licitadores presentados aún" que
+// puede ocurrir mientras el plazo está abierto.
+const adjText = (parsed.notas_adjudicacion ?? []).join(' \n ').toLowerCase();
+const desierta = /declar[ao]da?\s+desierta|qued[oó]\s+desierta|acuerdo.{0,30}desierta|resoluci[oó]n.{0,30}desierta/i.test(adjText);
+let nuevoEstado = null;
+if (desierta && row.estado_actual !== 'DES' && row.estado_actual !== 'ANUL' && row.estado_actual !== 'RES') {
+  nuevoEstado = 'DES';
+  autoFilled++;
+}
+// 4) ciudad ← municipio común de ubicaciones[]
+let nuevaCiudad = null;
+if (isConcesion && Array.isArray(parsed.ubicaciones) && parsed.ubicaciones.length > 0 && !row.ciudad) {
+  const munis = [...new Set(parsed.ubicaciones.map((u) => u.municipio).filter(Boolean))];
+  if (munis.length === 1) {
+    nuevaCiudad = munis[0];
+    autoFilled++;
+  }
+}
+if (autoFilled > 0) console.log(`   🪄 ${autoFilled} campos auto-completados (spec v2 §3.bis)`);
+
 if (parsed.notas_pliego?.length)       console.log(`   📘 ${parsed.notas_pliego.length} notas de pliego`);
 if (parsed.notas_adjudicacion?.length) console.log(`   🏆 ${parsed.notas_adjudicacion.length} notas de adjudicación`);
 if (parsed.warnings?.length)           console.log(`   ⚠ ${parsed.warnings.length} warnings (legacy — re-clasificar como notas_pliego/notas_adjudicacion)`);
@@ -72,6 +120,7 @@ set('peso_otros',                 parsed.peso_otros ?? null);
 set('peso_canon_fijo',            parsed.peso_canon_fijo ?? null);
 set('peso_canon_variable',        parsed.peso_canon_variable ?? null);
 if (parsed.mejoras_puntuables) set('mejoras_puntuables', JSON.stringify(parsed.mejoras_puntuables));
+if (parsed.criterios_juicio_valor) set('criterios_juicio_valor', JSON.stringify(parsed.criterios_juicio_valor));
 set('tipo_adjudicacion',          parsed.tipo_adjudicacion ?? null);
 set('idioma_pliego',              parsed.idioma_pliego ?? null);
 
@@ -89,6 +138,7 @@ if (isConcesion) {
   set('plazo_concesion_anos',      parsed.plazo_concesion_anos ?? null);
   set('renovacion_anos',           parsed.renovacion_anos ?? null);
   set('tipo_retribucion',          parsed.tipo_retribucion ?? null);
+  if (parsed.num_ubicaciones != null) set('num_ubicaciones', parsed.num_ubicaciones);
   set('canon_minimo_anual',           parsed.canon_minimo_anual ?? null);
   set('canon_anual_ofertado_ganador', parsed.canon_ganador ?? null);
   set('canon_por_cargador_ofertado',  parsed.canon_por_cargador ?? null);
@@ -99,6 +149,10 @@ if (isConcesion) {
   set('canon_mix_var_pct',         parsed.canon_mix_var_pct ?? null);
   set('canon_mix_var_eur_kwh',     parsed.canon_mix_var_eur_kwh ?? null);
   set('canon_mix_fijo_por_cargador', parsed.canon_mix_fijo_por_cargador ?? null);
+  // Variante venta de energía al usuario
+  set('precio_max_kwh_usuario',      parsed.precio_max_kwh_usuario ?? null);
+  set('precio_kwh_ofertado_ganador', parsed.precio_kwh_ofertado_ganador ?? null);
+  set('mantenimiento_precio_anos',   parsed.mantenimiento_precio_anos ?? null);
 }
 
 // Garantías
@@ -120,6 +174,24 @@ if (parsed.requisitos) {
 
 set('extraccion_llm_fecha',   now);
 set('extraccion_llm_modelo',  MODEL);
+if (nuevoEstado)  set('estado_actual', nuevoEstado);
+if (nuevaCiudad)  set('ciudad', nuevaCiudad);
+
+// Fechas que el LLM puede haber extraído de los PDFs (más precisas que las del
+// XML del Atom, que a veces vienen incompletas o desactualizadas). Solo las
+// aplicamos si la DB tiene null — no pisamos lo que ya hay del feed XML.
+// Aceptamos el campo `fechas: { publicacion, limite_ofertas, adjudicacion, formalizacion }`
+// y también campos sueltos al top-level por compatibilidad.
+const fechas = parsed.fechas ?? {};
+const fechaMap = {
+  fecha_publicacion:    fechas.publicacion    ?? parsed.fecha_publicacion    ?? null,
+  fecha_limite_ofertas: fechas.limite_ofertas ?? parsed.fecha_limite_ofertas ?? null,
+  fecha_adjudicacion:   fechas.adjudicacion   ?? parsed.fecha_adjudicacion   ?? null,
+  fecha_formalizacion:  fechas.formalizacion  ?? parsed.fecha_formalizacion  ?? null,
+};
+for (const [col, val] of Object.entries(fechaMap)) {
+  if (val && row[col] == null) set(col, val);
+}
 // Nuevas columnas separadas. Si sólo viene "warnings" legacy, lo guardamos
 // en notas_pliego como fallback (no perder el contenido).
 const notasPliego       = parsed.notas_pliego       ?? (parsed.warnings ?? null);
@@ -142,10 +214,10 @@ if (isConcesion && Array.isArray(parsed.ubicaciones) && parsed.ubicaciones.lengt
     INSERT INTO ubicaciones_concesion
       (licitacion_id, nombre, direccion, municipio, latitud, longitud,
        plazas, num_cargadores_ac, num_cargadores_dc, num_cargadores_dc_plus, num_cargadores_hpc, num_cargadores_total,
-       potencia_total_kw, potencia_por_cargador_kw, tipo_hw, plazo_pem_meses, google_maps_url, notas, es_opcional, extraccion_llm_fecha)
+       potencia_total_kw, potencia_por_cargador_kw, tipo_hw, plazo_pem_meses, google_maps_url, notas, es_opcional, es_existente, plano_url, plano_label, extraccion_llm_fecha)
     VALUES (@licitacion_id,@nombre,@direccion,@municipio,@latitud,@longitud,
             @plazas,@num_cargadores_ac,@num_cargadores_dc,@num_cargadores_dc_plus,@num_cargadores_hpc,@num_cargadores_total,
-            @potencia_total_kw,@potencia_por_cargador_kw,@tipo_hw,@plazo_pem_meses,@google_maps_url,@notas,@es_opcional,@extraccion_llm_fecha)
+            @potencia_total_kw,@potencia_por_cargador_kw,@tipo_hw,@plazo_pem_meses,@google_maps_url,@notas,@es_opcional,@es_existente,@plano_url,@plano_label,@extraccion_llm_fecha)
   `);
   for (const u of parsed.ubicaciones) {
     ins.run({
@@ -168,6 +240,9 @@ if (isConcesion && Array.isArray(parsed.ubicaciones) && parsed.ubicaciones.lengt
       google_maps_url: u.google_maps_url ?? null,
       notas:           u.notas ?? null,
       es_opcional:     u.es_opcional ? 1 : 0,
+      es_existente:    u.es_existente ? 1 : 0,
+      plano_url:       u.plano_url ?? null,
+      plano_label:     u.plano_label ?? null,
       extraccion_llm_fecha: now,
     });
   }
@@ -182,11 +257,13 @@ if (Array.isArray(parsed.licitadores) && parsed.licitadores.length > 0) {
       (licitacion_id, empresa_nif, empresa_nombre, rol, es_ute, miembros_ute,
        oferta_economica, oferta_canon_anual, oferta_canon_por_cargador,
        oferta_canon_variable_eur_kwh, oferta_canon_variable_pct, oferta_descuento_residentes_pct,
+       oferta_precio_kwh_usuario, oferta_mantenimiento_precio_anos,
        inversion_comprometida,
        puntuacion_economica, puntuacion_tecnica, puntuacion_total, puntuaciones_detalle,
        rank_position, motivo_exclusion, mejoras_ofertadas)
     VALUES (@lid,@nif,@nombre,@rol,@ute,@miembros,
             @oe,@oca,@ocp,@ocv,@ocvp,@odr,
+            @opku,@omp,
             @inv,@pe,@pt,@pto,@pd,@rank,@mx,@mj)
   `);
   for (const l of parsed.licitadores) {
@@ -203,6 +280,8 @@ if (Array.isArray(parsed.licitadores) && parsed.licitadores.length > 0) {
       ocv: l.oferta_canon_variable_eur_kwh ?? null,
       ocvp: l.oferta_canon_variable_pct ?? null,
       odr: l.oferta_descuento_residentes_pct ?? null,
+      opku: l.oferta_precio_kwh_usuario ?? null,
+      omp:  l.oferta_mantenimiento_precio_anos ?? null,
       inv: l.inversion_comprometida ?? null,
       pe: l.puntuacion_economica ?? null,
       pt: l.puntuacion_tecnica ?? null,

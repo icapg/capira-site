@@ -80,7 +80,8 @@ CREATE TABLE IF NOT EXISTS licitaciones (
   criterios_valoracion     TEXT,                             -- JSON: { economicos:[{peso,formula}], tecnicos:[{peso,descripcion}] }
   peso_criterios_economicos REAL,                            -- 0..100 (redundancia para queries)
   peso_criterios_tecnicos  REAL,                             -- 0..100
-  mejoras_puntuables       TEXT,                             -- JSON array: [{descripcion, puntos_max, tipo}]
+  mejoras_puntuables       TEXT,                             -- JSON array de criterios automáticos por fórmulas: [{descripcion, puntos_max, tipo}]
+  criterios_juicio_valor   TEXT,                             -- JSON array de criterios cualitativos por juicio de valor: [{descripcion, puntos_max, tipo}]
   tipo_adjudicacion        TEXT,                             -- subasta / concurso / concurso_multicriterio / acuerdo_marco
   idioma_pliego            TEXT,                             -- es / ca / gl / eu / mixto
   extraccion_llm_fecha     TEXT,                             -- cuándo se corrió la extracción
@@ -107,6 +108,12 @@ CREATE TABLE IF NOT EXISTS licitaciones (
   canon_mix_var_pct        REAL,                             -- mix: parte variable %
   canon_mix_var_eur_kwh    REAL,                             -- mix: parte variable EUR/kWh
   canon_mix_fijo_por_cargador REAL,                          -- mix: parte fija EUR/HW/año
+
+  -- Variante "venta de energía al usuario": el adjudicatario no paga canon al
+  -- órgano sino que vende energía al usuario; el órgano puntúa el precio bajo.
+  precio_max_kwh_usuario       REAL,                         -- precio máximo €/kWh que el adjudicatario puede cobrar al usuario final
+  precio_kwh_ofertado_ganador  REAL,                         -- €/kWh ofertado por el ganador
+  mantenimiento_precio_anos    INTEGER,                      -- años de compromiso de mantener el precio sin actualización
 
   -- Desglose de weighting (criterios técnicos típicos)
   peso_construccion_tiempo REAL,                             -- 0..100
@@ -165,6 +172,8 @@ CREATE TABLE IF NOT EXISTS licitadores (
   oferta_economica         REAL,
   oferta_canon_anual       REAL,
   oferta_canon_por_cargador REAL,
+  oferta_precio_kwh_usuario     REAL,                       -- variante "venta energía al usuario": €/kWh ofertado al usuario
+  oferta_mantenimiento_precio_anos INTEGER,                 -- años de compromiso de mantener el precio
   inversion_comprometida   REAL,
   puntuacion_economica     REAL,
   puntuacion_tecnica       REAL,
@@ -192,7 +201,8 @@ CREATE TABLE IF NOT EXISTS empresas (
 CREATE TABLE IF NOT EXISTS documentos (
   id                       INTEGER PRIMARY KEY AUTOINCREMENT,
   licitacion_id            TEXT NOT NULL REFERENCES licitaciones(id) ON DELETE CASCADE,
-  tipo                     TEXT NOT NULL,                   -- pliego_administrativo/pliego_tecnico/anuncio/acta_apertura/resolucion_adjudicacion/modificacion
+  tipo                     TEXT NOT NULL,                   -- pliego_administrativo/pliego_tecnico/anuncio/acta_apertura/resolucion_adjudicacion/modificacion (clasificación canónica)
+  nombre_original          TEXT,                            -- el nombre tal como lo subió el órgano contratante en PLACSP
   url                      TEXT NOT NULL,
   hash_sha256              TEXT,
   fecha_subida             TEXT,
@@ -260,6 +270,8 @@ CREATE INDEX IF NOT EXISTS idx_bench_seg ON benchmarks_cpo(segmento_hw, tamano_m
 -- Una fila por ubicación de un pliego de concesión demanial. Rellenado desde
 -- los PDFs por scripts/placsp-extract-pdfs.mjs. Permite desagregar un pliego
 -- multi-ubicación en ítems individuales con HW propio.
+-- Si modificás el schema acá, también ejecutá los ALTER TABLE en la DB
+-- existente con `placsp-extract-pdfs.mjs` o un script de migración.
 CREATE TABLE IF NOT EXISTS ubicaciones_concesion (
   id                       INTEGER PRIMARY KEY AUTOINCREMENT,
   licitacion_id            TEXT NOT NULL REFERENCES licitaciones(id) ON DELETE CASCADE,
@@ -282,6 +294,9 @@ CREATE TABLE IF NOT EXISTS ubicaciones_concesion (
   google_maps_url          TEXT,                             -- URL Google Maps (si el pliego la incluye)
   notas                    TEXT,
   es_opcional              INTEGER DEFAULT 0,                -- bool: la ubicación es opcional/mejora
+  es_existente             INTEGER DEFAULT 0,                -- bool: cargador ya existe y se asume sin reemplazo
+  plano_url                TEXT,                             -- URL al plano/anexo del pliego (PDF o ZIP)
+  plano_label              TEXT,                             -- etiqueta del plano (ej "Anexo 3 del PPT")
   extraccion_llm_fecha     TEXT
 );
 

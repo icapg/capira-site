@@ -54,7 +54,7 @@ const EMOJI_CAT: Record<string, string> = {
 };
 
 const ESTADO_EMOJI: Record<string, string> = {
-  PUB: "🟢", EV: "⏳", ADJ: "🎯", RES: "✅", ANUL: "❌", PRE: "📝", CERR: "🔒", BORR: "📋",
+  PUB: "🟢", EV: "⏳", ADJ: "🎯", RES: "✅", ANUL: "❌", DES: "🚫", PRE: "📝", CERR: "🔒", BORR: "📋",
 };
 
 function fmtEur(n?: number | null, unit = ""): string {
@@ -75,6 +75,11 @@ function fmtNum(n?: number | null): string {
   if (n == null || !Number.isFinite(n)) return "—";
   return n.toLocaleString("es-ES");
 }
+function fmtTipoHw(t?: string | null): string {
+  if (!t) return "—";
+  if (t === "mixto") return "AC+DC";
+  return t;
+}
 
 const TIPO_INICIO_LABEL: Record<string, string> = {
   adjudicacion:     "Desde adjudicación",
@@ -83,25 +88,52 @@ const TIPO_INICIO_LABEL: Record<string, string> = {
 };
 
 const TIPO_RETRIB_LABEL: Record<string, string> = {
-  canon_fijo:          "canon fijo",
-  canon_variable_pct:  "canon variable (% sobre facturación)",
-  mixto:               "canon mixto (fijo + variable)",
-  contraprestacion:    "contraprestación",
-  compra:              "compra",
+  canon_fijo:            "canon fijo",
+  canon_variable_pct:    "canon variable (% sobre facturación)",
+  mixto:                 "canon mixto (fijo + variable)",
+  contraprestacion:      "contraprestación",
+  compra:                "compra",
+  venta_energia_usuario: "venta de energía al usuario (sin canon al órgano)",
 };
 
-function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): string[] {
-  const bullets: string[] = [];
-  const con = lic.concesion;
-  const proc = lic.proceso;
+type SeccionNarrativa = { titulo: string; bullets: string[] };
 
-  // ── Duración y contrato ────────────────────────────────────────────────
+// Clasifica una nota libre de notas_pliego[] al tema más apropiado por keywords.
+function clasificarNotaPliego(n: string): keyof PliegoSecciones {
+  const s = n.toLowerCase();
+  if (/canon|retribuci|tarif|alza|€\/kwh|euro\/kwh|ipc|incremento\s+anual|ofertad/.test(s)) return "canon";
+  if (/garant[ií]a|provisional|definitiva|aval|seguro\s+de\s+caución/.test(s)) return "garantias";
+  if (/solvencia|seguro\s+de\s+resp|experiencia|volumen\s+de\s+negoci|habilitaci|certif|visit[ao]\s+obligatori|informe\s+de\s+viabilidad|plan\s+econ|proyecto\s+t[eé]cnico|bastanteo|garant[ií]a\s+de\s+origen|al\s+corriente/.test(s)) return "solvencia";
+  if (/criterio|valoraci|punt[oa]s?\s+m[áa]x|baremaci|exclusi[oó]n|formul/.test(s)) return "criterios";
+  if (/cargad|punto\s+de\s+carga|plaza|potencia|kw|ubicaci[oó]n|tecnolog|conector|mennekes|ccs|chademo|fotovolt|marquesina|acometida|centro\s+de\s+transformaci|cabina|dispensador|interoperabilid|exist[eé]nte|desmantel/.test(s)) return "infra";
+  if (/plazo|prórroga|prorrogabl|años|formalizaci|construcci[oó]n|puesta\s+en\s+(marcha|servicio)|duraci|rescate|vencimi/.test(s)) return "plazo";
+  if (/sobre\s+[abc]|apertura|sistema\s+de\s+\d+\s+sobres|reserva|modific|penali[sz]aci/.test(s)) return "proceso";
+  return "otras";
+}
+
+type PliegoSecciones = {
+  plazo:     string[];
+  canon:     string[];
+  infra:     string[];
+  garantias: string[];
+  solvencia: string[];
+  criterios: string[];
+  proceso:   string[];
+  otras:     string[];
+};
+
+function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): SeccionNarrativa[] {
+  const con  = lic.concesion;
+  const proc = lic.proceso;
+  const sec: PliegoSecciones = { plazo: [], canon: [], infra: [], garantias: [], solvencia: [], criterios: [], proceso: [], otras: [] };
+
+  // ── PLAZO ─────────────────────────────────────────────────────────────
   if (con?.plazo_anos != null) {
     let s = `Concesión demanial por ${con.plazo_anos} años`;
     if (con.renovacion_anos && con.renovacion_anos > 0) s += `, prorrogables ${con.renovacion_anos} años adicionales`;
     else s += ` sin prórroga prevista`;
     s += ".";
-    bullets.push(s);
+    sec.plazo.push(s);
   }
   if (con?.tipo_inicio) {
     const labelMap: Record<string, string> = {
@@ -109,50 +141,59 @@ function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): string[]
       formalizacion: "la formalización del contrato",
       puesta_en_marcha: "la puesta en marcha",
     };
-    bullets.push(`El plazo se computa desde ${labelMap[con.tipo_inicio] ?? con.tipo_inicio}.`);
+    sec.plazo.push(`El plazo se computa desde ${labelMap[con.tipo_inicio] ?? con.tipo_inicio}.`);
+  }
+  if (con?.fecha_inicio) {
+    sec.plazo.push(`Fecha de inicio efectiva de la concesión: ${con.fecha_inicio}.`);
   }
   if (con?.plazo_construccion_meses != null) {
-    bullets.push(`El adjudicatario dispone de ${con.plazo_construccion_meses} meses para construir y poner en marcha la infraestructura.`);
+    sec.plazo.push(`El adjudicatario dispone de ${con.plazo_construccion_meses} meses para construir y poner en marcha la infraestructura.`);
   }
 
-  // ── Retribución ───────────────────────────────────────────────────────
+  // ── CANON Y RÉGIMEN ECONÓMICO ─────────────────────────────────────────
   if (con?.tipo_retribucion) {
-    bullets.push(`Modelo de retribución: ${TIPO_RETRIB_LABEL[con.tipo_retribucion] ?? con.tipo_retribucion}.`);
+    sec.canon.push(`Modelo de retribución: ${TIPO_RETRIB_LABEL[con.tipo_retribucion] ?? con.tipo_retribucion}.`);
   }
   if (con?.canon_minimo_anual != null) {
-    bullets.push(`Canon fijo mínimo del pliego: ${fmtEurExact(con.canon_minimo_anual)}/año (las ofertas deben igualarlo o superarlo).`);
+    sec.canon.push(`Canon fijo mínimo del pliego: ${fmtEurExact(con.canon_minimo_anual)}/año (las ofertas deben igualarlo o superarlo).`);
   }
   if (con?.canon_variable_eur_kwh != null) {
-    bullets.push(`Canon variable mínimo: ${con.canon_variable_eur_kwh.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh cargado.`);
+    sec.canon.push(`Canon variable mínimo: ${con.canon_variable_eur_kwh.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh cargado.`);
   }
   if (con?.canon_variable_pct != null) {
-    bullets.push(`Canon variable mínimo: ${con.canon_variable_pct}% sobre facturación.`);
+    sec.canon.push(`Canon variable mínimo: ${con.canon_variable_pct}% sobre facturación.`);
   }
   if (con?.canon_por_ubicacion_anual != null) {
-    bullets.push(`Canon de referencia por ubicación: ${fmtEurExact(con.canon_por_ubicacion_anual)}/ubicación/año.`);
+    sec.canon.push(`Canon de referencia por ubicación: ${fmtEurExact(con.canon_por_ubicacion_anual)}/ubicación/año.`);
   }
   if (con?.canon_por_cargador != null) {
-    bullets.push(`Canon de referencia por cargador: ${fmtEurExact(con.canon_por_cargador)}/HW/año.`);
+    sec.canon.push(`Canon de referencia por punto de carga: ${fmtEurExact(con.canon_por_cargador)}/punto/año.`);
+  }
+  if (lic.importe_base != null) {
+    sec.canon.push(`Importe base de la convocatoria: ${fmtEur(lic.importe_base)}.`);
+  }
+  if (lic.importe_estimado != null && lic.importe_estimado !== lic.importe_base) {
+    sec.canon.push(`Valor estimado total del contrato: ${fmtEur(lic.importe_estimado)}.`);
   }
 
-  // ── Infraestructura exigida ───────────────────────────────────────────
+  // ── INFRAESTRUCTURA EXIGIDA ───────────────────────────────────────────
   if (con?.num_ubicaciones != null) {
-    bullets.push(`Ubicaciones incluidas: ${con.num_ubicaciones}${con.num_ubicaciones === 1 ? " punto" : " puntos"} de instalación.`);
+    sec.infra.push(`Ubicaciones: ${con.num_ubicaciones}.`);
   }
   if (con?.num_cargadores_minimo != null) {
-    let s = `Se exigen al menos ${con.num_cargadores_minimo} puntos de carga`;
-    if (con.num_cargadores_opcional) s += " (el licitador puede ofertar más como mejora)";
+    let s = `Se exigen al menos ${con.num_cargadores_minimo} puntos de carga (plazas con cable disponible)`;
+    if (con.num_cargadores_opcional) s += " — el licitador puede ofertar más como mejora";
     s += ".";
-    bullets.push(s);
+    sec.infra.push(s);
   }
   if (con?.potencia_minima_por_cargador_kw != null) {
-    let s = `Potencia mínima por cargador: ${con.potencia_minima_por_cargador_kw} kW`;
+    let s = `Potencia mínima por punto de carga: ${con.potencia_minima_por_cargador_kw} kW`;
     if (con.potencia_opcional_subible) s += " (subible como mejora)";
     s += ".";
-    bullets.push(s);
+    sec.infra.push(s);
   }
   if (con?.potencia_disponible_kw != null) {
-    bullets.push(`Potencia disponible por punto: ${con.potencia_disponible_kw.toLocaleString("es-ES")} kW — ${con.potencia_garantizada ? "garantizada por la Administración" : "NO garantizada (riesgo a cargo del adjudicatario)"}.`);
+    sec.infra.push(`Potencia disponible en acometida: ${con.potencia_disponible_kw.toLocaleString("es-ES")} kW — ${con.potencia_garantizada ? "garantizada por la Administración" : "NO garantizada (riesgo a cargo del adjudicatario)"}.`);
   }
   const hwMix = [
     con?.num_cargadores_ac      && `${con.num_cargadores_ac} AC`,
@@ -160,21 +201,21 @@ function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): string[]
     con?.num_cargadores_dc_plus && `${con.num_cargadores_dc_plus} DC+`,
     con?.num_cargadores_hpc     && `${con.num_cargadores_hpc} HPC`,
   ].filter(Boolean).join(" + ");
-  if (hwMix) bullets.push(`Mix tecnológico exigido: ${hwMix}.`);
+  if (hwMix) sec.infra.push(`Mix tecnológico exigido: ${hwMix}.`);
   if (con?.tecnologia_requerida) {
-    bullets.push(`Tecnología requerida: ${con.tecnologia_requerida}.`);
+    sec.infra.push(`Tecnología requerida: ${fmtTipoHw(con.tecnologia_requerida)}.`);
   }
 
-  // ── Garantías ─────────────────────────────────────────────────────────
+  // ── GARANTÍAS ─────────────────────────────────────────────────────────
   const g = proc?.garantias;
   if (g) {
     if (g.provisional_exigida === true) {
       const prov = g.provisional_eur != null
         ? fmtEur(g.provisional_eur)
         : g.provisional_pct != null ? `${g.provisional_pct}%` : "importe a determinar";
-      bullets.push(`Garantía provisional exigida para presentar oferta: ${prov} (reembolsable a los no adjudicatarios).`);
+      sec.garantias.push(`Garantía provisional exigida para presentar oferta: ${prov} (reembolsable a los no adjudicatarios).`);
     } else if (g.provisional_exigida === false) {
-      bullets.push(`No se exige garantía provisional: cualquier empresa puede presentarse sin depósito inicial.`);
+      sec.garantias.push(`No se exige garantía provisional: cualquier empresa puede presentarse sin depósito inicial.`);
     }
     if (g.definitiva_eur != null || g.definitiva_pct != null) {
       let s = `Garantía definitiva (a constituir por el adjudicatario): `;
@@ -182,37 +223,37 @@ function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): string[]
       if (g.definitiva_base) s += ` sobre ${g.definitiva_base.replace(/_/g, " ")}`;
       if (g.definitiva_eur != null) s += ` (≈ ${fmtEur(g.definitiva_eur)})`;
       s += ".";
-      bullets.push(s);
+      sec.garantias.push(s);
     }
   }
 
-  // ── Requisitos de solvencia ───────────────────────────────────────────
+  // ── SOLVENCIA Y REQUISITOS ────────────────────────────────────────────
   const req = proc?.requisitos;
   if (req) {
     for (const r of (req.solvencia_economica ?? [])) {
-      let s = `Solvencia económica: ${r.descripcion}`;
+      let s = `Solvencia económica — ${r.descripcion}`;
       if (r.umbral) s += ` (umbral: ${r.umbral})`;
       if (r.critico) s += " [crítico]";
       s += ".";
-      bullets.push(s);
+      sec.solvencia.push(s);
     }
     for (const r of (req.solvencia_tecnica ?? [])) {
-      let s = `Solvencia técnica: ${r.descripcion}`;
+      let s = `Solvencia técnica — ${r.descripcion}`;
       if (r.umbral) s += ` (umbral: ${r.umbral})`;
       if (r.critico) s += " [crítico]";
       s += ".";
-      bullets.push(s);
+      sec.solvencia.push(s);
     }
     for (const r of (req.adicionales ?? [])) {
-      let s = `Otro requisito: ${r.descripcion}`;
+      let s = `Otro requisito — ${r.descripcion}`;
       if (r.umbral) s += ` (${r.umbral})`;
       if (r.critico) s += " [crítico]";
       s += ".";
-      bullets.push(s);
+      sec.solvencia.push(s);
     }
   }
 
-  // ── Criterios de valoración ───────────────────────────────────────────
+  // ── CRITERIOS DE VALORACIÓN ───────────────────────────────────────────
   if (proc?.peso_economico != null || proc?.peso_tecnico != null || proc?.peso_canon_fijo != null) {
     const pieces: string[] = [];
     if (proc.peso_canon_fijo != null)     pieces.push(`${proc.peso_canon_fijo}% canon fijo`);
@@ -221,24 +262,47 @@ function buildPliegoNarrative(lic: LicitacionItem, notasPre: string[]): string[]
       pieces.push(`${proc.peso_economico}% económico`);
     }
     if (proc.peso_tecnico != null) pieces.push(`${proc.peso_tecnico}% técnico`);
-    if (pieces.length > 0) bullets.push(`Criterios de valoración: ${pieces.join(" + ")}.`);
+    if (pieces.length > 0) sec.criterios.push(`Pesos de los criterios: ${pieces.join(" + ")}.`);
   }
+  if (proc?.tipo_adjudicacion) {
+    const tipoAdj: Record<string, string> = {
+      subasta: "subasta",
+      concurso: "concurso",
+      concurso_multicriterio: "concurso multicriterio",
+      acuerdo_marco: "acuerdo marco",
+    };
+    sec.criterios.push(`Tipo de procedimiento: ${tipoAdj[proc.tipo_adjudicacion] ?? proc.tipo_adjudicacion}.`);
+  }
+  for (const m of (proc?.mejoras_puntuables ?? [])) {
+    let s = `Mejora puntuable — ${m.descripcion}`;
+    if (m.puntos_max != null) s += ` (hasta ${m.puntos_max} pts)`;
+    s += ".";
+    sec.criterios.push(s);
+  }
+
+  // ── OTRAS CONDICIONES ─────────────────────────────────────────────────
   if (proc?.idioma_pliego) {
-    bullets.push(`Idioma del pliego: ${proc.idioma_pliego.toUpperCase()}.`);
+    sec.otras.push(`Idioma del pliego: ${proc.idioma_pliego.toUpperCase()}.`);
   }
-  if (lic.importe_base != null) {
-    bullets.push(`Importe base de la convocatoria: ${fmtEur(lic.importe_base)}.`);
-  }
-
-  // ── Financiación UE / programa ────────────────────────────────────────
   if (lic.financiacion_ue) {
-    bullets.push(`Cofinanciación europea${lic.programa_ue ? ` (${lic.programa_ue})` : ""}: puede implicar requisitos adicionales de trazabilidad y justificación de gasto.`);
+    sec.otras.push(`Cofinanciación europea${lic.programa_ue ? ` (${lic.programa_ue})` : ""}: puede implicar requisitos adicionales de trazabilidad y justificación de gasto.`);
   }
 
-  // ── Notas interpretativas adicionales (del extractor LLM) ─────────────
-  for (const n of notasPre) bullets.push(n);
+  // ── Notas del extractor: clasificarlas en su sección correspondiente ──
+  for (const n of notasPre) {
+    const tema = clasificarNotaPliego(n);
+    sec[tema].push(n);
+  }
 
-  return bullets;
+  return [
+    { titulo: "📅 Plazo y duración",          bullets: sec.plazo },
+    { titulo: "💰 Canon y régimen económico", bullets: sec.canon },
+    { titulo: "🔌 Infraestructura exigida",   bullets: sec.infra },
+    { titulo: "🛡️ Garantías",                 bullets: sec.garantias },
+    { titulo: "✅ Solvencia y requisitos",    bullets: sec.solvencia },
+    { titulo: "⚖️ Criterios de adjudicación", bullets: sec.criterios },
+    { titulo: "📋 Proceso y otras condiciones", bullets: [...sec.proceso, ...sec.otras] },
+  ].filter((s) => s.bullets.length > 0);
 }
 
 export default async function LicitacionDetail({ params }: Props) {
@@ -366,9 +430,17 @@ export default async function LicitacionDetail({ params }: Props) {
             )}
             <Chip label={`${lic.categoria}. ${categoriaShort(lic.categoria)}`} color={C.muted} />
             {lic.estado && <Chip label={estLabel} color={estColor} />}
-            {lic.tipo_contrato && <Chip label={lic.tipo_contrato} color={C.teal} />}
+{/* tipo_contrato no se muestra en el Hero — el dato sigue disponible en la TablaPlanaFinal abajo */}
             {lic.financiacion_ue && <Chip label="🇪🇺 Financiación UE" color={C.amber} />}
             {(lic.tags ?? []).map((t) => <Chip key={t} label={t} color={C.blue} />)}
+            {lic.fecha_actualizacion && (
+              <span
+                title="Fecha en la que actualizamos los datos de esta licitación. Si han pasado muchos días, conviene refrescar el expediente — el estado real en PLACSP puede haber cambiado."
+                style={{ fontSize: 10, color: C.dim, alignSelf: "center", letterSpacing: "0.02em", cursor: "help", marginLeft: "auto" }}
+              >
+                Última actualización: {lic.fecha_actualizacion.slice(0, 10).split("-").reverse().join("/")}
+              </span>
+            )}
           </div>
           <div>
             <h1 style={{ fontSize: 18, lineHeight: 1.35, fontWeight: 500, letterSpacing: "-0.01em", margin: 0, marginBottom: 12, color: C.text }}>
@@ -401,25 +473,31 @@ export default async function LicitacionDetail({ params }: Props) {
             {/* Columna izquierda (sidebar compacta) */}
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
-              {/* 🛡️ Garantías */}
-              {lic.proceso?.garantias && Object.keys(lic.proceso.garantias).length > 0 && (
-                <GarantiasBlock garantias={lic.proceso.garantias} />
-              )}
+              {/* 🛡️ Garantías — siempre visible */}
+              <GarantiasBlock garantias={lic.proceso?.garantias ?? {}} />
 
               {/* 📄 Documentos */}
               {(lic.documentos?.length ?? 0) > 0 && (
                 <Section title={`📄 Documentos (${lic.documentos!.length})`} compact>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 380, overflowY: "auto" }}>
-                    {lic.documentos!.map((d, i) => (
-                      <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
-                         style={{ display: "flex", gap: 8, padding: "6px 8px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 6, fontSize: 11, color: C.text, textDecoration: "none", alignItems: "center" }}>
-                        <span style={{ fontSize: 13 }}>{docEmoji(d.tipo)}</span>
-                        <span style={{ flex: 1, color: C.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {d.tipo.replace(/_/g, " ")}
-                        </span>
-                        {d.fecha && <span style={{ color: C.dim, fontSize: 10 }}>{d.fecha.slice(0, 10)}</span>}
-                      </a>
-                    ))}
+                    {lic.documentos!.map((d, i) => {
+                      const labelOriginal = d.nombre ?? d.tipo.replace(/_/g, " ");
+                      const tipoLabel = d.tipo.replace(/_/g, " ");
+                      const tooltip = d.nombre
+                        ? `Clasificación canónica: ${tipoLabel}\nNombre original (PLACSP): ${d.nombre}`
+                        : `Clasificación canónica: ${tipoLabel}`;
+                      return (
+                        <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
+                           title={tooltip}
+                           style={{ display: "flex", gap: 8, padding: "6px 8px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 6, fontSize: 11, color: C.text, textDecoration: "none", alignItems: "center", cursor: "help" }}>
+                          <span style={{ fontSize: 13 }}>{docEmoji(d.tipo)}</span>
+                          <span style={{ flex: 1, color: C.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {labelOriginal}
+                          </span>
+                          {d.fecha && <span style={{ color: C.dim, fontSize: 10 }}>{d.fecha.slice(0, 10)}</span>}
+                        </a>
+                      );
+                    })}
                   </div>
                 </Section>
               )}
@@ -458,9 +536,9 @@ export default async function LicitacionDetail({ params }: Props) {
         {esConcesion && (
           <details style={{ marginTop: 20 }} open={winner == null}>
             <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
-              📍 Ubicaciones y cargadores
+              📍 Ubicaciones y puntos de carga
             </summary>
-            <UbicacionesBlock ubicaciones={lic.concesion?.ubicaciones ?? []} />
+            <UbicacionesBlock ubicaciones={lic.concesion?.ubicaciones ?? []} concesion={lic.concesion} />
           </details>
         )}
 
@@ -473,8 +551,15 @@ export default async function LicitacionDetail({ params }: Props) {
               <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
                 📘 Explicación del pliego en texto
               </summary>
-              <div style={{ padding: "16px 18px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12 }}>
-                <BulletList items={explicacion} color={C.blue} textColor={C.text} />
+              <div style={{ padding: "16px 18px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, display: "flex", flexDirection: "column", gap: 18 }}>
+                {explicacion.map((s) => (
+                  <div key={s.titulo}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: C.purple, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>
+                      {s.titulo}
+                    </div>
+                    <BulletList items={s.bullets} color={C.blue} textColor={C.text} />
+                  </div>
+                ))}
               </div>
             </details>
           );
@@ -506,11 +591,9 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
 
   const boxes: Array<Dual | Simple> = [];
 
-  // Ubicaciones (primero)
-  const nUbicaciones = (esConcesion
-    ? (con?.num_ubicaciones ?? (con?.ubicaciones?.length != null && con.ubicaciones.length > 0 ? con.ubicaciones.length : null))
-    : null);
-  if (nUbicaciones != null) {
+  // Ubicaciones (primero) — siempre presente para cat=1 (con N/A si falta)
+  if (esConcesion) {
+    const nUbicaciones = con?.num_ubicaciones ?? (con?.ubicaciones?.length != null && con.ubicaciones.length > 0 ? con.ubicaciones.length : null);
     const ciudadesUnicas = Array.from(new Set(
       (con?.ubicaciones ?? [])
         .map((u) => u.municipio)
@@ -522,40 +605,57 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
     boxes.push({
       emoji: "📍",
       label: "Ubicaciones",
-      value: String(nUbicaciones),
+      value: nUbicaciones != null ? String(nUbicaciones) : "N/A",
       sub:   subCiudades,
       color: C.green,
     });
   }
 
-  // Puntos de carga (después)
-  const tieneHw = esConcesion && (con?.num_cargadores_minimo != null || con?.num_cargadores != null);
-  if (tieneHw) {
-    const totalHw = con!.num_cargadores ?? con!.num_cargadores_minimo!;
+  // Puntos de carga (después) — siempre presente para cat=1
+  if (esConcesion) {
+    const nuevos = con?.num_cargadores ?? con?.num_cargadores_minimo ?? null;
+    // Cargadores existentes que el adjudicatario asume sin reemplazo (ubicaciones con es_existente=true)
+    const existentes = (con?.ubicaciones ?? [])
+      .filter((u) => u.es_existente)
+      .reduce((s, u) => s + (u.cargadores_total ?? 1), 0);
+    const value = nuevos != null
+      ? (existentes > 0 ? `${nuevos} + ${existentes}` : String(nuevos))
+      : "N/A";
     const desglose = [con?.num_cargadores_ac, con?.num_cargadores_dc, con?.num_cargadores_dc_plus, con?.num_cargadores_hpc].some((v) => v != null)
       ? [con?.num_cargadores_ac && `${con.num_cargadores_ac} AC`, con?.num_cargadores_dc && `${con.num_cargadores_dc} DC`, con?.num_cargadores_dc_plus && `${con.num_cargadores_dc_plus} DC+`, con?.num_cargadores_hpc && `${con.num_cargadores_hpc} HPC`].filter(Boolean).join(" · ")
       : null;
+    const subBase = desglose ?? (con?.tecnologia_requerida ? `tecnología ${fmtTipoHw(con.tecnologia_requerida)}` : undefined);
+    const sub = existentes > 0
+      ? `${nuevos} nuevos + ${existentes} existente${existentes > 1 ? "s" : ""}${subBase ? ` · ${subBase}` : ""}`
+      : subBase;
     boxes.push({
       emoji: "🔌",
       label: "Puntos de carga",
-      value: String(totalHw),
-      sub:   desglose ?? (con?.tecnologia_requerida ? `tecnología ${con.tecnologia_requerida}` : undefined),
+      value,
+      sub,
       color: C.green,
     });
   }
 
-  // Plazo (último)
-  if (esConcesion && con?.plazo_anos != null) {
+  // Plazo (último) — siempre presente
+  if (esConcesion) {
     boxes.push({
       emoji: "📅",
       label: "Plazo",
-      value: `${con.plazo_anos} años`,
-      sub: con.renovacion_anos ? `+ ${con.renovacion_anos} años prórroga` : "sin prórroga",
-      subSize: con.renovacion_anos ? 15 : undefined,
+      value: con?.plazo_anos != null ? `${con.plazo_anos} años` : "N/A",
+      sub: con?.plazo_anos != null
+        ? (con.renovacion_anos ? `+ ${con.renovacion_anos} años prórroga` : "sin prórroga")
+        : undefined,
+      subSize: con?.renovacion_anos ? 15 : undefined,
       color: C.purple,
     });
-  } else if (lic.plazo_meses != null) {
-    boxes.push({ emoji: "📅", label: "Plazo", value: `${lic.plazo_meses} meses`, color: C.purple });
+  } else {
+    boxes.push({
+      emoji: "📅",
+      label: "Plazo",
+      value: lic.plazo_meses != null ? `${lic.plazo_meses} meses` : "N/A",
+      color: C.purple,
+    });
   }
 
 
@@ -657,90 +757,72 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
       <div style={{ display: "grid", gridTemplateColumns: tieneMixHW ? "minmax(0,1.4fr) minmax(0,1fr)" : "1fr", gap: 16 }}>
         <div>
           <SubTitle>📜 Términos del pliego</SubTitle>
-          {concesion.plazo_anos != null && <Kv label="Plazo concesión" value={`${concesion.plazo_anos} años`} />}
+          <Kv label="Plazo concesión" value={concesion.plazo_anos != null ? `${concesion.plazo_anos} años` : <span style={{ color: C.dim }}>N/A</span>} />
           <Kv label="Renovación" value={
             concesion.renovacion_anos != null && concesion.renovacion_anos > 0
               ? <span style={{ color: C.green }}>✅ {concesion.renovacion_anos} años adicionales</span>
               : <span style={{ color: C.dim }}>No prevista</span>
           } />
-          {concesion.tipo_inicio && <Kv label="Inicio" value={TIPO_INICIO_LABEL[concesion.tipo_inicio] ?? concesion.tipo_inicio} />}
-          {concesion.fecha_inicio && <Kv label="Fecha inicio" value={concesion.fecha_inicio} />}
-          {concesion.plazo_construccion_meses != null && <Kv label="Plazo construcción" value={`${concesion.plazo_construccion_meses} meses`} />}
-          {concesion.tipo_retribucion && <Kv label="Tipo retribución" value={TIPO_RETRIB_LABEL[concesion.tipo_retribucion] ?? concesion.tipo_retribucion} />}
-          {lic.importe_base != null && <Kv label="Importe base" value={fmtEur(lic.importe_base)} />}
+          <Kv label="Inicio" value={concesion.tipo_inicio ? (TIPO_INICIO_LABEL[concesion.tipo_inicio] ?? concesion.tipo_inicio) : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Fecha inicio" value={concesion.fecha_inicio ?? <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Plazo construcción" value={concesion.plazo_construccion_meses != null ? `${concesion.plazo_construccion_meses} meses` : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Tipo retribución" value={concesion.tipo_retribucion ? (TIPO_RETRIB_LABEL[concesion.tipo_retribucion] ?? concesion.tipo_retribucion) : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Importe base" value={lic.importe_base != null ? fmtEur(lic.importe_base) : <span style={{ color: C.dim }}>N/A</span>} />
           {lic.importe_estimado != null && lic.importe_estimado !== lic.importe_base && (
             <Kv label="Importe estimado" value={fmtEur(lic.importe_estimado)} />
           )}
-          {lic.importe_adjudicado != null && (
-            <Kv label="Importe adjudicado" value={fmtEur(lic.importe_adjudicado)} />
-          )}
+          <Kv label="Importe adjudicado" value={lic.importe_adjudicado != null ? fmtEur(lic.importe_adjudicado) : <span style={{ color: C.dim }}>N/A</span>} />
 
           <SubTitle>🔌 Hardware exigido</SubTitle>
-          {concesion.num_ubicaciones != null && <Kv label="N.º ubicaciones" value={String(concesion.num_ubicaciones)} />}
-          {concesion.tecnologia_requerida && <Kv label="Tecnología" value={concesion.tecnologia_requerida} />}
-          {concesion.num_cargadores_minimo != null && (
-            <Kv label="Mín. cargadores" value={`${concesion.num_cargadores_minimo}${concesion.num_cargadores_opcional ? " · opcional ofertar más" : ""}`} />
-          )}
-          {concesion.potencia_minima_por_cargador_kw != null && (
-            <Kv label="Pot. mín/cargador"
-                value={`${concesion.potencia_minima_por_cargador_kw} kW${concesion.potencia_opcional_subible ? " · subible" : ""}`} />
-          )}
-          {concesion.potencia_disponible_kw != null && (
-            <Kv label="Potencia disponible"
-                value={`${concesion.potencia_disponible_kw.toLocaleString("es-ES")} kW${concesion.potencia_garantizada ? " · ✅ garantizada" : " · ⚠ no garantizada"}`} />
-          )}
+          <Kv label="N.º ubicaciones" value={concesion.num_ubicaciones != null ? String(concesion.num_ubicaciones) : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Tecnología" value={concesion.tecnologia_requerida ? fmtTipoHw(concesion.tecnologia_requerida) : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Mín. puntos de carga"
+              value={concesion.num_cargadores_minimo != null
+                ? `${concesion.num_cargadores_minimo}${concesion.num_cargadores_opcional ? " · opcional ofertar más" : ""}`
+                : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Pot. mín. por punto"
+              value={concesion.potencia_minima_por_cargador_kw != null
+                ? `${concesion.potencia_minima_por_cargador_kw} kW${concesion.potencia_opcional_subible ? " · subible" : ""}`
+                : <span style={{ color: C.dim }}>N/A</span>} />
+          <Kv label="Potencia disponible"
+              value={concesion.potencia_disponible_kw != null
+                ? `${concesion.potencia_disponible_kw.toLocaleString("es-ES")} kW${concesion.potencia_garantizada ? " · ✅ garantizada" : " · ⚠ no garantizada"}`
+                : <span style={{ color: C.dim }}>N/A</span>} />
 
-          {(concesion.canon_minimo_anual != null
-            || concesion.canon_por_ubicacion_anual != null
-            || concesion.canon_por_cargador != null
-            || concesion.canon_variable_eur_kwh != null
-            || concesion.canon_variable_pct != null) && (
+          {concesion.tipo_retribucion === "venta_energia_usuario" ? (
+            <>
+              <SubTitle>⚡ Precio de venta de energía al usuario</SubTitle>
+              <Kv label="Precio máximo (€/kWh)" value={concesion.precio_max_kwh_usuario != null ? `${concesion.precio_max_kwh_usuario.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Precio ofertado ganador" value={concesion.precio_kwh_ofertado_ganador != null ? `${concesion.precio_kwh_ofertado_ganador.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Compromiso mantener precio" value={concesion.mantenimiento_precio_anos != null ? `${concesion.mantenimiento_precio_anos} años` : <span style={{ color: C.dim }}>N/A</span>} />
+              <p style={{ fontSize: 10, color: C.dim, marginTop: 6, lineHeight: 1.45 }}>
+                ℹ️ En esta variante el adjudicatario NO paga canon al órgano contratante. El órgano puntúa al licitador que ofrece el precio más bajo de la energía vendida al usuario final.
+              </p>
+            </>
+          ) : (
             <>
               <SubTitle>💰 Canon exigido</SubTitle>
-              {concesion.canon_minimo_anual != null && (
-                <Kv label="Canon fijo mínimo" value={`${fmtEurExact(concesion.canon_minimo_anual)}/año`} />
-              )}
-              {concesion.canon_por_ubicacion_anual != null && (
-                <Kv label="Por ubicación" value={`${fmtEurExact(concesion.canon_por_ubicacion_anual)}/ubic./año`} />
-              )}
-              {concesion.canon_por_cargador != null && (
-                <Kv label="Por cargador" value={`${fmtEurExact(concesion.canon_por_cargador)}/HW/año`} />
-              )}
-              {concesion.canon_variable_eur_kwh != null && (
-                <Kv label="Variable mínimo" value={`${concesion.canon_variable_eur_kwh.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh`} />
-              )}
-              {concesion.canon_variable_pct != null && (
-                <Kv label="Variable mínimo" value={`${concesion.canon_variable_pct}% s/ facturación`} />
-              )}
+              <Kv label="Canon fijo mínimo" value={concesion.canon_minimo_anual != null ? `${fmtEurExact(concesion.canon_minimo_anual)}/año` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Por ubicación" value={concesion.canon_por_ubicacion_anual != null ? `${fmtEurExact(concesion.canon_por_ubicacion_anual)}/ubic./año` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Por punto de carga" value={concesion.canon_por_cargador != null ? `${fmtEurExact(concesion.canon_por_cargador)}/punto/año` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Variable mínimo (€/kWh)" value={concesion.canon_variable_eur_kwh != null ? `${concesion.canon_variable_eur_kwh.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh` : <span style={{ color: C.dim }}>N/A</span>} />
+              <Kv label="Variable mínimo (%)" value={concesion.canon_variable_pct != null ? `${concesion.canon_variable_pct}% s/ facturación` : <span style={{ color: C.dim }}>N/A</span>} />
             </>
           )}
 
           {(proceso?.mejoras_puntuables?.length ?? 0) > 0 && (
-            <div style={{ marginTop: 16 }}>
-              <SubTitle>✨ Mejoras puntuables</SubTitle>
-              <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
-                <div style={{
-                  display: "grid", gridTemplateColumns: "1fr 90px",
-                  padding: "8px 12px", background: "rgba(255,255,255,0.04)",
-                  fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.06em", textTransform: "uppercase",
-                }}>
-                  <div>Mejora</div>
-                  <div style={{ textAlign: "right" }}>Pts máx.</div>
-                </div>
-                {proceso!.mejoras_puntuables!.map((m, i) => (
-                  <div key={i} style={{
-                    display: "grid", gridTemplateColumns: "1fr 90px",
-                    padding: "8px 12px", borderTop: `1px solid ${C.border}`,
-                    fontSize: 12, color: C.text, alignItems: "center",
-                  }}>
-                    <div style={{ lineHeight: 1.45 }}>{m.descripcion}</div>
-                    <div style={{ textAlign: "right", color: m.puntos_max != null ? C.text : C.dim, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>
-                      {m.puntos_max != null ? `+${m.puntos_max}` : "—"}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CriteriosTabla
+              titulo="✨ Criterios automáticos por fórmulas"
+              subtitulo="Lo que el licitador oferta sobre el mínimo del pliego, evaluable mecánicamente."
+              items={proceso!.mejoras_puntuables!}
+            />
+          )}
+          {(proceso?.criterios_juicio_valor?.length ?? 0) > 0 && (
+            <CriteriosTabla
+              titulo="🧠 Criterios de juicio de valor"
+              subtitulo="Aspectos cualitativos evaluados por la mesa de contratación."
+              items={proceso!.criterios_juicio_valor!}
+            />
           )}
         </div>
 
@@ -824,7 +906,6 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
         </details>
       )}
 
-      {!hasPhase2 && <FasePendiente />}
     </Section>
   );
 }
@@ -882,7 +963,7 @@ function RankingBlock({ adj, par, exc, concesion, winner, notas }: {
   adj: Licitador[]; par: Licitador[]; exc: Licitador[]; concesion?: Concesion; winner?: Licitador; notas?: string[];
 }) {
   const ranking = [...adj, ...par]
-    .filter((l) => l.puntuacion_total != null || l.oferta_canon_anual != null || l.oferta_canon_variable_eur_kwh != null)
+    .filter((l) => l.puntuacion_total != null || l.oferta_canon_anual != null || l.oferta_canon_variable_eur_kwh != null || l.oferta_precio_kwh_usuario != null)
     .sort((a, b) => {
       const ap = a.puntuacion_total ?? -Infinity;
       const bp = b.puntuacion_total ?? -Infinity;
@@ -967,13 +1048,13 @@ function PuntuacionesLeaderboard({ puntuaciones }: { puntuaciones: PuntItem[] })
       padding: "18px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
       display: "flex", flexDirection: "column", gap: 14,
     }}>
-      {/* Leyenda */}
+      {/* Leyenda — Técnica primero (lo no-canon), Canon (económica) al final */}
       <div style={{ display: "flex", gap: 16, fontSize: 11, color: C.muted, justifyContent: "flex-end" }}>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: ECON }} /> Económica
+          <span style={{ width: 10, height: 10, borderRadius: 2, background: TEC }} /> Técnica (no-canon)
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: TEC }} /> Técnica
+          <span style={{ width: 10, height: 10, borderRadius: 2, background: ECON }} /> Canon (económica)
         </span>
       </div>
 
@@ -995,21 +1076,9 @@ function PuntuacionesLeaderboard({ puntuaciones }: { puntuaciones: PuntItem[] })
               </span>
             </div>
 
-            {/* Barra stacked */}
+            {/* Barra stacked: técnica primero (lo que muchas veces todos cumplen al máximo),
+                canon después (la diferenciación real). Así se ve claramente cuándo el canon decide. */}
             <div style={{ position: "relative", height: 26, background: "rgba(255,255,255,0.04)", borderRadius: 6, overflow: "hidden", display: "flex" }}>
-              {econ > 0 && (
-                <div style={{
-                  width: `${econW}%`,
-                  background: ECON,
-                  display: "flex", alignItems: "center", justifyContent: "flex-end",
-                  padding: "0 8px",
-                  fontSize: 11, fontWeight: 700, color: "#1a1a1a",
-                  fontVariantNumeric: "tabular-nums",
-                  minWidth: econ > 0 ? 4 : 0,
-                }}>
-                  {econW > 10 ? econ.toFixed(1) : ""}
-                </div>
-              )}
               {tec > 0 && (
                 <div style={{
                   width: `${tecW}%`,
@@ -1021,6 +1090,19 @@ function PuntuacionesLeaderboard({ puntuaciones }: { puntuaciones: PuntItem[] })
                   minWidth: tec > 0 ? 4 : 0,
                 }}>
                   {tecW > 10 ? tec.toFixed(1) : ""}
+                </div>
+              )}
+              {econ > 0 && (
+                <div style={{
+                  width: `${econW}%`,
+                  background: ECON,
+                  display: "flex", alignItems: "center", justifyContent: "flex-end",
+                  padding: "0 8px",
+                  fontSize: 11, fontWeight: 700, color: "#1a1a1a",
+                  fontVariantNumeric: "tabular-nums",
+                  minWidth: econ > 0 ? 4 : 0,
+                }}>
+                  {econW > 10 ? econ.toFixed(1) : ""}
                 </div>
               )}
             </div>
@@ -1213,24 +1295,28 @@ function TablaOfertas({
 // UBICACIONES
 // ─────────────────────────────────────────────────────────────────────────────
 
-function UbicacionesBlock({ ubicaciones }: { ubicaciones: UbicacionConcesion[] }) {
+function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionConcesion[]; concesion?: Concesion }) {
   if (ubicaciones.length === 0) {
     return (
-      <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
-        <FasePendiente text="Desglose por ubicación pendiente de parseo del anexo I del pliego (fase 2 LLM)." />
+      <div style={{ padding: "20px 24px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20, fontSize: 13, color: C.dim, textAlign: "center" }}>
+        N/A — sin ubicaciones cargadas en el expediente.
       </div>
     );
   }
-  const totalCargadores = ubicaciones.reduce((s, u) => s + (u.cargadores_total ?? 0), 0);
-  const totalPlazas     = ubicaciones.reduce((s, u) => s + (u.plazas ?? 0), 0);
+  const sumaCargadores = ubicaciones.reduce((s, u) => s + (u.cargadores_total ?? 0), 0);
+  const sumaPlazas     = ubicaciones.reduce((s, u) => s + (u.plazas ?? 0), 0);
+  // Si el sumatorio es menor al total declarado en concesion, usar el top-level
+  const totalCargadoresTop = concesion?.num_cargadores ?? concesion?.num_cargadores_minimo ?? null;
+  const totalCargadores = (totalCargadoresTop != null && totalCargadoresTop >= sumaCargadores) ? totalCargadoresTop : sumaCargadores;
+  const totalPlazas = sumaPlazas;
 
   return (
     <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
       <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
-        {totalCargadores > 0 && <MiniStat label="🔌 Total cargadores" value={fmtNum(totalCargadores)} color={C.green} />}
+        {totalCargadores > 0 && <MiniStat label="🔌 Total puntos de carga" value={fmtNum(totalCargadores)} color={C.green} />}
         {totalPlazas     > 0 && <MiniStat label="🅿️ Total plazas"     value={fmtNum(totalPlazas)}     color={C.teal} />}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
         {ubicaciones.map((u, i) => {
           const mapsUrl =
             u.google_maps_url
@@ -1240,18 +1326,26 @@ function UbicacionesBlock({ ubicaciones }: { ubicaciones: UbicacionConcesion[] }
                           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${u.direccion}${u.municipio ? `, ${u.municipio}` : ""}`)}`
                           : null));
           return (
-            <div key={i} style={{ padding: "12px 14px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 10 }}>
+            <div key={i} style={{ padding: "12px 14px", background: u.es_existente ? `${C.amber}0a` : C.row, border: `1px solid ${u.es_existente ? `${C.amber}55` : C.border}`, borderRadius: 10 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: C.text, display: "flex", alignItems: "center", gap: 6 }}>
                   📍 {u.nombre ?? `Ubicación ${i + 1}`}
+                  {u.es_existente && <Chip label="EXISTENTE" color={C.amber} />}
                   {u.es_opcional && <Chip label="OPCIONAL" color={C.amber} />}
                 </div>
-                <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
-                  {u.tipo_hw && <Chip label={u.tipo_hw} color={C.blue} />}
+                <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0, flexWrap: "wrap" }}>
+                  {u.tipo_hw && <Chip label={fmtTipoHw(u.tipo_hw)} color={C.blue} />}
                   {mapsUrl && (
                     <a href={mapsUrl} target="_blank" rel="noopener noreferrer"
                        style={{ fontSize: 10, fontWeight: 700, color: C.teal, background: `${C.teal}18`, border: `1px solid ${C.teal}33`, borderRadius: 6, padding: "3px 9px", textDecoration: "none", whiteSpace: "nowrap" }}>
                       Maps ↗
+                    </a>
+                  )}
+                  {u.plano_url && (
+                    <a href={u.plano_url} target="_blank" rel="noopener noreferrer"
+                       title={u.plano_label ?? "Plano del pliego"}
+                       style={{ fontSize: 10, fontWeight: 700, color: C.purple, background: `${C.purple}18`, border: `1px solid ${C.purple}33`, borderRadius: 6, padding: "3px 9px", textDecoration: "none", whiteSpace: "nowrap" }}>
+                      📐 {u.plano_label ?? "Plano"} ↗
                     </a>
                   )}
                 </div>
@@ -1284,27 +1378,31 @@ function UbicacionesBlock({ ubicaciones }: { ubicaciones: UbicacionConcesion[] }
 // ─────────────────────────────────────────────────────────────────────────────
 
 function TimelineFechas({ lic }: { lic: LicitacionItem }) {
-  const hitos: Array<{ fecha?: string; label: string; color: string; value?: string }> = [];
-  if (lic.fecha_publicacion)   hitos.push({ fecha: lic.fecha_publicacion,  label: "Publicación",   color: C.text });
-  if (lic.fecha_limite)        hitos.push({ fecha: lic.fecha_limite,       label: "Límite ofertas", color: C.text });
-  if (lic.fecha_adjudicacion)  hitos.push({ fecha: lic.fecha_adjudicacion, label: "Adjudicación",   color: C.text });
-  if (lic.fecha_formalizacion) hitos.push({ fecha: lic.fecha_formalizacion, label: "Formalización", color: C.text });
+  // Siempre los 4 hitos canónicos, con "N/A" si falta
+  const hitos: Array<{ fecha?: string; label: string }> = [
+    { label: "Publicación",   fecha: lic.fecha_publicacion },
+    { label: "Límite ofertas", fecha: lic.fecha_limite },
+    { label: "Adjudicación",   fecha: lic.fecha_adjudicacion },
+    { label: "Formalización",  fecha: lic.fecha_formalizacion },
+  ];
 
   return (
     <Section title="📅 Fechas clave" compact fill>
       <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8 }}>
         {hitos.map((h, i) => (
           <li key={i} style={{ display: "flex", alignItems: "center", fontSize: 11, gap: 8 }}>
-            <span style={{ color: h.color, fontWeight: 700, flex: 1 }}>{h.label}</span>
-            <span style={{ color: C.muted, fontVariantNumeric: "tabular-nums" }}>{h.fecha}</span>
+            <span style={{ color: C.text, fontWeight: 700, flex: 1 }}>{h.label}</span>
+            <span style={{ color: h.fecha ? C.muted : C.dim, fontVariantNumeric: "tabular-nums" }}>
+              {h.fecha ?? "N/A"}
+            </span>
           </li>
         ))}
-        {lic.dias_aviso != null && (
-          <li style={{ display: "flex", alignItems: "center", fontSize: 11, gap: 8 }}>
-            <span style={{ color: C.text, fontWeight: 700, flex: 1 }}>Días de aviso</span>
-            <span style={{ color: C.muted }}>{lic.dias_aviso} días</span>
-          </li>
-        )}
+        <li style={{ display: "flex", alignItems: "center", fontSize: 11, gap: 8 }}>
+          <span style={{ color: C.text, fontWeight: 700, flex: 1 }}>Días de aviso</span>
+          <span style={{ color: lic.dias_aviso != null ? C.muted : C.dim }}>
+            {lic.dias_aviso != null ? `${lic.dias_aviso} días` : "N/A"}
+          </span>
+        </li>
       </ol>
     </Section>
   );
@@ -1314,9 +1412,10 @@ function TimelineFechas({ lic }: { lic: LicitacionItem }) {
 // GARANTÍAS
 // ─────────────────────────────────────────────────────────────────────────────
 
-function GarantiasBlock({ garantias }: { garantias: NonNullable<ProcesoLicitacion["garantias"]> }) {
+function GarantiasBlock({ garantias }: { garantias: Partial<NonNullable<ProcesoLicitacion["garantias"]>> }) {
   const tieneProv = garantias.provisional_exigida === true || garantias.provisional_eur != null || garantias.provisional_pct != null;
   const tieneDef  = garantias.definitiva_eur != null || garantias.definitiva_pct != null;
+  const provisionalNoExigida = garantias.provisional_exigida === false;
   return (
     <Section title="🛡️ Garantías exigidas" compact>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -1331,28 +1430,32 @@ function GarantiasBlock({ garantias }: { garantias: NonNullable<ProcesoLicitacio
                   : garantias.provisional_pct != null
                       ? `${garantias.provisional_pct}%`
                       : "Exigida")
-              : <span style={{ color: C.muted }}>No exigida</span>}
+              : provisionalNoExigida
+                ? <span style={{ color: C.muted }}>No exigida</span>
+                : <span style={{ color: C.dim }}>N/A</span>}
           </div>
           {tieneProv && garantias.provisional_exigida !== false && (
             <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>💸 Reembolsable a no adjudicatarios</div>
           )}
         </div>
-        {tieneDef && (
-          <div style={{ padding: "8px 10px", background: `${C.green}0a`, border: `1px solid ${C.green}33`, borderRadius: 8 }}>
-            <div style={{ fontSize: 9, fontWeight: 800, color: C.green, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              🔐 Definitiva · al adjudicatario
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: C.text, marginTop: 2 }}>
-              {garantias.definitiva_eur != null ? fmtEur(garantias.definitiva_eur) : ""}
-              {garantias.definitiva_pct != null && <span style={{ color: C.muted, fontSize: 11 }}>{garantias.definitiva_eur != null ? " · " : ""}{garantias.definitiva_pct}%</span>}
-            </div>
-            {garantias.definitiva_base && (
-              <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>
-                sobre {garantias.definitiva_base.replace(/_/g, " ")}
-              </div>
-            )}
+        <div style={{ padding: "8px 10px", background: `${C.green}0a`, border: `1px solid ${C.green}33`, borderRadius: 8 }}>
+          <div style={{ fontSize: 9, fontWeight: 800, color: C.green, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            🔐 Definitiva · al adjudicatario
           </div>
-        )}
+          <div style={{ fontSize: 13, fontWeight: 800, color: C.text, marginTop: 2 }}>
+            {tieneDef
+              ? <>
+                  {garantias.definitiva_eur != null ? fmtEur(garantias.definitiva_eur) : ""}
+                  {garantias.definitiva_pct != null && <span style={{ color: C.muted, fontSize: 11 }}>{garantias.definitiva_eur != null ? " · " : ""}{garantias.definitiva_pct}%</span>}
+                </>
+              : <span style={{ color: C.dim }}>N/A</span>}
+          </div>
+          {tieneDef && garantias.definitiva_base && (
+            <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>
+              sobre {garantias.definitiva_base.replace(/_/g, " ")}
+            </div>
+          )}
+        </div>
       </div>
     </Section>
   );
@@ -1411,6 +1514,12 @@ function WinnerBadge({ winner }: { winner: Licitador }) {
         {winner.oferta_descuento_residentes_pct != null && (
           <WinnerStat label="Descuento residentes" value={`${winner.oferta_descuento_residentes_pct}%`} color={C.purple} />
         )}
+        {winner.oferta_precio_kwh_usuario != null && (
+          <WinnerStat label="Precio al usuario" value={`${winner.oferta_precio_kwh_usuario.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh`} color={C.text} />
+        )}
+        {winner.oferta_mantenimiento_precio_anos != null && (
+          <WinnerStat label="Mantiene precio" value={`${winner.oferta_mantenimiento_precio_anos} años`} color={C.purple} />
+        )}
       </div>
     </div>
   );
@@ -1456,6 +1565,48 @@ function RequisitoRow({ r, accent }: { r: RequisitoParticipacion; accent: string
   );
 }
 
+function CriteriosTabla({ titulo, subtitulo, items }: { titulo: string; subtitulo?: string; items: Array<{ descripcion: string; puntos_max?: number }> }) {
+  const total = items.reduce((s, m) => s + (m.puntos_max ?? 0), 0);
+  return (
+    <div style={{ marginTop: 16 }}>
+      <SubTitle>{titulo}</SubTitle>
+      {subtitulo && <p style={{ fontSize: 11, color: C.dim, margin: "0 0 8px 2px", lineHeight: 1.45 }}>{subtitulo}</p>}
+      <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
+        <div style={{
+          display: "grid", gridTemplateColumns: "1fr 90px",
+          padding: "8px 12px", background: "rgba(255,255,255,0.04)",
+          fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.06em", textTransform: "uppercase",
+        }}>
+          <div>Criterio</div>
+          <div style={{ textAlign: "right" }}>Pts máx.</div>
+        </div>
+        {items.map((m, i) => (
+          <div key={i} style={{
+            display: "grid", gridTemplateColumns: "1fr 90px",
+            padding: "8px 12px", borderTop: `1px solid ${C.border}`,
+            fontSize: 12, color: C.text, alignItems: "center",
+          }}>
+            <div style={{ lineHeight: 1.45 }}>{m.descripcion}</div>
+            <div style={{ textAlign: "right", color: m.puntos_max != null ? C.text : C.dim, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>
+              {m.puntos_max != null ? `+${m.puntos_max}` : "—"}
+            </div>
+          </div>
+        ))}
+        {total > 0 && (
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 90px",
+            padding: "8px 12px", borderTop: `1px solid ${C.border}`,
+            fontSize: 11, color: C.muted, fontWeight: 700, alignItems: "center", background: "rgba(255,255,255,0.02)",
+          }}>
+            <div style={{ textAlign: "right", letterSpacing: "0.04em", textTransform: "uppercase", fontSize: 10 }}>Subtotal</div>
+            <div style={{ textAlign: "right", color: C.text, fontVariantNumeric: "tabular-nums" }}>{total} pts</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function MiniStat({ label, value, color, small }: { label: string; value: string; color: string; small?: boolean }) {
   return (
     <div style={{ padding: small ? "6px 10px" : "8px 12px", background: `${color}12`, border: `1px solid ${color}33`, borderRadius: 8, flex: small ? undefined : "0 1 auto" }}>
@@ -1482,9 +1633,9 @@ function BulletList({ items, color, textColor }: { items: string[]; color: strin
   );
 }
 
-function Chip({ label, color }: { label: string; color: string }) {
+function Chip({ label, color, title }: { label: string; color: string; title?: string }) {
   return (
-    <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}18`, borderRadius: 6, padding: "3px 9px", letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+    <span title={title} style={{ fontSize: 10, fontWeight: 700, color, background: `${color}18`, borderRadius: 6, padding: "3px 9px", letterSpacing: "0.02em", whiteSpace: "nowrap", cursor: title ? "help" : undefined }}>
       {label}
     </span>
   );
@@ -1590,7 +1741,7 @@ function TablaPlanaFinal({ lic, licitadores }: { lic: LicitacionItem; licitadore
     push("Concesión", "Tipo retribución",       con.tipo_retribucion ? (TIPO_RETRIB_LABEL[con.tipo_retribucion] ?? con.tipo_retribucion) : null);
     push("Concesión", "Canon mínimo anual",     fmtEurNullable(con.canon_minimo_anual));
     push("Concesión", "Canon ganador anual",    fmtEurNullable(con.canon_ganador));
-    push("Concesión", "Canon por cargador",     fmtEurNullable(con.canon_por_cargador));
+    push("Concesión", "Canon por punto de carga", fmtEurNullable(con.canon_por_cargador));
     push("Concesión", "Canon por ubicación",    fmtEurNullable(con.canon_por_ubicacion_anual));
     push("Concesión", "Canon variable €/kWh",   con.canon_variable_eur_kwh != null ? `${con.canon_variable_eur_kwh} €/kWh` : null);
     push("Concesión", "Canon variable %",       con.canon_variable_pct != null ? `${con.canon_variable_pct}%` : null);
@@ -1601,7 +1752,7 @@ function TablaPlanaFinal({ lic, licitadores }: { lic: LicitacionItem; licitadore
     push("Concesión", "Puntos DC+ declarados",  con.num_cargadores_dc_plus);
     push("Concesión", "Puntos HPC declarados",  con.num_cargadores_hpc);
     push("Concesión", "Total puntos",           con.num_cargadores);
-    push("Concesión", "Tecnología requerida",   con.tecnologia_requerida);
+    push("Concesión", "Tecnología requerida",   con.tecnologia_requerida ? fmtTipoHw(con.tecnologia_requerida) : null);
     push("Concesión", "Pot. mínima/cargador",   con.potencia_minima_por_cargador_kw != null ? `${con.potencia_minima_por_cargador_kw} kW` : null);
     push("Concesión", "Pot. disponible punto",  con.potencia_disponible_kw != null ? `${con.potencia_disponible_kw} kW${con.potencia_garantizada ? " (garantizada)" : ""}` : null);
   }
