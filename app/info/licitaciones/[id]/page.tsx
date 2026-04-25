@@ -378,86 +378,116 @@ export default async function LicitacionDetail({ params }: Props) {
           </div>
         </div>
 
-        {/* ── 🏆 Ranking (solo Beta: licitación adjudicada) ───────────────── */}
-        {estaAdjudicada && (
+        {/* ── 🏆 Ranking (cuando ya hay adjudicataria identificada — aún si no está 100% resuelta) ── */}
+        {winner != null && (
           <RankingBlock adj={adj} par={par} exc={exc} concesion={lic.concesion} winner={winner} notas={notasPost} />
         )}
 
-        {/* ── Fila superior: Fechas | KpiBar (misma altura) ──────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,3fr)", gap: 20, marginTop: 20, alignItems: "stretch" }}>
-          <TimelineFechas lic={lic} />
-          <KpiBar lic={lic} esConcesion={esConcesion} nParticipantes={licitadores.length} nExcluidos={exc.length} />
-        </div>
+        {/* ── 🗂️ Resumen pliego — abierto por defecto si NO hay adjudicación ── */}
+        <details style={{ marginTop: 20 }} open={winner == null}>
+          <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
+            🗂️ Resumen pliego
+          </summary>
 
-        {/* ── Grid principal 2 cols ──────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,3fr)", gap: 20, marginTop: 20 }}>
-
-          {/* ══════ Columna izquierda (sidebar compacta) ══════ */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-
-            {/* 🛡️ Garantías */}
-            {lic.proceso?.garantias && Object.keys(lic.proceso.garantias).length > 0 && (
-              <GarantiasBlock garantias={lic.proceso.garantias} />
-            )}
-
-            {/* 📄 Documentos */}
-            {(lic.documentos?.length ?? 0) > 0 && (
-              <Section title={`📄 Documentos (${lic.documentos!.length})`} compact>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 380, overflowY: "auto" }}>
-                  {lic.documentos!.map((d, i) => (
-                    <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
-                       style={{ display: "flex", gap: 8, padding: "6px 8px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 6, fontSize: 11, color: C.text, textDecoration: "none", alignItems: "center" }}>
-                      <span style={{ fontSize: 13 }}>{docEmoji(d.tipo)}</span>
-                      <span style={{ flex: 1, color: C.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {d.tipo.replace(/_/g, " ")}
-                      </span>
-                      {d.fecha && <span style={{ color: C.dim, fontSize: 10 }}>{d.fecha.slice(0, 10)}</span>}
-                    </a>
-                  ))}
-                </div>
-              </Section>
-            )}
-
-            {/* 🔗 Abrir en PLACSP */}
-            {deeplink && (
-              <a href={deeplink} target="_blank" rel="noopener noreferrer"
-                 style={{ display: "block", textAlign: "center", padding: "12px 16px",
-                   background: "linear-gradient(135deg, rgba(167,139,250,0.18), rgba(56,189,248,0.14))",
-                   border: `1px solid ${C.purple}55`, borderRadius: 12, color: C.text,
-                   fontSize: 12, fontWeight: 700, textDecoration: "none", letterSpacing: "0.02em" }}>
-                🔗 Abrir en PLACSP ↗
-              </a>
-            )}
-
+          {/* Fila superior: Fechas | KpiBar (misma altura) */}
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,3fr)", gap: 20, alignItems: "stretch" }}>
+            <TimelineFechas lic={lic} />
+            <KpiBar lic={lic} esConcesion={esConcesion} nParticipantes={licitadores.length} nExcluidos={exc.length} />
           </div>
 
-          {/* ══════ Columna derecha (contenido principal) ══════ */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {/* Grid principal 2 cols */}
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,3fr)", gap: 20, marginTop: 20 }}>
 
-            {/* 🏢 Concesión demanial */}
-            {esConcesion && lic.concesion && (
-              <ConcesionBlock lic={lic} concesion={lic.concesion} proceso={lic.proceso} notas={buildPliegoNarrative(lic, notasPre)} />
-            )}
+            {/* Columna izquierda (sidebar compacta) */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
-            {/* 👥 Participantes al final si todavía NO está adjudicada (Alfa: en curso / borrador) */}
-            {!estaAdjudicada && (
-              <ParticipantesBlock adj={adj} par={par} exc={exc} />
-            )}
+              {/* 🛡️ Garantías */}
+              {lic.proceso?.garantias && Object.keys(lic.proceso.garantias).length > 0 && (
+                <GarantiasBlock garantias={lic.proceso.garantias} />
+              )}
 
-            {/* 📍 Ubicaciones */}
-            {esConcesion && (
-              <UbicacionesBlock ubicaciones={lic.concesion?.ubicaciones ?? []} />
-            )}
+              {/* 📄 Documentos */}
+              {(lic.documentos?.length ?? 0) > 0 && (
+                <Section title={`📄 Documentos (${lic.documentos!.length})`} compact>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 380, overflowY: "auto" }}>
+                    {lic.documentos!.map((d, i) => (
+                      <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
+                         style={{ display: "flex", gap: 8, padding: "6px 8px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 6, fontSize: 11, color: C.text, textDecoration: "none", alignItems: "center" }}>
+                        <span style={{ fontSize: 13 }}>{docEmoji(d.tipo)}</span>
+                        <span style={{ flex: 1, color: C.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {d.tipo.replace(/_/g, " ")}
+                        </span>
+                        {d.fecha && <span style={{ color: C.dim, fontSize: 10 }}>{d.fecha.slice(0, 10)}</span>}
+                      </a>
+                    ))}
+                  </div>
+                </Section>
+              )}
+
+              {/* 🔗 Abrir en PLACSP */}
+              {deeplink && (
+                <a href={deeplink} target="_blank" rel="noopener noreferrer"
+                   style={{ display: "block", textAlign: "center", padding: "12px 16px",
+                     background: "linear-gradient(135deg, rgba(167,139,250,0.18), rgba(56,189,248,0.14))",
+                     border: `1px solid ${C.purple}55`, borderRadius: 12, color: C.text,
+                     fontSize: 12, fontWeight: 700, textDecoration: "none", letterSpacing: "0.02em" }}>
+                  🔗 Abrir en PLACSP ↗
+                </a>
+              )}
+
+            </div>
+
+            {/* Columna derecha (contenido principal) */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+
+              {/* 🏢 Concesión demanial */}
+              {esConcesion && lic.concesion && (
+                <ConcesionBlock lic={lic} concesion={lic.concesion} proceso={lic.proceso} />
+              )}
+
+              {/* 👥 Participantes al final si todavía NO está adjudicada (Alfa) */}
+              {!estaAdjudicada && (
+                <ParticipantesBlock adj={adj} par={par} exc={exc} />
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* ── TABLA PLANA FINAL (resumen idéntico en todas las licitaciones) ── */}
-        <TablaPlanaFinal lic={lic} licitadores={licitadores} />
+        </details>
 
-        <p style={{ fontSize: 11, color: C.dim, textAlign: "center", marginTop: 24 }}>
-          Datos originales: Plataforma de Contratación del Sector Público (PLACSP). Taxonomía v3 Capira (recall 98,3% vs AEDIVE).
-          {" "}Los campos marcados <i>"fase 2 LLM"</i> se extraen con parseo asistido de los pliegos PDF.
-        </p>
+        {/* ── 📍 Ubicaciones y cargadores — abierto por defecto si NO hay adjudicación ── */}
+        {esConcesion && (
+          <details style={{ marginTop: 20 }} open={winner == null}>
+            <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
+              📍 Ubicaciones y cargadores
+            </summary>
+            <UbicacionesBlock ubicaciones={lic.concesion?.ubicaciones ?? []} />
+          </details>
+        )}
+
+        {/* ── 📘 Explicación simple del pliego (standalone, sobre el resumen) ── */}
+        {esConcesion && lic.concesion && (() => {
+          const explicacion = buildPliegoNarrative(lic, notasPre);
+          if (explicacion.length === 0) return null;
+          return (
+            <details style={{ marginTop: 20 }}>
+              <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
+                📘 Explicación del pliego en texto
+              </summary>
+              <div style={{ padding: "16px 18px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12 }}>
+                <BulletList items={explicacion} color={C.blue} textColor={C.text} />
+              </div>
+            </details>
+          );
+        })()}
+
+        {/* ── TABLA PLANA FINAL (resumen estructurado, plegable) ────────── */}
+        <details style={{ marginTop: 20 }}>
+          <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>
+            📊 Resumen en tabla estándar
+          </summary>
+          <TablaPlanaFinal lic={lic} licitadores={licitadores} />
+        </details>
+
       </div>
     </div>
   );
@@ -481,11 +511,19 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
     ? (con?.num_ubicaciones ?? (con?.ubicaciones?.length != null && con.ubicaciones.length > 0 ? con.ubicaciones.length : null))
     : null);
   if (nUbicaciones != null) {
+    const ciudadesUnicas = Array.from(new Set(
+      (con?.ubicaciones ?? [])
+        .map((u) => u.municipio)
+        .filter((m): m is string => !!m && m.trim().length > 0)
+    ));
+    const subCiudades = ciudadesUnicas.length > 0
+      ? ciudadesUnicas.join(" · ")
+      : (lic.ciudad ?? lic.provincia ?? undefined);
     boxes.push({
       emoji: "📍",
       label: "Ubicaciones",
       value: String(nUbicaciones),
-      sub:   nUbicaciones === 1 ? "punto de instalación" : "puntos de instalación",
+      sub:   subCiudades,
       color: C.green,
     });
   }
@@ -571,7 +609,7 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
 // CONCESIÓN
 // ─────────────────────────────────────────────────────────────────────────────
 
-function ConcesionBlock({ lic, concesion, proceso, notas }: { lic: LicitacionItem; concesion: Concesion; proceso?: ProcesoLicitacion; notas?: string[] }) {
+function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; concesion: Concesion; proceso?: ProcesoLicitacion }) {
   const hasPhase2 =
     concesion.fecha_inicio != null ||
     concesion.plazo_construccion_meses != null ||
@@ -616,16 +654,6 @@ function ConcesionBlock({ lic, concesion, proceso, notas }: { lic: LicitacionIte
 
   return (
     <Section title="🏢 Concesión demanial">
-      {(notas?.length ?? 0) > 0 && (
-        <details style={{ marginBottom: 14, padding: "12px 16px", background: C.row, border: `1px solid ${C.border}`, borderRadius: 10 }}>
-          <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            📘 Explicación simple del pliego
-          </summary>
-          <div style={{ marginTop: 12 }}>
-            <BulletList items={notas!} color={C.blue} />
-          </div>
-        </details>
-      )}
       <div style={{ display: "grid", gridTemplateColumns: tieneMixHW ? "minmax(0,1.4fr) minmax(0,1fr)" : "1fr", gap: 16 }}>
         <div>
           <SubTitle>📜 Términos del pliego</SubTitle>
@@ -879,43 +907,43 @@ function RankingBlock({ adj, par, exc, concesion, winner, notas }: {
 
   return (
     <div style={{ marginBottom: 20 }}>
-      {puntuaciones.length >= 2 && (
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: C.dim, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>
-            Puntuación por criterio
-          </div>
-          <PuntuacionesLeaderboard puntuaciones={puntuaciones} />
+      <details open>
+        <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>
+          🏆 Ranking y Ofertas
+        </summary>
+        <div style={{
+          padding: "16px 18px",
+          background: C.card,
+          border: `1px solid ${C.border}`,
+          borderRadius: 12,
+        }}>
+          {puntuaciones.length >= 2 && (
+            <div style={{ marginBottom: 18, paddingBottom: 16, borderBottom: `1px solid ${C.border}` }}>
+              <PuntuacionesLeaderboard puntuaciones={puntuaciones} />
+            </div>
+          )}
+          <TablaOfertas ranking={ranking} excluidos={exc} showVar={showVar} showDesc={showDesc} />
+          {ranking.length >= 2 && (ranking.some((l) => l.oferta_canon_anual != null) || ranking.some((l) => l.oferta_canon_variable_eur_kwh != null)) && (
+            <div style={{ marginTop: 18, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
+                Comparación de canon ofertado
+              </div>
+              <ComparacionCanon ranking={ranking} winner={winner} />
+            </div>
+          )}
         </div>
-      )}
-      <div style={{ fontSize: 11, fontWeight: 700, color: C.dim, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>
-        🏆 Ranking
-      </div>
-      <div style={{
-        padding: "16px 18px",
-        background: C.card,
-        border: `1px solid ${C.border}`,
-        borderRadius: 12,
-      }}>
-        <TablaOfertas ranking={ranking} excluidos={exc} showVar={showVar} showDesc={showDesc} />
-        {ranking.length >= 2 && (ranking.some((l) => l.oferta_canon_anual != null) || ranking.some((l) => l.oferta_canon_variable_eur_kwh != null)) && (
-          <div style={{ marginTop: 18, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
-              Comparación de canon ofertado
-            </div>
-            <ComparacionCanon ranking={ranking} winner={winner} />
+      </details>
+
+      {(notas?.length ?? 0) > 0 && (
+        <details style={{ marginTop: 20 }} open>
+          <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: C.text, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>
+            📝 Notas sobre la adjudicación
+          </summary>
+          <div style={{ marginTop: 12, padding: "16px 18px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12 }}>
+            <BulletList items={notas!} color={C.green} textColor={C.text} />
           </div>
-        )}
-        {(notas?.length ?? 0) > 0 && (
-          <details style={{ marginTop: 18, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
-            <summary style={{ cursor: "pointer", fontSize: 10, fontWeight: 700, color: C.dim, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              🏆 Notas sobre la adjudicación
-            </summary>
-            <div style={{ marginTop: 12 }}>
-              <BulletList items={notas!} color={C.green} />
-            </div>
-          </details>
-        )}
-      </div>
+        </details>
+      )}
     </div>
   );
 }
@@ -1188,26 +1216,16 @@ function TablaOfertas({
 function UbicacionesBlock({ ubicaciones }: { ubicaciones: UbicacionConcesion[] }) {
   if (ubicaciones.length === 0) {
     return (
-      <details style={{ padding: "12px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
-        <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: C.text, letterSpacing: "-0.01em" }}>
-          📍 Ubicaciones
-        </summary>
-        <div style={{ marginTop: 12 }}>
-          <FasePendiente text="Desglose por ubicación pendiente de parseo del anexo I del pliego (fase 2 LLM)." />
-        </div>
-      </details>
+      <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
+        <FasePendiente text="Desglose por ubicación pendiente de parseo del anexo I del pliego (fase 2 LLM)." />
+      </div>
     );
   }
   const totalCargadores = ubicaciones.reduce((s, u) => s + (u.cargadores_total ?? 0), 0);
   const totalPlazas     = ubicaciones.reduce((s, u) => s + (u.plazas ?? 0), 0);
 
   return (
-    <details style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
-      <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: C.text, letterSpacing: "-0.01em", display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 3, height: 16, borderRadius: 2, background: "linear-gradient(180deg,#34d399,#38bdf8)", flexShrink: 0 }} />
-        <span>📍 Ubicaciones ({ubicaciones.length})</span>
-      </summary>
-      <div style={{ marginTop: 14 }}>
+    <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
       <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
         {totalCargadores > 0 && <MiniStat label="🔌 Total cargadores" value={fmtNum(totalCargadores)} color={C.green} />}
         {totalPlazas     > 0 && <MiniStat label="🅿️ Total plazas"     value={fmtNum(totalPlazas)}     color={C.teal} />}
@@ -1257,8 +1275,7 @@ function UbicacionesBlock({ ubicaciones }: { ubicaciones: UbicacionConcesion[] }
           );
         })}
       </div>
-      </div>
-    </details>
+    </div>
   );
 }
 
@@ -1448,11 +1465,11 @@ function MiniStat({ label, value, color, small }: { label: string; value: string
   );
 }
 
-function BulletList({ items, color }: { items: string[]; color: string }) {
+function BulletList({ items, color, textColor }: { items: string[]; color: string; textColor?: string }) {
   return (
     <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
       {items.map((t, i) => (
-        <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 12, color: C.muted, lineHeight: 1.55 }}>
+        <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 12, color: textColor ?? C.muted, lineHeight: 1.55 }}>
           <span style={{
             flexShrink: 0, marginTop: 6,
             width: 6, height: 6, borderRadius: "50%",
