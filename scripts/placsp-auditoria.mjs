@@ -39,6 +39,8 @@ const PDF_DIR   = join(ROOT, 'data', 'placsp-pdfs');
 const BUNDLE    = join(ROOT, 'data', 'licitaciones-emov.json');
 const OUT       = join(ROOT, 'data', 'licitaciones-auditoria.json');
 const OUT_CRITERIOS = join(ROOT, 'data', 'licitaciones-criterios-master.json');
+const OUT_APRENDIZAJE = join(ROOT, 'data', 'placsp-correcciones-aprendidas.json');
+const OUT_SUGERENCIAS = join(ROOT, 'data', 'placsp-criterios-sugerencias.json');
 
 const db = new Database(DB_FILE, { readonly: true });
 const bundle = JSON.parse(fs.readFileSync(BUNDLE, 'utf8'));
@@ -209,6 +211,7 @@ function clavearCriterio(descripcion) {
   if (/social|comunitario|empleo/.test(join)) return 'mejora_social';
   if (/garantia|fianza/.test(join)) return 'garantia';
   if (/operatividad|disponibilidad|uptime/.test(join)) return 'operatividad';
+  if (/diseno.*estacion|integracion.*entorno|estacion.*accesibilidad/.test(join)) return 'diseno_estacion';
   // Fallback: tomar las primeras 2-3 palabras como clave
   return norm.slice(0, 3).join('_') || 'otro';
 }
@@ -227,6 +230,7 @@ const ETIQUETAS_CANONICAS = {
   mejora_social:          { label: 'Mejoras sociales / empleo local',       tipo: 'tecnico_juicio' },
   garantia:               { label: 'Garantía / fianza',                     tipo: 'otro' },
   operatividad:           { label: 'Operatividad / disponibilidad',         tipo: 'tecnico_juicio' },
+  diseno_estacion:        { label: 'Diseño de la estación / integración entorno', tipo: 'tecnico_juicio' },
   sin_descripcion:        { label: '(criterio sin descripción)',            tipo: 'desconocido' },
 };
 
@@ -651,6 +655,37 @@ for (const slug of slugs) {
   // sería 'aplicado' (no llega aquí porque skipeamos arriba).
   const etapa = 'publicado';
 
+  // ── Outliers de peso vs master de criterios canónicos ──────────────────
+  // (Solo aplica si ya hay master previo — sesión 3 podrá comparar contra el de pilotos)
+  // Por ahora se ejecuta DESPUÉS del registro, así que el master que comparamos
+  // tiene los mismos slugs pero sirve de referencia cross-licitación.
+  for (const cd of criteriosDetalle) {
+    if (cd.peso == null) continue;
+    const mc = masterCriterios.get(cd.clave_canonica);
+    if (!mc || mc.ocurrencias.length < 3) continue; // necesitamos N>=3 para outlier
+    const pesos = mc.ocurrencias.map((o) => o.peso).filter((p) => p != null);
+    if (pesos.length < 3) continue;
+    const prom = pesos.reduce((a, b) => a + b, 0) / pesos.length;
+    const ratio = cd.peso / prom;
+    if (ratio < 0.4 || ratio > 2.5) {
+      flags.push(`Peso atípico para "${cd.clave_canonica}": ${cd.peso} pts (promedio ${prom.toFixed(1)}, ratio ${ratio.toFixed(2)})`);
+    }
+  }
+  // Criterios esperados faltantes para concesiones cat=1 (frecuencia >=50%)
+  if (it.categoria === '1') {
+    const claveSetSlug = new Set(criteriosDetalle.map((c) => c.clave_canonica));
+    const ESPERADOS_CAT1 = ['mejora_canon', 'mejora_potencia_hw', 'mas_puntos_de_carga'];
+    for (const e of ESPERADOS_CAT1) {
+      const mc = masterCriterios.get(e);
+      if (!mc) continue;
+      const slugsConCriterio = new Set(mc.ocurrencias.map((o) => o.slug));
+      const freq = slugsConCriterio.size / Math.max(slugs.length, 1);
+      if (freq >= 0.5 && !claveSetSlug.has(e)) {
+        flags.push(`Criterio esperado faltante: "${e}" aparece en ${(freq * 100).toFixed(0)}% de las cat=1 pero NO en este slug — verificar si lo perdimos`);
+      }
+    }
+  }
+
   // ── 2. Confianza global (combina cobertura + coherencia + flags) ───────
   const desgloseConfianza = [];
   let confianza = cobPliego;
@@ -805,3 +840,103 @@ const masterOut = {
 fs.writeFileSync(OUT_CRITERIOS, JSON.stringify(masterOut, null, 2));
 console.log(`✅ ${OUT_CRITERIOS}`);
 console.log(`   ${criteriosArray.length} criterios únicos detectados (clave canónica) en ${total} licitaciones`);
+
+// ── Aprendizaje 1: Casos resueltos como few-shot examples para sesión 3 ───
+// Capturamos los pliegos complejos + sus overrides (Q&A, variantes raras) como
+// ejemplos canónicos. La sesión 3 puede anteponer estos casos al prompt para
+// que el LLM no repita los mismos errores que aprendimos en los pilotos.
+const ejemplosAprendidos = [];
+for (const r of reportes) {
+  if (!r.pliego_complejo && (r.cobertura_lectura_no_citados ?? 0) === 0
+      && r.cobertura_lectura_scanned_sin_vision === 0
+      && r.flags_abiertos.length === 0
+      && r.confianza_global >= 95) continue; // saltamos los aburridos sin lecciones
+
+  const slugDir = join(PDF_DIR, r.slug);
+  const ext = JSON.parse(fs.readFileSync(join(slugDir, 'extraccion.json'), 'utf8'));
+  const it = itemBySlug.get(r.slug);
+  const lecciones = [];
+  if (r.pliego_complejo) lecciones.push(...r.motivos_complejidad);
+  if (it.concesion?.tipo_retribucion === 'venta_energia_usuario') {
+    lecciones.push('Variante sin canon al órgano: usar tipo_retribucion="venta_energia_usuario" + precio_max_kwh_usuario / oferta_precio_kwh_usuario.');
+  }
+  if ((it.concesion?.ubicaciones ?? []).some((u) => u.es_existente)) {
+    lecciones.push('Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.');
+  }
+  if ((it.concesion?.ubicaciones ?? []).some((u) => u.tipo_hw === 'mixto')) {
+    lecciones.push('Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.');
+  }
+  for (const f of r.flags_abiertos) lecciones.push(`Flag pendiente: ${f}`);
+
+  // Snippet del articulado relevante (los 1500 chars de notas_pliego)
+  const notas = (ext.notas_pliego ?? []).join(' · ').slice(0, 1500);
+
+  ejemplosAprendidos.push({
+    slug:         r.slug,
+    titulo:       r.titulo,
+    organo:       r.organo,
+    confianza:    r.confianza_global,
+    motivos_complejidad: r.motivos_complejidad,
+    lecciones,
+    decisiones_aplicadas: {
+      tipo_retribucion:        it.concesion?.tipo_retribucion ?? null,
+      tecnologia_requerida:    it.concesion?.tecnologia_requerida ?? null,
+      num_cargadores_minimo:   it.concesion?.num_cargadores_minimo ?? null,
+      potencia_minima_por_cargador_kw: it.concesion?.potencia_minima_por_cargador_kw ?? null,
+      ubicaciones_total:       it.concesion?.ubicaciones?.length ?? 0,
+      ubicaciones_existentes:  (it.concesion?.ubicaciones ?? []).filter((u) => u.es_existente).length,
+      mejoras_puntuables:      (it.proceso?.mejoras_puntuables ?? []).map((m) => ({
+        descripcion: m.descripcion?.slice(0, 120),
+        puntos_max:  m.puntos_max,
+      })),
+    },
+    notas_pliego_resumen: notas,
+  });
+}
+const aprendizajeOut = {
+  generado_en: new Date().toISOString(),
+  total_ejemplos: ejemplosAprendidos.length,
+  como_usar: 'Anteponer al prompt del extractor LLM una sección "Casos resueltos previos" con estos ejemplos. Especialmente útil cuando el pliego nuevo tiene contradicciones, variantes de retribución, o cargadores mixtos. Cada lección es una regla derivada de un caso real.',
+  ejemplos: ejemplosAprendidos,
+};
+fs.writeFileSync(OUT_APRENDIZAJE, JSON.stringify(aprendizajeOut, null, 2));
+console.log(`✅ ${OUT_APRENDIZAJE}`);
+console.log(`   ${ejemplosAprendidos.length} casos resueltos capturados como few-shot examples`);
+
+// ── Aprendizaje 2: Sugerencias de nuevas claves canónicas ────────────────
+// Si hay >=3 claves fallback con prefijo común o ratio de coincidencia alto,
+// sugerimos agregar una regla a clavearCriterio() para reagruparlas.
+const clavesFallback = criteriosArray.filter((c) => !ETIQUETAS_CANONICAS[c.clave]);
+const sugerencias = [];
+
+// Agrupar por prefijo de 1-2 palabras
+const porPrefijo = new Map();
+for (const c of clavesFallback) {
+  const partes = c.clave.split('_');
+  const prefijo = partes.slice(0, 2).join('_');
+  if (!porPrefijo.has(prefijo)) porPrefijo.set(prefijo, []);
+  porPrefijo.get(prefijo).push(c);
+}
+for (const [prefijo, claves] of porPrefijo.entries()) {
+  if (claves.length < 2) continue;
+  const totalOcurrencias = claves.reduce((acc, c) => acc + c.ocurrencias_total, 0);
+  if (totalOcurrencias < 2) continue;
+  sugerencias.push({
+    prefijo_comun: prefijo,
+    claves_actuales: claves.map((c) => c.clave),
+    ocurrencias_total: totalOcurrencias,
+    descripciones_observadas: [...new Set(claves.flatMap((c) => c.descripciones_observadas))].slice(0, 8),
+    sugerencia_codigo: `if (/${prefijo.replace(/_/g, '.*')}/.test(join)) return '${prefijo}';`,
+    accion: `Agregar la regla anterior a clavearCriterio() en placsp-auditoria.mjs y a ETIQUETAS_CANONICAS con label legible y tipo apropiado.`,
+  });
+}
+
+const sugerenciasOut = {
+  generado_en: new Date().toISOString(),
+  total_sugerencias: sugerencias.length,
+  como_usar: 'Cada sugerencia propone fusionar varias claves fallback (no normalizadas) bajo un único concepto canónico. Revisar y, si tiene sentido, agregar la regla a clavearCriterio() en scripts/placsp-auditoria.mjs.',
+  sugerencias,
+};
+fs.writeFileSync(OUT_SUGERENCIAS, JSON.stringify(sugerenciasOut, null, 2));
+console.log(`✅ ${OUT_SUGERENCIAS}`);
+console.log(`   ${sugerencias.length} sugerencias de nuevas claves canónicas`);

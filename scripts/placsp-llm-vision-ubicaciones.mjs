@@ -177,10 +177,35 @@ const documentBlocks = pdfFiles.map((f) => ({
   cache_control: { type: 'ephemeral' },
 }));
 
+// Cargar correcciones aprendidas si existen (few-shot examples) y antepoder
+// al system prompt. Esto permite que la sesión 3 no repita los errores ya
+// resueltos en los pilotos (Q&A oficial, variantes raras, mejora potencia ≠ +puntos, etc.).
+let systemConFewShot = SYSTEM;
+const APRENDIZAJE_PATH = path.join(__dirname, '..', 'data', 'placsp-correcciones-aprendidas.json');
+if (fs.existsSync(APRENDIZAJE_PATH)) {
+  try {
+    const ap = JSON.parse(fs.readFileSync(APRENDIZAJE_PATH, 'utf8'));
+    if ((ap.ejemplos ?? []).length > 0) {
+      const fewShot = ap.ejemplos.slice(0, 8).map((e, i) =>
+        `### Caso ${i + 1}: ${e.slug} — ${e.titulo?.slice(0, 80)}\n` +
+        `Lecciones aplicables a futuras extracciones:\n` +
+        e.lecciones.map((l) => `- ${l}`).join('\n') +
+        (e.decisiones_aplicadas ? `\nDecisiones: ${JSON.stringify(e.decisiones_aplicadas).slice(0, 600)}` : '')
+      ).join('\n\n');
+      systemConFewShot = SYSTEM + '\n\n## Casos resueltos previos (lecciones a aplicar)\n\n' +
+        'Los siguientes pliegos ya fueron auditados y corrigieron errores típicos. Si el pliego actual presenta patrones similares, aplicá las mismas lecciones SIN repetir el error original.\n\n' +
+        fewShot;
+      console.log(`📚 Few-shot context: ${ap.ejemplos.length} casos resueltos previos cargados`);
+    }
+  } catch (e) {
+    console.log(`⚠ No se pudo cargar few-shot: ${e.message}`);
+  }
+}
+
 const body = {
   model: MODEL,
   max_tokens: 16000,
-  system: SYSTEM,
+  system: systemConFewShot,
   messages: [{
     role: 'user',
     content: [...documentBlocks, { type: 'text', text: USER }],

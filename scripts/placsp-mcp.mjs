@@ -16,7 +16,7 @@ import {
 import Database         from 'better-sqlite3';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { existsSync }   from 'fs';
+import { existsSync, readFileSync as fsReadFileSync }   from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DB_FILE   = join(__dirname, '..', 'data', 'licitaciones.db');
@@ -338,6 +338,31 @@ const TOOLS = [
     description: 'Resumen de lo que sabe este especialista: dataset, cobertura, limitaciones, fuentes externas, roadmap. Llamá esto antes de trabajos grandes.',
     inputSchema: { type: 'object', properties: {} },
   },
+  {
+    name: 'expectativa_criterio',
+    description: 'Devuelve estadísticas cross-licitación de un criterio canónico de adjudicación: peso típico (min, max, promedio), frecuencia de aparición, descripciones observadas. Útil para detectar pliegos atípicos o validar que la extracción no perdió un criterio esperable.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        clave: { type: 'string', description: 'Clave canónica del criterio (ej. "mejora_canon", "precio_kwh_usuario", "mejora_potencia_hw"). Si se omite, devuelve el listado completo de claves disponibles.' },
+      },
+    },
+  },
+  {
+    name: 'ejemplos_correcciones',
+    description: 'Devuelve casos resueltos previos donde la extracción detectó pliegos complejos, contradicciones internas, Q&A oficial como override, o variantes raras de retribución. Cada ejemplo trae las lecciones aplicables a futuras extracciones. Llamá a esto al inicio de una corrida masiva para nutrir el contexto del extractor con few-shot examples.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        slug: { type: 'string', description: 'Slug específico (opcional). Si se omite, devuelve TODOS los casos resueltos.' },
+      },
+    },
+  },
+  {
+    name: 'sugerencias_normalizacion',
+    description: 'Devuelve sugerencias automáticas de nuevas claves canónicas detectadas en el master de criterios — claves fallback con prefijo común que conviene fusionar bajo un único concepto. Ayuda a mantener limpia la taxonomía de criterios cuando crece el dataset.',
+    inputSchema: { type: 'object', properties: {} },
+  },
 ];
 
 const CAPABILITIES_DOC = `
@@ -624,6 +649,53 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
     if (name === 'get_capabilities') {
       return { content: [{ type: 'text', text: CAPABILITIES_DOC }] };
+    }
+
+    // ── Tools de aprendizaje cross-licitación ──────────────────────────────
+    if (name === 'expectativa_criterio') {
+      const masterPath = join(__dirname, '..', 'data', 'licitaciones-criterios-master.json');
+      if (!existsSync(masterPath)) {
+        return { content: [{ type: 'text', text: 'master de criterios no generado todavía. Ejecutá: node scripts/placsp-auditoria.mjs' }] };
+      }
+      const master = JSON.parse(fsReadFileSync(masterPath, 'utf8'));
+      if (!args.clave) {
+        return { content: [{ type: 'text', text: JSON.stringify({
+          generado_en: master.generado_en,
+          total_criterios_unicos: master.total_criterios_unicos,
+          claves_disponibles: master.criterios.map((c) => ({
+            clave:       c.clave,
+            label:       c.label,
+            tipo:        c.tipo,
+            frecuencia:  c.frecuencia,
+            peso_promedio: c.peso_promedio,
+          })),
+        }, null, 2) }] };
+      }
+      const c = master.criterios.find((x) => x.clave === args.clave);
+      if (!c) return { content: [{ type: 'text', text: `clave "${args.clave}" no encontrada en el master. Disponibles: ${master.criterios.map((x) => x.clave).join(', ')}` }] };
+      return { content: [{ type: 'text', text: JSON.stringify(c, null, 2) }] };
+    }
+
+    if (name === 'ejemplos_correcciones') {
+      const apPath = join(__dirname, '..', 'data', 'placsp-correcciones-aprendidas.json');
+      if (!existsSync(apPath)) {
+        return { content: [{ type: 'text', text: 'no hay correcciones aprendidas todavía. Ejecutá: node scripts/placsp-auditoria.mjs' }] };
+      }
+      const ap = JSON.parse(fsReadFileSync(apPath, 'utf8'));
+      if (args.slug) {
+        const e = ap.ejemplos.find((x) => x.slug === args.slug);
+        if (!e) return { content: [{ type: 'text', text: `slug "${args.slug}" no tiene caso aprendido` }] };
+        return { content: [{ type: 'text', text: JSON.stringify(e, null, 2) }] };
+      }
+      return { content: [{ type: 'text', text: JSON.stringify(ap, null, 2) }] };
+    }
+
+    if (name === 'sugerencias_normalizacion') {
+      const sugPath = join(__dirname, '..', 'data', 'placsp-criterios-sugerencias.json');
+      if (!existsSync(sugPath)) {
+        return { content: [{ type: 'text', text: 'no hay sugerencias generadas. Ejecutá: node scripts/placsp-auditoria.mjs' }] };
+      }
+      return { content: [{ type: 'text', text: fsReadFileSync(sugPath, 'utf8') }] };
     }
 
     throw new Error(`unknown tool ${name}`);

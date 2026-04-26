@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T14:07:39.390Z",
+  "generado_en": "2026-04-26T14:22:43.529Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -1070,7 +1070,9 @@
         "fecha": "2026-04-26T13:22:43.840Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 12 PDFs vía pdftotext: 10 del listado HTML + PCAP+PPT embebidos en el Pliego) + vision claude-sonnet-4-6 (ubicaciones del Anexo I + II) + vision Anexo II completado"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -1242,9 +1244,9 @@
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
           ]
         }
       }
@@ -1318,7 +1320,9 @@
         "fecha": "2026-04-26T10:34:44.789Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 9 PDFs)"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -1474,9 +1478,9 @@
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
           ]
         }
       }
@@ -1535,7 +1539,7 @@
           "peso": 20,
           "descripcion": "Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno",
           "formula": null,
-          "clave_canonica": "diseno_estacion_juicio",
+          "clave_canonica": "diseno_estacion",
           "fuente": "criterios_valoracion.tecnicos"
         },
         {
@@ -1567,7 +1571,7 @@
           "peso": 20,
           "descripcion": "Diseño de la estación: accesibilidad e integración en el entorno.",
           "subtipo": null,
-          "clave_canonica": "diseno_estacion_accesibilidad",
+          "clave_canonica": "diseno_estacion",
           "fuente": "criterios_juicio_valor"
         }
       ],
@@ -1590,7 +1594,9 @@
         "fecha": "2026-04-26T10:34:47.803Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 7 PDFs vía pdftotext)"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -1663,11 +1669,11 @@
             "1. [economico] 40 pts → Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,020 €/kWh. (clave: mejora_canon)",
             "2. [economico] 20 pts → Pf = 20 × (∛Cfo − 20.000) / (∛Cfmax − 20.000) — Alza sobre canon fijo (€/año). Mínimo 20.000 €/año. (clave: mejora_canon)",
             "3. [tecnico] 20 pts → Precio de abono de recarga 1.500 kWh/año para vehículos de personas físicas con vehículo censado en  (clave: precio_kwh_usuario)",
-            "4. [tecnico] 20 pts → Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno (clave: diseno_estacion_juicio)",
+            "4. [tecnico] 20 pts → Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno (clave: diseno_estacion)",
             "5. [mejora_puntuable] 40 pts → Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,020). (clave: mejora_canon)",
             "6. [mejora_puntuable] 20 pts → Incremento del canon FIJO anual ofertado (€/año sobre el mínimo 20.000). (clave: mejora_canon)",
             "7. [mejora_puntuable] 20 pts → Precio de abono de recarga 1.500 kWh/año para vehículos M de personas físicas censados en Madrid (≤  (clave: precio_kwh_usuario)",
-            "8. [juicio_valor] 20 pts → Diseño de la estación: accesibilidad e integración en el entorno. (clave: diseno_estacion_accesibilidad)"
+            "8. [juicio_valor] 20 pts → Diseño de la estación: accesibilidad e integración en el entorno. (clave: diseno_estacion)"
           ]
         },
         "cobertura_pliego": {
@@ -1735,9 +1741,9 @@
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
           ]
         }
       }

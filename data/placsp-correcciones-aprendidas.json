@@ -1,0 +1,189 @@
+{
+  "generado_en": "2026-04-26T14:22:43.534Z",
+  "total_ejemplos": 5,
+  "como_usar": "Anteponer al prompt del extractor LLM una sección \"Casos resueltos previos\" con estos ejemplos. Especialmente útil cuando el pliego nuevo tiene contradicciones, variantes de retribución, o cargadores mixtos. Cada lección es una regla derivada de un caso real.",
+  "ejemplos": [
+    {
+      "slug": "13576641",
+      "titulo": "Concesión de uso privativo de la parcela sita en C/ Pirotecnia 47 para su uso como estación de recarga de baterías de vehículos eléctricos.",
+      "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
+      "confianza": 85,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Flag pendiente: 3 PDF scanned no procesado con Vision",
+        "Flag pendiente: 1 PDF posiblemente no leído (texto OK pero no citado por LLM)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "mixto",
+        "tecnologia_requerida": "DC",
+        "num_cargadores_minimo": 47,
+        "potencia_minima_por_cargador_kw": 50,
+        "ubicaciones_total": 1,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh). Máximo 40 puntos · Mínimo 0,01 €/kWh.",
+            "puntos_max": 40
+          },
+          {
+            "descripcion": "Incremento del canon FIJO anual desde 01/01/2029 (€/año). Máximo 20 puntos · Mínimo 12.000 €/año.",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Mejora de potencia de salida en equipos de recarga rápida (≥100 kW plazas M, ≥200 kW plazas N). Máximo 20 puntos.",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Instalación de producción fotovoltaica sobre pérgolas en la parcela. Máximo 20 puntos (50-100 kWp = 20 pts).",
+            "puntos_max": 20
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Solvencia técnica crítica: la barrera de ≥ 10 puntos de recarga rápida ≥ 50 kW instalados/gestionados en alguno de 2020-2022 limita el pool de licitadores a CPOs establecidos o actores grandes. · Base de la convocatoria: 42 plazas M (turismos/furgonetas, equipos ≥ 50 kW) + 5 plazas N (camiones/industriales, equipos ≥ 150 kW) = 47 plazas; 2.850 kW de demanda simultánea estimada. · Prórroga automática: 1 prórroga de 5 años si ninguna parte denuncia con 2 meses de antelación al vencimiento (total máximo 20 años). · Visita obligatoria a la parcela previa a presentar oferta y solicitud de informe de viabilidad urbanística dentro del plazo de presentación de solicitudes — ambos requisitos críticos. · Canon variable (€/kWh) entra en vigor desde el inicio de la concesión; el canon fijo (€/año) se devenga sólo a partir del 01/01/2029."
+    },
+    {
+      "slug": "17776623",
+      "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
+      "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
+      "confianza": 92,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Flag pendiente: 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 20,
+        "potencia_minima_por_cargador_kw": 7.4,
+        "ubicaciones_total": 7,
+        "ubicaciones_existentes": 1,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Mejora del canon anual ofertado (≥ 14.400 €/año). Mayor canon = 70 pts.",
+            "puntos_max": 70
+          },
+          {
+            "descripcion": "Mayor número de puntos de recarga rápida instalados a costa del licitador.",
+            "puntos_max": 15
+          },
+          {
+            "descripcion": "Interoperabilidad de equipos: número de puntos compatibles para roaming mediante tarjeta/app en la UE.",
+            "puntos_max": 10
+          },
+          {
+            "descripcion": "Instalación de marquesina fotovoltaica a costa del licitador en cualquier emplazamiento previsto.",
+            "puntos_max": 5
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Estructura del canon: 720 €/plaza/año × 20 plazas nuevas = 14.400 €/año mínimo (mejorable al alza). Total mínimo a los 20 años: 288.000 €. Actualizable anualmente al IPC; no sujeto a IVA. · Punto de carga EXISTENTE en Calle Grecia (conector Mennekes Tipo 2 AC, código BT-26-S000627): el adjudicatario asume su gestión, mantenimiento y explotación durante toda la concesión SIN reemplazarlo y SIN contraprestación adicional. NO cuenta entre los 20 puntos de carga nuevos del pliego. · Tipos de cargadores admitidos para los 20 nuevos: (a) Semirrápidos AC modo 3 con conector Mennekes Tipo 2 monofásico, ≥ 7,4 kW por toma. (b) Rápidos DC modo 4 con conector CCS Combo, trifásicos, ≥ 40 kW. Pantalla táctil antivandálica 8\" obligatoria. Pago por tarjeta RFID o app. · Obligación medioambiental crítica: el 100% de la energía suministrada en los puntos de recarga debe acreditarse como procedente de fuentes renovables mediante Certificado de Garantía de Origen, durante toda la concesión. · Sistema de penalización a usuarios obligatorio: 60 minutos en carga rápida, 2,5 horas en carga semirrápida. El adjudicatario debe diseñarlo y la Dirección Facultativa lo valida. · Reserva del Ayuntamiento: puede modificar la ubicación de los puntos de recarga por motivos de vialidad, seguridad u otros debidamente justificados. · OCA obligatoria para la puesta en servicio (incluido el punto existente en C/ Grecia). Proyectos de Ejecución firmados por técnico competente, visados y tramitados ante la distribui"
+    },
+    {
+      "slug": "17794455",
+      "titulo": "Adjudicación de una concesión de dominio público, en régimen de concurrencia, para la instalación de puntos de recarga de vehículos eléctricos en espacios públicos en determinadas zonas&#xD;\npúblicas de los municipios mancomunados participantes en el programa.",
+      "organo": "Pleno de la Mancomunitat de l'Alacantí",
+      "confianza": 100,
+      "motivos_complejidad": [
+        "Q&A / aclaración oficial incorporada",
+        "Sin canon (venta de energía al usuario, art. 93.4 LPAP)",
+        "Contradicción interna PPT 5.1 vs 5.2.3.1 vs Anexo I — corregido por Q&A oficial 46/2024"
+      ],
+      "lecciones": [
+        "Q&A / aclaración oficial incorporada",
+        "Sin canon (venta de energía al usuario, art. 93.4 LPAP)",
+        "Contradicción interna PPT 5.1 vs 5.2.3.1 vs Anexo I — corregido por Q&A oficial 46/2024",
+        "Variante sin canon al órgano: usar tipo_retribucion=\"venta_energia_usuario\" + precio_max_kwh_usuario / oferta_precio_kwh_usuario.",
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "venta_energia_usuario",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 68,
+        "potencia_minima_por_cargador_kw": 50,
+        "ubicaciones_total": 46,
+        "ubicaciones_existentes": 12,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Reducción del precio de venta de la energía al usuario (€/kWh).",
+            "puntos_max": 15
+          },
+          {
+            "descripcion": "Mantenimiento del precio de venta de la energía durante más años (≥ 10 años para el máximo).",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego.",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Reducción del plazo de instalación de equipos (meses sobre los 4 base).",
+            "puntos_max": 15
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Multi-municipio: la concesión cubre 6 ayuntamientos mancomunados — Alicante, El Campello, Mutxamel, San Juan de Alicante, San Vicente del Raspeig y Agost — con 34 ubicaciones mínimas distribuidas entre ellos. · Concesión SIN canon: gratuita conforme art. 93.4 LPAP. La contraprestación al dominio público es la inversión que realiza el adjudicatario; la rentabilidad viene de la venta de energía al usuario final. · Asunción de infraestructura existente: 22 puntos de recarga ya instalados (8 en superficie + 14 en parking subterráneo) en San Vicente, San Juan, Mutxamel y El Campello deben pasar a gestión y mantenimiento del adjudicatario sin contraprestación adicional, además de los 34 nuevos del pliego. · Cargadores DC modo 4 con conector CCS Combo2 obligatorio en al menos una toma. Capacidad de carga simultánea de 2 vehículos por cargador, ≥50 kW/punto de carga. · Garantía de origen 100% renovable obligatoria durante toda la concesión. · NO se admiten variantes ni mejoras fuera de los criterios cuantificables del Anexo de criterios de valoración. · Mancomunidad y Ayuntamientos pueden modificar la ubicación definitiva por razones de interés público; la ubicación final está sometida a la aprobación de cada Ayuntamiento afectado. · Plazo de la concesión: 10 años desde la concesión de la licencia de obras, dentro de los cuales se incluyen los 4 meses de plazo máximo de construcción. Prorrogable 2 años más por decisión expresa del órgano (no procede prórroga tácita) — duración total "
+    },
+    {
+      "slug": "19140288",
+      "titulo": "Concesión Demanial del uso privativo del espacio público urbano para la instalación, mantenimiento y explotación de una red pública de recarga de vehículos eléctricos en el municipio de Burjassot.",
+      "organo": "Junta de Gobierno del Ayuntamiento de Burjassot",
+      "confianza": 100,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 14,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 5,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Descuento porcentual sobre tarifas ordinarias aplicable a residentes y empresas radicadas en Burjassot. Condición esenci",
+            "puntos_max": 10
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Solvencia económica muy baja (volumen de negocios ≥ 3.561,60 €/año) — barrera de entrada mínima accesible a cualquier CPO. Típico de municipio pequeño. · Solvencia técnica poco exigente: importe ejecutado ≥ 1.662,08 € en trabajos similares en los últimos 3 años. · Cláusula de rescate: el Ayuntamiento puede rescatar la concesión a partir del 5º año por interés público sobrevenido. Las inversiones se consideran amortizadas a 5 años — no indemnizables tras ese plazo si se rescata. · Tipo de poste a elección del licitador: Tipo 1 AC 22 kW (2 tomas) o Tipo 2 DC 100 kW (CCS+CHAdeMO, 2 tomas). El pliego no fija mix por ubicación. · Régimen tarifario: tarifas finales al usuario libres (sin intervención municipal). Solo se puntúa el descuento a residentes empadronados / propietarios y empresas locales."
+    },
+    {
+      "slug": "19217419",
+      "titulo": "Concesión de uso privativo de la parcela sita en Paseo de la ermita del Santo, 80, Distrito de Carabanchel, para uso como estación de recarga de baterías de vehículos eléctricos",
+      "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
+      "confianza": 100,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Flag pendiente: Criterio esperado faltante: \"mejora_potencia_hw\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "mixto",
+        "tecnologia_requerida": "DC",
+        "num_cargadores_minimo": 10,
+        "potencia_minima_por_cargador_kw": 100,
+        "ubicaciones_total": 1,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,020).",
+            "puntos_max": 40
+          },
+          {
+            "descripcion": "Incremento del canon FIJO anual ofertado (€/año sobre el mínimo 20.000).",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Precio de abono de recarga 1.500 kWh/año para vehículos M de personas físicas censados en Madrid (≤ 330 €/año para 20 pt",
+            "puntos_max": 20
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Solvencia económica más baja de lo habitual en Madrid: > 100.000 €/año en alguno de 2022-2024, frente al estándar de 300.000 €/año para concesiones similares del Ayuntamiento — abre el concurso a operadores más pequeños. · Mix exigido por ubicación: 4 plazas ≥100 kW + 4 plazas ≥250 kW + 2 plazas ≥400 kW (todos DC con conector CCS IEC 62196). · Obligación crítica adicional: el concesionario debe desmantelar a su costa la estación de servicio de GLP existente (almacenamiento, dispensadores, marquesina, edificio auxiliar) antes de iniciar las obras de la nueva estación de recarga. · Producción fotovoltaica ≥ 49 kWp sobre marquesinas obligatoria por el PPT (no es mejora puntuable, es requisito mínimo). · Sistema de 3 sobres con evaluación secuencial: A (administrativo), B (técnico — diseño de la estación, juicio de valor), C (oferta económica + abonos — fórmulas automáticas). El sobre B se evalúa antes de abrir el C. · Concesión IMPRORROGABLE de 20 años desde la formalización (no se prevé prórroga, a diferencia de la mayoría de concesiones similares del Ayuntamiento que sí incluyen prórroga de 5 años). · El adjudicatario puede aplicar la garantía provisional como parte de la definitiva."
+    }
+  ]
+}

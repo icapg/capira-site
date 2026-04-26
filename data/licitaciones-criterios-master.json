@@ -1,6 +1,6 @@
 {
-  "generado_en": "2026-04-26T14:07:39.391Z",
-  "total_criterios_unicos": 10,
+  "generado_en": "2026-04-26T14:22:43.531Z",
+  "total_criterios_unicos": 9,
   "total_licitaciones_analizadas": 6,
   "criterios": [
     {
@@ -489,16 +489,17 @@
       ]
     },
     {
-      "clave": "diseno_estacion_juicio",
-      "label": "diseno estacion juicio",
-      "tipo": "otro",
+      "clave": "diseno_estacion",
+      "label": "Diseño de la estación / integración entorno",
+      "tipo": "tecnico_juicio",
       "frecuencia": 1,
-      "ocurrencias_total": 1,
+      "ocurrencias_total": 2,
       "peso_min": 20,
       "peso_max": 20,
       "peso_promedio": 20,
       "descripciones_observadas": [
-        "Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno"
+        "Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno",
+        "Diseño de la estación: accesibilidad e integración en el entorno."
       ],
       "licitaciones": [
         "19217419"
@@ -509,25 +510,7 @@
           "peso": 20,
           "fuente": "criterios_valoracion.tecnicos",
           "tipo": "tecnico"
-        }
-      ]
-    },
-    {
-      "clave": "diseno_estacion_accesibilidad",
-      "label": "diseno estacion accesibilidad",
-      "tipo": "otro",
-      "frecuencia": 1,
-      "ocurrencias_total": 1,
-      "peso_min": 20,
-      "peso_max": 20,
-      "peso_promedio": 20,
-      "descripciones_observadas": [
-        "Diseño de la estación: accesibilidad e integración en el entorno."
-      ],
-      "licitaciones": [
-        "19217419"
-      ],
-      "ocurrencias": [
+        },
         {
           "slug": "19217419",
           "peso": 20,
