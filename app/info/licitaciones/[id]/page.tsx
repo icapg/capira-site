@@ -19,6 +19,7 @@ import {
   type MejoraPuntuable,
 } from "../../../lib/insights/licitaciones-data";
 import { DonutCriterios, BarPuntuaciones, BarMixHW, BarCanonOferta } from "./Charts";
+import { UbicacionesMapa } from "./UbicacionesMapa";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -1509,6 +1510,15 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
             </div>
           );
         })}
+      </div>
+
+      {/* 🗺 Mapa de ubicaciones */}
+      <div style={{ marginTop: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: C.text, letterSpacing: "0.02em" }}>🗺 Mapa</span>
+          <span style={{ fontSize: 11, color: C.muted }}>· clic en un punto para ver su detalle</span>
+        </div>
+        <UbicacionesMapa ubicaciones={ubicaciones} />
       </div>
     </div>
   );
