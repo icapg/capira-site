@@ -1463,7 +1463,24 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
           return (
             <div key={i} style={{ padding: "12px 14px", background: u.es_existente ? `${C.amber}0a` : C.row, border: `1px solid ${u.es_existente ? `${C.amber}55` : C.border}`, borderRadius: 10 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minWidth: 22,
+                    height: 22,
+                    padding: "0 6px",
+                    borderRadius: 999,
+                    background: `${C.purple}22`,
+                    border: `1px solid ${C.purple}55`,
+                    color: C.purple,
+                    fontSize: 11,
+                    fontWeight: 800,
+                    fontVariantNumeric: "tabular-nums",
+                  }}>
+                    {i + 1}
+                  </span>
                   📍 {u.nombre ?? `Ubicación ${i + 1}`}
                   {u.es_existente && <Chip label="EXISTENTE" color={C.amber} />}
                   {u.es_opcional && <Chip label="OPCIONAL" color={C.amber} />}
