@@ -607,6 +607,13 @@ export function Dashboard() {
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <span style={{ fontSize: 11, color: C.dim, letterSpacing: "0.06em", textTransform: "uppercase" }}>España · PLACSP · Taxonomía v3</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>Licitaciones públicas de e-movilidad</span>
+              <a
+                href="/info/licitaciones/auditoria"
+                style={{ fontSize: 11, fontWeight: 700, color: C.purple, textDecoration: "none", padding: "3px 10px", border: `1px solid ${C.purple}55`, borderRadius: 6, background: `${C.purple}11` }}
+                title="Calidad y confiabilidad de la extracción de cada licitación procesada"
+              >
+                🔍 Auditoría
+              </a>
             </div>
             <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
               <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
