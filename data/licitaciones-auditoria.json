@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T13:42:38.555Z",
+  "generado_en": "2026-04-26T13:51:21.278Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -17,10 +17,10 @@
       "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
       "estado": "RES",
       "categoria": "1",
-      "confianza_global": 95,
+      "confianza_global": 100,
       "semaforo": "verde",
       "docs_completos": "32/32",
-      "links_embebidos_resueltos": "⚠️ parcial",
+      "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
       "criterios_suman_100": "✅ 100",
@@ -80,11 +80,16 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: falta uno de los pliegos canónicos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 2 encontrados",
+            "   · (sin nombre)",
+            "   · Condiciones técnicas",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 3 encontrados",
+            "   · (sin nombre)",
+            "   · (sin nombre)",
+            "   · Pliego",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -173,8 +178,7 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Promedio con cobertura adjudicación (100%) → 100",
-            "−5: faltó descubrir un pliego canónico embebido",
-            "= 95% (🟢 verde)"
+            "= 100% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
@@ -192,10 +196,10 @@
       "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
       "estado": "RES",
       "categoria": "1",
-      "confianza_global": 95,
+      "confianza_global": 100,
       "semaforo": "verde",
       "docs_completos": "20/20",
-      "links_embebidos_resueltos": "⚠️ parcial",
+      "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
       "criterios_suman_100": "✅ 100",
@@ -243,11 +247,13 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: falta uno de los pliegos canónicos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 1 encontrado",
+            "   · Diligencia corrección PCAP",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -337,8 +343,7 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Promedio con cobertura adjudicación (100%) → 100",
-            "−5: faltó descubrir un pliego canónico embebido",
-            "= 95% (🟢 verde)"
+            "= 100% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
@@ -395,11 +400,14 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: todos los enlaces resueltos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -546,11 +554,14 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: todos los enlaces resueltos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -708,11 +719,15 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: todos los enlaces resueltos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 2 encontrados",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -814,10 +829,10 @@
       "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
       "estado": "PUB",
       "categoria": "1",
-      "confianza_global": 95,
+      "confianza_global": 100,
       "semaforo": "verde",
       "docs_completos": "9/9",
-      "links_embebidos_resueltos": "⚠️ parcial",
+      "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
       "criterios_suman_100": "✅ 100",
@@ -854,11 +869,14 @@
           ]
         },
         "links_embebidos_resueltos": {
-          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
           "detalles": [
-            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
-            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
-            "Estado: falta uno de los pliegos canónicos"
+            "✅ Al menos 1 PPT (pliego_tecnico): 2 encontrados",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 1 encontrado",
+            "   · Pliego",
+            "Estado: todos los pliegos canónicos están descargados"
           ]
         },
         "docs_legibles": {
@@ -939,8 +957,7 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Sin adjudicación todavía → solo cuenta cobertura pliego",
-            "−5: faltó descubrir un pliego canónico embebido",
-            "= 95% (🟢 verde)"
+            "= 100% (🟢 verde)"
           ]
         },
         "flags_abiertos": {

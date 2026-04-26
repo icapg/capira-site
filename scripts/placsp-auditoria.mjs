@@ -82,15 +82,22 @@ for (const slug of slugs) {
   // "DocumentIdParam=" sino "cifrado=" (= portada que sólo agrupa enlaces),
   // y existen los pliegos canónicos (pliego_tecnico, segundo pliego_administrativo
   // específico), entonces los enlaces internos sí se resolvieron.
-  const tienePliegoTecnico = docs.some((d) => d.tipo === 'pliego_tecnico');
-  const tienePCAPCanonico  = docs.some((d) => d.tipo === 'pliego_administrativo' && d.nombre?.toLowerCase().includes('cláusulas'));
-  const linksEmbebidos = tienePliegoTecnico && tienePCAPCanonico ? '✅' : (docs.some((d) => d.tipo === 'pliego_tecnico' || d.tipo === 'pliego_administrativo') ? '⚠️ parcial' : '❌');
+  // Cada órgano nombra los pliegos a su antojo (PCAP, "Pliego", "Diligencia corrección PCAP",
+  // "Pliego de Cláusulas Administrativas Particulares", etc.). La heurística correcta es
+  // contar por TIPO canónico, no por palabras en el nombre.
+  const docsPPT  = docs.filter((d) => d.tipo === 'pliego_tecnico');
+  const docsPCAP = docs.filter((d) => d.tipo === 'pliego_administrativo');
+  const tienePPT  = docsPPT.length  > 0;
+  const tienePCAP = docsPCAP.length > 0;
+  const linksEmbebidos = tienePPT && tienePCAP ? '✅' : (tienePPT || tienePCAP ? '⚠️ parcial' : '❌');
   explicaciones.links_embebidos_resueltos = {
-    descripcion: 'PLACSP a veces sube un único PDF "Pliego" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.',
+    descripcion: 'PLACSP a veces sube un único PDF "Pliego" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, "Pliego", "Diligencia corrección PCAP", etc.).',
     detalles: [
-      `${tienePliegoTecnico ? '✅' : '❌'} Pliego de Prescripciones Técnicas (PPT) descubierto`,
-      `${tienePCAPCanonico ? '✅' : '❌'} Pliego de Cláusulas Administrativas (PCAP) descubierto`,
-      `Estado: ${linksEmbebidos === '✅' ? 'todos los enlaces resueltos' : linksEmbebidos === '⚠️ parcial' ? 'falta uno de los pliegos canónicos' : 'no se descubrieron enlaces internos'}`,
+      `${tienePPT  ? '✅' : '❌'} Al menos 1 PPT (pliego_tecnico): ${docsPPT.length} encontrado${docsPPT.length === 1 ? '' : 's'}`,
+      ...docsPPT.map((d)  => `   · ${d.nombre ?? '(sin nombre)'}`),
+      `${tienePCAP ? '✅' : '❌'} Al menos 1 PCAP (pliego_administrativo): ${docsPCAP.length} encontrado${docsPCAP.length === 1 ? '' : 's'}`,
+      ...docsPCAP.map((d) => `   · ${d.nombre ?? '(sin nombre)'}`),
+      `Estado: ${linksEmbebidos === '✅' ? 'todos los pliegos canónicos están descargados' : linksEmbebidos === '⚠️ parcial' ? 'falta uno de los pliegos canónicos' : 'no hay pliegos descubiertos'}`,
     ],
   };
 
