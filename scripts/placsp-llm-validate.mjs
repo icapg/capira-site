@@ -118,16 +118,23 @@ export function validate(parsed, ctx = {}) {
       warn(`num_ubicaciones es null (será auto-completado a ${nUbic})`);
     }
 
-    // Suma cargadores por ubicación NO debe exceder num_cargadores_minimo
-    // (excluyendo ubicaciones existentes, que no cuentan en el mínimo del pliego)
-    const sumaNuevos = parsed.ubicaciones
-      .filter((u) => !u.es_existente)
-      .reduce((s, u) => s + (u.num_cargadores_total ?? 0), 0);
-    if (parsed.num_cargadores_minimo != null && sumaNuevos > parsed.num_cargadores_minimo + 0.5) {
-      err(`Σ(ubicaciones nuevas[].num_cargadores_total) = ${sumaNuevos} > num_cargadores_minimo = ${parsed.num_cargadores_minimo}`);
+    // Coherencia estricta: Σ ubicaciones[!es_existente].num_cargadores_total = num_cargadores_minimo (±1)
+    // Los num_cargadores_* representan PUNTOS DE CARGA (tomas/cables), NO equipos físicos.
+    const ubicacionesNuevas = parsed.ubicaciones.filter((u) => !u.es_existente);
+    const ubicacionesNuevasConDato = ubicacionesNuevas.filter((u) => u.num_cargadores_total != null);
+    const sumaNuevos = ubicacionesNuevasConDato.reduce((s, u) => s + (u.num_cargadores_total ?? 0), 0);
+
+    if (parsed.num_cargadores_minimo != null && ubicacionesNuevasConDato.length === ubicacionesNuevas.length && ubicacionesNuevas.length > 0) {
+      const diff = Math.abs(sumaNuevos - parsed.num_cargadores_minimo);
+      if (diff > 1) {
+        err(`Σ(ubicaciones nuevas[].num_cargadores_total) = ${sumaNuevos} ≠ num_cargadores_minimo = ${parsed.num_cargadores_minimo} (diferencia ${diff}). Recordatorio: num_cargadores_* representa PUNTOS DE CARGA, no equipos físicos.`);
+      }
     }
-    if (parsed.num_cargadores_minimo != null && sumaNuevos > 0 && sumaNuevos < parsed.num_cargadores_minimo) {
-      warn(`Desglose por ubicación incompleto: Σ(nuevas) = ${sumaNuevos} < num_cargadores_minimo = ${parsed.num_cargadores_minimo}`);
+
+    // WARN si alguna ubicación nueva tiene num_cargadores_total null
+    const ubicacionesNuevasSinDato = ubicacionesNuevas.filter((u) => u.num_cargadores_total == null);
+    if (ubicacionesNuevasSinDato.length > 0 && ubicacionesNuevas.length > 0) {
+      warn(`${ubicacionesNuevasSinDato.length} de ${ubicacionesNuevas.length} ubicaciones nuevas sin num_cargadores_total — el desglose por ubicación está incompleto`);
     }
 
     // Cada ubicación debe tener algún anchor de localización (auto-completado en applier)

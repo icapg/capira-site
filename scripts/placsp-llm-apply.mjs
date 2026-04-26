@@ -55,7 +55,8 @@ console.log(`📝 Aplicando extracción a ${slug} (${row.expediente ?? ''})`);
 
 // ─── Auto-completado (spec v2 §3.bis) ────────────────────────────────────
 // Rellenamos campos derivables ANTES del UPDATE para que las invariantes se
-// cumplan aunque el LLM/sesión no los haya emitido.
+// cumplan aunque el LLM/sesión no los haya emitido. NUNCA pisamos valores
+// existentes — solo derivamos cuando el campo está null.
 let autoFilled = 0;
 if (isConcesion && Array.isArray(parsed.ubicaciones)) {
   // 1) num_ubicaciones ← ubicaciones.length si null
@@ -74,6 +75,22 @@ if (isConcesion && Array.isArray(parsed.ubicaciones)) {
         const q = `${u.direccion}${u.municipio ? `, ${u.municipio}` : ''}`;
         u.google_maps_url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
         autoFilled++;
+      }
+    }
+    // 3) num_cargadores_total ← derivar SOLO si está null. Nunca pisar.
+    //    Prioridad: a) plazas (legacy 1:1), b) Σ tipos AC/DC/DC+/HPC.
+    if (u.num_cargadores_total == null) {
+      if (u.plazas != null) {
+        u.num_cargadores_total = u.plazas;
+        autoFilled++;
+      } else {
+        const tipos = (u.num_cargadores_ac ?? 0) + (u.num_cargadores_dc ?? 0)
+                    + (u.num_cargadores_dc_plus ?? 0) + (u.num_cargadores_hpc ?? 0);
+        const algunoDefinido = [u.num_cargadores_ac, u.num_cargadores_dc, u.num_cargadores_dc_plus, u.num_cargadores_hpc].some((v) => v != null);
+        if (algunoDefinido && tipos > 0) {
+          u.num_cargadores_total = tipos;
+          autoFilled++;
+        }
       }
     }
   }

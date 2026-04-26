@@ -1354,14 +1354,14 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
                 <div style={{ fontSize: 11, color: C.muted }}>{[u.direccion, u.municipio].filter(Boolean).join(" · ")}</div>
               )}
               <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", fontSize: 11, color: C.muted }}>
-                {u.plazas            != null && <span>🅿️ <b style={{ color: C.text }}>{u.plazas}</b></span>}
+                {/* Mostramos puntos de carga (= plazas con cable). El campo `plazas` está deprecado y no se renderiza. */}
+                {u.cargadores_total  != null && <span title="Puntos de carga (= plazas con cable disponible)">🔌 <b style={{ color: C.text }}>{u.cargadores_total}</b></span>}
                 {u.cargadores_ac     != null && <span style={{ color: C.purple }}>AC <b>{u.cargadores_ac}</b></span>}
                 {u.cargadores_dc     != null && <span style={{ color: C.blue }}>DC <b>{u.cargadores_dc}</b></span>}
                 {u.cargadores_dc_plus != null && <span style={{ color: C.green }}>DC+ <b>{u.cargadores_dc_plus}</b></span>}
                 {u.cargadores_hpc    != null && <span style={{ color: C.amber }}>HPC <b>{u.cargadores_hpc}</b></span>}
-                {u.cargadores_total  != null && <span>🔌 <b style={{ color: C.text }}>{u.cargadores_total}</b></span>}
                 {u.potencia_total_kw != null && <span>⚡ <b style={{ color: C.text }}>{u.potencia_total_kw} kW</b></span>}
-                {u.potencia_por_cargador_kw != null && <span>⚡/HW <b style={{ color: C.text }}>{u.potencia_por_cargador_kw} kW</b></span>}
+                {u.potencia_por_cargador_kw != null && <span title="Potencia por punto de carga">⚡/punto <b style={{ color: C.text }}>{u.potencia_por_cargador_kw} kW</b></span>}
                 {u.plazo_pem_meses   != null && <span>⏱️ PeM <b>{u.plazo_pem_meses}m</b></span>}
               </div>
               {u.notas && <div style={{ fontSize: 11, color: C.dim, marginTop: 6, fontStyle: "italic" }}>💬 {u.notas}</div>}
