@@ -16,6 +16,7 @@ import {
   type Concesion,
   type ProcesoLicitacion,
   type RequisitoParticipacion,
+  type MejoraPuntuable,
 } from "../../../lib/insights/licitaciones-data";
 import { DonutCriterios, BarPuntuaciones, BarMixHW, BarCanonOferta } from "./Charts";
 
@@ -464,7 +465,7 @@ export default async function LicitacionDetail({ params }: Props) {
           {/* Fila superior: Fechas | KpiBar (misma altura) */}
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,3fr)", gap: 20, alignItems: "stretch" }}>
             <TimelineFechas lic={lic} />
-            <KpiBar lic={lic} esConcesion={esConcesion} nParticipantes={licitadores.length} nExcluidos={exc.length} />
+            <KpiBar lic={lic} esConcesion={esConcesion} nParticipantes={licitadores.length} nExcluidos={exc.length} winner={winner} />
           </div>
 
           {/* Grid principal 2 cols */}
@@ -582,8 +583,55 @@ export default async function LicitacionDetail({ params }: Props) {
 // KPI BAR
 // ─────────────────────────────────────────────────────────────────────────────
 
-function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: LicitacionItem; esConcesion: boolean; nParticipantes: number; nExcluidos: number }) {
+// Detecta si el PLIEGO permite ofertar más puntos/ubicaciones como mejora,
+// y si tiene un máximo declarado. La fuente es `mejoras_puntuables[]` y los
+// flags del pliego (`num_cargadores_opcional_extra`, `peso_mas_ubicaciones`).
+// Independiente del ganador — refleja la posibilidad ANTES de adjudicar.
+function posibilidadAdicionales(
+  con: Concesion | undefined,
+  mejoras: MejoraPuntuable[] | undefined,
+  kind: "puntos" | "ubicaciones",
+): { permitido: boolean; maximo: number | null } {
+  const ms = mejoras ?? [];
+  if (kind === "puntos") {
+    // Solo matchea si la mejora habla EXPLÍCITAMENTE de "número/cantidad de
+    // puntos" o "puntos adicionales". No matchea "mejora de potencia/HW",
+    // que es mejora de capacidad por punto, no más puntos.
+    const matchMejora = ms.find((m) => {
+      const d = (m.descripcion ?? "").toLowerCase();
+      return (
+        /incremento\s+(del\s+)?n[uú]mero\s+de\s+puntos/.test(d)
+        || /mayor\s+n[uú]mero\s+de\s+puntos/.test(d)
+        || /m[áa]s\s+puntos\s+de\s+(re)?carga/.test(d)
+        || /puntos?\s+adicionales/.test(d)
+        || /(instalar|ofertar|incrementar)\s+(m[áa]s\s+)?puntos\s+de\s+(re)?carga/.test(d)
+      );
+    });
+    const permitido = con?.num_cargadores_opcional === true || !!matchMejora;
+    // Buscar un número de "unidades máximas" en la descripción (ej. "hasta 10 puntos adicionales")
+    let maximo: number | null = null;
+    if (matchMejora?.descripcion) {
+      const m = matchMejora.descripcion.match(/hasta\s+(\d+)\s+(?:puntos?|plazas?|equipos?)/i)
+             ?? matchMejora.descripcion.match(/(?:m[áa]ximo|max\.?)\s+(\d+)\s+(?:puntos?|plazas?|equipos?)/i);
+      if (m) maximo = parseInt(m[1], 10);
+    }
+    return { permitido, maximo };
+  } else {
+    const matchMejora = ms.find((m) => /m[áa]s\s+ubicaci|nuevas?\s+ubicaci|m[áa]s\s+estaciones?|adicional.*ubicaci|incremento.*ubicaci/i.test(m.descripcion ?? ""));
+    const permitido = (con?.canon_por_ubicacion_anual != null && (con as any)?.peso_mas_ubicaciones != null) || !!matchMejora;
+    let maximo: number | null = null;
+    if (matchMejora?.descripcion) {
+      const m = matchMejora.descripcion.match(/hasta\s+(\d+)\s+(?:ubicaci|estaciones?)/i)
+             ?? matchMejora.descripcion.match(/(?:m[áa]ximo|max\.?)\s+(\d+)\s+(?:ubicaci|estaciones?)/i);
+      if (m) maximo = parseInt(m[1], 10);
+    }
+    return { permitido, maximo };
+  }
+}
+
+function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos, winner }: { lic: LicitacionItem; esConcesion: boolean; nParticipantes: number; nExcluidos: number; winner?: Licitador }) {
   const con = lic.concesion;
+  const mejoras = lic.proceso?.mejoras_puntuables;
 
   // Boxes "dobles" (mínimo/pliego + ganador) para canon fijo y canon variable
   type Dual = { emoji: string; labelTop: string; valueTop: string; subTop?: string; labelBot: string; valueBot: string; subBot?: string; color: string; botHighlight?: boolean };
@@ -602,11 +650,28 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
     const subCiudades = ciudadesUnicas.length > 0
       ? ciudadesUnicas.join(" · ")
       : (lic.ciudad ?? lic.provincia ?? undefined);
+    // Posibilidad del pliego: ¿se permite ofertar ubicaciones adicionales?
+    const posUbic = posibilidadAdicionales(con, mejoras, "ubicaciones");
+    const adicionalLabel = posUbic.permitido ? (posUbic.maximo != null ? String(posUbic.maximo) : "X") : null;
+    const valueUbic = nUbicaciones != null
+      ? (adicionalLabel ? `${nUbicaciones} + ${adicionalLabel}` : String(nUbicaciones))
+      : "N/A";
+    const cuant: string[] = [];
+    if (nUbicaciones != null) cuant.push(`${nUbicaciones} mínimo del pliego`);
+    if (adicionalLabel) {
+      cuant.push(posUbic.maximo != null
+        ? `hasta ${posUbic.maximo} ubicaciones adicionales a ofertar`
+        : `${adicionalLabel} ubicaciones adicionales a ofertar (sin tope explícito)`);
+    }
+    const sumaTexto = cuant.join(" + ");
+    const subUbic = subCiudades
+      ? (sumaTexto ? `${sumaTexto} · ${subCiudades}` : subCiudades)
+      : sumaTexto || undefined;
     boxes.push({
       emoji: "📍",
       label: "Ubicaciones",
-      value: nUbicaciones != null ? String(nUbicaciones) : "N/A",
-      sub:   subCiudades,
+      value: valueUbic,
+      sub:   subUbic,
       color: C.green,
     });
   }
@@ -614,20 +679,41 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos }: { lic: Licitac
   // Puntos de carga (después) — siempre presente para cat=1
   if (esConcesion) {
     const nuevos = con?.num_cargadores ?? con?.num_cargadores_minimo ?? null;
-    // Cargadores existentes que el adjudicatario asume sin reemplazo (ubicaciones con es_existente=true)
+    // Puntos existentes que el adjudicatario asume sin reemplazo
     const existentes = (con?.ubicaciones ?? [])
       .filter((u) => u.es_existente)
       .reduce((s, u) => s + (u.cargadores_total ?? 1), 0);
-    const value = nuevos != null
-      ? (existentes > 0 ? `${nuevos} + ${existentes}` : String(nuevos))
-      : "N/A";
+    // Posibilidad del pliego: ¿se permite ofertar puntos de carga adicionales?
+    const posPuntos = posibilidadAdicionales(con, mejoras, "puntos");
+    const adicionalLabel = posPuntos.permitido ? (posPuntos.maximo != null ? String(posPuntos.maximo) : "X") : null;
+    // Construir el value: <nuevos>[ + <existentes>][ + <adicionales>]
+    let value: string;
+    if (nuevos == null) {
+      value = "N/A";
+    } else {
+      const partes: (string | number)[] = [nuevos];
+      if (existentes > 0)    partes.push(`+ ${existentes}`);
+      if (adicionalLabel)    partes.push(`+ ${adicionalLabel}`);
+      value = partes.join(" ");
+    }
     const desglose = [con?.num_cargadores_ac, con?.num_cargadores_dc, con?.num_cargadores_dc_plus, con?.num_cargadores_hpc].some((v) => v != null)
       ? [con?.num_cargadores_ac && `${con.num_cargadores_ac} AC`, con?.num_cargadores_dc && `${con.num_cargadores_dc} DC`, con?.num_cargadores_dc_plus && `${con.num_cargadores_dc_plus} DC+`, con?.num_cargadores_hpc && `${con.num_cargadores_hpc} HPC`].filter(Boolean).join(" · ")
       : null;
     const subBase = desglose ?? (con?.tecnologia_requerida ? `tecnología ${fmtTipoHw(con.tecnologia_requerida)}` : undefined);
-    const sub = existentes > 0
-      ? `${nuevos} nuevos + ${existentes} existente${existentes > 1 ? "s" : ""}${subBase ? ` · ${subBase}` : ""}`
-      : subBase;
+    const subParts: string[] = [];
+    if (nuevos != null) subParts.push(`${nuevos} mínimo del pliego`);
+    if (existentes > 0) subParts.push(`${existentes} existente${existentes > 1 ? "s" : ""} asumidos`);
+    if (adicionalLabel) {
+      subParts.push(posPuntos.maximo != null
+        ? `hasta ${posPuntos.maximo} puntos adicionales a ofertar`
+        : `${adicionalLabel} puntos adicionales a ofertar (sin tope explícito)`);
+    }
+    // Las partes cuantificables se unen con " + ". Si hay desglose tecnológico,
+    // se agrega al final separado con " · ".
+    const sumaTexto = subParts.join(" + ");
+    const sub = subBase
+      ? (sumaTexto ? `${sumaTexto} · ${subBase}` : subBase)
+      : sumaTexto || undefined;
     boxes.push({
       emoji: "🔌",
       label: "Puntos de carga",
@@ -1189,8 +1275,18 @@ function TablaOfertas({
     "Puntos",
   ];
 
+  // Ancho mínimo para que el grid no se aplaste y active el scroll horizontal
+  // del wrapper externo cuando hay muchas columnas técnicas (Mancomunitat = 8).
+  const minWidthPx = 28 + 80 + 90
+    + (showVar  ? 90 : 0)
+    + (showDesc ? 90 : 0)
+    + criteriosTec.length * 180
+    + 68
+    + (headers.length - 1) * 16; // padding lateral por celda
+
   return (
-    <div style={{ fontSize: 12 }}>
+    <div style={{ fontSize: 12, overflowX: "auto", overflowY: "visible", maxWidth: "100%" }}>
+    <div style={{ minWidth: minWidthPx }}>
       <div style={{
         display: "grid", gridTemplateColumns: gridCols, gap: 0,
         paddingBottom: 8, borderBottom: `1px solid ${C.border}`,
@@ -1250,12 +1346,40 @@ function TablaOfertas({
             )}
             {criteriosTec.map((c, ci) => {
               const d = (l.puntuaciones_detalle ?? []).find((x) => x.nombre === c);
+              // Color del badge según ratio puntos/peso_max:
+              //   ≥0.95 → verde (máximo o casi)
+              //   ≥0.50 → amarillo (parcial)
+              //   >0    → rojo (bajo)
+              //    0    → gris (cero/no puntuado)
+              let badgeColor = C.dim;
+              if (d?.puntos != null && d?.peso_max != null && d.peso_max > 0) {
+                const ratio = d.puntos / d.peso_max;
+                if (ratio >= 0.95)      badgeColor = C.green;
+                else if (ratio >= 0.50) badgeColor = C.amber;
+                else if (ratio > 0)     badgeColor = C.red;
+                else                    badgeColor = C.dim;
+              }
               return (
-                <div key={ci} style={{ padding: "0 8px", fontSize: 11, color: C.muted, lineHeight: 1.45 }}>
-                  {d?.oferta ?? <span style={{ color: C.dim }}>—</span>}
+                <div key={ci} style={{ padding: "0 8px", fontSize: 11, color: C.muted, lineHeight: 1.45, display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div>{d?.oferta ?? <span style={{ color: C.dim }}>—</span>}</div>
                   {d?.puntos != null && d?.peso_max != null && (
-                    <div style={{ fontSize: 10, color: C.dim, marginTop: 2, fontVariantNumeric: "tabular-nums" }}>
-                      {d.puntos}/{d.peso_max} pts
+                    <div
+                      title={`${d.puntos} de ${d.peso_max} puntos posibles (${Math.round((d.puntos / d.peso_max) * 100)}%)`}
+                      style={{
+                        alignSelf: "flex-start",
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: badgeColor,
+                        background: `${badgeColor}1c`,
+                        border: `1px solid ${badgeColor}55`,
+                        borderRadius: 6,
+                        padding: "3px 8px",
+                        fontVariantNumeric: "tabular-nums",
+                        letterSpacing: "0.02em",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {d.puntos}<span style={{ opacity: 0.6 }}> / {d.peso_max}</span> pts
                     </div>
                   )}
                 </div>
@@ -1287,6 +1411,7 @@ function TablaOfertas({
         </div>
       ))}
 
+    </div>
     </div>
   );
 }
