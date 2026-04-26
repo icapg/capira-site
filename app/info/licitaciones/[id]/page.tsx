@@ -1304,17 +1304,14 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
     );
   }
   const sumaCargadores = ubicaciones.reduce((s, u) => s + (u.cargadores_total ?? 0), 0);
-  const sumaPlazas     = ubicaciones.reduce((s, u) => s + (u.plazas ?? 0), 0);
   // Si el sumatorio es menor al total declarado en concesion, usar el top-level
   const totalCargadoresTop = concesion?.num_cargadores ?? concesion?.num_cargadores_minimo ?? null;
   const totalCargadores = (totalCargadoresTop != null && totalCargadoresTop >= sumaCargadores) ? totalCargadoresTop : sumaCargadores;
-  const totalPlazas = sumaPlazas;
 
   return (
     <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
       <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
         {totalCargadores > 0 && <MiniStat label="🔌 Total puntos de carga" value={fmtNum(totalCargadores)} color={C.green} />}
-        {totalPlazas     > 0 && <MiniStat label="🅿️ Total plazas"     value={fmtNum(totalPlazas)}     color={C.teal} />}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
         {ubicaciones.map((u, i) => {
