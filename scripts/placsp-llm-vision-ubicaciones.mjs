@@ -115,7 +115,13 @@ REGLAS:
   el contexto.
 - En el campo "num_cargadores_total" devolvé el número de PUNTOS DE CARGA
   (= cables individuales = plazas con cable disponible). Si el plano dice
-  "1 poste con 2 mangueras para 2 plazas", num_cargadores_total = 2 (no 1).`;
+  "1 poste con 2 mangueras para 2 plazas", num_cargadores_total = 2 (no 1).
+- Para tipo_hw "mixto" usá el split por toma (potencia_ac_kw + potencia_dc_kw +
+  opcionalmente potencia_hpc_kw). Para AC/DC/HPC puro, solo el campo
+  correspondiente. NO uses potencia_por_cargador_kw cuando tengas el split.
+- Detectá los ANEXOS del pliego (Anexo I, Anexo II, etc.) y devolveme el rango
+  de páginas (page_inicio + page_fin) y a qué pliego pertenecen
+  (pliego_tecnico = PPT, pliego_administrativo = PCAP).`;
 
 const USER = `Devolveme un único objeto JSON con esta estructura exacta:
 
@@ -135,6 +141,15 @@ const USER = `Devolveme un único objeto JSON con esta estructura exacta:
   ],
   "ubicaciones_existentes": [
     { /* misma estructura, ubicaciones que ya están operativas */ }
+  ],
+  "anexos_pliego": [
+    {
+      "label":        "<ej. 'Anexo I — Planos de ubicaciones nuevas (PPT)'>",
+      "doc_tipo":     "pliego_tecnico"|"pliego_administrativo",
+      "page_inicio":  <number, 1-based dentro del PDF padre>,
+      "page_fin":     <number|null, 1-based inclusive>,
+      "descripcion":  "<1 frase opcional>"
+    }
   ],
   "resumen": "<1-2 frases describiendo qué encontraste y de qué páginas/anexos>"
 }

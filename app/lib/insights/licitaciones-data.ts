@@ -74,6 +74,30 @@ export type Documento = {
   fecha?: string;
   descargado?: boolean;
   resumen_ia?: string;
+  /** Si es un anexo embebido en otro PDF (deep-link con #page=N), referencia el documento padre. */
+  parent_tipo?: string;
+  /** Página inicial dentro del PDF padre (1-based). */
+  page_inicio?: number;
+  /** Página final dentro del PDF padre (1-based, inclusive). */
+  page_fin?:    number;
+};
+
+/**
+ * Anexo embebido dentro de un pliego (PCAP / PPT). PLACSP no publica los anexos
+ * como archivos separados — están como secciones dentro del PDF principal. Esta
+ * estructura permite generar deep-links (`#page=N`) en la sección Documentos.
+ */
+export type AnexoPliego = {
+  /** Etiqueta visible (ej. "Anexo I — Planos de ubicaciones nuevas"). */
+  label:        string;
+  /** Tipo del documento padre que contiene el anexo (ej. "pliego_tecnico", "pliego_administrativo"). */
+  doc_tipo:     "pliego_tecnico" | "pliego_administrativo" | string;
+  /** Página inicial del anexo dentro del PDF padre (1-based). */
+  page_inicio:  number;
+  /** Página final del anexo (1-based, inclusive). Opcional. */
+  page_fin?:    number;
+  /** Descripción libre (ej. "34 planos de ubicaciones nuevas con coordenadas"). */
+  descripcion?: string;
 };
 
 export type UbicacionConcesion = {
@@ -275,6 +299,9 @@ export type LicitacionItem = {
   cpvs?:           string[];
   snapshots?:      Snapshot[];
   documentos?:     Documento[];
+  /** Anexos embebidos en pliegos (Anexo I, Anexo II, etc.). Se expanden a entradas
+   *  Documento con deep-link `#page=N` durante el build del bundle. */
+  anexos_pliego?:  AnexoPliego[];
 };
 
 export type LicitacionesBundle = {

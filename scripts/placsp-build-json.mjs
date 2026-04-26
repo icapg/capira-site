@@ -18,6 +18,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT         = join(__dirname, '..');
 const DB_FILE      = join(ROOT, 'data', 'licitaciones.db');
+const PDF_DIR      = join(ROOT, 'data', 'placsp-pdfs');
 const OUT_ITEMS    = join(ROOT, 'data', 'licitaciones-emov.json');
 const OUT_SUMMARY  = join(ROOT, 'data', 'licitaciones-cat-summary.json');
 
@@ -686,6 +687,41 @@ function main() {
     put(it, 'cpvs',       cpvsByLic.get(r.id));
     put(it, 'snapshots',  snapsByLic.get(r.id));
     put(it, 'documentos', docsByLic.get(r.id));
+
+    // ── Anexos de pliegos: deep-links #page=N (spec §4.ter regla H) ──
+    // Los anexos no son docs separados en PLACSP — están dentro del PCAP/PPT.
+    // Si extraccion.json tiene `anexos_pliego[]`, los expandimos a entradas
+    // Documento adicionales con la URL del padre + sufijo #page=N.
+    const slugAnexos = it.slug;
+    if (slugAnexos) {
+      const extPath = join(PDF_DIR, slugAnexos, 'extraccion.json');
+      if (fs.existsSync(extPath)) {
+        try {
+          const ext = JSON.parse(fs.readFileSync(extPath, 'utf8'));
+          const anexos = Array.isArray(ext?.anexos_pliego) ? ext.anexos_pliego : [];
+          if (anexos.length > 0 && Array.isArray(it.documentos)) {
+            for (const ax of anexos) {
+              if (!ax?.label || !ax?.doc_tipo || !ax?.page_inicio) continue;
+              const padre = it.documentos.find((d) => d.tipo === ax.doc_tipo);
+              if (!padre || !padre.url) continue;
+              const baseUrl = padre.url.split('#')[0];
+              const docVirtual = {
+                tipo:        `anexo_${ax.doc_tipo}`,
+                nombre:      ax.label,
+                url:         `${baseUrl}#page=${ax.page_inicio}`,
+                parent_tipo: ax.doc_tipo,
+                page_inicio: ax.page_inicio,
+              };
+              if (ax.page_fin)     docVirtual.page_fin    = ax.page_fin;
+              if (ax.descripcion)  docVirtual.resumen_ia  = ax.descripcion;
+              it.documentos.push(docVirtual);
+            }
+          }
+        } catch (e) {
+          console.log(`   ⚠ ${slugAnexos}: no se pudieron leer anexos_pliego (${e.message})`);
+        }
+      }
+    }
 
     items.push(it);
   }
