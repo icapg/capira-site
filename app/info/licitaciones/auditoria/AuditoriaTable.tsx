@@ -67,6 +67,8 @@ type AuditoriaRow = {
   flags_abiertos: string[];
   etapa: string;
   explicaciones?: Explicaciones;
+  criterios_detalle?: Array<{ tipo: string; peso: number | null; descripcion: string; formula?: string | null; clave_canonica?: string; subtipo?: string | null }>;
+  criterios_count?: { economicos: number; tecnicos: number; mejoras: number; juicio: number; total: number };
 };
 
 type Props = {
@@ -256,6 +258,18 @@ export function AuditoriaTable({ data }: Props) {
         </div>
       </div>
 
+      {/* Pestañas (auditoría / criterios) */}
+      <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
+        <Link href="/info/licitaciones/auditoria"
+              style={{ padding: "8px 16px", background: `${C.purple}22`, border: `1px solid ${C.purple}66`, borderRadius: 8, color: C.purple, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+          🔍 Auditoría por licitación
+        </Link>
+        <Link href="/info/licitaciones/auditoria/criterios"
+              style={{ padding: "8px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, color: C.muted, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+          🎯 Criterios maestros
+        </Link>
+      </div>
+
       <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
         <StatPill label="Total" value={data.total} color={C.text} />
         <StatPill label="🟢 Verde ≥85%" value={data.resumen.verdes} color={C.green} />
@@ -315,6 +329,7 @@ export function AuditoriaTable({ data }: Props) {
               <Th>Links emb.</Th>
               <Th>Vision</Th>
               <Th>Σ=100</Th>
+              <Th>Criterios</Th>
               <Th>Σ ubis</Th>
               <Th>Anexos</Th>
               <Th>Licitadores</Th>
@@ -375,6 +390,11 @@ export function AuditoriaTable({ data }: Props) {
                   <Td>
                     <ExplainCell titulo="Σ pesos = 100" explicacion={ex.criterios_suman_100}>
                       <span>{r.criterios_suman_100}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Criterios encontrados" explicacion={ex.criterios_detalle}>
+                      <CriteriosBadge counts={r.criterios_count} />
                     </ExplainCell>
                   </Td>
                   <Td>
@@ -468,6 +488,21 @@ function Th({ children, title }: { children: React.ReactNode; title?: string }) 
 
 function Td({ children, title, ...rest }: React.HTMLAttributes<HTMLTableCellElement>) {
   return <td title={title} style={{ padding: "10px 12px", verticalAlign: "middle" }} {...rest}>{children}</td>;
+}
+
+function CriteriosBadge({ counts }: { counts?: { economicos: number; tecnicos: number; mejoras: number; juicio: number; total: number } }) {
+  if (!counts || counts.total === 0) return <span style={{ color: C.dim }}>—</span>;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 86 }}>
+      <span style={{ fontWeight: 700, color: C.text, fontSize: 11 }}>{counts.total} crit.</span>
+      <div style={{ display: "flex", gap: 4, fontSize: 9, color: C.muted }}>
+        {counts.economicos > 0 && <span title="Económicos" style={{ color: C.amber }}>E:{counts.economicos}</span>}
+        {counts.tecnicos > 0   && <span title="Técnicos top-level" style={{ color: C.blue }}>T:{counts.tecnicos}</span>}
+        {counts.mejoras > 0    && <span title="Mejoras puntuables" style={{ color: C.green }}>M:{counts.mejoras}</span>}
+        {counts.juicio > 0     && <span title="Juicio de valor" style={{ color: C.purple }}>JV:{counts.juicio}</span>}
+      </div>
+    </div>
+  );
 }
 
 function CoberturaLectura({ row }: { row: AuditoriaRow }) {

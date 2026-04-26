@@ -38,6 +38,7 @@ const DB_FILE   = join(ROOT, 'data', 'licitaciones.db');
 const PDF_DIR   = join(ROOT, 'data', 'placsp-pdfs');
 const BUNDLE    = join(ROOT, 'data', 'licitaciones-emov.json');
 const OUT       = join(ROOT, 'data', 'licitaciones-auditoria.json');
+const OUT_CRITERIOS = join(ROOT, 'data', 'licitaciones-criterios-master.json');
 
 const db = new Database(DB_FILE, { readonly: true });
 const bundle = JSON.parse(fs.readFileSync(BUNDLE, 'utf8'));
@@ -177,6 +178,76 @@ function leidoImplicitamentePorTipo(tipo, it, ext) {
 }
 
 const TIPOS_NO_TEXTO = /\.(zip|docx|xlsx|xls|pptx|odt|ods)$/i;
+
+/**
+ * Normaliza la descripción de un criterio para agrupar sinónimos / variantes
+ * de redacción. Devuelve una clave canónica (lowercase, sin acentos, sin
+ * stop-words, palabras claves principales). Sirve para construir el master
+ * de criterios cross-licitación.
+ */
+function clavearCriterio(descripcion) {
+  if (!descripcion) return 'sin_descripcion';
+  const stop = new Set(['de','del','la','el','los','las','y','o','u','en','para','por','con','sin','un','una','al','a','que','se','su','sus','lo','sobre','entre','desde','hasta','este','esta','esto','ser','si','no','le','la','le']);
+  const norm = descripcion
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((t) => t.length >= 3 && !stop.has(t));
+  // Heurística: detectar conceptos canónicos por prefijo
+  const join = norm.join(' ');
+  if (/canon|contraprestacion|contraprest/.test(join)) return 'mejora_canon';
+  if (/precio.*kwh|kwh.*usuario|tarifa/.test(join))    return 'precio_kwh_usuario';
+  if (/numero.*punto|incremento.*punto|adicional.*punto|mas.*punto/.test(join)) return 'mas_puntos_de_carga';
+  if (/potencia|hw|hardware|equipo.*recarga|kw/.test(join) && !/precio/.test(join)) return 'mejora_potencia_hw';
+  if (/ubicacion.*adicional|emplazamient/.test(join)) return 'mas_ubicaciones';
+  if (/plazo.*construccion|plazo.*ejecucion|tiempo.*obra|reduccion.*plazo/.test(join)) return 'reduccion_plazo';
+  if (/proyecto.*tecnico|memoria.*tecnica|plan.*ejecucion|calidad.*proyecto/.test(join)) return 'calidad_proyecto_tecnico';
+  if (/mantenimiento|sav|servicio.*tecnico/.test(join)) return 'mantenimiento';
+  if (/sostenibilidad|renovable|ambiental|emision/.test(join)) return 'sostenibilidad';
+  if (/app|aplicacion.*movil|plataforma|software/.test(join)) return 'app_plataforma';
+  if (/social|comunitario|empleo/.test(join)) return 'mejora_social';
+  if (/garantia|fianza/.test(join)) return 'garantia';
+  if (/operatividad|disponibilidad|uptime/.test(join)) return 'operatividad';
+  // Fallback: tomar las primeras 2-3 palabras como clave
+  return norm.slice(0, 3).join('_') || 'otro';
+}
+
+const ETIQUETAS_CANONICAS = {
+  mejora_canon:           { label: 'Mejora del canon / contraprestación',   tipo: 'economico' },
+  precio_kwh_usuario:     { label: 'Precio kWh al usuario final',           tipo: 'economico' },
+  mas_puntos_de_carga:    { label: 'Incremento del nº de puntos de carga',  tipo: 'tecnico_cuant' },
+  mejora_potencia_hw:     { label: 'Mejora de potencia / hardware',         tipo: 'tecnico_cuant' },
+  mas_ubicaciones:        { label: 'Ubicaciones adicionales',               tipo: 'tecnico_cuant' },
+  reduccion_plazo:        { label: 'Reducción de plazo de construcción',    tipo: 'tecnico_cuant' },
+  calidad_proyecto_tecnico: { label: 'Calidad del proyecto técnico',        tipo: 'tecnico_juicio' },
+  mantenimiento:          { label: 'Plan de mantenimiento / SAT',           tipo: 'tecnico_juicio' },
+  sostenibilidad:         { label: 'Sostenibilidad / energía renovable',    tipo: 'tecnico_juicio' },
+  app_plataforma:         { label: 'App móvil / plataforma de gestión',     tipo: 'tecnico_juicio' },
+  mejora_social:          { label: 'Mejoras sociales / empleo local',       tipo: 'tecnico_juicio' },
+  garantia:               { label: 'Garantía / fianza',                     tipo: 'otro' },
+  operatividad:           { label: 'Operatividad / disponibilidad',         tipo: 'tecnico_juicio' },
+  sin_descripcion:        { label: '(criterio sin descripción)',            tipo: 'desconocido' },
+};
+
+/** Agregador maestro: clave canonica → { label, tipo, ocurrencias[]: [{slug, peso, fuente}] } */
+const masterCriterios = new Map();
+
+function registrarMaster(claveCanonica, slug, peso, descripcionOriginal, fuente, tipoCanonical) {
+  if (!masterCriterios.has(claveCanonica)) {
+    const cano = ETIQUETAS_CANONICAS[claveCanonica];
+    masterCriterios.set(claveCanonica, {
+      clave: claveCanonica,
+      label: cano?.label ?? claveCanonica.replace(/_/g, ' '),
+      tipo:  cano?.tipo  ?? 'otro',
+      ocurrencias: [],
+      descripciones_observadas: new Set(),
+    });
+  }
+  const m = masterCriterios.get(claveCanonica);
+  m.ocurrencias.push({ slug, peso, fuente, tipo: tipoCanonical });
+  if (descripcionOriginal) m.descripciones_observadas.add(descripcionOriginal.slice(0, 140));
+}
 
 console.log(`📋 Auditando ${slugs.length} licitaciones con extracción aplicada...`);
 
@@ -337,6 +408,36 @@ for (const slug of slugs) {
   }
   const criteriosEcon = it.proceso?.criterios_valoracion?.economicos ?? [];
   const criteriosTec  = it.proceso?.criterios_valoracion?.tecnicos   ?? [];
+  const mejorasPunt   = it.proceso?.mejoras_puntuables                ?? [];
+  const criteriosJV   = it.proceso?.criterios_juicio_valor            ?? [];
+
+  // Construir lista plana de criterios para esta licitación + registrar master
+  const criteriosDetalle = [];
+  for (const c of criteriosEcon) {
+    const desc = c.descripcion ?? c.formula ?? '';
+    const clave = clavearCriterio(desc);
+    criteriosDetalle.push({ tipo: 'economico', peso: c.peso ?? null, descripcion: desc, formula: c.formula ?? null, clave_canonica: clave, fuente: 'criterios_valoracion.economicos' });
+    registrarMaster(clave, slug, c.peso ?? null, desc, 'criterios_valoracion.economicos', 'economico');
+  }
+  for (const c of criteriosTec) {
+    const desc = c.descripcion ?? '';
+    const clave = clavearCriterio(desc);
+    criteriosDetalle.push({ tipo: 'tecnico', peso: c.peso ?? null, descripcion: desc, formula: c.formula ?? null, clave_canonica: clave, fuente: 'criterios_valoracion.tecnicos' });
+    registrarMaster(clave, slug, c.peso ?? null, desc, 'criterios_valoracion.tecnicos', 'tecnico');
+  }
+  for (const m of mejorasPunt) {
+    const desc = m.descripcion ?? '';
+    const clave = clavearCriterio(desc);
+    criteriosDetalle.push({ tipo: 'mejora_puntuable', peso: m.puntos_max ?? null, descripcion: desc, subtipo: m.tipo ?? null, clave_canonica: clave, fuente: 'mejoras_puntuables' });
+    registrarMaster(clave, slug, m.puntos_max ?? null, desc, 'mejoras_puntuables', 'mejora_puntuable');
+  }
+  for (const m of criteriosJV) {
+    const desc = m.descripcion ?? '';
+    const clave = clavearCriterio(desc);
+    criteriosDetalle.push({ tipo: 'juicio_valor', peso: m.puntos_max ?? null, descripcion: desc, subtipo: m.tipo ?? null, clave_canonica: clave, fuente: 'criterios_juicio_valor' });
+    registrarMaster(clave, slug, m.puntos_max ?? null, desc, 'criterios_juicio_valor', 'juicio_valor');
+  }
+
   explicaciones.criterios_suman_100 = {
     descripcion: criteriosSuman100
       ? `La suma de pesos económicos (${peso_econ}) + técnicos (${peso_tec}) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.`
@@ -346,6 +447,19 @@ for (const slug of slugs) {
       ...criteriosEcon.map((c) => `   · ${c.peso ?? '—'} pts — ${(c.descripcion ?? c.formula ?? '').slice(0, 90)}`),
       `Técnicos (${peso_tec} pts):`,
       ...criteriosTec.map((c) => `   · ${c.peso ?? '—'} pts — ${(c.descripcion ?? '').slice(0, 90)}`),
+    ],
+  };
+  explicaciones.criterios_detalle = {
+    descripcion: `Lista completa de criterios de adjudicación encontrados en el pliego (${criteriosDetalle.length} en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.`,
+    detalles: [
+      `Económicos: ${criteriosEcon.length}`,
+      `Técnicos (peso top-level): ${criteriosTec.length}`,
+      `Mejoras puntuables (subcriterios automáticos): ${mejorasPunt.length}`,
+      `Criterios juicio de valor (subjetivos): ${criteriosJV.length}`,
+      '',
+      ...criteriosDetalle.map((c, i) =>
+        `${i + 1}. [${c.tipo}] ${c.peso != null ? `${c.peso} pts` : '— pts'} → ${c.descripcion.slice(0, 100)} (clave: ${c.clave_canonica})`
+      ),
     ],
   };
 
@@ -603,6 +717,14 @@ for (const slug of slugs) {
     suma_pesos:          sumaPesos,
     peso_economico:      peso_econ,
     peso_tecnico:        peso_tec,
+    criterios_detalle:   criteriosDetalle,
+    criterios_count: {
+      economicos: criteriosEcon.length,
+      tecnicos:   criteriosTec.length,
+      mejoras:    mejorasPunt.length,
+      juicio:     criteriosJV.length,
+      total:      criteriosDetalle.length,
+    },
 
     pliego_complejo: pliegoComplejo,
     motivos_complejidad: motivosComplejidad,
@@ -653,3 +775,33 @@ const out = {
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2));
 console.log(`✅ ${OUT}`);
 console.log(`   ${total} licitaciones · 🟢 ${verdes} · 🟡 ${amarillos} · 🔴 ${rojos} · ⚙ complejos ${complejos} · 👁 vision ${conVision} ($${costeVisionTot.toFixed(2)})`);
+
+// ── Master de criterios cross-licitación ──────────────────────────────────
+const criteriosArray = Array.from(masterCriterios.values()).map((m) => {
+  const pesos = m.ocurrencias.map((o) => o.peso).filter((p) => p != null);
+  const slugs_distintos = new Set(m.ocurrencias.map((o) => o.slug));
+  return {
+    clave:       m.clave,
+    label:       m.label,
+    tipo:        m.tipo,
+    frecuencia:  slugs_distintos.size,
+    ocurrencias_total: m.ocurrencias.length,
+    peso_min:    pesos.length > 0 ? Math.min(...pesos) : null,
+    peso_max:    pesos.length > 0 ? Math.max(...pesos) : null,
+    peso_promedio: pesos.length > 0 ? Number((pesos.reduce((a, b) => a + b, 0) / pesos.length).toFixed(1)) : null,
+    descripciones_observadas: Array.from(m.descripciones_observadas).slice(0, 12),
+    licitaciones: Array.from(slugs_distintos),
+    ocurrencias: m.ocurrencias,
+  };
+});
+criteriosArray.sort((a, b) => (b.frecuencia - a.frecuencia) || (b.ocurrencias_total - a.ocurrencias_total));
+
+const masterOut = {
+  generado_en:           new Date().toISOString(),
+  total_criterios_unicos: criteriosArray.length,
+  total_licitaciones_analizadas: total,
+  criterios:             criteriosArray,
+};
+fs.writeFileSync(OUT_CRITERIOS, JSON.stringify(masterOut, null, 2));
+console.log(`✅ ${OUT_CRITERIOS}`);
+console.log(`   ${criteriosArray.length} criterios únicos detectados (clave canónica) en ${total} licitaciones`);

@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T14:00:56.842Z",
+  "generado_en": "2026-04-26T14:07:39.390Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -34,6 +34,79 @@
       "suma_pesos": 100,
       "peso_economico": 60,
       "peso_tecnico": 40,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "Pv = 30 × Cvo / Cmax + 10 — Alza sobre canon VARIABLE (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 pts, resto proporcional.",
+          "formula": "Pv = 30 × Cvo / Cmax + 10 — Alza sobre canon VARIABLE (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 pts, resto proporcional.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "Pf = 10 × Cfo / Cmax + 10 — Alza sobre canon FIJO (€/año desde 01/01/2029). Mínimo 12.000 €/año. La mejor oferta 20 pts, resto proporcional.",
+          "formula": "Pf = 10 × Cfo / Cmax + 10 — Alza sobre canon FIJO (€/año desde 01/01/2029). Mínimo 12.000 €/año. La mejor oferta 20 pts, resto proporcional.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Mejora potencia de salida: equipos ≥100 kW plazas tipo M (1 pt/plaza, máx 10) + equipos ≥200 kW plazas tipo N (2 pt/equipo, máx 10)",
+          "formula": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Instalación fotovoltaica sobre pérgolas: <25 kWp=5pts · 25-50 kWp=10pts · 50-100 kWp=20pts",
+          "formula": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh). Máximo 40 puntos · Mínimo 0,01 €/kWh.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Incremento del canon FIJO anual desde 01/01/2029 (€/año). Máximo 20 puntos · Mínimo 12.000 €/año.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Mejora de potencia de salida en equipos de recarga rápida (≥100 kW plazas M, ≥200 kW plazas N). Máximo 20 puntos.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Instalación de producción fotovoltaica sobre pérgolas en la parcela. Máximo 20 puntos (50-100 kWp = 20 pts).",
+          "subtipo": "sostenibilidad",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 2,
+        "tecnicos": 2,
+        "mejoras": 4,
+        "juicio": 0,
+        "total": 8
+      },
       "pliego_complejo": false,
       "motivos_complejidad": [],
       "cobertura_pliego_pct": 100,
@@ -155,6 +228,24 @@
             "   · 20 pts — Instalación fotovoltaica sobre pérgolas: <25 kWp=5pts · 25-50 kWp=10pts · 50-100 kWp=20pts"
           ]
         },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (8 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 2",
+            "Técnicos (peso top-level): 2",
+            "Mejoras puntuables (subcriterios automáticos): 4",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 40 pts → Pv = 30 × Cvo / Cmax + 10 — Alza sobre canon VARIABLE (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 (clave: mejora_canon)",
+            "2. [economico] 20 pts → Pf = 10 × Cfo / Cmax + 10 — Alza sobre canon FIJO (€/año desde 01/01/2029). Mínimo 12.000 €/año. La  (clave: mejora_canon)",
+            "3. [tecnico] 20 pts → Mejora potencia de salida: equipos ≥100 kW plazas tipo M (1 pt/plaza, máx 10) + equipos ≥200 kW plaz (clave: mejora_potencia_hw)",
+            "4. [tecnico] 20 pts → Instalación fotovoltaica sobre pérgolas: <25 kWp=5pts · 25-50 kWp=10pts · 50-100 kWp=20pts (clave: mejora_potencia_hw)",
+            "5. [mejora_puntuable] 40 pts → Incremento del canon VARIABLE ofertado (€/kWh). Máximo 40 puntos · Mínimo 0,01 €/kWh. (clave: mejora_canon)",
+            "6. [mejora_puntuable] 20 pts → Incremento del canon FIJO anual desde 01/01/2029 (€/año). Máximo 20 puntos · Mínimo 12.000 €/año. (clave: mejora_canon)",
+            "7. [mejora_puntuable] 20 pts → Mejora de potencia de salida en equipos de recarga rápida (≥100 kW plazas M, ≥200 kW plazas N). Máxi (clave: mejora_potencia_hw)",
+            "8. [mejora_puntuable] 20 pts → Instalación de producción fotovoltaica sobre pérgolas en la parcela. Máximo 20 puntos (50-100 kWp =  (clave: mejora_potencia_hw)"
+          ]
+        },
         "cobertura_pliego": {
           "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
           "detalles": [
@@ -262,6 +353,79 @@
       "suma_pesos": 100,
       "peso_economico": 60,
       "peso_tecnico": 40,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "Pv = 40 × (∛Cvo − 0,01) / (∛Cvmax − 0,01) — Alza sobre canon variable (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 pts; las que no oferten alza, 0 pts.",
+          "formula": "Pv = 40 × (∛Cvo − 0,01) / (∛Cvmax − 0,01) — Alza sobre canon variable (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 pts; las que no oferten alza, 0 pts.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "Pf = 20 × (∛Cfo − 170.000) / (∛Cfmax − 170.000) — Alza sobre canon fijo (€/año desde 01/01/2030). Mínimo 170.000 €/año. La mejor oferta 20 pts; las que no oferten alza, 0 pts.",
+          "formula": "Pf = 20 × (∛Cfo − 170.000) / (∛Cfmax − 170.000) — Alza sobre canon fijo (€/año desde 01/01/2030). Mínimo 170.000 €/año. La mejor oferta 20 pts; las que no oferten alza, 0 pts.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Mejora de potencia de salida en equipos: 1 pt por plaza M ≥100 kW (máx 10) + 2,5 pt por plaza N ≥200 kW (máx 10)",
+          "formula": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Producción fotovoltaica sobre pérgolas: P = 20 × (Ppico/100), máximo 20 pts para potencias pico ≥ 100 kWp",
+          "formula": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,01).",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Incremento del canon FIJO anual desde 01/01/2030 (€/año sobre el mínimo 170.000).",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Mejora de potencia de salida en equipos de recarga (≥100 kW plazas M, ≥200 kW plazas N).",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Instalación fotovoltaica sobre pérgolas (≥100 kWp para máximo).",
+          "subtipo": "sostenibilidad",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 2,
+        "tecnicos": 2,
+        "mejoras": 4,
+        "juicio": 0,
+        "total": 8
+      },
       "pliego_complejo": false,
       "motivos_complejidad": [],
       "cobertura_pliego_pct": 100,
@@ -355,6 +519,24 @@
             "Técnicos (40 pts):",
             "   · 20 pts — Mejora de potencia de salida en equipos: 1 pt por plaza M ≥100 kW (máx 10) + 2,5 pt por pl",
             "   · 20 pts — Producción fotovoltaica sobre pérgolas: P = 20 × (Ppico/100), máximo 20 pts para potencias"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (8 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 2",
+            "Técnicos (peso top-level): 2",
+            "Mejoras puntuables (subcriterios automáticos): 4",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 40 pts → Pv = 40 × (∛Cvo − 0,01) / (∛Cvmax − 0,01) — Alza sobre canon variable (€/kWh). Mínimo 0,01 €/kWh. La (clave: mejora_canon)",
+            "2. [economico] 20 pts → Pf = 20 × (∛Cfo − 170.000) / (∛Cfmax − 170.000) — Alza sobre canon fijo (€/año desde 01/01/2030). Mí (clave: mejora_canon)",
+            "3. [tecnico] 20 pts → Mejora de potencia de salida en equipos: 1 pt por plaza M ≥100 kW (máx 10) + 2,5 pt por plaza N ≥200 (clave: mejora_potencia_hw)",
+            "4. [tecnico] 20 pts → Producción fotovoltaica sobre pérgolas: P = 20 × (Ppico/100), máximo 20 pts para potencias pico ≥ 10 (clave: mejora_potencia_hw)",
+            "5. [mejora_puntuable] 40 pts → Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,01). (clave: mejora_canon)",
+            "6. [mejora_puntuable] 20 pts → Incremento del canon FIJO anual desde 01/01/2030 (€/año sobre el mínimo 170.000). (clave: mejora_canon)",
+            "7. [mejora_puntuable] 20 pts → Mejora de potencia de salida en equipos de recarga (≥100 kW plazas M, ≥200 kW plazas N). (clave: mejora_potencia_hw)",
+            "8. [mejora_puntuable] 20 pts → Instalación fotovoltaica sobre pérgolas (≥100 kWp para máximo). (clave: mejora_potencia_hw)"
           ]
         },
         "cobertura_pliego": {
@@ -462,6 +644,79 @@
       "suma_pesos": 100,
       "peso_economico": 70,
       "peso_tecnico": 30,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 70,
+          "descripcion": "Po = 70 × Of / Mo — La proposición económica con mayor importe anual ofertado obtiene 70 pts. El resto, proporcional. Las plicas iguales al precio de salida (canon mínimo) reciben 0 pts.",
+          "formula": "Po = 70 × Of / Mo — La proposición económica con mayor importe anual ofertado obtiene 70 pts. El resto, proporcional. Las plicas iguales al precio de salida (canon mínimo) reciben 0 pts.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 15,
+          "descripcion": "Número de puntos de recarga rápida que el licitador instale a su costa (entre los previstos en la licitación). Mayor número = 15 pts; resto proporcional.",
+          "formula": null,
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante sistemas de pago (tarjeta o app) en el ámbito de la UE. Acreditación con certificados. Mayor interoperabilidad = 10 pts; resto proporcional.",
+          "formula": null,
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 5,
+          "descripcion": "Marquesina fotovoltaica: 5 pts por la instalación a costa del licitador de una marquesina fotovoltaica en cualquiera de los emplazamientos previstos.",
+          "formula": null,
+          "clave_canonica": "mas_ubicaciones",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 70,
+          "descripcion": "Mejora del canon anual ofertado (≥ 14.400 €/año). Mayor canon = 70 pts.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 15,
+          "descripcion": "Mayor número de puntos de recarga rápida instalados a costa del licitador.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 10,
+          "descripcion": "Interoperabilidad de equipos: número de puntos compatibles para roaming mediante tarjeta/app en la UE.",
+          "subtipo": "otro",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 5,
+          "descripcion": "Instalación de marquesina fotovoltaica a costa del licitador en cualquier emplazamiento previsto.",
+          "subtipo": "sostenibilidad",
+          "clave_canonica": "mas_ubicaciones",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 3,
+        "mejoras": 4,
+        "juicio": 0,
+        "total": 8
+      },
       "pliego_complejo": false,
       "motivos_complejidad": [],
       "cobertura_pliego_pct": 100,
@@ -544,6 +799,24 @@
             "   · 15 pts — Número de puntos de recarga rápida que el licitador instale a su costa (entre los previsto",
             "   · 10 pts — Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante s",
             "   · 5 pts — Marquesina fotovoltaica: 5 pts por la instalación a costa del licitador de una marquesina "
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (8 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 3",
+            "Mejoras puntuables (subcriterios automáticos): 4",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 70 pts → Po = 70 × Of / Mo — La proposición económica con mayor importe anual ofertado obtiene 70 pts. El res (clave: mejora_canon)",
+            "2. [tecnico] 15 pts → Número de puntos de recarga rápida que el licitador instale a su costa (entre los previstos en la li (clave: mas_puntos_de_carga)",
+            "3. [tecnico] 10 pts → Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante sistemas de (clave: mas_puntos_de_carga)",
+            "4. [tecnico] 5 pts → Marquesina fotovoltaica: 5 pts por la instalación a costa del licitador de una marquesina fotovoltai (clave: mas_ubicaciones)",
+            "5. [mejora_puntuable] 70 pts → Mejora del canon anual ofertado (≥ 14.400 €/año). Mayor canon = 70 pts. (clave: mejora_canon)",
+            "6. [mejora_puntuable] 15 pts → Mayor número de puntos de recarga rápida instalados a costa del licitador. (clave: mas_puntos_de_carga)",
+            "7. [mejora_puntuable] 10 pts → Interoperabilidad de equipos: número de puntos compatibles para roaming mediante tarjeta/app en la U (clave: mas_puntos_de_carga)",
+            "8. [mejora_puntuable] 5 pts → Instalación de marquesina fotovoltaica a costa del licitador en cualquier emplazamiento previsto. (clave: mas_ubicaciones)"
           ]
         },
         "cobertura_pliego": {
@@ -644,6 +917,143 @@
       "suma_pesos": 100,
       "peso_economico": 70,
       "peso_tecnico": 30,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 15,
+          "descripcion": "Precio de venta de la energía al usuario (€/kWh). Mejor oferta = 15 pts; resto proporcional inverso.",
+          "formula": "Precio de venta de la energía al usuario (€/kWh). Mejor oferta = 15 pts; resto proporcional inverso.",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores menores proporcional.",
+          "formula": "Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores menores proporcional.",
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta = 20 pts; resto proporcional.",
+          "formula": "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta = 20 pts; resto proporcional.",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 15,
+          "descripcion": "Reducción del plazo de instalación de equipos sobre los 4 meses base (meses). Mejor oferta = 15 pts.",
+          "formula": "Reducción del plazo de instalación de equipos sobre los 4 meses base (meses). Mejor oferta = 15 pts.",
+          "clave_canonica": "reduccion_plazo",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Plan de ejecución (juicio de valor): obras, modo de carga, modificaciones, calidad de equipos, potencia máxima, capacidad de simultaneidad",
+          "formula": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapidez, equipos",
+          "formula": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 5,
+          "descripcion": "Sistema de gestión al servicio del usuario (app, accesibilidad, atención)",
+          "formula": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 5,
+          "descripcion": "Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad)",
+          "formula": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 15,
+          "descripcion": "Reducción del precio de venta de la energía al usuario (€/kWh).",
+          "subtipo": "descuento",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Mantenimiento del precio de venta de la energía durante más años (≥ 10 años para el máximo).",
+          "subtipo": "otro",
+          "clave_canonica": "mantenimiento",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 15,
+          "descripcion": "Reducción del plazo de instalación de equipos (meses sobre los 4 base).",
+          "subtipo": "otro",
+          "clave_canonica": "reduccion_plazo",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Plan de ejecución: características de las obras, modo de carga, modificaciones, calidad de equipos, potencia máxima, capacidad de simultaneidad.",
+          "subtipo": null,
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Plan de mantenimiento: medidas preventivas y correctivas, gestión de alertas, equipos, rapidez de respuesta, plan financiero.",
+          "subtipo": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 5,
+          "descripcion": "Sistema de gestión al servicio del usuario: accesibilidad, facilidad de uso, rapidez, atención al ciudadano (app móvil/web).",
+          "subtipo": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 5,
+          "descripcion": "Sistema de medio de pago propuesto: medio (tarjeta/RFID/app), accesibilidad, facilidad de uso, rapidez, fiabilidad, seguridad.",
+          "subtipo": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 4,
+        "tecnicos": 4,
+        "mejoras": 4,
+        "juicio": 4,
+        "total": 16
+      },
       "pliego_complejo": true,
       "motivos_complejidad": [
         "Q&A / aclaración oficial incorporada",
@@ -731,6 +1141,32 @@
             "   · 10 pts — Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapid",
             "   · 5 pts — Sistema de gestión al servicio del usuario (app, accesibilidad, atención)",
             "   · 5 pts — Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad)"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (16 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 4",
+            "Técnicos (peso top-level): 4",
+            "Mejoras puntuables (subcriterios automáticos): 4",
+            "Criterios juicio de valor (subjetivos): 4",
+            "",
+            "1. [economico] 15 pts → Precio de venta de la energía al usuario (€/kWh). Mejor oferta = 15 pts; resto proporcional inverso. (clave: precio_kwh_usuario)",
+            "2. [economico] 20 pts → Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores menores prop (clave: mantenimiento)",
+            "3. [economico] 20 pts → Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta = 20 pts; r (clave: mas_puntos_de_carga)",
+            "4. [economico] 15 pts → Reducción del plazo de instalación de equipos sobre los 4 meses base (meses). Mejor oferta = 15 pts. (clave: reduccion_plazo)",
+            "5. [tecnico] 10 pts → Plan de ejecución (juicio de valor): obras, modo de carga, modificaciones, calidad de equipos, poten (clave: mejora_potencia_hw)",
+            "6. [tecnico] 10 pts → Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapidez, equipo (clave: mantenimiento)",
+            "7. [tecnico] 5 pts → Sistema de gestión al servicio del usuario (app, accesibilidad, atención) (clave: app_plataforma)",
+            "8. [tecnico] 5 pts → Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad) (clave: app_plataforma)",
+            "9. [mejora_puntuable] 15 pts → Reducción del precio de venta de la energía al usuario (€/kWh). (clave: precio_kwh_usuario)",
+            "10. [mejora_puntuable] 20 pts → Mantenimiento del precio de venta de la energía durante más años (≥ 10 años para el máximo). (clave: mantenimiento)",
+            "11. [mejora_puntuable] 20 pts → Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. (clave: mas_puntos_de_carga)",
+            "12. [mejora_puntuable] 15 pts → Reducción del plazo de instalación de equipos (meses sobre los 4 base). (clave: reduccion_plazo)",
+            "13. [juicio_valor] 10 pts → Plan de ejecución: características de las obras, modo de carga, modificaciones, calidad de equipos,  (clave: mejora_potencia_hw)",
+            "14. [juicio_valor] 10 pts → Plan de mantenimiento: medidas preventivas y correctivas, gestión de alertas, equipos, rapidez de re (clave: mantenimiento)",
+            "15. [juicio_valor] 5 pts → Sistema de gestión al servicio del usuario: accesibilidad, facilidad de uso, rapidez, atención al ci (clave: app_plataforma)",
+            "16. [juicio_valor] 5 pts → Sistema de medio de pago propuesto: medio (tarjeta/RFID/app), accesibilidad, facilidad de uso, rapid (clave: app_plataforma)"
           ]
         },
         "cobertura_pliego": {
@@ -837,6 +1273,39 @@
       "suma_pesos": 100,
       "peso_economico": 90,
       "peso_tecnico": 10,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 90,
+          "descripcion": "Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre todas las ofertas)",
+          "formula": "Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre todas las ofertas)",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Descuento porcentual sobre tarifas ordinarias para residentes empadronados o propietarios ≥25% de vivienda en Burjassot, y empresas con actividad registrada en el municipio. Fórmula: PDi = 10 × DL / DML.",
+          "formula": null,
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 10,
+          "descripcion": "Descuento porcentual sobre tarifas ordinarias aplicable a residentes y empresas radicadas en Burjassot. Condición esencial: su incumplimiento es causa de extinción anticipada culpable.",
+          "subtipo": "descuento",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 1,
+        "mejoras": 1,
+        "juicio": 0,
+        "total": 3
+      },
       "pliego_complejo": false,
       "motivos_complejidad": [],
       "cobertura_pliego_pct": 100,
@@ -920,6 +1389,19 @@
             "   · 90 pts — Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre tod",
             "Técnicos (10 pts):",
             "   · 10 pts — Descuento porcentual sobre tarifas ordinarias para residentes empadronados o propietarios "
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (3 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 1",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 90 pts → Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre todas las ofe (clave: mejora_canon)",
+            "2. [tecnico] 10 pts → Descuento porcentual sobre tarifas ordinarias para residentes empadronados o propietarios ≥25% de vi (clave: precio_kwh_usuario)",
+            "3. [mejora_puntuable] 10 pts → Descuento porcentual sobre tarifas ordinarias aplicable a residentes y empresas radicadas en Burjass (clave: precio_kwh_usuario)"
           ]
         },
         "cobertura_pliego": {
@@ -1023,6 +1505,79 @@
       "suma_pesos": 100,
       "peso_economico": 60,
       "peso_tecnico": 40,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,020 €/kWh.",
+          "formula": "Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,020 €/kWh.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "Pf = 20 × (∛Cfo − 20.000) / (∛Cfmax − 20.000) — Alza sobre canon fijo (€/año). Mínimo 20.000 €/año.",
+          "formula": "Pf = 20 × (∛Cfo − 20.000) / (∛Cfmax − 20.000) — Alza sobre canon fijo (€/año). Mínimo 20.000 €/año.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Precio de abono de recarga 1.500 kWh/año para vehículos de personas físicas con vehículo censado en Madrid: ≤330 €/año = 20 pts; entre 330 y 600 €/año = fórmula degradada lineal; >600 € = 0 pts",
+          "formula": null,
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno",
+          "formula": null,
+          "clave_canonica": "diseno_estacion_juicio",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,020).",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Incremento del canon FIJO anual ofertado (€/año sobre el mínimo 20.000).",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Precio de abono de recarga 1.500 kWh/año para vehículos M de personas físicas censados en Madrid (≤ 330 €/año para 20 pts).",
+          "subtipo": "descuento",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 20,
+          "descripcion": "Diseño de la estación: accesibilidad e integración en el entorno.",
+          "subtipo": null,
+          "clave_canonica": "diseno_estacion_accesibilidad",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 2,
+        "tecnicos": 2,
+        "mejoras": 3,
+        "juicio": 1,
+        "total": 8
+      },
       "pliego_complejo": false,
       "motivos_complejidad": [],
       "cobertura_pliego_pct": 100,
@@ -1095,6 +1650,24 @@
             "Técnicos (40 pts):",
             "   · 20 pts — Precio de abono de recarga 1.500 kWh/año para vehículos de personas físicas con vehículo c",
             "   · 20 pts — Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (8 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 2",
+            "Técnicos (peso top-level): 2",
+            "Mejoras puntuables (subcriterios automáticos): 3",
+            "Criterios juicio de valor (subjetivos): 1",
+            "",
+            "1. [economico] 40 pts → Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,020 €/kWh. (clave: mejora_canon)",
+            "2. [economico] 20 pts → Pf = 20 × (∛Cfo − 20.000) / (∛Cfmax − 20.000) — Alza sobre canon fijo (€/año). Mínimo 20.000 €/año. (clave: mejora_canon)",
+            "3. [tecnico] 20 pts → Precio de abono de recarga 1.500 kWh/año para vehículos de personas físicas con vehículo censado en  (clave: precio_kwh_usuario)",
+            "4. [tecnico] 20 pts → Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno (clave: diseno_estacion_juicio)",
+            "5. [mejora_puntuable] 40 pts → Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,020). (clave: mejora_canon)",
+            "6. [mejora_puntuable] 20 pts → Incremento del canon FIJO anual ofertado (€/año sobre el mínimo 20.000). (clave: mejora_canon)",
+            "7. [mejora_puntuable] 20 pts → Precio de abono de recarga 1.500 kWh/año para vehículos M de personas físicas censados en Madrid (≤  (clave: precio_kwh_usuario)",
+            "8. [juicio_valor] 20 pts → Diseño de la estación: accesibilidad e integración en el entorno. (clave: diseno_estacion_accesibilidad)"
           ]
         },
         "cobertura_pliego": {
