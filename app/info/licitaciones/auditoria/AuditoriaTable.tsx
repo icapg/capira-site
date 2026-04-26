@@ -5,19 +5,20 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 const C = {
   bg:     "#050810",
-  card:   "rgba(255,255,255,0.03)",
+  card:   "rgba(255,255,255,0.04)",
   cardSolid: "#0a0f1a",
-  border: "rgba(255,255,255,0.07)",
+  border: "rgba(255,255,255,0.10)",
   green:  "#34d399",
   blue:   "#38bdf8",
   purple: "#a78bfa",
   amber:  "#fbbf24",
   red:    "#f87171",
   text:   "#f1f5f9",
-  muted:  "rgba(241,245,249,0.42)",
-  dim:    "rgba(241,245,249,0.20)",
-  grid:   "rgba(255,255,255,0.045)",
-  rowAlt: "rgba(255,255,255,0.02)",
+  muted:  "rgba(241,245,249,0.72)",
+  soft:   "rgba(241,245,249,0.55)",
+  dim:    "rgba(241,245,249,0.40)",
+  grid:   "rgba(255,255,255,0.06)",
+  rowAlt: "rgba(255,255,255,0.025)",
 };
 
 type Explicacion = { descripcion?: string; detalles?: string[] };
@@ -119,8 +120,7 @@ function ExplainCell({
 }) {
   const [open, setOpen] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const [pos, setPos] = useState<"below" | "above">("below");
-  const [posH, setPosH] = useState<"left" | "right">("left");
+  const [coords, setCoords] = useState<{ top: number; left: number; transform: string } | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
 
   // Cerrar pinned al click fuera
@@ -138,17 +138,24 @@ function ExplainCell({
 
   const showing = open || pinned;
 
-  // Calcula posición arriba/abajo + izquierda/derecha según espacio disponible
+  // Calcula posición fija sobre el viewport para que el tooltip salga del
+  // contenedor con overflow (no se corta por el scroll horizontal de la tabla).
   function recalcPos() {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
+    const TT_W = 460;
+    const TT_H = 280;
+    const margin = 12;
+    // Vertical: si hay menos de TT_H abajo, mostrar arriba
     const espacioAbajo = window.innerHeight - rect.bottom;
-    setPos(espacioAbajo < 280 ? "above" : "below");
-    // Tooltip puede tener hasta 460px. Si a la derecha de la celda hay menos
-    // espacio, abrimos hacia la izquierda (alineando el borde derecho del
-    // tooltip con la celda).
-    const espacioDerecha = window.innerWidth - rect.left;
-    setPosH(espacioDerecha < 480 ? "right" : "left");
+    const arriba = espacioAbajo < TT_H && rect.top > TT_H;
+    const top = arriba ? rect.top - 8 : rect.bottom + 8;
+    // Horizontal: alinear left con la celda, pero clamp para que no se salga
+    let left = rect.left;
+    if (left + TT_W > window.innerWidth - margin) left = window.innerWidth - TT_W - margin;
+    if (left < margin) left = margin;
+    const transform = arriba ? "translateY(-100%)" : "none";
+    setCoords({ top, left, transform });
   }
 
   if (!explicacion) return <>{children}</>;
@@ -162,22 +169,25 @@ function ExplainCell({
       onClick={(e) => { e.stopPropagation(); recalcPos(); setPinned((p) => !p); }}
     >
       {children}
-      {showing && (
+      {showing && coords && (
         <div
           style={{
-            position: "absolute",
-            [pos === "below" ? "top" : "bottom"]: "calc(100% + 8px)",
-            [posH === "left" ? "left" : "right"]: 0,
-            zIndex: 100,
+            position: "fixed",
+            top: coords.top,
+            left: coords.left,
+            transform: coords.transform,
+            zIndex: 1000,
             minWidth: 320,
             maxWidth: 460,
+            maxHeight: "70vh",
+            overflowY: "auto",
             background: C.cardSolid,
-            border: `1px solid ${C.purple}66`,
+            border: `1px solid ${C.purple}aa`,
             borderRadius: 10,
             padding: "12px 14px",
-            boxShadow: "0 12px 36px rgba(0,0,0,0.7)",
+            boxShadow: "0 12px 36px rgba(0,0,0,0.85)",
             color: C.text,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 400,
             lineHeight: 1.55,
             textTransform: "none",
@@ -205,7 +215,7 @@ function ExplainCell({
           {explicacion.detalles && explicacion.detalles.length > 0 && (
             <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none" }}>
               {explicacion.detalles.map((d, i) => (
-                <li key={i} style={{ fontFamily: d.startsWith("   ") ? "ui-monospace, SFMono-Regular, monospace" : "inherit", fontSize: 10.5, color: C.muted, padding: "2px 0", whiteSpace: "pre-wrap" }}>
+                <li key={i} style={{ fontFamily: d.startsWith("   ") ? "ui-monospace, SFMono-Regular, monospace" : "inherit", fontSize: 11.5, color: C.muted, padding: "3px 0", whiteSpace: "pre-wrap" }}>
                   {d}
                 </li>
               ))}
@@ -240,8 +250,6 @@ export function AuditoriaTable({ data }: Props) {
     return xs.sort((a, b) => a.confianza_global - b.confianza_global);
   }, [data.licitaciones, filtro, busqueda]);
 
-  const complejos = data.licitaciones.filter((r) => r.pliego_complejo);
-
   return (
     <div style={{ background: C.bg, color: C.text, minHeight: "100vh", padding: "32px 28px", fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif" }}>
 
@@ -258,8 +266,8 @@ export function AuditoriaTable({ data }: Props) {
         </div>
       </div>
 
-      {/* Pestañas (auditoría / criterios) */}
-      <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
+      {/* Pestañas */}
+      <div style={{ display: "flex", gap: 8, marginTop: 18, flexWrap: "wrap" }}>
         <Link href="/info/licitaciones/auditoria"
               style={{ padding: "8px 16px", background: `${C.purple}22`, border: `1px solid ${C.purple}66`, borderRadius: 8, color: C.purple, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
           🔍 Auditoría por licitación
@@ -267,6 +275,10 @@ export function AuditoriaTable({ data }: Props) {
         <Link href="/info/licitaciones/auditoria/criterios"
               style={{ padding: "8px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, color: C.muted, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
           🎯 Criterios maestros
+        </Link>
+        <Link href="/info/licitaciones/auditoria/complejos"
+              style={{ padding: "8px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, color: C.muted, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+          ⚙ Pliegos complejos
         </Link>
       </div>
 
@@ -316,10 +328,10 @@ export function AuditoriaTable({ data }: Props) {
         />
       </div>
 
-      <div style={{ marginTop: 16, overflowX: "auto", overflowY: "visible", border: `1px solid ${C.border}`, borderRadius: 10 }}>
-        <table style={{ width: "100%", minWidth: 1500, borderCollapse: "collapse", fontSize: 11 }}>
-          <thead>
-            <tr style={{ background: C.rowAlt, color: C.muted, textAlign: "left" }}>
+      <div style={{ marginTop: 16, maxHeight: "75vh", overflowX: "auto", overflowY: "auto", border: `1px solid ${C.border}`, borderRadius: 10, position: "relative" }}>
+        <table style={{ width: "100%", minWidth: 1380, borderCollapse: "collapse", fontSize: 12 }}>
+          <thead style={{ position: "sticky", top: 0, zIndex: 5, background: C.cardSolid, boxShadow: `0 1px 0 ${C.border}` }}>
+            <tr style={{ color: C.muted, textAlign: "left" }}>
               <Th>Licitación</Th>
               <Th>Confianza</Th>
               <Th>Cob. pliego</Th>
@@ -344,9 +356,9 @@ export function AuditoriaTable({ data }: Props) {
               return (
                 <tr key={r.slug} style={{ background: i % 2 === 0 ? "transparent" : C.rowAlt, borderTop: `1px solid ${C.grid}` }}>
                   <Td>
-                    <Link href={`/info/licitaciones/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "8px 0" }}>
-                      <div style={{ fontWeight: 600, fontSize: 11.5 }}>{r.titulo.length > 60 ? r.titulo.slice(0, 60) + "…" : r.titulo}</div>
-                      <div style={{ color: C.muted, fontSize: 10, marginTop: 2 }}>{r.slug} · {r.ciudad ?? "—"}</div>
+                    <Link href={`/info/licitaciones/auditoria/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "8px 0" }} title="Ver auditoría detallada">
+                      <div style={{ fontWeight: 600, fontSize: 12 }}>{r.titulo.length > 56 ? r.titulo.slice(0, 56) + "…" : r.titulo}</div>
+                      <div style={{ color: C.soft, fontSize: 11, marginTop: 3 }}>{r.slug} · {r.ciudad ?? "—"}</div>
                     </Link>
                   </Td>
                   <Td>
@@ -444,33 +456,6 @@ export function AuditoriaTable({ data }: Props) {
         </table>
       </div>
 
-      {complejos.length > 0 && (
-        <div style={{ marginTop: 32 }}>
-          <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>⚙ Pliegos complejos</h2>
-          <p style={{ color: C.muted, fontSize: 11, margin: "0 0 14px" }}>
-            Licitaciones con contradicciones internas en el pliego, variantes raras o ambigüedades resueltas por Q&A oficial.
-            Acción: revisar la nota del extractor antes de tomar decisiones de negocio.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {complejos.map((r) => (
-              <div key={r.slug} style={{ background: C.card, border: `1px solid ${C.purple}33`, borderRadius: 10, padding: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6, flexWrap: "wrap", gap: 8 }}>
-                  <Link href={`/info/licitaciones/${r.slug}`} style={{ color: C.text, fontWeight: 600, fontSize: 13, textDecoration: "none" }}>
-                    {r.titulo}
-                  </Link>
-                  <span style={{ color: C.muted, fontSize: 10 }}>{r.slug} · {r.ciudad ?? ""} · confianza {r.confianza_global}%</span>
-                </div>
-                <ul style={{ margin: 0, paddingLeft: 18, fontSize: 11, color: C.text }}>
-                  {r.motivos_complejidad.map((m, i) => (
-                    <li key={i} style={{ marginBottom: 2 }}>{m}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div style={{ marginTop: 36, padding: 14, background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, fontSize: 11, color: C.muted }}>
         <strong style={{ color: C.text }}>¿Cómo se calcula la confianza?</strong> Combina cobertura de campos del pliego (12 campos críticos) +
         cobertura de adjudicación (4 campos, si aplica) y aplica penalizaciones por: pesos de criterios que no suman 100,
@@ -483,7 +468,7 @@ export function AuditoriaTable({ data }: Props) {
 }
 
 function Th({ children, title }: { children: React.ReactNode; title?: string }) {
-  return <th title={title} style={{ padding: "10px 12px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{children}</th>;
+  return <th title={title} style={{ padding: "12px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap", color: "rgba(241,245,249,0.85)" }}>{children}</th>;
 }
 
 function Td({ children, title, ...rest }: React.HTMLAttributes<HTMLTableCellElement>) {

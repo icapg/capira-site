@@ -5,19 +5,19 @@ import { Fragment, useMemo, useState } from "react";
 
 const C = {
   bg:     "#050810",
-  card:   "rgba(255,255,255,0.03)",
+  card:   "rgba(255,255,255,0.04)",
   cardSolid: "#0a0f1a",
-  border: "rgba(255,255,255,0.07)",
+  border: "rgba(255,255,255,0.10)",
   green:  "#34d399",
   blue:   "#38bdf8",
   purple: "#a78bfa",
   amber:  "#fbbf24",
   red:    "#f87171",
   text:   "#f1f5f9",
-  muted:  "rgba(241,245,249,0.42)",
-  dim:    "rgba(241,245,249,0.20)",
-  grid:   "rgba(255,255,255,0.045)",
-  rowAlt: "rgba(255,255,255,0.02)",
+  muted:  "rgba(241,245,249,0.72)",
+  dim:    "rgba(241,245,249,0.40)",
+  grid:   "rgba(255,255,255,0.06)",
+  rowAlt: "rgba(255,255,255,0.025)",
 };
 
 type CriterioMaster = {
@@ -119,8 +119,8 @@ export function CriteriosMasterTable({ data }: Props) {
         </div>
       </div>
 
-      {/* Pestañas (auditoría / criterios) */}
-      <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
+      {/* Pestañas */}
+      <div style={{ display: "flex", gap: 8, marginTop: 18, flexWrap: "wrap" }}>
         <Link href="/info/licitaciones/auditoria"
               style={{ padding: "8px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, color: C.muted, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
           🔍 Auditoría por licitación
@@ -128,6 +128,10 @@ export function CriteriosMasterTable({ data }: Props) {
         <Link href="/info/licitaciones/auditoria/criterios"
               style={{ padding: "8px 16px", background: `${C.purple}22`, border: `1px solid ${C.purple}66`, borderRadius: 8, color: C.purple, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
           🎯 Criterios maestros
+        </Link>
+        <Link href="/info/licitaciones/auditoria/complejos"
+              style={{ padding: "8px 16px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, color: C.muted, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+          ⚙ Pliegos complejos
         </Link>
       </div>
 
