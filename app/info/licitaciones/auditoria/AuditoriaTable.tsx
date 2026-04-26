@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const C = {
   bg:     "#050810",
   card:   "rgba(255,255,255,0.03)",
+  cardSolid: "#0a0f1a",
   border: "rgba(255,255,255,0.07)",
   green:  "#34d399",
   blue:   "#38bdf8",
@@ -18,6 +19,9 @@ const C = {
   grid:   "rgba(255,255,255,0.045)",
   rowAlt: "rgba(255,255,255,0.02)",
 };
+
+type Explicacion = { descripcion?: string; detalles?: string[] };
+type Explicaciones = Record<string, Explicacion>;
 
 type AuditoriaRow = {
   slug: string;
@@ -55,6 +59,7 @@ type AuditoriaRow = {
 
   flags_abiertos: string[];
   etapa: string;
+  explicaciones?: Explicaciones;
 };
 
 type Props = {
@@ -93,6 +98,115 @@ function Badge({ color, children, title }: { color: string; children: React.Reac
   );
 }
 
+/** Tooltip enriquecido: aparece al hover, click hace "pin" para que no se cierre. */
+function ExplainCell({
+  titulo,
+  explicacion,
+  children,
+}: {
+  titulo: string;
+  explicacion?: Explicacion;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const [pinned, setPinned] = useState(false);
+  const [pos, setPos] = useState<"below" | "above">("below");
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  // Cerrar pinned al click fuera
+  useEffect(() => {
+    if (!pinned) return;
+    function onClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setPinned(false);
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [pinned]);
+
+  const showing = open || pinned;
+
+  // Calcula posición arriba/abajo según espacio disponible
+  function recalcPos() {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const espacioAbajo = window.innerHeight - rect.bottom;
+    setPos(espacioAbajo < 280 ? "above" : "below");
+  }
+
+  if (!explicacion) return <>{children}</>;
+
+  return (
+    <div
+      ref={ref}
+      style={{ position: "relative", display: "inline-flex", cursor: "help", borderBottom: `1px dotted ${C.dim}` }}
+      onMouseEnter={() => { recalcPos(); setOpen(true); }}
+      onMouseLeave={() => setOpen(false)}
+      onClick={(e) => { e.stopPropagation(); recalcPos(); setPinned((p) => !p); }}
+    >
+      {children}
+      {showing && (
+        <div
+          style={{
+            position: "absolute",
+            [pos === "below" ? "top" : "bottom"]: "calc(100% + 8px)",
+            left: 0,
+            zIndex: 100,
+            minWidth: 320,
+            maxWidth: 460,
+            background: C.cardSolid,
+            border: `1px solid ${C.purple}66`,
+            borderRadius: 10,
+            padding: "12px 14px",
+            boxShadow: "0 12px 36px rgba(0,0,0,0.7)",
+            color: C.text,
+            fontSize: 11,
+            fontWeight: 400,
+            lineHeight: 1.55,
+            textTransform: "none",
+            letterSpacing: "normal",
+            whiteSpace: "normal",
+            cursor: "default",
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, marginBottom: 6, paddingBottom: 6, borderBottom: `1px solid ${C.border}` }}>
+            <span style={{ fontWeight: 700, fontSize: 11.5, color: C.purple, textTransform: "uppercase", letterSpacing: "0.05em" }}>{titulo}</span>
+            {pinned && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setPinned(false); setOpen(false); }}
+                style={{ background: "transparent", border: "none", color: C.muted, fontSize: 14, cursor: "pointer", padding: 0, lineHeight: 1 }}
+                title="Cerrar"
+              >×</button>
+            )}
+          </div>
+          {explicacion.descripcion && (
+            <div style={{ marginBottom: explicacion.detalles && explicacion.detalles.length > 0 ? 8 : 0, color: C.text }}>
+              {explicacion.descripcion}
+            </div>
+          )}
+          {explicacion.detalles && explicacion.detalles.length > 0 && (
+            <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none" }}>
+              {explicacion.detalles.map((d, i) => (
+                <li key={i} style={{ fontFamily: d.startsWith("   ") ? "ui-monospace, SFMono-Regular, monospace" : "inherit", fontSize: 10.5, color: C.muted, padding: "2px 0", whiteSpace: "pre-wrap" }}>
+                  {d}
+                </li>
+              ))}
+            </ul>
+          )}
+          {!pinned && (
+            <div style={{ marginTop: 8, fontSize: 9, color: C.dim, fontStyle: "italic" }}>
+              clic para fijar
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function AuditoriaTable({ data }: Props) {
   const [filtro, setFiltro] = useState<"todos" | "verde" | "amarillo" | "rojo" | "complejos">("todos");
   const [busqueda, setBusqueda] = useState("");
@@ -123,8 +237,8 @@ export function AuditoriaTable({ data }: Props) {
             🔍 Auditoría de extracción
           </h1>
           <p style={{ color: C.muted, fontSize: 12, margin: "4px 0 0" }}>
-            Calidad y confiabilidad de la extracción automática de cada licitación procesada. Generado el{" "}
-            {new Date(data.generado_en).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}.
+            Calidad y confiabilidad de la extracción automática de cada licitación procesada. Pasá el cursor sobre cualquier celda para ver el detalle de por qué tiene ese valor (clic para fijar).
+            Generado el {new Date(data.generado_en).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}.
           </p>
         </div>
       </div>
@@ -175,7 +289,7 @@ export function AuditoriaTable({ data }: Props) {
         />
       </div>
 
-      <div style={{ marginTop: 16, overflowX: "auto", border: `1px solid ${C.border}`, borderRadius: 10 }}>
+      <div style={{ marginTop: 16, overflowX: "auto", overflowY: "visible", border: `1px solid ${C.border}`, borderRadius: 10 }}>
         <table style={{ width: "100%", minWidth: 1500, borderCollapse: "collapse", fontSize: 11 }}>
           <thead>
             <tr style={{ background: C.rowAlt, color: C.muted, textAlign: "left" }}>
@@ -184,63 +298,106 @@ export function AuditoriaTable({ data }: Props) {
               <Th>Cob. pliego</Th>
               <Th>Cob. adj.</Th>
               <Th>Docs</Th>
-              <Th title="¿Se descubrieron y bajaron PCAP/PPT enlazados dentro del PDF Pliego portada?">Links emb.</Th>
+              <Th>Links emb.</Th>
               <Th>Vision</Th>
               <Th>Σ=100</Th>
-              <Th title="Σ ubicaciones nuevas vs num_cargadores_minimo del pliego (±1)">Σ ubis</Th>
+              <Th>Σ ubis</Th>
               <Th>Anexos</Th>
               <Th>Licitadores</Th>
-              <Th>Q&A / pliego complejo</Th>
+              <Th>Pliego complejo</Th>
               <Th>Última extr.</Th>
               <Th>Flags</Th>
             </tr>
           </thead>
           <tbody>
-            {filtrados.map((r, i) => (
-              <tr key={r.slug} style={{ background: i % 2 === 0 ? "transparent" : C.rowAlt, borderTop: `1px solid ${C.grid}` }}>
-                <Td>
-                  <Link href={`/info/licitaciones/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "8px 0" }}>
-                    <div style={{ fontWeight: 600, fontSize: 11.5 }}>{r.titulo.length > 60 ? r.titulo.slice(0, 60) + "…" : r.titulo}</div>
-                    <div style={{ color: C.muted, fontSize: 10, marginTop: 2 }}>{r.slug} · {r.ciudad ?? "—"}</div>
-                  </Link>
-                </Td>
-                <Td>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 14 }}>{semaforoEmoji(r.semaforo)}</span>
-                    <span style={{ color: semaforoColor(r.semaforo), fontWeight: 700 }}>{r.confianza_global}%</span>
-                  </div>
-                </Td>
-                <Td><PctBar pct={r.cobertura_pliego_pct} /></Td>
-                <Td>{r.cobertura_adjudicacion_pct == null ? <span style={{ color: C.dim }}>—</span> : <PctBar pct={r.cobertura_adjudicacion_pct} />}</Td>
-                <Td>{r.docs_completos}</Td>
-                <Td>{r.links_embebidos_resueltos}</Td>
-                <Td>{r.uso_vision ? <Badge color={C.blue} title={`$${r.coste_vision_usd}`}>Vision ${r.coste_vision_usd}</Badge> : <span style={{ color: C.dim }}>—</span>}</Td>
-                <Td title={`Económico ${r.peso_economico} + Técnico ${r.peso_tecnico} = ${r.suma_pesos}`}>{r.criterios_suman_100}</Td>
-                <Td>{r.coherencia_ubis}</Td>
-                <Td>{r.anexos_validos}</Td>
-                <Td>{r.licitadores_vs_acta}</Td>
-                <Td>
-                  {r.pliego_complejo ? (
-                    <Badge color={C.purple} title={r.motivos_complejidad.join(" · ")}>⚙ Complejo</Badge>
-                  ) : (
-                    <span style={{ color: C.dim }}>—</span>
-                  )}
-                </Td>
-                <Td>
-                  <div style={{ fontSize: 10 }}>
-                    {r.ultima_extraccion.fecha ? new Date(r.ultima_extraccion.fecha).toLocaleDateString("es-ES") : "—"}
-                  </div>
-                  <div style={{ color: C.muted, fontSize: 9 }}>{r.ultima_extraccion.modelo ?? ""}</div>
-                </Td>
-                <Td>
-                  {r.flags_abiertos.length === 0 ? (
-                    <Badge color={C.green}>OK</Badge>
-                  ) : (
-                    <Badge color={C.amber} title={r.flags_abiertos.join(" · ")}>{r.flags_abiertos.length} flag{r.flags_abiertos.length === 1 ? "" : "s"}</Badge>
-                  )}
-                </Td>
-              </tr>
-            ))}
+            {filtrados.map((r, i) => {
+              const ex = r.explicaciones ?? {};
+              return (
+                <tr key={r.slug} style={{ background: i % 2 === 0 ? "transparent" : C.rowAlt, borderTop: `1px solid ${C.grid}` }}>
+                  <Td>
+                    <Link href={`/info/licitaciones/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "8px 0" }}>
+                      <div style={{ fontWeight: 600, fontSize: 11.5 }}>{r.titulo.length > 60 ? r.titulo.slice(0, 60) + "…" : r.titulo}</div>
+                      <div style={{ color: C.muted, fontSize: 10, marginTop: 2 }}>{r.slug} · {r.ciudad ?? "—"}</div>
+                    </Link>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Confianza global" explicacion={ex.confianza_global}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontSize: 14 }}>{semaforoEmoji(r.semaforo)}</span>
+                        <span style={{ color: semaforoColor(r.semaforo), fontWeight: 700 }}>{r.confianza_global}%</span>
+                      </div>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Cobertura pliego" explicacion={ex.cobertura_pliego}>
+                      <PctBar pct={r.cobertura_pliego_pct} />
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Cobertura adjudicación" explicacion={ex.cobertura_adjudicacion}>
+                      {r.cobertura_adjudicacion_pct == null ? <span style={{ color: C.dim }}>—</span> : <PctBar pct={r.cobertura_adjudicacion_pct} />}
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Documentos descargados" explicacion={ex.docs_completos}>
+                      <span>{r.docs_completos}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Enlaces internos resueltos" explicacion={ex.links_embebidos_resueltos}>
+                      <span>{r.links_embebidos_resueltos}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Lectura por Vision API" explicacion={ex.docs_legibles}>
+                      {r.uso_vision ? <Badge color={C.blue}>Vision ${r.coste_vision_usd}</Badge> : <span style={{ color: C.dim }}>—</span>}
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Σ pesos = 100" explicacion={ex.criterios_suman_100}>
+                      <span>{r.criterios_suman_100}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Σ ubicaciones vs mínimo pliego" explicacion={ex.coherencia_ubis}>
+                      <span>{r.coherencia_ubis}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Anexos del pliego" explicacion={ex.anexos_validos}>
+                      <span>{r.anexos_validos}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Licitadores extraídos" explicacion={ex.licitadores_vs_acta}>
+                      <span>{r.licitadores_vs_acta}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Pliego complejo" explicacion={ex.pliego_complejo}>
+                      {r.pliego_complejo
+                        ? <Badge color={C.purple}>⚙ Complejo</Badge>
+                        : <span style={{ color: C.dim }}>—</span>}
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Última extracción" explicacion={ex.ultima_extraccion}>
+                      <div>
+                        <div style={{ fontSize: 10 }}>{r.ultima_extraccion.fecha ? new Date(r.ultima_extraccion.fecha).toLocaleDateString("es-ES") : "—"}</div>
+                        <div style={{ color: C.muted, fontSize: 9 }}>{r.ultima_extraccion.modelo ?? ""}</div>
+                      </div>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Alertas pendientes" explicacion={ex.flags_abiertos}>
+                      {r.flags_abiertos.length === 0
+                        ? <Badge color={C.green}>OK</Badge>
+                        : <Badge color={C.amber}>{r.flags_abiertos.length} flag{r.flags_abiertos.length === 1 ? "" : "s"}</Badge>}
+                    </ExplainCell>
+                  </Td>
+                </tr>
+              );
+            })}
             {filtrados.length === 0 && (
               <tr><Td>—</Td><td colSpan={13} style={{ padding: 24, textAlign: "center", color: C.muted, fontSize: 12 }}>Sin resultados.</td></tr>
             )}
@@ -279,7 +436,8 @@ export function AuditoriaTable({ data }: Props) {
         <strong style={{ color: C.text }}>¿Cómo se calcula la confianza?</strong> Combina cobertura de campos del pliego (12 campos críticos) +
         cobertura de adjudicación (4 campos, si aplica) y aplica penalizaciones por: pesos de criterios que no suman 100,
         incoherencia entre Σ ubicaciones nuevas y mínimo del pliego, links embebidos no resueltos, y pliegos complejos con
-        contradicción no incorporada vía Q&A. Semáforo: 🟢 ≥85, 🟡 60-84, 🔴 &lt;60.
+        contradicción no incorporada vía Q&A. Semáforo: 🟢 ≥85, 🟡 60-84, 🔴 &lt;60. Cada celda con borde punteado tiene un
+        tooltip detallado al hacer hover.
       </div>
     </div>
   );

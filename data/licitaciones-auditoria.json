@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T13:29:46.362Z",
+  "generado_en": "2026-04-26T13:42:38.555Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -40,7 +40,150 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 26 PDFs)"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "32 de 32 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ pliego_tecnico · —",
+            "✅ pliego_administrativo · —",
+            "✅ anuncio_licitacion · —",
+            "✅ pliego_administrativo · —",
+            "✅ memoria · Memoria",
+            "✅ planos · Planos",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ memoria_economica · Memoria economica",
+            "✅ proyecto · Proyecto unificado",
+            "✅ presupuesto · Presupuesto solicitud",
+            "✅ planos · Plano acceso conexión",
+            "✅ presupuesto · Presupuesto",
+            "✅ pliego_tecnico · Condiciones técnicas",
+            "✅ anuncio_oficial · Anuncio BOAM",
+            "✅ anuncio_oficial · Anuncio BOCM",
+            "✅ anuncio_oficial · Anuncio BOAM corregido",
+            "✅ proyecto · Presupuesto asociado al proyecto",
+            "✅ aclaracion · contestación a la pregunta número 5",
+            "✅ otro · Información sobre acceso a los planos",
+            "✅ replanteo · replanteo de las obras de acondicionamiento de la parcela (obra civil)",
+            "✅ anuncio_apertura · Anuncio apertura ofertas",
+            "✅ acta_apertura · Acta apertura sobres A",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ informe_baremacion · Informe baremación ofertas",
+            "✅ acta_propuesta_adjudicacion · Acta mesa propuesta de adjudicación",
+            "✅ resolucion_adjudicacion · —",
+            "✅ anuncio_adjudicacion · Anuncio BOAM otorgamiento concesión",
+            "✅ formalizacion · —",
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ formalizacion · Formalización"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: falta uno de los pliegos canónicos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (60) + técnicos (40) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (60 pts):",
+            "   · 40 pts — Pv = 30 × Cvo / Cmax + 10 — Alza sobre canon VARIABLE (€/kWh). Mínimo 0,01 €/kWh. La mejor",
+            "   · 20 pts — Pf = 10 × Cfo / Cmax + 10 — Alza sobre canon FIJO (€/año desde 01/01/2029). Mínimo 12.000 ",
+            "Técnicos (40 pts):",
+            "   · 20 pts — Mejora potencia de salida: equipos ≥100 kW plazas tipo M (1 pt/plaza, máx 10) + equipos ≥2",
+            "   · 20 pts — Instalación fotovoltaica sobre pérgolas: <25 kWp=5pts · 25-50 kWp=10pts · 50-100 kWp=20pts"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión de uso privativo de la parcela sita en C/ Pirotecn",
+            "✅ organo contratante → Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad de",
+            "✅ importe base / estimado → 168000",
+            "✅ fecha publicación → 2023-11-06",
+            "✅ plazo de la concesión → 15 años",
+            "✅ tipo de retribución → mixto",
+            "✅ canon o precio mín → 12000",
+            "✅ nº cargadores mínimo → 47",
+            "✅ tecnología requerida → DC",
+            "✅ ubicaciones extraídas → 1",
+            "✅ garantía definitiva → 120613.99",
+            "✅ criterios económicos → 2 criterios",
+            "✅ criterios técnicos → 2 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"RES\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2024-02-13",
+            "✅ Importe / canon ganador → 180000",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (4)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 4 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. ACCIONA RECARGA S.L.",
+            "2. REPSOL COMERCIAL DE PRODUCTOS PETROLÍFEROS S.A.",
+            "3. IBERDROLA CLIENTES S.A.",
+            "4. GRUPO EASYCHARGER S.A."
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 47 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 47",
+            "Σ ubicaciones nuevas (1): 47 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 13:06:10",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa 26 PDFs)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "−5: faltó descubrir un pliego canónico embebido",
+            "= 95% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     },
     {
       "slug": "15534510",
@@ -72,7 +215,139 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 15 PDFs vía pdftotext)"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "20 de 20 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ anuncio_oficial · Anuncio BOCM",
+            "✅ anuncio_oficial · Anuncio BOAM",
+            "✅ memoria · Memoria justificativa concesión",
+            "✅ memoria_economica · Memoria económica",
+            "✅ planos · Plano entronque acometida",
+            "✅ presupuesto · Presupuesto conexión",
+            "✅ rectificacion · Rectificación de Pliego",
+            "✅ pliego_administrativo · Diligencia corrección PCAP",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ acta_apertura_sobre_a · Acta apertura sobre A documentación administrativa",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ informe_baremacion · Informe baremación ofertas",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ formalizacion · Formalización",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ enlazado · Anexo del rectificacion",
+            "✅ formalizacion · Acta de formalización",
+            "✅ enlazado · CONCESIÓN DE USO PRIVATIVO DE LA PARCELA SITA EN CALLE DE",
+            "✅ enlazado · CONCESIÓN DE USO PRIVATIVO DE LA PARCELA SITA EN CALLE DE"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: falta uno de los pliegos canónicos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (60) + técnicos (40) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (60 pts):",
+            "   · 40 pts — Pv = 40 × (∛Cvo − 0,01) / (∛Cvmax − 0,01) — Alza sobre canon variable (€/kWh). Mínimo 0,01",
+            "   · 20 pts — Pf = 20 × (∛Cfo − 170.000) / (∛Cfmax − 170.000) — Alza sobre canon fijo (€/año desde 01/01",
+            "Técnicos (40 pts):",
+            "   · 20 pts — Mejora de potencia de salida en equipos: 1 pt por plaza M ≥100 kW (máx 10) + 2,5 pt por pl",
+            "   · 20 pts — Producción fotovoltaica sobre pérgolas: P = 20 × (Ppico/100), máximo 20 pts para potencias"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión de uso privativo de la parcela sita en C/ Juan Mie",
+            "✅ organo contratante → Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad de",
+            "✅ importe base / estimado → 2550000",
+            "✅ fecha publicación → 2024-08-21",
+            "✅ plazo de la concesión → 15 años",
+            "✅ tipo de retribución → mixto",
+            "✅ canon o precio mín → 170000",
+            "✅ nº cargadores mínimo → 26",
+            "✅ tecnología requerida → DC",
+            "✅ ubicaciones extraídas → 1",
+            "✅ garantía definitiva → 3%",
+            "✅ criterios económicos → 2 criterios",
+            "✅ criterios técnicos → 2 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"RES\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2024-12-13",
+            "✅ Importe / canon ganador → 200000",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (5)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 5 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. UTE CHARG ELECTRA SPAIN S.L.U. - ELECTRA S.A.S.",
+            "2. CHARGING TOGETHER S.L.",
+            "3. REPSOL COMERCIAL DE PRODUCTOS PETROLÍFEROS S.A.",
+            "4. WENEA URBAN S.L.",
+            "5. ACCIONA RECARGA S.L."
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 26 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 26",
+            "Σ ubicaciones nuevas (1): 26 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 13:06:11",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 15 PDFs vía pdftotext)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "−5: faltó descubrir un pliego canónico embebido",
+            "= 95% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     },
     {
       "slug": "17776623",
@@ -104,7 +379,118 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 8 PDFs vía pdftotext: 6 del listado HTML + 2 PCAP/PPT embebidos como hyperlinks dentro del PDF Pliego) + vision claude-sonnet-4-6 (anexos PCAP)"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "8 de 8 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ otro · Dimensiones y ubicación de las plazas",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ otro · Acuerdo de declaración desierta",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: todos los enlaces resueltos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Algunos documentos vinieron como planos escaneados sin OCR. Hubo que extraerlos con Vision API (Claude Sonnet 4.6 multimodal). Coste estimado: $0.20.",
+          "detalles": [
+            "📷 vision-response.raw.txt"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (70) + técnicos (30) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (70 pts):",
+            "   · 70 pts — Po = 70 × Of / Mo — La proposición económica con mayor importe anual ofertado obtiene 70 p",
+            "Técnicos (30 pts):",
+            "   · 15 pts — Número de puntos de recarga rápida que el licitador instale a su costa (entre los previsto",
+            "   · 10 pts — Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante s",
+            "   · 5 pts — Marquesina fotovoltaica: 5 pts por la instalación a costa del licitador de una marquesina "
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial para la instalación, mantenimiento y expl",
+            "✅ organo contratante → Junta del Gobierno Local del Ayuntamiento de Haro",
+            "✅ importe base / estimado → 288000",
+            "✅ fecha publicación → 2025-08-01",
+            "✅ plazo de la concesión → 20 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 14400",
+            "✅ nº cargadores mínimo → 20",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 7",
+            "✅ garantía definitiva → 5%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 3 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 20 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 20",
+            "Σ ubicaciones nuevas (6): 20 puntos de carga",
+            "Σ ubicaciones existentes (1): 2 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 12:34:48",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 8 PDFs vía pdftotext: 6 del listado HTML + 2 PCAP/PPT embebidos como hyperlinks dentro del PDF Pliego) + vision claude-sonnet-4-6 (anexos PCAP)",
+            "Vision API usada: 1 call (~$0.20)"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "= 100% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     },
     {
       "slug": "17794455",
@@ -140,7 +526,134 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 12 PDFs vía pdftotext: 10 del listado HTML + PCAP+PPT embebidos en el Pliego) + vision claude-sonnet-4-6 (ubicaciones del Anexo I + II) + vision Anexo II completado"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "12 de 12 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ otro · Criterios de Solvencia",
+            "✅ otro · Criterios de valoracion",
+            "✅ acta_apertura · ACTA MESA CONTRATACIÓN Apertura sobre 1",
+            "✅ acta_apertura · ACTA MESA CONTRATACION Apertura sobre 2",
+            "✅ otro · Informe de valoración de los criterios de adjudicación cuantificables mediante juicio de valor",
+            "✅ acta_apertura · ACTA MESA CONTRATACION Apertura sobre 3",
+            "✅ otro · Certificado acuerdo Pleno aprobación clasificación ofertas presentadas",
+            "✅ acta_propuesta_adjudicacion · ACTA MESA CONTRATACIÓN Propuesta de adjudicación",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: todos los enlaces resueltos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Algunos documentos vinieron como planos escaneados sin OCR. Hubo que extraerlos con Vision API (Claude Sonnet 4.6 multimodal). Coste estimado: $0.40.",
+          "detalles": [
+            "📷 vision-anexo-ii.raw.txt",
+            "📷 vision-response.raw.txt"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (70) + técnicos (30) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (70 pts):",
+            "   · 15 pts — Precio de venta de la energía al usuario (€/kWh). Mejor oferta = 15 pts; resto proporciona",
+            "   · 20 pts — Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores me",
+            "   · 20 pts — Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta =",
+            "   · 15 pts — Reducción del plazo de instalación de equipos sobre los 4 meses base (meses). Mejor oferta",
+            "Técnicos (30 pts):",
+            "   · 10 pts — Plan de ejecución (juicio de valor): obras, modo de carga, modificaciones, calidad de equi",
+            "   · 10 pts — Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapid",
+            "   · 5 pts — Sistema de gestión al servicio del usuario (app, accesibilidad, atención)",
+            "   · 5 pts — Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Adjudicación de una concesión de dominio público, en régimen",
+            "✅ organo contratante → Pleno de la Mancomunitat de l'Alacantí",
+            "✅ importe base / estimado → 0",
+            "✅ fecha publicación → 2025-08-05",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → venta_energia_usuario",
+            "✅ canon o precio mín → (variante sin canon)",
+            "✅ nº cargadores mínimo → 68",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 46",
+            "✅ garantía definitiva → 19603.84",
+            "✅ criterios económicos → 4 criterios",
+            "✅ criterios técnicos → 4 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"EV\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 2 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. IBERDROLA CLIENTES, S.A.",
+            "2. ATOMELEC IBÉRICA, S.L."
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 68 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 68",
+            "Σ ubicaciones nuevas (34): 68 puntos de carga",
+            "Σ ubicaciones existentes (12): 24 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "Los anexos del pliego (Anexo I, Anexo II, etc.) están dentro del PDF principal del PCAP/PPT. Los exponemos como deep-links #page=N. Cada anexo debe referenciar un doc_tipo que exista en la sección Documentos.",
+          "detalles": [
+            "✅ Anexo I — Planos de las 34 ubicaciones nuevas (PPT) → pliego_tecnico #page=13-54",
+            "✅ Anexo II — Localización de los 22 puntos existentes (PPT) → pliego_tecnico #page=55-67"
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 15:22:43",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 12 PDFs vía pdftotext: 10 del listado HTML + PCAP+PPT embebidos en el Pliego) + vision claude-sonnet-4-6 (ubicaciones del Anexo I + II) + vision Anexo II completado",
+            "Vision API usada: 2 calls (~$0.40)"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Este pliego tiene contradicciones internas, variantes raras o ambigüedades que requirieron decisiones especiales en la extracción. Revisar con atención antes de tomar decisiones de negocio.",
+          "detalles": [
+            "Q&A / aclaración oficial incorporada",
+            "Sin canon (venta de energía al usuario, art. 93.4 LPAP)",
+            "Contradicción interna PPT 5.1 vs 5.2.3.1 vs Anexo I — corregido por Q&A oficial 46/2024"
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "Pliego complejo PERO con Q&A oficial incorporado — sin penalización",
+            "= 100% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     },
     {
       "slug": "19140288",
@@ -172,7 +685,127 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 9 PDFs)"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "15 de 15 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ otro · NOTA ACLARATORIA Documentación a presentar",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ formalizacion · Formalización",
+            "✅ enlazado · SERVICIS MUNICIPALS",
+            "✅ enlazado · SERVICIS MUNICIPALS",
+            "✅ enlazado · SERVICIS MUNICIPALS"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "✅ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: todos los enlaces resueltos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (90) + técnicos (10) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (90 pts):",
+            "   · 90 pts — Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre tod",
+            "Técnicos (10 pts):",
+            "   · 10 pts — Descuento porcentual sobre tarifas ordinarias para residentes empadronados o propietarios "
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión Demanial del uso privativo del espacio público urb",
+            "✅ organo contratante → Junta de Gobierno del Ayuntamiento de Burjassot",
+            "✅ importe base / estimado → 35616",
+            "✅ fecha publicación → 2026-02-27",
+            "✅ plazo de la concesión → 15 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 2374.4",
+            "✅ nº cargadores mínimo → 14",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 5",
+            "✅ garantía definitiva → 5%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 1 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"RES\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2026-04-15",
+            "✅ Importe / canon ganador → 3080",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (1)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. Qwello España SL"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 14 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 14",
+            "Σ ubicaciones nuevas (5): 14 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 12:34:44",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa 9 PDFs)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "= 100% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     },
     {
       "slug": "19217419",
@@ -204,7 +837,119 @@
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 7 PDFs vía pdftotext)"
       },
       "flags_abiertos": [],
-      "etapa": "publicado"
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "9 de 9 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ anuncio_oficial · Anuncio BOCM",
+            "✅ otro · Anuncio en el BOAM",
+            "✅ memoria · Memoria justificativa",
+            "✅ memoria_economica · Memoria económica",
+            "✅ otro · Ejecución por promotor",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" que es portada y contiene hyperlinks internos al PCAP y PPT reales. Si el extractor binario los descubre y descarga, marcamos ✅.",
+          "detalles": [
+            "✅ Pliego de Prescripciones Técnicas (PPT) descubierto",
+            "❌ Pliego de Cláusulas Administrativas (PCAP) descubierto",
+            "Estado: falta uno de los pliegos canónicos"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (60) + técnicos (40) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (60 pts):",
+            "   · 40 pts — Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,",
+            "   · 20 pts — Pf = 20 × (∛Cfo − 20.000) / (∛Cfmax − 20.000) — Alza sobre canon fijo (€/año). Mínimo 20.0",
+            "Técnicos (40 pts):",
+            "   · 20 pts — Precio de abono de recarga 1.500 kWh/año para vehículos de personas físicas con vehículo c",
+            "   · 20 pts — Diseño de la estación (juicio de valor): accesibilidad e integración en el entorno"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión de uso privativo de la parcela sita en Paseo de la",
+            "✅ organo contratante → Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad de",
+            "✅ importe base / estimado → 400000",
+            "✅ fecha publicación → 2026-03-11",
+            "✅ plazo de la concesión → 20 años",
+            "✅ tipo de retribución → mixto",
+            "✅ canon o precio mín → 20000",
+            "✅ nº cargadores mínimo → 10",
+            "✅ tecnología requerida → DC",
+            "✅ ubicaciones extraídas → 1",
+            "✅ garantía definitiva → 3%",
+            "✅ criterios económicos → 2 criterios",
+            "✅ criterios técnicos → 2 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"PUB\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 10 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 10",
+            "Σ ubicaciones nuevas (1): 10 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 26/4/2026, 12:34:47",
+            "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 7 PDFs vía pdftotext)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−5: faltó descubrir un pliego canónico embebido",
+            "= 95% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
     }
   ]
 }
