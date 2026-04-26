@@ -1512,14 +1512,32 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
         })}
       </div>
 
-      {/* 🗺 Mapa de ubicaciones */}
-      <div style={{ marginTop: 18 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: C.text, letterSpacing: "0.02em" }}>🗺 Mapa</span>
-          <span style={{ fontSize: 11, color: C.muted }}>· clic en un punto para ver su detalle</span>
+      {/* 🗺 Mapa de ubicaciones (desplegable) */}
+      <details style={{ marginTop: 14, background: C.row, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+        <summary style={{
+          padding: "10px 14px",
+          cursor: "pointer",
+          listStyle: "none",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 8,
+          fontSize: 13,
+          fontWeight: 700,
+          color: C.text,
+          userSelect: "none",
+        }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: C.muted, fontSize: 11 }}>▸</span>
+            <span>🗺 Mapa</span>
+            <span style={{ fontSize: 11, fontWeight: 400, color: C.muted }}>· clic para abrir y ver los puntos sobre el mapa</span>
+          </span>
+          <span style={{ fontSize: 10, color: C.muted, fontWeight: 400 }}>{ubicaciones.filter((u) => u.latitud != null && u.longitud != null).length} geolocalizadas</span>
+        </summary>
+        <div style={{ padding: "0 12px 12px" }}>
+          <UbicacionesMapa ubicaciones={ubicaciones} />
         </div>
-        <UbicacionesMapa ubicaciones={ubicaciones} />
-      </div>
+      </details>
     </div>
   );
 }

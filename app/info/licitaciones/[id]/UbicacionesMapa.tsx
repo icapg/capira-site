@@ -133,14 +133,29 @@ export function UbicacionesMapa({ ubicaciones }: { ubicaciones: UbicacionConcesi
         map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
       }
 
-      // Ajuste de tamaño tras render
+      // Ajuste de tamaño tras render inicial
       setTimeout(() => map.invalidateSize(), 100);
+
+      // ResizeObserver: cuando el contenedor cambie de tamaño (por ejemplo,
+      // al abrirse un <details> que lo envuelve), recalcular el mapa.
+      if (typeof ResizeObserver !== "undefined" && containerRef.current) {
+        const ro = new ResizeObserver(() => {
+          try { map.invalidateSize(); } catch {}
+        });
+        ro.observe(containerRef.current);
+        // Guardamos el observer en el map para limpieza
+        (map as unknown as { _capiraRO?: ResizeObserver })._capiraRO = ro;
+      }
     })();
 
     return () => {
       isMounted = false;
       if (mapInstanceRef.current) {
-        try { (mapInstanceRef.current as L.Map).remove(); } catch {}
+        try {
+          const m = mapInstanceRef.current as L.Map & { _capiraRO?: ResizeObserver };
+          m._capiraRO?.disconnect();
+          m.remove();
+        } catch {}
         mapInstanceRef.current = null;
       }
     };
