@@ -118,6 +118,7 @@ function ExplainCell({
   const [open, setOpen] = useState(false);
   const [pinned, setPinned] = useState(false);
   const [pos, setPos] = useState<"below" | "above">("below");
+  const [posH, setPosH] = useState<"left" | "right">("left");
   const ref = useRef<HTMLDivElement | null>(null);
 
   // Cerrar pinned al click fuera
@@ -135,12 +136,17 @@ function ExplainCell({
 
   const showing = open || pinned;
 
-  // Calcula posición arriba/abajo según espacio disponible
+  // Calcula posición arriba/abajo + izquierda/derecha según espacio disponible
   function recalcPos() {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const espacioAbajo = window.innerHeight - rect.bottom;
     setPos(espacioAbajo < 280 ? "above" : "below");
+    // Tooltip puede tener hasta 460px. Si a la derecha de la celda hay menos
+    // espacio, abrimos hacia la izquierda (alineando el borde derecho del
+    // tooltip con la celda).
+    const espacioDerecha = window.innerWidth - rect.left;
+    setPosH(espacioDerecha < 480 ? "right" : "left");
   }
 
   if (!explicacion) return <>{children}</>;
@@ -159,7 +165,7 @@ function ExplainCell({
           style={{
             position: "absolute",
             [pos === "below" ? "top" : "bottom"]: "calc(100% + 8px)",
-            left: 0,
+            [posH === "left" ? "left" : "right"]: 0,
             zIndex: 100,
             minWidth: 320,
             maxWidth: 460,
