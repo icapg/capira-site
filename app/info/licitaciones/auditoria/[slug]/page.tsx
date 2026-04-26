@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import fs from "node:fs";
 import path from "node:path";
+import { deeplinkFromIdEvl } from "@/app/lib/insights/licitaciones-data";
 
 const C = {
   bg:     "#050810",
@@ -61,6 +62,18 @@ export default async function AuditoriaSlugPage({ params }: { params: Promise<{ 
   const r = data.licitaciones.find((x: AuditoriaRow) => x.slug === slug);
   if (!r) notFound();
 
+  // Cargar idEvl + expediente desde el bundle para armar el deeplink PLACSP real.
+  const bundleFile = path.join(process.cwd(), "data", "licitaciones-emov.json");
+  let idEvl: string | undefined;
+  let expediente: string | undefined;
+  if (fs.existsSync(bundleFile)) {
+    const bundle = JSON.parse(fs.readFileSync(bundleFile, "utf8"));
+    const item = bundle.items?.find((x: { slug: string; idEvl?: string; expediente?: string }) => x.slug === slug);
+    idEvl      = item?.idEvl;
+    expediente = item?.expediente;
+  }
+  const placspUrl = deeplinkFromIdEvl(idEvl);
+
   const ex = r.explicaciones ?? {};
   const semaforoColor = r.semaforo === "verde" ? C.green : r.semaforo === "amarillo" ? C.amber : C.red;
   const semaforoEmoji = r.semaforo === "verde" ? "🟢" : r.semaforo === "amarillo" ? "🟡" : "🔴";
@@ -87,11 +100,18 @@ export default async function AuditoriaSlugPage({ params }: { params: Promise<{ 
           <span><strong style={{ color: C.text }}>Órgano:</strong> {r.organo ?? "—"}</span>
           <span><strong style={{ color: C.text }}>Estado:</strong> {r.estado ?? "—"}</span>
         </div>
-        <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+        <div style={{ display: "flex", gap: 8, marginTop: 4, flexWrap: "wrap" }}>
           <Link href={`/info/licitaciones/${r.slug}`}
-                style={{ fontSize: 12, fontWeight: 700, color: C.blue, padding: "6px 12px", border: `1px solid ${C.blue}66`, borderRadius: 6, background: `${C.blue}22`, textDecoration: "none" }}>
-            Ver detalle PLACSP →
+                style={{ fontSize: 12, fontWeight: 700, color: C.purple, padding: "6px 12px", border: `1px solid ${C.purple}66`, borderRadius: 6, background: `${C.purple}22`, textDecoration: "none" }}>
+            📊 Ver detalle Capira →
           </Link>
+          {placspUrl && (
+            <a href={placspUrl} target="_blank" rel="noopener noreferrer"
+               style={{ fontSize: 12, fontWeight: 700, color: C.blue, padding: "6px 12px", border: `1px solid ${C.blue}66`, borderRadius: 6, background: `${C.blue}22`, textDecoration: "none" }}
+               title={expediente ? `Expediente ${expediente} en contrataciondelestado.es` : "Abrir en PLACSP"}>
+              🔗 Abrir en PLACSP ↗
+            </a>
+          )}
         </div>
       </div>
 
@@ -145,8 +165,10 @@ export default async function AuditoriaSlugPage({ params }: { params: Promise<{ 
       <div style={{ marginTop: 32, padding: 14, background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, fontSize: 12, color: C.muted, lineHeight: 1.6 }}>
         <strong style={{ color: C.text }}>Sobre esta página:</strong> es la auditoría completa narrativa del slug{" "}
         <code style={{ color: C.purple }}>{r.slug}</code>. Cada bloque corresponde a una métrica de la tabla principal,
-        expandida con su descripción y todos los detalles que se mostraban en el tooltip de hover. Si necesitás abrir el
-        expediente original, usá el link &quot;Ver detalle PLACSP&quot; arriba.
+        expandida con su descripción y todos los detalles que se mostraban en el tooltip de hover. Para ver toda la
+        información del expediente con tablas de criterios, ubicaciones, mapa, licitadores y timeline, usá{" "}
+        <strong style={{ color: C.purple }}>📊 Ver detalle Capira</strong>. Para abrir el expediente original en
+        contrataciondelestado.es (la fuente oficial), usá <strong style={{ color: C.blue }}>🔗 Abrir en PLACSP</strong>.
       </div>
     </div>
   );
