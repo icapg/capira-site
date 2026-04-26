@@ -49,6 +49,13 @@ type AuditoriaRow = {
 
   cobertura_pliego_pct: number;
   cobertura_adjudicacion_pct: number | null;
+  cobertura_lectura_pct: number;
+  cobertura_lectura_label: string;
+  cobertura_lectura_total: number;
+  cobertura_lectura_leidos: number;
+  cobertura_lectura_scanned_sin_vision: number;
+  cobertura_lectura_no_soportados: number;
+  cobertura_lectura_no_citados: number;
 
   licitadores_vs_acta: string;
   coherencia_ubis: string;
@@ -297,6 +304,7 @@ export function AuditoriaTable({ data }: Props) {
               <Th>Confianza</Th>
               <Th>Cob. pliego</Th>
               <Th>Cob. adj.</Th>
+              <Th>Cob. lectura</Th>
               <Th>Docs</Th>
               <Th>Links emb.</Th>
               <Th>Vision</Th>
@@ -336,6 +344,11 @@ export function AuditoriaTable({ data }: Props) {
                   <Td>
                     <ExplainCell titulo="Cobertura adjudicación" explicacion={ex.cobertura_adjudicacion}>
                       {r.cobertura_adjudicacion_pct == null ? <span style={{ color: C.dim }}>—</span> : <PctBar pct={r.cobertura_adjudicacion_pct} />}
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Cobertura lectura" explicacion={ex.cobertura_lectura}>
+                      <CoberturaLectura row={r} />
                     </ExplainCell>
                   </Td>
                   <Td>
@@ -449,6 +462,29 @@ function Th({ children, title }: { children: React.ReactNode; title?: string }) 
 
 function Td({ children, title, ...rest }: React.HTMLAttributes<HTMLTableCellElement>) {
   return <td title={title} style={{ padding: "10px 12px", verticalAlign: "middle" }} {...rest}>{children}</td>;
+}
+
+function CoberturaLectura({ row }: { row: AuditoriaRow }) {
+  const tieneCritico = row.cobertura_lectura_scanned_sin_vision > 0 || row.cobertura_lectura_no_soportados > 0;
+  const tieneAdvertencia = row.cobertura_lectura_no_citados > 0;
+  const color = tieneCritico ? C.red : tieneAdvertencia ? C.amber : C.green;
+  const icono = tieneCritico ? "❌" : tieneAdvertencia ? "⚠️" : "✅";
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 100 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 12 }}>{icono}</span>
+        <span style={{ color, fontWeight: 700, fontSize: 11 }}>{row.cobertura_lectura_pct}%</span>
+        <span style={{ color: C.muted, fontSize: 10 }}>· {row.cobertura_lectura_leidos}/{row.cobertura_lectura_total}</span>
+      </div>
+      {(tieneCritico || tieneAdvertencia) && (
+        <div style={{ display: "flex", gap: 4, fontSize: 9 }}>
+          {row.cobertura_lectura_scanned_sin_vision > 0 && <span style={{ color: C.red }}>{row.cobertura_lectura_scanned_sin_vision} scan</span>}
+          {row.cobertura_lectura_no_soportados > 0 && <span style={{ color: C.red }}>{row.cobertura_lectura_no_soportados} ZIP/doc</span>}
+          {row.cobertura_lectura_no_citados > 0 && <span style={{ color: C.amber }}>{row.cobertura_lectura_no_citados} sin citar</span>}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function PctBar({ pct }: { pct: number }) {

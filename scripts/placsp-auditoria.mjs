@@ -28,8 +28,9 @@
 
 import Database from 'better-sqlite3';
 import fs from 'node:fs';
-import { join, dirname } from 'path';
+import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
+import { execFileSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT      = join(__dirname, '..');
@@ -46,6 +47,136 @@ const itemBySlug = new Map(bundle.items.map((it) => [it.slug, it]));
 const slugs = fs.readdirSync(PDF_DIR)
   .filter((d) => fs.existsSync(join(PDF_DIR, d, 'extraccion.json')))
   .sort();
+
+/**
+ * Analiza un PDF local y devuelve métricas de "extraibilidad" del texto.
+ * Si el PDF tiene <50 chars/página → casi seguro escaneado (necesita Vision/OCR).
+ *
+ * @param {string} pdfPath
+ * @returns {{ pages: number|null, chars: number, charsPerPage: number, isScanned: boolean, error?: string }}
+ */
+function analizarPDF(pdfPath) {
+  try {
+    const sizeBytes = fs.statSync(pdfPath).size;
+    // Texto plano sin layout para contar caracteres "útiles"
+    const texto = execFileSync('pdftotext', ['-enc', 'UTF-8', '-q', pdfPath, '-'], {
+      stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 50 * 1024 * 1024,
+      windowsHide: true,
+    }).toString('utf8');
+    const chars = texto.replace(/\s+/g, '').length;
+    // Estimar páginas via pdfinfo no está disponible siempre; aproximamos por separadores ^L o por size
+    const pageBreaks = (texto.match(/\f/g) ?? []).length;
+    const pages = pageBreaks > 0 ? pageBreaks + 1 : Math.max(1, Math.round(sizeBytes / 50_000));
+    const charsPerPage = pages > 0 ? Math.round(chars / pages) : chars;
+    const isScanned = charsPerPage < 50;
+    return { pages, chars, charsPerPage, isScanned, sizeBytes };
+  } catch (e) {
+    return { pages: null, chars: 0, charsPerPage: 0, isScanned: true, error: e.message };
+  }
+}
+
+/**
+ * Verifica si un PDF "fue citado" por el LLM en el extraccion.json. Heurística:
+ * busca el nombre del archivo (sin extensión) o tokens distintivos (>=10 chars)
+ * dentro del JSON de extracción. Es solo aproximada — un PDF puede haber sido
+ * leído sin que el LLM cite su nombre. Sirve como detector de "claramente NO leído".
+ */
+function fueCitado(pdfFilename, extraccionJsonStr) {
+  const stem = basename(pdfFilename).replace(/\.[a-z]+$/i, '').toLowerCase();
+  const tokens = stem.split(/[^a-záéíóúñ0-9]+/).filter((t) => t.length >= 6 && t !== 'enlazado' && t !== 'enlace' && t !== 'interno' && t !== 'documento' && t !== 'aprobacion' && t !== 'aprobación');
+  const lcJson = extraccionJsonStr.toLowerCase();
+  return tokens.some((t) => lcJson.includes(t));
+}
+
+/**
+ * Extrae el tipo canónico del nombre del archivo. El extractor PDF prefija con
+ * patrón "NN-tipo_canonico-Nombre.pdf" (ej. "08-resolucion_adjudicacion-...pdf").
+ */
+function tipoDelArchivo(filename) {
+  const m = /^\d+[A-Z]?-([a-z_]+)-/i.exec(filename);
+  return m ? m[1].toLowerCase() : null;
+}
+
+/**
+ * Verifica si los campos esperados extraíbles de un tipo de documento aparecen
+ * llenos en el item del bundle / extraccion.json. Si sí → consideramos que
+ * el LLM leyó ese tipo de doc (aunque no cite el filename literal).
+ */
+function leidoImplicitamentePorTipo(tipo, it, ext) {
+  if (!tipo) return false;
+  const adj = it.adjudicatarios ?? [];
+  const lic = it.licitadores ?? [];
+  const con = it.concesion ?? {};
+  const proc = it.proceso ?? {};
+  const notas = `${(ext.notas_pliego ?? []).join(' ')} ${(ext.notas_adjudicacion ?? []).join(' ')}`;
+  switch (tipo) {
+    case 'anuncio_licitacion':
+      return !!(it.fecha_publicacion || it.importe_base != null || it.fecha_limite);
+    case 'pliego_administrativo':
+      return !!((proc.criterios_valoracion?.economicos?.length ?? 0) > 0
+        || proc.garantias?.definitiva_pct
+        || proc.garantias?.definitiva_eur
+        || con.canon_minimo_anual != null
+        || con.tipo_retribucion);
+    case 'pliego_tecnico':
+      return !!(con.num_cargadores_minimo
+        || (con.ubicaciones?.length ?? 0) > 0
+        || con.tecnologia_requerida
+        || con.potencia_minima_por_cargador_kw != null);
+    case 'enlazado':
+      // Los enlazados son el PCAP o PPT real escondido detrás del "Pliego" portada.
+      // Si el JSON tiene info estructurada de pliegos (criterios + ubicaciones), están leídos.
+      return !!((proc.criterios_valoracion?.economicos?.length ?? 0) > 0
+        || (con.ubicaciones?.length ?? 0) > 0
+        || con.num_cargadores_minimo != null);
+    case 'acta_apertura':
+      return lic.length > 0;
+    case 'acta_propuesta_adjudicacion':
+      return lic.length > 0 || adj.length > 0 || lic.some((l) => l.posicion != null);
+    case 'resolucion_adjudicacion':
+      return !!(it.fecha_adjudicacion || con.canon_ganador != null || adj.length > 0
+        || lic.some((l) => l.es_ganador));
+    case 'formalizacion':
+      return !!it.fecha_formalizacion;
+    case 'informe_valoracion':
+      return lic.some((l) => (l.puntuaciones_detalle?.length ?? 0) > 0)
+        || adj.some((a) => (a.puntuaciones_detalle?.length ?? 0) > 0);
+    case 'acuerdo_iniciacion':
+      return !!(it.fecha_publicacion || notas.length > 100);
+    case 'rectificacion':
+      return notas.toLowerCase().includes('rectific') || notas.toLowerCase().includes('correc');
+    case 'aclaracion':
+      // Q&A oficial del expediente. Si está incorporado en notas_pliego → leído.
+      // Si NO está incorporado → flag legítimo (info pendiente de aplicar).
+      return notas.toLowerCase().includes('q&a')
+        || notas.toLowerCase().includes('aclaraci')
+        || notas.toLowerCase().includes('contestaci');
+    case 'anuncio_oficial':
+      // BOCM / BOAM / DOGV: redundantes con anuncio_licitacion. Mismo criterio.
+      return !!(it.fecha_publicacion || it.importe_base != null || it.fecha_limite);
+    case 'presupuesto':
+      // Presupuesto base / estimado. Leído si importe_base o estimado están llenos.
+      return !!(it.importe_base != null || it.importe_estimado != null);
+    case 'planos':
+      // Planos. Casi siempre scanned. Solo se procesan vía Vision.
+      // Si llegamos a este case con texto, es atípico — lo damos por leído débilmente
+      // si las ubicaciones están extraídas.
+      return (con.ubicaciones?.length ?? 0) > 0;
+    case 'memoria':
+    case 'proyecto':
+      // Memoria / proyecto técnico. Información detallada — débil de validar.
+      // Damos por leído si hay tecnologia + ubicaciones + potencia.
+      return !!(con.tecnologia_requerida && (con.ubicaciones?.length ?? 0) > 0);
+    case 'otro':
+      // Sin esquema fijo, lo damos por bueno si hay notas extensas (>500 chars)
+      return notas.length > 500;
+    default:
+      return false;
+  }
+}
+
+const TIPOS_NO_TEXTO = /\.(zip|docx|xlsx|xls|pptx|odt|ods)$/i;
 
 console.log(`📋 Auditando ${slugs.length} licitaciones con extracción aplicada...`);
 
@@ -109,6 +240,84 @@ for (const slug of slugs) {
     : [];
   const usoVision = visionFiles.length > 0;
   const docsLegibles = usoVision ? `Texto + Vision (${visionFiles.length} call${visionFiles.length === 1 ? '' : 's'})` : 'Texto puro';
+
+  // ── 5.bis. Cobertura de LECTURA — nivel 1 (scanned) + nivel 2 (citación) ──
+  // Por cada archivo en la carpeta del slug, decidimos si fue "leído" por el LLM:
+  //   - PDF con texto extraíble + citado en extraccion.json   → ✅ leído
+  //   - PDF scanned + hay vision-*.raw.txt para el slug        → ✅ leído (vía Vision)
+  //   - PDF scanned sin Vision                                 → ❌ no leído (scanned huérfano)
+  //   - .zip / .docx / .xlsx / .pptx                           → ❌ tipo no soportado
+  //   - PDF con texto NO citado en extraccion.json             → ⚠ posiblemente no leído
+  const archivosCarpeta = fs.existsSync(slugDir) ? fs.readdirSync(slugDir) : [];
+  const archivosDoc = archivosCarpeta.filter((f) =>
+    !f.startsWith('_') && !f.startsWith('.') &&
+    !/^(extraccion|vision-)/i.test(f) &&
+    /\.(pdf|zip|docx?|xlsx?|pptx?)$/i.test(f)
+  );
+
+  const extraccionStr = fs.readFileSync(join(slugDir, 'extraccion.json'), 'utf8');
+  const lecturaDetalles = [];
+  let leidos = 0, scannedSinVision = 0, tiposNoSoportados = 0, posiblementeNoLeidos = 0;
+  for (const f of archivosDoc) {
+    const fullPath = join(slugDir, f);
+    if (TIPOS_NO_TEXTO.test(f)) {
+      tiposNoSoportados++;
+      lecturaDetalles.push(`❌ ${f} — tipo no soportado por pdftotext (${f.split('.').pop().toUpperCase()})`);
+      continue;
+    }
+    if (!/\.pdf$/i.test(f)) continue;
+    const an = analizarPDF(fullPath);
+    if (an.error) {
+      posiblementeNoLeidos++;
+      lecturaDetalles.push(`⚠ ${f} — error: ${an.error.slice(0, 60)}`);
+      continue;
+    }
+    if (an.isScanned) {
+      if (usoVision) {
+        leidos++;
+        lecturaDetalles.push(`✅ ${f} — scanned (${an.charsPerPage} c/p), procesado vía Vision`);
+      } else {
+        scannedSinVision++;
+        lecturaDetalles.push(`❌ ${f} — scanned (${an.charsPerPage} c/p) y NO se ejecutó Vision sobre este slug`);
+      }
+    } else {
+      const citadoPorNombre = fueCitado(f, extraccionStr);
+      const tipo = tipoDelArchivo(f);
+      const implicito = leidoImplicitamentePorTipo(tipo, it, ext);
+      if (citadoPorNombre || implicito) {
+        leidos++;
+        const motivo = citadoPorNombre && implicito ? 'citado + tipo poblado'
+          : citadoPorNombre ? 'citado en JSON'
+          : `tipo "${tipo}" poblado en extraccion.json`;
+        lecturaDetalles.push(`✅ ${f} — texto OK (${an.charsPerPage} c/p), ${motivo}`);
+      } else {
+        posiblementeNoLeidos++;
+        lecturaDetalles.push(`⚠ ${f} — texto OK (${an.charsPerPage} c/p), tipo "${tipo ?? '?'}" pero campos típicos vacíos en JSON`);
+      }
+    }
+  }
+  const totalArchivos     = archivosDoc.length;
+  const cobLecturaPct     = totalArchivos > 0 ? Math.round(100 * leidos / totalArchivos) : 100;
+  const docsConProblema   = scannedSinVision + tiposNoSoportados + posiblementeNoLeidos;
+  const lecturaSemaforo   = scannedSinVision + tiposNoSoportados > 0 ? '❌'
+    : posiblementeNoLeidos > 0 ? '⚠️ ' + cobLecturaPct + '%'
+    : '✅ ' + cobLecturaPct + '%';
+  if (scannedSinVision > 0) flags.push(`${scannedSinVision} PDF scanned no procesado con Vision`);
+  if (tiposNoSoportados > 0) flags.push(`${tiposNoSoportados} archivo${tiposNoSoportados === 1 ? '' : 's'} de tipo no soportado (ZIP/.docx/.xlsx)`);
+  if (posiblementeNoLeidos > 0) flags.push(`${posiblementeNoLeidos} PDF posiblemente no leído (texto OK pero no citado por LLM)`);
+
+  explicaciones.cobertura_lectura = {
+    descripcion: `Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. ${cobLecturaPct === 100 ? 'Todos los archivos del expediente fueron leídos.' : `Hay ${docsConProblema} archivo${docsConProblema === 1 ? '' : 's'} con problema potencial.`}`,
+    detalles: [
+      `Total archivos en disco: ${totalArchivos}`,
+      `✅ Leídos: ${leidos}`,
+      scannedSinVision > 0   ? `❌ Scanned sin Vision: ${scannedSinVision}` : null,
+      tiposNoSoportados > 0  ? `❌ Tipos no soportados (ZIP/.docx/.xlsx): ${tiposNoSoportados}` : null,
+      posiblementeNoLeidos > 0 ? `⚠ Texto OK pero no citado en JSON: ${posiblementeNoLeidos}` : null,
+      '',
+      ...lecturaDetalles,
+    ].filter((x) => x !== null),
+  };
   explicaciones.docs_legibles = {
     descripcion: usoVision
       ? `Algunos documentos vinieron como planos escaneados sin OCR. Hubo que extraerlos con Vision API (Claude Sonnet 4.6 multimodal). Coste estimado: $${(visionFiles.length * 0.2).toFixed(2)}.`
@@ -352,6 +561,10 @@ for (const slug of slugs) {
   } else if (pliegoComplejo) {
     desgloseConfianza.push('Pliego complejo PERO con Q&A oficial incorporado — sin penalización');
   }
+  // Penalización por cobertura de lectura: scanned sin Vision o tipos no soportados son críticos
+  if (scannedSinVision > 0)   { confianza -= 12; desgloseConfianza.push(`−12: ${scannedSinVision} PDF scanned no procesado con Vision`); }
+  if (tiposNoSoportados > 0)  { confianza -= 8;  desgloseConfianza.push(`−8: ${tiposNoSoportados} archivo de tipo no soportado (ZIP/.docx/.xlsx)`); }
+  if (posiblementeNoLeidos > 0) { confianza -= 3 * Math.min(posiblementeNoLeidos, 3); desgloseConfianza.push(`−${3 * Math.min(posiblementeNoLeidos, 3)}: ${posiblementeNoLeidos} PDF no citado por el LLM (sospecha de no leído)`); }
   confianza = Math.max(0, Math.min(100, confianza));
   desgloseConfianza.push(`= ${confianza}% (${confianza >= 85 ? '🟢 verde' : confianza >= 60 ? '🟡 amarillo' : '🔴 rojo'})`);
 
@@ -377,6 +590,14 @@ for (const slug of slugs) {
     links_embebidos_resueltos: linksEmbebidos,
     docs_legibles:            docsLegibles,
     uso_vision:               usoVision,
+
+    cobertura_lectura_pct:        cobLecturaPct,
+    cobertura_lectura_label:      lecturaSemaforo,
+    cobertura_lectura_total:      totalArchivos,
+    cobertura_lectura_leidos:     leidos,
+    cobertura_lectura_scanned_sin_vision: scannedSinVision,
+    cobertura_lectura_no_soportados:      tiposNoSoportados,
+    cobertura_lectura_no_citados:         posiblementeNoLeidos,
 
     criterios_suman_100: criteriosSuman100 ? '✅ 100' : `❌ ${sumaPesos}`,
     suma_pesos:          sumaPesos,

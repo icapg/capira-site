@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T13:51:21.278Z",
+  "generado_en": "2026-04-26T14:00:56.842Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -17,12 +17,19 @@
       "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
       "estado": "RES",
       "categoria": "1",
-      "confianza_global": 100,
+      "confianza_global": 85,
       "semaforo": "verde",
       "docs_completos": "32/32",
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
+      "cobertura_lectura_pct": 85,
+      "cobertura_lectura_label": "❌",
+      "cobertura_lectura_total": 26,
+      "cobertura_lectura_leidos": 22,
+      "cobertura_lectura_scanned_sin_vision": 3,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 1,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 60,
@@ -39,7 +46,10 @@
         "fecha": "2026-04-26T11:06:10.261Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 26 PDFs)"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "3 PDF scanned no procesado con Vision",
+        "1 PDF posiblemente no leído (texto OK pero no citado por LLM)"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -90,6 +100,42 @@
             "   · (sin nombre)",
             "   · Pliego",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Hay 4 archivos con problema potencial.",
+          "detalles": [
+            "Total archivos en disco: 26",
+            "✅ Leídos: 22",
+            "❌ Scanned sin Vision: 3",
+            "⚠ Texto OK pero no citado en JSON: 1",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1464 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1263 c/p), citado + tipo poblado",
+            "✅ 03-memoria-Memoria.pdf — texto OK (1468 c/p), citado + tipo poblado",
+            "✅ 04-planos-Planos.pdf — texto OK (884 c/p), citado + tipo poblado",
+            "✅ 05-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (529 c/p), tipo \"acuerdo_iniciacion\" poblado en extraccion.json",
+            "✅ 06-memoria_economica-Memoria_economica.pdf — texto OK (2011 c/p), citado en JSON",
+            "✅ 07-proyecto-Proyecto_unificado.pdf — texto OK (1569 c/p), citado + tipo poblado",
+            "✅ 08-presupuesto-Presupuesto_solicitud.pdf — texto OK (1207 c/p), citado + tipo poblado",
+            "❌ 09-planos-Plano_acceso_conexión.pdf — scanned (0 c/p) y NO se ejecutó Vision sobre este slug",
+            "❌ 10-presupuesto-Presupuesto.pdf — scanned (0 c/p) y NO se ejecutó Vision sobre este slug",
+            "❌ 11-pliego_tecnico-Condiciones_técnicas.pdf — scanned (0 c/p) y NO se ejecutó Vision sobre este slug",
+            "✅ 12-anuncio_oficial-Anuncio_BOAM.pdf — texto OK (2196 c/p), tipo \"anuncio_oficial\" poblado en extraccion.json",
+            "✅ 13-anuncio_oficial-Anuncio_BOCM.pdf — texto OK (1624 c/p), tipo \"anuncio_oficial\" poblado en extraccion.json",
+            "✅ 14-anuncio_oficial-Anuncio_BOAM_corregido.pdf — texto OK (1253 c/p), citado + tipo poblado",
+            "✅ 15-proyecto-Presupuesto_asociado_al_proyecto.pdf — texto OK (1916 c/p), citado + tipo poblado",
+            "⚠ 16-aclaracion-contestación_a_la_pregunta_número_5.pdf — texto OK (1559 c/p), tipo \"aclaracion\" pero campos típicos vacíos en JSON",
+            "✅ 17-otro-Información_sobre_acceso_a_los_planos.pdf — texto OK (66 c/p), citado + tipo poblado",
+            "✅ 18-replanteo-replanteo_de_las_obras_de_acondicionamiento_de_la_parcela__o.pdf — texto OK (532 c/p), citado en JSON",
+            "✅ 19-anuncio_apertura-Anuncio_apertura_ofertas.pdf — texto OK (498 c/p), citado en JSON",
+            "✅ 20-acta_apertura-Acta_apertura_sobres_A.pdf — texto OK (1435 c/p), citado + tipo poblado",
+            "✅ 21-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (1137 c/p), citado en JSON",
+            "✅ 22-informe_baremacion-Informe_baremación_ofertas.pdf — texto OK (1738 c/p), citado en JSON",
+            "✅ 23-acta_propuesta_adjudicacion-Acta_mesa_propuesta_de_adjudicación.pdf — texto OK (1449 c/p), citado + tipo poblado",
+            "✅ 24-resolucion_adjudicacion-Adjudicación.pdf — texto OK (836 c/p), citado + tipo poblado",
+            "✅ 25-anuncio_adjudicacion-Anuncio_BOAM_otorgamiento_concesión.pdf — texto OK (1990 c/p), citado en JSON",
+            "✅ 26-formalizacion-Formalización.pdf — texto OK (900 c/p), tipo \"formalizacion\" poblado en extraccion.json"
           ]
         },
         "docs_legibles": {
@@ -178,13 +224,16 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Promedio con cobertura adjudicación (100%) → 100",
-            "= 100% (🟢 verde)"
+            "−12: 3 PDF scanned no procesado con Vision",
+            "−3: 1 PDF no citado por el LLM (sospecha de no leído)",
+            "= 85% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ 3 PDF scanned no procesado con Vision",
+            "⚠️ 1 PDF posiblemente no leído (texto OK pero no citado por LLM)"
           ]
         }
       }
@@ -202,6 +251,13 @@
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 20,
+      "cobertura_lectura_leidos": 20,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 60,
@@ -254,6 +310,34 @@
             "✅ Al menos 1 PCAP (pliego_administrativo): 1 encontrado",
             "   · Diligencia corrección PCAP",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 20",
+            "✅ Leídos: 20",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1175 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-anuncio_oficial-Anuncio_BOCM.pdf — texto OK (1701 c/p), tipo \"anuncio_oficial\" poblado en extraccion.json",
+            "✅ 03-anuncio_oficial-Anuncio_BOAM.pdf — texto OK (2156 c/p), tipo \"anuncio_oficial\" poblado en extraccion.json",
+            "✅ 04-memoria-Memoria_justificativa_concesión.pdf — texto OK (2272 c/p), citado + tipo poblado",
+            "✅ 05-memoria_economica-Memoria_económica.pdf — texto OK (2224 c/p), citado en JSON",
+            "✅ 06-planos-Plano_entronque_acometida.pdf — texto OK (54 c/p), citado + tipo poblado",
+            "✅ 07-presupuesto-Presupuesto_conexión.pdf — texto OK (1347 c/p), tipo \"presupuesto\" poblado en extraccion.json",
+            "✅ 08-rectificacion-Rectificación_de_Pliego.pdf — texto OK (1118 c/p), citado + tipo poblado",
+            "✅ 08A-enlazado-enlace_interno_1.pdf — texto OK (2248 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 08B-enlazado-enlace_interno_2.pdf — texto OK (1184 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 09-pliego_administrativo-Diligencia_corrección_PCAP.pdf — texto OK (909 c/p), citado + tipo poblado",
+            "✅ 10-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (533 c/p), citado en JSON",
+            "✅ 11-acta_apertura_sobre_a-Acta_apertura_sobre_A_documentación_administrativa.pdf — texto OK (967 c/p), citado en JSON",
+            "✅ 12-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (1023 c/p), citado en JSON",
+            "✅ 13-informe_baremacion-Informe_baremación_ofertas.pdf — texto OK (1823 c/p), citado en JSON",
+            "✅ 14-resolucion_adjudicacion-Adjudicación.pdf — texto OK (873 c/p), citado + tipo poblado",
+            "✅ 14A-enlazado-enlace_interno_1.pdf — texto OK (1801 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 15-formalizacion-Formalización.pdf — texto OK (866 c/p), citado + tipo poblado",
+            "✅ 15A-enlazado-enlace_interno_1.pdf — texto OK (1989 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 15B-enlazado-enlace_interno_2.pdf — texto OK (1989 c/p), tipo \"enlazado\" poblado en extraccion.json"
           ]
         },
         "docs_legibles": {
@@ -361,12 +445,19 @@
       "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
       "estado": "DES",
       "categoria": "1",
-      "confianza_global": 100,
+      "confianza_global": 92,
       "semaforo": "verde",
       "docs_completos": "8/8",
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto + Vision (1 call)",
       "uso_vision": true,
+      "cobertura_lectura_pct": 94,
+      "cobertura_lectura_label": "❌",
+      "cobertura_lectura_total": 17,
+      "cobertura_lectura_leidos": 16,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 1,
+      "cobertura_lectura_no_citados": 0,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 70,
@@ -383,7 +474,9 @@
         "fecha": "2026-04-26T10:34:48.872Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 8 PDFs vía pdftotext: 6 del listado HTML + 2 PCAP/PPT embebidos como hyperlinks dentro del PDF Pliego) + vision claude-sonnet-4-6 (anexos PCAP)"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -408,6 +501,32 @@
             "   · Pliego",
             "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Hay 1 archivo con problema potencial.",
+          "detalles": [
+            "Total archivos en disco: 17",
+            "✅ Leídos: 16",
+            "❌ Tipos no soportados (ZIP/.docx/.xlsx): 1",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (866 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (876 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2068 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (1538 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (893 c/p), citado + tipo poblado",
+            "❌ 04-otro-Dimensiones_y_ubicación_de_las_plazas.zip — tipo no soportado por pdftotext (ZIP)",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_a-2anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_b-3anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_c-4anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_d-5anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_e-6anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_f-7anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_g-8anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_h-anexresum.pdf — texto OK (125 c/p), citado + tipo poblado",
+            "✅ 04-otro-Dimensiones_y_ubicación_de_las_plazas_i-1anexo.pdf — scanned (0 c/p), procesado vía Vision",
+            "✅ 05-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1202 c/p), citado + tipo poblado",
+            "✅ 06-otro-Acuerdo_de_declaración_desierta.pdf — texto OK (831 c/p), citado + tipo poblado"
           ]
         },
         "docs_legibles": {
@@ -489,13 +608,14 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Sin adjudicación todavía → solo cuenta cobertura pliego",
-            "= 100% (🟢 verde)"
+            "−8: 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)",
+            "= 92% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
           ]
         }
       }
@@ -513,6 +633,13 @@
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto + Vision (2 calls)",
       "uso_vision": true,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 12,
+      "cobertura_lectura_leidos": 12,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 70,
@@ -562,6 +689,26 @@
             "   · Pliego",
             "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 12",
+            "✅ Leídos: 12",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1068 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1076 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (1373 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2098 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-otro-Criterios_de_Solvencia.pdf — texto OK (1529 c/p), citado + tipo poblado",
+            "✅ 04-otro-Criterios_de_valoracion.pdf — texto OK (1314 c/p), citado + tipo poblado",
+            "✅ 05-acta_apertura-ACTA_MESA_CONTRATACIÓN_Apertura_sobre_1.pdf — texto OK (1113 c/p), citado + tipo poblado",
+            "✅ 06-acta_apertura-ACTA_MESA_CONTRATACION_Apertura_sobre_2.pdf — texto OK (1047 c/p), citado + tipo poblado",
+            "✅ 07-otro-Informe_de_valoración_de_los_criterios_de_adjudicación_cuant.pdf — texto OK (1107 c/p), citado + tipo poblado",
+            "✅ 08-acta_apertura-ACTA_MESA_CONTRATACION_Apertura_sobre_3.pdf — texto OK (1212 c/p), citado + tipo poblado",
+            "✅ 09-otro-Certificado_acuerdo_Pleno_aprobación_clasificación_ofertas_p.pdf — texto OK (1407 c/p), citado + tipo poblado",
+            "✅ 10-acta_propuesta_adjudicacion-ACTA_MESA_CONTRATACIÓN_Propuesta_de_adjudicación.pdf — texto OK (1274 c/p), citado + tipo poblado"
           ]
         },
         "docs_legibles": {
@@ -679,6 +826,13 @@
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 15,
+      "cobertura_lectura_leidos": 15,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 90,
@@ -728,6 +882,29 @@
             "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
             "   · Pliego",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 15",
+            "✅ Leídos: 15",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (890 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (906 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2225 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2530 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.pdf — texto OK (1068 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (817 c/p), tipo \"acuerdo_iniciacion\" poblado en extraccion.json",
+            "✅ 04-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1147 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 05-otro-NOTA_ACLARATORIA_Documentación_a_presentar.pdf — texto OK (403 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 06-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (568 c/p), citado + tipo poblado",
+            "✅ 07-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (939 c/p), citado + tipo poblado",
+            "✅ 08-resolucion_adjudicacion-Adjudicación.pdf — texto OK (879 c/p), citado + tipo poblado",
+            "✅ 08A-enlazado-enlace_interno_1.pdf — texto OK (1143 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 09-formalizacion-Formalización.pdf — texto OK (710 c/p), citado + tipo poblado",
+            "✅ 09A-enlazado-enlace_interno_1.pdf — texto OK (1300 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 09B-enlazado-enlace_interno_2.pdf — texto OK (1300 c/p), tipo \"enlazado\" poblado en extraccion.json"
           ]
         },
         "docs_legibles": {
@@ -835,6 +1012,13 @@
       "links_embebidos_resueltos": "✅",
       "docs_legibles": "Texto puro",
       "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 9,
+      "cobertura_lectura_leidos": 9,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
       "criterios_suman_100": "✅ 100",
       "suma_pesos": 100,
       "peso_economico": 60,
@@ -877,6 +1061,23 @@
             "✅ Al menos 1 PCAP (pliego_administrativo): 1 encontrado",
             "   · Pliego",
             "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 9",
+            "✅ Leídos: 9",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1386 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1396 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2064 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2464 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-anuncio_oficial-Anuncio_BOCM.pdf — texto OK (1741 c/p), tipo \"anuncio_oficial\" poblado en extraccion.json",
+            "✅ 04-otro-Anuncio_en_el_BOAM.pdf — texto OK (2438 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 05-memoria-Memoria_justificativa.pdf — texto OK (2163 c/p), citado + tipo poblado",
+            "✅ 06-memoria_economica-Memoria_económica.pdf — texto OK (2392 c/p), citado en JSON",
+            "✅ 07-otro-Ejecución_por_promotor.pdf — texto OK (786 c/p), tipo \"otro\" poblado en extraccion.json"
           ]
         },
         "docs_legibles": {
