@@ -58,6 +58,19 @@ type AuditoriaRow = {
   cobertura_lectura_no_soportados: number;
   cobertura_lectura_no_citados: number;
 
+  cobertura_geo_pct: number;
+  cobertura_geo_label: string;
+  cobertura_geo_total: number;
+  cobertura_geo_con_coord: number;
+  cobertura_geo_aprox: number;
+  cobertura_geo_sin: number;
+
+  cobertura_puntos_pct: number;
+  cobertura_puntos_label: string;
+  cobertura_puntos_total: number;
+  cobertura_puntos_con: number;
+  cobertura_puntos_sin: number;
+
   licitadores_vs_acta: string;
   coherencia_ubis: string;
   anexos_validos: string;
@@ -343,6 +356,8 @@ export function AuditoriaTable({ data }: Props) {
               <Th>Σ=100</Th>
               <Th>Criterios</Th>
               <Th>Σ ubis</Th>
+              <Th>Cob. geo</Th>
+              <Th>Cob. puntos</Th>
               <Th>Anexos</Th>
               <Th>Licitadores</Th>
               <Th>Pliego complejo</Th>
@@ -412,6 +427,16 @@ export function AuditoriaTable({ data }: Props) {
                   <Td>
                     <ExplainCell titulo="Σ ubicaciones vs mínimo pliego" explicacion={ex.coherencia_ubis}>
                       <span>{r.coherencia_ubis}</span>
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Cobertura geográfica" explicacion={ex.cobertura_geo}>
+                      <CoberturaGeo row={r} />
+                    </ExplainCell>
+                  </Td>
+                  <Td>
+                    <ExplainCell titulo="Puntos de carga por ubicación" explicacion={ex.cobertura_puntos}>
+                      <CoberturaPuntos row={r} />
                     </ExplainCell>
                   </Td>
                   <Td>
@@ -486,6 +511,50 @@ function CriteriosBadge({ counts }: { counts?: { economicos: number; tecnicos: n
         {counts.mejoras > 0    && <span title="Mejoras puntuables" style={{ color: C.green }}>M:{counts.mejoras}</span>}
         {counts.juicio > 0     && <span title="Juicio de valor" style={{ color: C.purple }}>JV:{counts.juicio}</span>}
       </div>
+    </div>
+  );
+}
+
+function CoberturaGeo({ row }: { row: AuditoriaRow }) {
+  if ((row.cobertura_geo_total ?? 0) === 0) return <span style={{ color: C.dim }}>—</span>;
+  const sin   = row.cobertura_geo_sin ?? 0;
+  const aprox = row.cobertura_geo_aprox ?? 0;
+  const color = sin > 0 ? C.red : aprox > 0 ? C.amber : C.green;
+  const icono = sin > 0 ? "❌" : aprox > 0 ? "⚠️" : "✅";
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 96 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 12 }}>{icono}</span>
+        <span style={{ color, fontWeight: 700, fontSize: 11 }}>{row.cobertura_geo_pct}%</span>
+        <span style={{ color: C.muted, fontSize: 10 }}>· {row.cobertura_geo_con_coord}/{row.cobertura_geo_total}</span>
+      </div>
+      {(sin > 0 || aprox > 0) && (
+        <div style={{ display: "flex", gap: 4, fontSize: 9 }}>
+          {sin > 0   && <span style={{ color: C.red }}>{sin} sin</span>}
+          {aprox > 0 && <span style={{ color: C.amber }}>{aprox} aprox</span>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CoberturaPuntos({ row }: { row: AuditoriaRow }) {
+  if ((row.cobertura_puntos_total ?? 0) === 0) return <span style={{ color: C.dim }}>—</span>;
+  const sin   = row.cobertura_puntos_sin ?? 0;
+  const color = sin > 0 ? C.red : C.green;
+  const icono = sin > 0 ? "❌" : "✅";
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 96 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 12 }}>{icono}</span>
+        <span style={{ color, fontWeight: 700, fontSize: 11 }}>{row.cobertura_puntos_pct}%</span>
+        <span style={{ color: C.muted, fontSize: 10 }}>· {row.cobertura_puntos_con}/{row.cobertura_puntos_total}</span>
+      </div>
+      {sin > 0 && (
+        <div style={{ display: "flex", gap: 4, fontSize: 9 }}>
+          <span style={{ color: C.red }}>{sin} sin nº puntos</span>
+        </div>
+      )}
     </div>
   );
 }

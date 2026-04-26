@@ -1,6 +1,6 @@
 {
-  "generado_en": "2026-04-26T14:22:43.534Z",
-  "total_ejemplos": 5,
+  "generado_en": "2026-04-26T15:20:08.103Z",
+  "total_ejemplos": 6,
   "como_usar": "Anteponer al prompt del extractor LLM una sección \"Casos resueltos previos\" con estos ejemplos. Especialmente útil cuando el pliego nuevo tiene contradicciones, variantes de retribución, o cargadores mixtos. Cada lección es una regla derivada de un caso real.",
   "ejemplos": [
     {
@@ -42,14 +42,52 @@
       "notas_pliego_resumen": "Solvencia técnica crítica: la barrera de ≥ 10 puntos de recarga rápida ≥ 50 kW instalados/gestionados en alguno de 2020-2022 limita el pool de licitadores a CPOs establecidos o actores grandes. · Base de la convocatoria: 42 plazas M (turismos/furgonetas, equipos ≥ 50 kW) + 5 plazas N (camiones/industriales, equipos ≥ 150 kW) = 47 plazas; 2.850 kW de demanda simultánea estimada. · Prórroga automática: 1 prórroga de 5 años si ninguna parte denuncia con 2 meses de antelación al vencimiento (total máximo 20 años). · Visita obligatoria a la parcela previa a presentar oferta y solicitud de informe de viabilidad urbanística dentro del plazo de presentación de solicitudes — ambos requisitos críticos. · Canon variable (€/kWh) entra en vigor desde el inicio de la concesión; el canon fijo (€/año) se devenga sólo a partir del 01/01/2029."
     },
     {
+      "slug": "15534510",
+      "titulo": "Concesión de uso privativo de la parcela sita en C/ Juan Mieg, 13 para su uso como estación de recarga de baterías de vehículos eléctricos",
+      "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
+      "confianza": 99,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Flag pendiente: 1 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "mixto",
+        "tecnologia_requerida": "DC",
+        "num_cargadores_minimo": 26,
+        "potencia_minima_por_cargador_kw": 50,
+        "ubicaciones_total": 1,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,01).",
+            "puntos_max": 40
+          },
+          {
+            "descripcion": "Incremento del canon FIJO anual desde 01/01/2030 (€/año sobre el mínimo 170.000).",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Mejora de potencia de salida en equipos de recarga (≥100 kW plazas M, ≥200 kW plazas N).",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Instalación fotovoltaica sobre pérgolas (≥100 kWp para máximo).",
+            "puntos_max": 20
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Régimen del canon mixto: el canon variable (€/kWh) se devenga desde el inicio de la explotación; el canon fijo (€/año) sólo desde el 01/01/2030 (antes de esa fecha = 0 €). Incremento anual del 2% en el canon variable a partir de la formalización. · Prórroga automática: 1 prórroga de 5 años si ninguna parte denuncia con 2 meses de antelación al vencimiento (total máximo 20 años). · Régimen escalonado de plazas: hasta 31/12/2029 mínimo 10 plazas M (≥50 kW) + 2 plazas N (≥150 kW). A partir de esa fecha el adjudicatario debe ampliar a 22 plazas M + 4 plazas N. · Causa de exclusión específica: ofertas con canon (fijo o variable) superior a 3× la media de los otros licitadores (excluido el de menor importe), cuando concurran ≥ 4 solicitantes — penaliza ofertas atípicamente altas. · Pliego rectificado el 05/09/2024 (17 días después de la publicación inicial del 19/08/2024 en BOAM): se modificaron las fórmulas de valoración del Criterio 1 (canon) y se aclararon las puntuaciones para ofertas que no mejoren los mínimos. · Visita obligatoria a la parcela previa a presentar oferta y solicitud de informe de viabilidad urbanística dentro del plazo de presentación de solicitudes — ambos requisitos críticos."
+    },
+    {
       "slug": "17776623",
       "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
       "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
-      "confianza": 92,
+      "confianza": 91,
       "motivos_complejidad": [],
       "lecciones": [
         "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
-        "Flag pendiente: 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
+        "Flag pendiente: 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)",
+        "Flag pendiente: 1 ubicaciones con coords aproximadas (centroide municipio)"
       ],
       "decisiones_aplicadas": {
         "tipo_retribucion": "canon_fijo",
@@ -83,7 +121,7 @@
       "slug": "17794455",
       "titulo": "Adjudicación de una concesión de dominio público, en régimen de concurrencia, para la instalación de puntos de recarga de vehículos eléctricos en espacios públicos en determinadas zonas&#xD;\npúblicas de los municipios mancomunados participantes en el programa.",
       "organo": "Pleno de la Mancomunitat de l'Alacantí",
-      "confianza": 100,
+      "confianza": 99,
       "motivos_complejidad": [
         "Q&A / aclaración oficial incorporada",
         "Sin canon (venta de energía al usuario, art. 93.4 LPAP)",
@@ -96,6 +134,7 @@
         "Variante sin canon al órgano: usar tipo_retribucion=\"venta_energia_usuario\" + precio_max_kwh_usuario / oferta_precio_kwh_usuario.",
         "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
         "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: 1 ubicaciones con coords aproximadas (centroide municipio)",
         "Flag pendiente: Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
       ],
       "decisiones_aplicadas": {

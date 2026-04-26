@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-26T14:22:43.529Z",
+  "generado_en": "2026-04-26T15:20:08.098Z",
   "total": 6,
   "resumen": {
     "verdes": 6,
@@ -114,9 +114,20 @@
       "licitadores_vs_acta": "4 extraídos",
       "coherencia_ubis": "✅ 47/47",
       "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "✅ 100%",
+      "cobertura_geo_total": 1,
+      "cobertura_geo_con_coord": 1,
+      "cobertura_geo_aprox": 0,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 1,
+      "cobertura_puntos_con": 1,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T11:06:10.261Z",
+        "fecha": "2026-04-26T15:10:18.653Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 26 PDFs)"
       },
       "flags_abiertos": [
@@ -282,6 +293,22 @@
             "4. GRUPO EASYCHARGER S.A."
           ]
         },
+        "cobertura_geo": {
+          "descripcion": "1 de 1 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa.",
+          "detalles": [
+            "Con coords exactas: 1",
+            "Aproximadas (centroide municipio): 0",
+            "Sin coords: 0"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "1 de 1 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 1",
+            "Sin puntos declarados: 0",
+            "✅ #1 Parcela C/ Pirotecnia 47 → 47 puntos (DC)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 47 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -299,7 +326,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 13:06:10",
+            "Fecha: 26/4/2026, 17:10:18",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa 26 PDFs)",
             "Sin Vision API"
           ]
@@ -336,7 +363,7 @@
       "organo": "Área de Gobierno de Urbanismo, Medio Ambiente y Movilidad del Ayuntamiento de Madrid",
       "estado": "RES",
       "categoria": "1",
-      "confianza_global": 100,
+      "confianza_global": 99,
       "semaforo": "verde",
       "docs_completos": "20/20",
       "links_embebidos_resueltos": "✅",
@@ -433,12 +460,25 @@
       "licitadores_vs_acta": "5 extraídos",
       "coherencia_ubis": "✅ 26/26",
       "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 1,
+      "cobertura_geo_con_coord": 1,
+      "cobertura_geo_aprox": 1,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 1,
+      "cobertura_puntos_con": 1,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T11:06:11.084Z",
+        "fecha": "2026-04-26T15:10:19.435Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 15 PDFs vía pdftotext)"
       },
-      "flags_abiertos": [],
+      "flags_abiertos": [
+        "1 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
       "etapa": "publicado",
       "explicaciones": {
         "docs_completos": {
@@ -576,6 +616,23 @@
             "5. ACCIONA RECARGA S.L."
           ]
         },
+        "cobertura_geo": {
+          "descripcion": "1 de 1 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 1 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 0",
+            "Aproximadas (centroide municipio): 1",
+            "Sin coords: 0",
+            "⚠ #1 Parcela C/ Juan Mieg 13, Carabanchel → centroide Madrid"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "1 de 1 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 1",
+            "Sin puntos declarados: 0",
+            "✅ #1 Parcela C/ Juan Mieg 13, Carabanchel → 26 puntos (DC)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 26 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -593,7 +650,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 13:06:11",
+            "Fecha: 26/4/2026, 17:10:19",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 15 PDFs vía pdftotext)",
             "Sin Vision API"
           ]
@@ -609,13 +666,14 @@
           "detalles": [
             "Base: cobertura pliego = 100%",
             "Promedio con cobertura adjudicación (100%) → 100",
-            "= 100% (🟢 verde)"
+            "−1: 1 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 99% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
-          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "Todo OK."
+            "⚠️ 1 ubicaciones con coords aproximadas (centroide municipio)"
           ]
         }
       }
@@ -627,7 +685,7 @@
       "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
       "estado": "DES",
       "categoria": "1",
-      "confianza_global": 92,
+      "confianza_global": 91,
       "semaforo": "verde",
       "docs_completos": "8/8",
       "links_embebidos_resueltos": "✅",
@@ -724,13 +782,25 @@
       "licitadores_vs_acta": "—",
       "coherencia_ubis": "✅ 20/20",
       "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 7,
+      "cobertura_geo_con_coord": 7,
+      "cobertura_geo_aprox": 1,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 7,
+      "cobertura_puntos_con": 7,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0.2,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T10:34:48.872Z",
+        "fecha": "2026-04-26T15:10:20.439Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 8 PDFs vía pdftotext: 6 del listado HTML + 2 PCAP/PPT embebidos como hyperlinks dentro del PDF Pliego) + vision claude-sonnet-4-6 (anexos PCAP)"
       },
       "flags_abiertos": [
-        "1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
+        "1 archivo de tipo no soportado (ZIP/.docx/.xlsx)",
+        "1 ubicaciones con coords aproximadas (centroide municipio)"
       ],
       "etapa": "publicado",
       "explicaciones": {
@@ -847,6 +917,29 @@
           "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
           "detalles": []
         },
+        "cobertura_geo": {
+          "descripcion": "7 de 7 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 1 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 6",
+            "Aproximadas (centroide municipio): 1",
+            "Sin coords: 0",
+            "⚠ #7 Parking Barrio de las Bodegas → centroide Haro"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "7 de 7 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 7",
+            "Sin puntos declarados: 0",
+            "✅ #1 Estación Existente Calle Grecia → 2 puntos (AC)",
+            "✅ #2 La Ventilla → 4 puntos (AC)",
+            "✅ #3 Av. Santo Domingo de la Calzada → 4 puntos (AC)",
+            "✅ #4 Parking El Ferial → 2 puntos (AC)",
+            "✅ #5 Parking Centro de Salud → 2 puntos (AC)",
+            "✅ #6 Parking El Mazo → 4 puntos (AC)",
+            "✅ #7 Parking Barrio de las Bodegas → 4 puntos (AC)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 20 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -865,7 +958,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 12:34:48",
+            "Fecha: 26/4/2026, 17:10:20",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 8 PDFs vía pdftotext: 6 del listado HTML + 2 PCAP/PPT embebidos como hyperlinks dentro del PDF Pliego) + vision claude-sonnet-4-6 (anexos PCAP)",
             "Vision API usada: 1 call (~$0.20)"
           ]
@@ -882,13 +975,15 @@
             "Base: cobertura pliego = 100%",
             "Sin adjudicación todavía → solo cuenta cobertura pliego",
             "−8: 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)",
-            "= 92% (🟢 verde)"
+            "−1: 1 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 91% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
-          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
-            "⚠️ 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)"
+            "⚠️ 1 archivo de tipo no soportado (ZIP/.docx/.xlsx)",
+            "⚠️ 1 ubicaciones con coords aproximadas (centroide municipio)"
           ]
         }
       }
@@ -900,7 +995,7 @@
       "organo": "Pleno de la Mancomunitat de l'Alacantí",
       "estado": "EV",
       "categoria": "1",
-      "confianza_global": 100,
+      "confianza_global": 99,
       "semaforo": "verde",
       "docs_completos": "12/12",
       "links_embebidos_resueltos": "✅",
@@ -1065,12 +1160,24 @@
       "licitadores_vs_acta": "2 extraídos",
       "coherencia_ubis": "✅ 68/68",
       "anexos_validos": "✅ 2",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 46,
+      "cobertura_geo_con_coord": 46,
+      "cobertura_geo_aprox": 1,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 46,
+      "cobertura_puntos_con": 46,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0.4,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T13:22:43.840Z",
+        "fecha": "2026-04-26T15:10:21.425Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 12 PDFs vía pdftotext: 10 del listado HTML + PCAP+PPT embebidos en el Pliego) + vision claude-sonnet-4-6 (ubicaciones del Anexo I + II) + vision Anexo II completado"
       },
       "flags_abiertos": [
+        "1 ubicaciones con coords aproximadas (centroide municipio)",
         "Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
       ],
       "etapa": "publicado",
@@ -1202,6 +1309,30 @@
             "2. ATOMELEC IBÉRICA, S.L."
           ]
         },
+        "cobertura_geo": {
+          "descripcion": "46 de 46 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 1 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 45",
+            "Aproximadas (centroide municipio): 1",
+            "Sin coords: 0",
+            "⚠ #46 Parking Els Furs - Subterráneo → centroide El Campello"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "46 de 46 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 46",
+            "Sin puntos declarados: 0",
+            "✅ #1 AL.01 - Playa San Juan (Área 2) → 2 puntos (mixto)",
+            "✅ #2 AL.02 - Playa San Juan (Área 3) → 2 puntos (mixto)",
+            "✅ #3 AL.03 - Playa San Juan Área 5 → 2 puntos (mixto)",
+            "✅ #4 AL.04 - Av Historiador Vicente Ramos → 2 puntos (mixto)",
+            "✅ #5 AL.05 - Estadio Municipal de Atletismo Joaquín Vil → 2 puntos (mixto)",
+            "✅ #6 AL.06 - Complejo Deportivo Municipal Gran Vía → 2 puntos (mixto)",
+            "✅ #7 AL.07 - Parque El Palmeral → 2 puntos (mixto)",
+            "✅ #8 AL.08 - Auditorio Diputación de Alicante → 2 puntos (mixto)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 68 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -1221,7 +1352,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 15:22:43",
+            "Fecha: 26/4/2026, 17:10:21",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 12 PDFs vía pdftotext: 10 del listado HTML + PCAP+PPT embebidos en el Pliego) + vision claude-sonnet-4-6 (ubicaciones del Anexo I + II) + vision Anexo II completado",
             "Vision API usada: 2 calls (~$0.40)"
           ]
@@ -1240,12 +1371,14 @@
             "Base: cobertura pliego = 100%",
             "Sin adjudicación todavía → solo cuenta cobertura pliego",
             "Pliego complejo PERO con Q&A oficial incorporado — sin penalización",
-            "= 100% (🟢 verde)"
+            "−1: 1 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 99% (🟢 verde)"
           ]
         },
         "flags_abiertos": {
-          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
+            "⚠️ 1 ubicaciones con coords aproximadas (centroide municipio)",
             "⚠️ Criterio esperado faltante: \"mejora_canon\" aparece en 50% de las cat=1 pero NO en este slug — verificar si lo perdimos"
           ]
         }
@@ -1315,9 +1448,20 @@
       "licitadores_vs_acta": "1 extraídos",
       "coherencia_ubis": "✅ 14/14",
       "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "✅ 100%",
+      "cobertura_geo_total": 5,
+      "cobertura_geo_con_coord": 5,
+      "cobertura_geo_aprox": 0,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 5,
+      "cobertura_puntos_con": 5,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T10:34:44.789Z",
+        "fecha": "2026-04-26T15:10:22.509Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa 9 PDFs)"
       },
       "flags_abiertos": [
@@ -1441,6 +1585,26 @@
             "1. Qwello España SL"
           ]
         },
+        "cobertura_geo": {
+          "descripcion": "5 de 5 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa.",
+          "detalles": [
+            "Con coords exactas: 5",
+            "Aproximadas (centroide municipio): 0",
+            "Sin coords: 0"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "5 de 5 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 5",
+            "Sin puntos declarados: 0",
+            "✅ #1 Plaza de la Concordia → 4 puntos (mixto)",
+            "✅ #2 C/ Devesa del Castell cerca del nº 3 → 4 puntos (mixto)",
+            "✅ #3 Plaza Sequera, 11-D → 2 puntos (mixto)",
+            "✅ #4 Mercado – Parking Las Palmeras → 2 puntos (mixto)",
+            "✅ #5 Pabellón – Calle Luis Vives, 1 → 2 puntos (mixto)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 14 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -1458,7 +1622,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 12:34:44",
+            "Fecha: 26/4/2026, 17:10:22",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa 9 PDFs)",
             "Sin Vision API"
           ]
@@ -1589,9 +1753,20 @@
       "licitadores_vs_acta": "—",
       "coherencia_ubis": "✅ 10/10",
       "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "✅ 100%",
+      "cobertura_geo_total": 1,
+      "cobertura_geo_con_coord": 1,
+      "cobertura_geo_aprox": 0,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 1,
+      "cobertura_puntos_con": 1,
+      "cobertura_puntos_sin": 0,
       "coste_vision_usd": 0,
       "ultima_extraccion": {
-        "fecha": "2026-04-26T10:34:47.803Z",
+        "fecha": "2026-04-26T15:10:23.617Z",
         "modelo": "claude-opus-4-7 (sesión Max, lectura directa de 7 PDFs vía pdftotext)"
       },
       "flags_abiertos": [
@@ -1704,6 +1879,22 @@
           "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
           "detalles": []
         },
+        "cobertura_geo": {
+          "descripcion": "1 de 1 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa.",
+          "detalles": [
+            "Con coords exactas: 1",
+            "Aproximadas (centroide municipio): 0",
+            "Sin coords: 0"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "1 de 1 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 1",
+            "Sin puntos declarados: 0",
+            "✅ #1 Parcela P.º Ermita del Santo 80, Carabanchel (anti → 10 puntos (DC)"
+          ]
+        },
         "coherencia_ubis": {
           "descripcion": "El pliego exige instalar 10 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
           "detalles": [
@@ -1721,7 +1912,7 @@
         "ultima_extraccion": {
           "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
           "detalles": [
-            "Fecha: 26/4/2026, 12:34:47",
+            "Fecha: 26/4/2026, 17:10:23",
             "Modelo: claude-opus-4-7 (sesión Max, lectura directa de 7 PDFs vía pdftotext)",
             "Sin Vision API"
           ]

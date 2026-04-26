@@ -568,6 +568,57 @@ for (const slug of slugs) {
   }
   const ubisExistentes = ubis.filter((u) => u.es_existente);
   const sumaExistentes = ubisExistentes.reduce((acc, u) => acc + (u.cargadores_total ?? 0), 0);
+
+  // ── Cobertura geográfica (lat/lon por ubicación) ────────────────────────
+  // Cruzamos con el extraccion.json para detectar ubicaciones con coords
+  // aproximadas (`_geocode_fuente` contiene "centroide"). El bundle no preserva
+  // ese campo, sólo lat/lon.
+  const ubisExt          = ext?.ubicaciones ?? [];
+  const ubisConCoord     = ubis.filter((u) => u.latitud != null && u.longitud != null);
+  const ubisAprox        = ubis.filter((u, i) => {
+    const ue = ubisExt[i];
+    return ue?._geocode_fuente && ue._geocode_fuente.includes('centroide');
+  });
+  const ubisSinCoord     = ubis.filter((u) => u.latitud == null || u.longitud == null);
+  const cobGeoPct        = ubis.length > 0 ? Math.round(100 * ubisConCoord.length / ubis.length) : 0;
+  const cobGeoLabel      = ubis.length === 0 ? '—'
+    : ubisSinCoord.length > 0 ? `❌ ${cobGeoPct}%`
+    : ubisAprox.length > 0    ? `⚠️ ${cobGeoPct}%`
+    : `✅ ${cobGeoPct}%`;
+  if (ubisSinCoord.length > 0) flags.push(`${ubisSinCoord.length} ubicaciones sin coordenadas (no aparecen en el mapa)`);
+  if (ubisAprox.length > 0)    flags.push(`${ubisAprox.length} ubicaciones con coords aproximadas (centroide municipio)`);
+  explicaciones.cobertura_geo = {
+    descripcion: ubis.length === 0
+      ? 'No hay ubicaciones cargadas en este expediente.'
+      : `${ubisConCoord.length} de ${ubis.length} ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. ${ubisAprox.length > 0 ? `${ubisAprox.length} están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. "Sótano subterráneo", "Polideportivo Municipal").` : ''} ${ubisSinCoord.length > 0 ? `Quedan ${ubisSinCoord.length} sin coords — habría que geocodificarlas manualmente o ajustar la dirección.` : ''}`.trim(),
+    detalles: [
+      `Con coords exactas: ${ubisConCoord.length - ubisAprox.length}`,
+      `Aproximadas (centroide municipio): ${ubisAprox.length}`,
+      `Sin coords: ${ubisSinCoord.length}`,
+      ...ubisAprox.map((u, i) => `⚠ #${ubis.indexOf(u) + 1} ${u.nombre?.slice(0, 60)} → centroide ${u.municipio ?? '?'}`),
+      ...ubisSinCoord.map((u, i) => `❌ #${ubis.indexOf(u) + 1} ${u.nombre?.slice(0, 60)} (${u.direccion?.slice(0, 50) ?? 'sin dirección'})`),
+    ],
+  };
+
+  // ── Puntos de carga claros por ubicación ────────────────────────────────
+  const ubisConPuntos    = ubis.filter((u) => u.cargadores_total != null && u.cargadores_total > 0);
+  const ubisSinPuntos    = ubis.filter((u) => u.cargadores_total == null);
+  const cobPuntosPct     = ubis.length > 0 ? Math.round(100 * ubisConPuntos.length / ubis.length) : 0;
+  const cobPuntosLabel   = ubis.length === 0 ? '—'
+    : ubisSinPuntos.length > 0 ? `❌ ${cobPuntosPct}%`
+    : `✅ ${cobPuntosPct}%`;
+  if (ubisSinPuntos.length > 0) flags.push(`${ubisSinPuntos.length} ubicaciones sin nº de puntos de carga declarado`);
+  explicaciones.cobertura_puntos = {
+    descripcion: ubis.length === 0
+      ? 'No hay ubicaciones cargadas en este expediente.'
+      : `${ubisConPuntos.length} de ${ubis.length} ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. ${ubisSinPuntos.length > 0 ? `Quedan ${ubisSinPuntos.length} con cargadores_total null o cero — sin ese dato no se puede sumar el mínimo del pliego ni renderizar bien los chips.` : 'Todas las ubicaciones tienen su número de puntos de carga claro.'}`,
+    detalles: [
+      `Con puntos declarados: ${ubisConPuntos.length}`,
+      `Sin puntos declarados: ${ubisSinPuntos.length}`,
+      ...ubisConPuntos.slice(0, 8).map((u) => `✅ #${ubis.indexOf(u) + 1} ${u.nombre?.slice(0, 50)} → ${u.cargadores_total} puntos${u.tipo_hw ? ` (${u.tipo_hw})` : ''}`),
+      ...ubisSinPuntos.map((u) => `❌ #${ubis.indexOf(u) + 1} ${u.nombre?.slice(0, 60)}`),
+    ],
+  };
   explicaciones.coherencia_ubis = {
     descripcion: minimoPliego != null
       ? `El pliego exige instalar ${minimoPliego} puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.`
@@ -714,6 +765,21 @@ for (const slug of slugs) {
   if (scannedSinVision > 0)   { confianza -= 12; desgloseConfianza.push(`−12: ${scannedSinVision} PDF scanned no procesado con Vision`); }
   if (tiposNoSoportados > 0)  { confianza -= 8;  desgloseConfianza.push(`−8: ${tiposNoSoportados} archivo de tipo no soportado (ZIP/.docx/.xlsx)`); }
   if (posiblementeNoLeidos > 0) { confianza -= 3 * Math.min(posiblementeNoLeidos, 3); desgloseConfianza.push(`−${3 * Math.min(posiblementeNoLeidos, 3)}: ${posiblementeNoLeidos} PDF no citado por el LLM (sospecha de no leído)`); }
+  if (ubisSinCoord.length > 0) {
+    const pen = Math.min(8, ubisSinCoord.length);
+    confianza -= pen;
+    desgloseConfianza.push(`−${pen}: ${ubisSinCoord.length} ubicaciones sin coordenadas`);
+  }
+  if (ubisAprox.length > 0) {
+    const pen = Math.min(3, ubisAprox.length);
+    confianza -= pen;
+    desgloseConfianza.push(`−${pen}: ${ubisAprox.length} ubicaciones con coords aproximadas (centroide municipio)`);
+  }
+  if (ubisSinPuntos.length > 0 && ubis.length > 0) {
+    const pen = Math.min(8, ubisSinPuntos.length * 2);
+    confianza -= pen;
+    desgloseConfianza.push(`−${pen}: ${ubisSinPuntos.length} ubicaciones sin nº de puntos de carga declarado`);
+  }
   confianza = Math.max(0, Math.min(100, confianza));
   desgloseConfianza.push(`= ${confianza}% (${confianza >= 85 ? '🟢 verde' : confianza >= 60 ? '🟡 amarillo' : '🔴 rojo'})`);
 
@@ -770,6 +836,19 @@ for (const slug of slugs) {
     licitadores_vs_acta: licitadoresVsActa,
     coherencia_ubis:     coherenciaUbis,
     anexos_validos:      anexosValidos,
+
+    cobertura_geo_pct:   cobGeoPct,
+    cobertura_geo_label: cobGeoLabel,
+    cobertura_geo_total: ubis.length,
+    cobertura_geo_con_coord: ubisConCoord.length,
+    cobertura_geo_aprox: ubisAprox.length,
+    cobertura_geo_sin:   ubisSinCoord.length,
+
+    cobertura_puntos_pct:   cobPuntosPct,
+    cobertura_puntos_label: cobPuntosLabel,
+    cobertura_puntos_total: ubis.length,
+    cobertura_puntos_con:   ubisConPuntos.length,
+    cobertura_puntos_sin:   ubisSinPuntos.length,
 
     coste_vision_usd: costeVisionUsd,
     ultima_extraccion: ultimaExtraccion,

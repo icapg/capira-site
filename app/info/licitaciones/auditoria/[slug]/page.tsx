@@ -132,6 +132,8 @@ export default async function AuditoriaSlugPage({ params }: { params: Promise<{ 
         <Section titulo="⚖ Σ pesos = 100 — criterios económicos + técnicos" e={ex.criterios_suman_100} />
         <Section titulo={`🧮 Criterios encontrados (${r.criterios_count?.total ?? 0})`} e={ex.criterios_detalle} maxDetalles={200} />
         <Section titulo="📍 Σ ubicaciones vs mínimo del pliego"            e={ex.coherencia_ubis} />
+        <Section titulo="🌍 Cobertura geográfica — coordenadas por ubicación" e={ex.cobertura_geo} />
+        <Section titulo="🔌 Puntos de carga claros por ubicación"           e={ex.cobertura_puntos} />
         <Section titulo="📐 Anexos del pliego (deep-links #page=N)"        e={ex.anexos_validos} />
         <Section titulo="🏢 Licitadores extraídos"                          e={ex.licitadores_vs_acta} />
         <Section titulo="⚙ Pliego complejo — diagnóstico"                  e={ex.pliego_complejo} />
