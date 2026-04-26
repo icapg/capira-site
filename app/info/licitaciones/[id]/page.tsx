@@ -1483,7 +1483,26 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
                 {u.cargadores_dc_plus != null && <span style={{ color: C.green }}>DC+ <b>{u.cargadores_dc_plus}</b></span>}
                 {u.cargadores_hpc    != null && <span style={{ color: C.amber }}>HPC <b>{u.cargadores_hpc}</b></span>}
                 {u.potencia_total_kw != null && <span>⚡ <b style={{ color: C.text }}>{u.potencia_total_kw} kW</b></span>}
-                {u.potencia_por_cargador_kw != null && <span title="Potencia por punto de carga">⚡/punto <b style={{ color: C.text }}>{u.potencia_por_cargador_kw} kW</b></span>}
+                {/* Split por toma para tipo_hw mixto (o cualquier ubicación con AC/DC/HPC explícitos). Si no hay split, fallback al campo legacy. */}
+                {(() => {
+                  const ac = u.potencia_ac_kw;
+                  const dc = u.potencia_dc_kw;
+                  const hpc = u.potencia_hpc_kw;
+                  const haySplit = ac != null || dc != null || hpc != null;
+                  if (haySplit) {
+                    return (
+                      <>
+                        {ac  != null && <span title="Potencia toma AC (modo 3, Mennekes Tipo 2)" style={{ color: C.purple }}>⚡AC <b>{ac} kW</b></span>}
+                        {dc  != null && <span title="Potencia toma DC (modo 4, CCS Combo2)" style={{ color: C.blue }}>⚡DC <b>{dc} kW</b></span>}
+                        {hpc != null && <span title="Potencia toma HPC (high-power charging)" style={{ color: C.amber }}>⚡HPC <b>{hpc} kW</b></span>}
+                      </>
+                    );
+                  }
+                  if (u.potencia_por_cargador_kw != null) {
+                    return <span title="Potencia por punto de carga">⚡/punto <b style={{ color: C.text }}>{u.potencia_por_cargador_kw} kW</b></span>;
+                  }
+                  return null;
+                })()}
                 {u.plazo_pem_meses   != null && <span>⏱️ PeM <b>{u.plazo_pem_meses}m</b></span>}
               </div>
               {u.notas && <div style={{ fontSize: 11, color: C.dim, marginTop: 6, fontStyle: "italic" }}>💬 {u.notas}</div>}

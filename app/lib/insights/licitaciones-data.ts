@@ -89,7 +89,14 @@ export type UbicacionConcesion = {
   cargadores_hpc?:     number;
   cargadores_total?:   number;
   potencia_total_kw?:        number;
+  /** Potencia "principal" del equipo (legacy / fallback). Para tipo_hw mixto se prefiere el split por toma. */
   potencia_por_cargador_kw?: number;
+  /** Potencia de la toma AC (modo 3, Mennekes Tipo 2). Aplica a tipo_hw="AC" o "mixto". */
+  potencia_ac_kw?:           number;
+  /** Potencia de la toma DC (modo 4, CCS Combo2 ≥50 kW típico). Aplica a tipo_hw="DC" o "mixto". */
+  potencia_dc_kw?:           number;
+  /** Potencia de la toma HPC (high-power charging, ≥150 kW). Aplica a tipo_hw="HPC" o "mixto". */
+  potencia_hpc_kw?:          number;
   tipo_hw?:         "AC" | "DC" | "HPC" | "mixto" | string;
   plazo_pem_meses?: number;
   google_maps_url?: string;
