@@ -28,41 +28,53 @@ function colorPorTipoHw(tipo?: string) {
   return C.muted;
 }
 
+// Colores específicos para el popup (fondo blanco de Leaflet por defecto)
+const POP = {
+  text:   "#0f172a",    // casi negro
+  muted:  "#475569",    // gris azulado oscuro
+  border: "#e2e8f0",    // gris muy claro
+  ac:     "#7c3aed",    // violeta más oscuro que el del theme dark
+  dc:     "#0284c7",    // azul más oscuro
+  green:  "#059669",
+  amber:  "#b45309",
+  red:    "#dc2626",
+};
+
 function popupHtml(u: UbicacionConcesion, idx: number) {
   const lineas: string[] = [];
   if (u.direccion || u.municipio) {
-    lineas.push(`<div style="color:${C.muted};font-size:11px;margin-bottom:4px">${[u.direccion, u.municipio].filter(Boolean).join(" · ")}</div>`);
+    lineas.push(`<div style="color:${POP.muted};font-size:11px;margin-bottom:4px">${[u.direccion, u.municipio].filter(Boolean).join(" · ")}</div>`);
   }
   const chips: string[] = [];
-  if (u.tipo_hw)             chips.push(`<span style="background:${colorPorTipoHw(u.tipo_hw)}33;color:${colorPorTipoHw(u.tipo_hw)};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700">${u.tipo_hw.toUpperCase()}</span>`);
-  if (u.es_existente)        chips.push(`<span style="background:${C.amber}22;color:${C.amber};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700">EXISTENTE</span>`);
-  if (u.es_opcional)         chips.push(`<span style="background:${C.amber}22;color:${C.amber};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700">OPCIONAL</span>`);
+  if (u.tipo_hw)             chips.push(`<span style="background:${colorPorTipoHw(u.tipo_hw)}22;color:${colorPorTipoHw(u.tipo_hw)};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;border:1px solid ${colorPorTipoHw(u.tipo_hw)}55">${u.tipo_hw.toUpperCase()}</span>`);
+  if (u.es_existente)        chips.push(`<span style="background:${POP.amber}1a;color:${POP.amber};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;border:1px solid ${POP.amber}55">EXISTENTE</span>`);
+  if (u.es_opcional)         chips.push(`<span style="background:${POP.amber}1a;color:${POP.amber};padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;border:1px solid ${POP.amber}55">OPCIONAL</span>`);
   if (chips.length) lineas.push(`<div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">${chips.join("")}</div>`);
 
   const stats: string[] = [];
-  if (u.cargadores_total != null) stats.push(`<span>🔌 <b style="color:${C.text}">${u.cargadores_total}</b></span>`);
-  if (u.cargadores_ac != null)    stats.push(`<span style="color:${C.purple}">AC <b>${u.cargadores_ac}</b></span>`);
-  if (u.cargadores_dc != null)    stats.push(`<span style="color:${C.blue}">DC <b>${u.cargadores_dc}</b></span>`);
-  if (u.cargadores_dc_plus != null) stats.push(`<span style="color:${C.green}">DC+ <b>${u.cargadores_dc_plus}</b></span>`);
-  if (u.cargadores_hpc != null)   stats.push(`<span style="color:${C.amber}">HPC <b>${u.cargadores_hpc}</b></span>`);
-  if (u.potencia_total_kw != null) stats.push(`<span>⚡ <b style="color:${C.text}">${u.potencia_total_kw} kW</b></span>`);
-  if (u.potencia_ac_kw != null)    stats.push(`<span style="color:${C.purple}">⚡AC <b>${u.potencia_ac_kw} kW</b></span>`);
-  if (u.potencia_dc_kw != null)    stats.push(`<span style="color:${C.blue}">⚡DC <b>${u.potencia_dc_kw} kW</b></span>`);
-  if (u.potencia_hpc_kw != null)   stats.push(`<span style="color:${C.amber}">⚡HPC <b>${u.potencia_hpc_kw} kW</b></span>`);
-  if (stats.length) lineas.push(`<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:${C.muted};margin-bottom:6px">${stats.join("")}</div>`);
+  if (u.cargadores_total != null) stats.push(`<span style="color:${POP.muted}">🔌 <b style="color:${POP.text}">${u.cargadores_total}</b></span>`);
+  if (u.cargadores_ac != null)    stats.push(`<span style="color:${POP.ac}">AC <b>${u.cargadores_ac}</b></span>`);
+  if (u.cargadores_dc != null)    stats.push(`<span style="color:${POP.dc}">DC <b>${u.cargadores_dc}</b></span>`);
+  if (u.cargadores_dc_plus != null) stats.push(`<span style="color:${POP.green}">DC+ <b>${u.cargadores_dc_plus}</b></span>`);
+  if (u.cargadores_hpc != null)   stats.push(`<span style="color:${POP.amber}">HPC <b>${u.cargadores_hpc}</b></span>`);
+  if (u.potencia_total_kw != null) stats.push(`<span style="color:${POP.muted}">⚡ <b style="color:${POP.text}">${u.potencia_total_kw} kW</b></span>`);
+  if (u.potencia_ac_kw != null)    stats.push(`<span style="color:${POP.ac}">⚡AC <b>${u.potencia_ac_kw} kW</b></span>`);
+  if (u.potencia_dc_kw != null)    stats.push(`<span style="color:${POP.dc}">⚡DC <b>${u.potencia_dc_kw} kW</b></span>`);
+  if (u.potencia_hpc_kw != null)   stats.push(`<span style="color:${POP.amber}">⚡HPC <b>${u.potencia_hpc_kw} kW</b></span>`);
+  if (stats.length) lineas.push(`<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:11px;margin-bottom:6px">${stats.join("")}</div>`);
 
   if (u.notas) {
-    lineas.push(`<div style="font-size:11px;color:${C.muted};font-style:italic;margin-top:4px;padding-top:6px;border-top:1px solid ${C.border}">💬 ${escapeHtml(u.notas).slice(0, 320)}</div>`);
+    lineas.push(`<div style="font-size:11px;color:${POP.muted};font-style:italic;margin-top:4px;padding-top:6px;border-top:1px solid ${POP.border}">💬 ${escapeHtml(u.notas).slice(0, 320)}</div>`);
   }
 
   const links: string[] = [];
-  if (u.google_maps_url) links.push(`<a href="${u.google_maps_url}" target="_blank" rel="noopener" style="font-size:10px;color:${C.blue};font-weight:700;text-decoration:none">Maps ↗</a>`);
-  if (u.plano_url)       links.push(`<a href="${u.plano_url}" target="_blank" rel="noopener" style="font-size:10px;color:${C.purple};font-weight:700;text-decoration:none">📐 ${u.plano_label ?? "Plano"} ↗</a>`);
+  if (u.google_maps_url) links.push(`<a href="${u.google_maps_url}" target="_blank" rel="noopener" style="font-size:11px;color:${POP.dc};font-weight:700;text-decoration:none">Maps ↗</a>`);
+  if (u.plano_url)       links.push(`<a href="${u.plano_url}" target="_blank" rel="noopener" style="font-size:11px;color:${POP.ac};font-weight:700;text-decoration:none">📐 ${u.plano_label ?? "Plano"} ↗</a>`);
   if (links.length) lineas.push(`<div style="display:flex;gap:10px;margin-top:8px">${links.join("")}</div>`);
 
   return `
-    <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:${C.text};min-width:240px;max-width:320px">
-      <div style="font-size:13px;font-weight:700;color:${C.text};margin-bottom:6px">📍 ${escapeHtml(u.nombre ?? `Ubicación ${idx + 1}`)}</div>
+    <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:${POP.text};min-width:240px;max-width:320px">
+      <div style="font-size:13px;font-weight:700;color:${POP.text};margin-bottom:6px">📍 ${escapeHtml(u.nombre ?? `Ubicación ${idx + 1}`)}</div>
       ${lineas.join("")}
     </div>
   `;
