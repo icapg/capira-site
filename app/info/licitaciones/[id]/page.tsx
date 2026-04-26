@@ -1433,11 +1433,14 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
   // Si el sumatorio es menor al total declarado en concesion, usar el top-level
   const totalCargadoresTop = concesion?.num_cargadores ?? concesion?.num_cargadores_minimo ?? null;
   const totalCargadores = (totalCargadoresTop != null && totalCargadoresTop >= sumaCargadores) ? totalCargadoresTop : sumaCargadores;
+  const totalUbicaciones = concesion?.num_ubicaciones ?? ubicaciones.length;
 
   return (
+    <>
     <div style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
       <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
-        {totalCargadores > 0 && <MiniStat label="🔌 Total puntos de carga" value={fmtNum(totalCargadores)} color={C.green} />}
+        {totalUbicaciones > 0 && <MiniStat label="📍 Total ubicaciones" value={fmtNum(totalUbicaciones)} color={C.blue} />}
+        {totalCargadores  > 0 && <MiniStat label="🔌 Total puntos de carga" value={fmtNum(totalCargadores)} color={C.green} />}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
         {ubicaciones.map((u, i) => {
@@ -1512,33 +1515,35 @@ function UbicacionesBlock({ ubicaciones, concesion }: { ubicaciones: UbicacionCo
         })}
       </div>
 
-      {/* 🗺 Mapa de ubicaciones (desplegable) */}
-      <details style={{ marginTop: 14, background: C.row, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
-        <summary style={{
-          padding: "10px 14px",
-          cursor: "pointer",
-          listStyle: "none",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 8,
-          fontSize: 13,
-          fontWeight: 700,
-          color: C.text,
-          userSelect: "none",
-        }}>
-          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ color: C.muted, fontSize: 11 }}>▸</span>
-            <span>🗺 Mapa</span>
-            <span style={{ fontSize: 11, fontWeight: 400, color: C.muted }}>· clic para abrir y ver los puntos sobre el mapa</span>
-          </span>
-          <span style={{ fontSize: 10, color: C.muted, fontWeight: 400 }}>{ubicaciones.filter((u) => u.latitud != null && u.longitud != null).length} geolocalizadas</span>
-        </summary>
-        <div style={{ padding: "0 12px 12px" }}>
-          <UbicacionesMapa ubicaciones={ubicaciones} />
-        </div>
-      </details>
     </div>
+
+    {/* 🗺 Mapa de ubicaciones — bloque hermano (desplegable, fuera del card de ubicaciones) */}
+    <details style={{ marginTop: 12, background: C.card, border: `1px solid ${C.border}`, borderRadius: 20, overflow: "hidden" }}>
+      <summary style={{
+        padding: "14px 20px",
+        cursor: "pointer",
+        listStyle: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 8,
+        fontSize: 14,
+        fontWeight: 700,
+        color: C.text,
+        userSelect: "none",
+      }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: C.muted, fontSize: 12 }}>▸</span>
+          <span>🗺 Mapa de ubicaciones</span>
+          <span style={{ fontSize: 12, fontWeight: 400, color: C.muted }}>· clic para abrir y ver los puntos sobre el mapa</span>
+        </span>
+        <span style={{ fontSize: 11, color: C.muted, fontWeight: 400 }}>{ubicaciones.filter((u) => u.latitud != null && u.longitud != null).length} geolocalizadas</span>
+      </summary>
+      <div style={{ padding: "0 16px 16px" }}>
+        <UbicacionesMapa ubicaciones={ubicaciones} />
+      </div>
+    </details>
+    </>
   );
 }
 
