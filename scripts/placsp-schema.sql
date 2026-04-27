@@ -109,6 +109,17 @@ CREATE TABLE IF NOT EXISTS licitaciones (
   canon_mix_var_eur_kwh    REAL,                             -- mix: parte variable EUR/kWh
   canon_mix_fijo_por_cargador REAL,                          -- mix: parte fija EUR/HW/año
 
+  -- Canon basado en €/m² del valor del suelo (spec §4.ter N — patrimonial municipal)
+  canon_eur_m2_ano             REAL,                         -- canon mínimo unitario €/m²/año (= pct × valor_suelo)
+  valor_suelo_eur_m2_ano       REAL,                         -- valor del suelo €/m²/año (informe municipal)
+  canon_pct_valor_suelo        REAL,                         -- % aplicado al valor del suelo (típico 5)
+  superficie_minima_m2         REAL,                         -- mín por ubicación (m²)
+  superficie_maxima_m2         REAL,                         -- máx por ubicación (m²)
+
+  -- Explicaciones extendidas (spec §4.ter P) — alimentan modales de la UI
+  hardware_especificaciones_json TEXT,                       -- JSON: opciones de HW admitidas con specs por tipo
+  canon_explicacion_json         TEXT,                       -- JSON: desglose narrativo del cálculo del canon
+
   -- Variante "venta de energía al usuario": el adjudicatario no paga canon al
   -- órgano sino que vende energía al usuario; el órgano puntúa el precio bajo.
   precio_max_kwh_usuario       REAL,                         -- precio máximo €/kWh que el adjudicatario puede cobrar al usuario final
@@ -120,7 +131,8 @@ CREATE TABLE IF NOT EXISTS licitaciones (
   peso_proyecto_tecnico    REAL,
   peso_mas_hw_potencia     REAL,
   peso_mas_ubicaciones     REAL,
-  peso_otros               REAL,
+  peso_otros               REAL,                             -- otros técnicos (no construcción/proyecto/HW/ubic)
+  peso_otros_economicos    REAL,                             -- spec §4.ter O: criterios cifras no-canon (gratuidades, descuentos, abonos a residentes, etc.)
 
   -- Garantías exigidas (para ofertar + al adjudicatario)
   garantia_provisional_eur     REAL,                         -- importe fijo (se devuelve si no gana)

@@ -1,18 +1,20 @@
 {
-  "generado_en": "2026-04-26T14:22:43.531Z",
-  "total_criterios_unicos": 9,
-  "total_licitaciones_analizadas": 6,
+  "generado_en": "2026-04-27T16:04:09.795Z",
+  "total_criterios_unicos": 29,
+  "total_licitaciones_analizadas": 11,
   "criterios": [
     {
       "clave": "mejora_canon",
       "label": "Mejora del canon / contraprestación",
       "tipo": "economico",
-      "frecuencia": 5,
-      "ocurrencias_total": 15,
-      "peso_min": 20,
+      "frecuencia": 9,
+      "ocurrencias_total": 23,
+      "peso_min": 10,
       "peso_max": 90,
-      "peso_promedio": 39.3,
+      "peso_promedio": 43.4,
       "descripciones_observadas": [
+        "Pi = 80 × (Oi / Om). Oi = canon ofertado por el licitador (€/plaza/año). Om = oferta más alta. Mínimo del pliego: 150 €/plaza/año. Cero punt",
+        "Mayor canon ofertado (€/plaza/año al alza sobre el mínimo de 150 €/plaza/año). Fórmula proporcional Pi = 80 × (Oi/Om). Máximo 80 puntos a la",
         "Pv = 30 × Cvo / Cmax + 10 — Alza sobre canon VARIABLE (€/kWh). Mínimo 0,01 €/kWh. La mejor oferta 40 pts, resto proporcional.",
         "Pf = 10 × Cfo / Cmax + 10 — Alza sobre canon FIJO (€/año desde 01/01/2029). Mínimo 12.000 €/año. La mejor oferta 20 pts, resto proporcional.",
         "Incremento del canon VARIABLE ofertado (€/kWh). Máximo 40 puntos · Mínimo 0,01 €/kWh.",
@@ -22,19 +24,33 @@
         "Incremento del canon VARIABLE ofertado (€/kWh sobre el mínimo 0,01).",
         "Incremento del canon FIJO anual desde 01/01/2030 (€/año sobre el mínimo 170.000).",
         "Po = 70 × Of / Mo — La proposición económica con mayor importe anual ofertado obtiene 70 pts. El resto, proporcional. Las plicas iguales al ",
-        "Mejora del canon anual ofertado (≥ 14.400 €/año). Mayor canon = 70 pts.",
-        "Pi = 90 × CL / MCL (CL: canon ofertado del licitador · MCL: mayor canon ofertado entre todas las ofertas)",
-        "Pv = 40 × (∛Cvo − 0,020) / (∛Cvmax − 0,020) — Alza sobre canon variable (€/kWh). Mínimo 0,020 €/kWh."
+        "Mejora del canon anual ofertado (≥ 14.400 €/año). Mayor canon = 70 pts."
       ],
       "licitaciones": [
+        "13303781",
         "13576641",
         "15534510",
         "17776623",
+        "18309278",
+        "19129858",
         "19140288",
-        "19217419"
+        "19217419",
+        "6604680"
       ],
       "ocurrencias": [
         {
+          "slug": "13303781",
+          "peso": 80,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "13303781",
+          "peso": 80,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
           "slug": "13576641",
           "peso": 40,
           "fuente": "criterios_valoracion.economicos",
@@ -91,6 +107,30 @@
         {
           "slug": "17776623",
           "peso": 70,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "18309278",
+          "peso": 70,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "18309278",
+          "peso": 70,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "19129858",
+          "peso": 29,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 29,
           "fuente": "mejoras_puntuables",
           "tipo": "mejora_puntuable"
         },
@@ -121,6 +161,124 @@
         {
           "slug": "19217419",
           "peso": 20,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "6604680",
+          "peso": 40,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "6604680",
+          "peso": 10,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        }
+      ]
+    },
+    {
+      "clave": "mas_puntos_de_carga",
+      "label": "Incremento del nº de puntos de carga",
+      "tipo": "tecnico_cuant",
+      "frecuencia": 6,
+      "ocurrencias_total": 12,
+      "peso_min": 4,
+      "peso_max": 30,
+      "peso_promedio": 15.3,
+      "descripciones_observadas": [
+        "Mejoras materiales sin coste adicional: dotación de plazas de aparcamiento con carga eléctrica adicionales a las exigidas en los pliegos. Pl",
+        "Plazas adicionales de recarga, fuera del C.C. Río Shopping, ofertadas sin coste adicional. Plaza a 22 kW = 1 pt/plaza; Plaza ≥50 kW = 3 pts/",
+        "Número de puntos de recarga rápida que el licitador instale a su costa (entre los previstos en la licitación). Mayor número = 15 pts; resto ",
+        "Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante sistemas de pago (tarjeta o app) en el ámbito de la",
+        "Mayor número de puntos de recarga rápida instalados a costa del licitador.",
+        "Interoperabilidad de equipos: número de puntos compatibles para roaming mediante tarjeta/app en la UE.",
+        "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta = 20 pts; resto proporcional.",
+        "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego.",
+        "Ampliación de la red de puntos de recarga: ofertar puntos de carga RÁPIDA adicionales sobre los 5 cargadores Ingeteam existentes. Escala dis",
+        "Ubicación específica de las estaciones: localizaciones exactas con ocupación m² del dominio público y tomas por punto.",
+        "Localizaciones exactas con ocupación m² del dominio público y tomas por punto (cláusula 5.1.a.4).",
+        "Proyecto de implantación (memoria técnica del licitador con propuesta de número de puntos, ubicaciones y solución técnica). 15 puntos brutos"
+      ],
+      "licitaciones": [
+        "13303781",
+        "17776623",
+        "17794455",
+        "18309278",
+        "19129858",
+        "6604680"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "13303781",
+          "peso": 20,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "13303781",
+          "peso": 20,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "17776623",
+          "peso": 15,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17776623",
+          "peso": 10,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17776623",
+          "peso": 15,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "17776623",
+          "peso": 10,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "17794455",
+          "peso": 20,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 20,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "18309278",
+          "peso": 30,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        },
+        {
+          "slug": "6604680",
+          "peso": 15,
           "fuente": "mejoras_puntuables",
           "tipo": "mejora_puntuable"
         }
@@ -216,6 +374,142 @@
       ]
     },
     {
+      "clave": "mantenimiento",
+      "label": "Plan de mantenimiento / SAT",
+      "tipo": "tecnico_juicio",
+      "frecuencia": 3,
+      "ocurrencias_total": 7,
+      "peso_min": 5,
+      "peso_max": 20,
+      "peso_promedio": 10.7,
+      "descripciones_observadas": [
+        "Servicio de mantenimiento (juicio de valor).",
+        "Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores menores proporcional.",
+        "Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapidez, equipos",
+        "Mantenimiento del precio de venta de la energía durante más años (≥ 10 años para el máximo).",
+        "Plan de mantenimiento: medidas preventivas y correctivas, gestión de alertas, equipos, rapidez de respuesta, plan financiero.",
+        "Servicio de mantenimiento preventivo y correctivo + asistencia urgente.",
+        "Servicio de mantenimiento preventivo y correctivo previsto para los elementos del sistema y asistencia urgente para la resolución de inciden"
+      ],
+      "licitaciones": [
+        "14142734",
+        "17794455",
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 20,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 10,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 20,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        },
+        {
+          "slug": "17794455",
+          "peso": 10,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        },
+        {
+          "slug": "19129858",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 5,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "app_plataforma",
+      "label": "App móvil / plataforma de gestión",
+      "tipo": "tecnico_juicio",
+      "frecuencia": 3,
+      "ocurrencias_total": 7,
+      "peso_min": 4,
+      "peso_max": 10,
+      "peso_promedio": 5.4,
+      "descripciones_observadas": [
+        "Plan de calidad de la plataforma telemática (juicio de valor).",
+        "Sistema de gestión al servicio del usuario (app, accesibilidad, atención)",
+        "Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad)",
+        "Sistema de gestión al servicio del usuario: accesibilidad, facilidad de uso, rapidez, atención al ciudadano (app móvil/web).",
+        "Sistema de medio de pago propuesto: medio (tarjeta/RFID/app), accesibilidad, facilidad de uso, rapidez, fiabilidad, seguridad.",
+        "Utilidad de la app móvil gratuita (facilidad, rapidez, diseño, compatibilidad Android/iOS).",
+        "Utilidad de la app móvil gratuita: facilidad de uso, rapidez, diseño y compatibilidad con Android e iOS (cláusula 5.1.b.2)."
+      ],
+      "licitaciones": [
+        "14142734",
+        "17794455",
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 10,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "17794455",
+          "peso": 5,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        },
+        {
+          "slug": "17794455",
+          "peso": 5,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
       "clave": "precio_kwh_usuario",
       "label": "Precio kWh al usuario final",
       "tipo": "economico",
@@ -277,59 +571,45 @@
       ]
     },
     {
-      "clave": "mas_puntos_de_carga",
-      "label": "Incremento del nº de puntos de carga",
-      "tipo": "tecnico_cuant",
+      "clave": "sostenibilidad",
+      "label": "Sostenibilidad / energía renovable",
+      "tipo": "tecnico_juicio",
       "frecuencia": 2,
-      "ocurrencias_total": 6,
+      "ocurrencias_total": 4,
       "peso_min": 10,
-      "peso_max": 20,
-      "peso_promedio": 15,
+      "peso_max": 30,
+      "peso_promedio": 17.5,
       "descripciones_observadas": [
-        "Número de puntos de recarga rápida que el licitador instale a su costa (entre los previstos en la licitación). Mayor número = 15 pts; resto ",
-        "Interoperabilidad de los equipos: número de puntos compatibles para interoperar mediante sistemas de pago (tarjeta o app) en el ámbito de la",
-        "Mayor número de puntos de recarga rápida instalados a costa del licitador.",
-        "Interoperabilidad de equipos: número de puntos compatibles para roaming mediante tarjeta/app en la UE.",
-        "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego. Mejor oferta = 20 pts; resto proporcional.",
-        "Incremento del número de puntos de recarga sobre los 34 mínimos del pliego."
+        "Compromiso de recarga con electricidad 100 % renovable durante toda la vigencia (10 años). SÍ = 10 pts, NO = 0 pts.",
+        "Compromiso de recarga con energía 100 % renovable durante toda la vigencia (10 años). Binario SÍ/NO.",
+        "Aportación del Certificado de Garantía de Origen (GdO) que acredite el origen 100 % renovable de la energía suministrada en los puntos de re",
+        "Aportación del Certificado de Garantía de Origen (GdO) acreditando energía 100 % renovable suministrada en los puntos de recarga. Hasta 20 p"
       ],
       "licitaciones": [
-        "17776623",
-        "17794455"
+        "14142734",
+        "18309278"
       ],
       "ocurrencias": [
         {
-          "slug": "17776623",
-          "peso": 15,
-          "fuente": "criterios_valoracion.tecnicos",
-          "tipo": "tecnico"
-        },
-        {
-          "slug": "17776623",
+          "slug": "14142734",
           "peso": 10,
           "fuente": "criterios_valoracion.tecnicos",
           "tipo": "tecnico"
         },
         {
-          "slug": "17776623",
-          "peso": 15,
-          "fuente": "mejoras_puntuables",
-          "tipo": "mejora_puntuable"
-        },
-        {
-          "slug": "17776623",
+          "slug": "14142734",
           "peso": 10,
           "fuente": "mejoras_puntuables",
           "tipo": "mejora_puntuable"
         },
         {
-          "slug": "17794455",
-          "peso": 20,
-          "fuente": "criterios_valoracion.economicos",
-          "tipo": "economico"
+          "slug": "18309278",
+          "peso": 30,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
         },
         {
-          "slug": "17794455",
+          "slug": "18309278",
           "peso": 20,
           "fuente": "mejoras_puntuables",
           "tipo": "mejora_puntuable"
@@ -337,92 +617,33 @@
       ]
     },
     {
-      "clave": "mantenimiento",
-      "label": "Plan de mantenimiento / SAT",
-      "tipo": "tecnico_juicio",
+      "clave": "precio_arrendamiento_anual",
+      "label": "precio arrendamiento anual",
+      "tipo": "otro",
       "frecuencia": 1,
-      "ocurrencias_total": 4,
-      "peso_min": 10,
-      "peso_max": 20,
-      "peso_promedio": 15,
+      "ocurrencias_total": 2,
+      "peso_min": 25,
+      "peso_max": 25,
+      "peso_promedio": 25,
       "descripciones_observadas": [
-        "Mantenimiento del precio de venta de la energía (años). 10 años o más = 20 pts; valores menores proporcional.",
-        "Plan de mantenimiento (juicio de valor): preventivo, correctivo, gestión de alertas, rapidez, equipos",
-        "Mantenimiento del precio de venta de la energía durante más años (≥ 10 años para el máximo).",
-        "Plan de mantenimiento: medidas preventivas y correctivas, gestión de alertas, equipos, rapidez de respuesta, plan financiero."
+        "Precio del arrendamiento anual por plaza para el primer año. Pi = (Ofi/Ofx) × 25. Mínimo del pliego: 480 €/plaza/año.",
+        "Precio del arrendamiento anual por plaza al alza sobre el mínimo de 480 €/plaza/año. Fórmula proporcional Pi = (Ofi/Ofx) × 25."
       ],
       "licitaciones": [
-        "17794455"
+        "14142734"
       ],
       "ocurrencias": [
         {
-          "slug": "17794455",
-          "peso": 20,
+          "slug": "14142734",
+          "peso": 25,
           "fuente": "criterios_valoracion.economicos",
           "tipo": "economico"
         },
         {
-          "slug": "17794455",
-          "peso": 10,
-          "fuente": "criterios_valoracion.tecnicos",
-          "tipo": "tecnico"
-        },
-        {
-          "slug": "17794455",
-          "peso": 20,
+          "slug": "14142734",
+          "peso": 25,
           "fuente": "mejoras_puntuables",
           "tipo": "mejora_puntuable"
-        },
-        {
-          "slug": "17794455",
-          "peso": 10,
-          "fuente": "criterios_juicio_valor",
-          "tipo": "juicio_valor"
-        }
-      ]
-    },
-    {
-      "clave": "app_plataforma",
-      "label": "App móvil / plataforma de gestión",
-      "tipo": "tecnico_juicio",
-      "frecuencia": 1,
-      "ocurrencias_total": 4,
-      "peso_min": 5,
-      "peso_max": 5,
-      "peso_promedio": 5,
-      "descripciones_observadas": [
-        "Sistema de gestión al servicio del usuario (app, accesibilidad, atención)",
-        "Sistema de medio de pago propuesto (tarjeta, RFID, app, fiabilidad, seguridad)",
-        "Sistema de gestión al servicio del usuario: accesibilidad, facilidad de uso, rapidez, atención al ciudadano (app móvil/web).",
-        "Sistema de medio de pago propuesto: medio (tarjeta/RFID/app), accesibilidad, facilidad de uso, rapidez, fiabilidad, seguridad."
-      ],
-      "licitaciones": [
-        "17794455"
-      ],
-      "ocurrencias": [
-        {
-          "slug": "17794455",
-          "peso": 5,
-          "fuente": "criterios_valoracion.tecnicos",
-          "tipo": "tecnico"
-        },
-        {
-          "slug": "17794455",
-          "peso": 5,
-          "fuente": "criterios_valoracion.tecnicos",
-          "tipo": "tecnico"
-        },
-        {
-          "slug": "17794455",
-          "peso": 5,
-          "fuente": "criterios_juicio_valor",
-          "tipo": "juicio_valor"
-        },
-        {
-          "slug": "17794455",
-          "peso": 5,
-          "fuente": "criterios_juicio_valor",
-          "tipo": "juicio_valor"
         }
       ]
     },
@@ -489,6 +710,99 @@
       ]
     },
     {
+      "clave": "sistemas_comunicacion_informaticos",
+      "label": "sistemas comunicacion informaticos",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 2,
+      "peso_min": 4,
+      "peso_max": 4,
+      "peso_promedio": 4,
+      "descripciones_observadas": [
+        "Sistemas de comunicación e informáticos, tecnologías Smart, posibilidad de reserva de recarga.",
+        "Sistemas de comunicación e informáticos, inclusión de tecnologías Smart previstos para gestionar el sistema. Posibilidad de reserva de la re"
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "facilidad_diversidad_metodos",
+      "label": "facilidad diversidad metodos",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 2,
+      "peso_min": 4,
+      "peso_max": 4,
+      "peso_promedio": 4,
+      "descripciones_observadas": [
+        "Facilidad y diversidad de métodos de pago, adaptabilidad a nuevas tecnologías.",
+        "Facilidad y diversidad de métodos de pago propuestos, adaptabilidad a nuevas tecnologías en continuo desarrollo (cláusula 5.1.c.1)."
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "fiabilidad_seguridad_medios",
+      "label": "fiabilidad seguridad medios",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 2,
+      "peso_min": 4,
+      "peso_max": 4,
+      "peso_promedio": 4,
+      "descripciones_observadas": [
+        "Fiabilidad y seguridad de los medios de pago.",
+        "Fiabilidad y seguridad de los medios de pago propuestos (cláusula 5.1.c.2)."
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        },
+        {
+          "slug": "19129858",
+          "peso": 4,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
       "clave": "diseno_estacion",
       "label": "Diseño de la estación / integración entorno",
       "tipo": "tecnico_juicio",
@@ -516,6 +830,366 @@
           "peso": 20,
           "fuente": "criterios_juicio_valor",
           "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "cargadores_rapidos_instalar",
+      "label": "cargadores rapidos instalar",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 20,
+      "peso_max": 20,
+      "peso_promedio": 20,
+      "descripciones_observadas": [
+        "Nº de cargadores rápidos a instalar (máximo 18). Pi = (Ofi/Ofx) × 20."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 20,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "total_plazas_dotadas",
+      "label": "total plazas dotadas",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 10,
+      "peso_max": 10,
+      "peso_promedio": 10,
+      "descripciones_observadas": [
+        "Nº total de plazas dotadas de cargadores (mínimo 15 y máximo 18). Pi = (POfi/POfx) × 10."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 10,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "plan_financiero_incluyendo",
+      "label": "plan financiero incluyendo",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Plan financiero incluyendo inversión inicial y anual (juicio de valor)."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "planificacion_instalacion_juicio",
+      "label": "planificacion instalacion juicio",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Planificación de la instalación (juicio de valor)."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "facilidad_medios_pago",
+      "label": "facilidad medios pago",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Facilidad de los medios de pago propuestos (juicio de valor)."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "fiabilidad_medios_pago",
+      "label": "fiabilidad medios pago",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Fiabilidad de los medios de pago propuestos (juicio de valor)."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "mayor_numero_cargadores",
+      "label": "mayor numero cargadores",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 20,
+      "peso_max": 20,
+      "peso_promedio": 20,
+      "descripciones_observadas": [
+        "Mayor número de cargadores RÁPIDOS a instalar (máximo 18 sobre el mínimo nominal del pliego). Fórmula proporcional sobre la oferta más alta."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 20,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        }
+      ]
+    },
+    {
+      "clave": "mayor_numero_total",
+      "label": "mayor numero total",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 10,
+      "peso_max": 10,
+      "peso_promedio": 10,
+      "descripciones_observadas": [
+        "Mayor número total de plazas dotadas de cargadores (rango 15–18). Fórmula proporcional."
+      ],
+      "licitaciones": [
+        "14142734"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "14142734",
+          "peso": 10,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        }
+      ]
+    },
+    {
+      "clave": "puntos_cada_base",
+      "label": "puntos cada base",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 21,
+      "peso_max": 21,
+      "peso_promedio": 21,
+      "descripciones_observadas": [
+        "3 puntos por cada base/cargador de carga lenta gratuita 24h ofertado, repartidos entre los 4 distritos. Si no se oferta al menos 1 base grat"
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 21,
+          "fuente": "criterios_valoracion.economicos",
+          "tipo": "economico"
+        }
+      ]
+    },
+    {
+      "clave": "planificacion_cronograma_instalacion",
+      "label": "planificacion cronograma instalacion",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 20,
+      "peso_max": 20,
+      "peso_promedio": 20,
+      "descripciones_observadas": [
+        "Planificación (cronograma) instalación, soluciones técnicas, funcionalidad, características constructivas, calidad materiales y diseño."
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 20,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "compromiso_mejora_renovacion",
+      "label": "compromiso mejora renovacion",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Compromiso de mejora/renovación de las estaciones durante la concesión adaptándose a innovaciones tecnológicas."
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 5,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
+        }
+      ]
+    },
+    {
+      "clave": "operatividad",
+      "label": "Operatividad / disponibilidad",
+      "tipo": "tecnico_juicio",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 21,
+      "peso_max": 21,
+      "peso_promedio": 21,
+      "descripciones_observadas": [
+        "Disponibilidad de cargadores de carga lenta gratuitos 24h para ciudadanos de Alcorcón. 3 puntos por cada base gratuita ofertada, condicionad"
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 21,
+          "fuente": "mejoras_puntuables",
+          "tipo": "mejora_puntuable"
+        }
+      ]
+    },
+    {
+      "clave": "cronograma_instalacion_soluciones",
+      "label": "cronograma instalacion soluciones",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 20,
+      "peso_max": 20,
+      "peso_promedio": 20,
+      "descripciones_observadas": [
+        "Cronograma de instalación, soluciones técnicas, funcionalidad de los elementos ofertados, características constructivas, calidad de los mate"
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 20,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "compromiso_mejora_estaciones",
+      "label": "compromiso mejora estaciones",
+      "tipo": "otro",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 5,
+      "peso_max": 5,
+      "peso_promedio": 5,
+      "descripciones_observadas": [
+        "Compromiso de mejora de las estaciones durante el tiempo de la concesión, adecuándolas y renovándolas conforme a nuevas innovaciones tecnoló"
+      ],
+      "licitaciones": [
+        "19129858"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "19129858",
+          "peso": 5,
+          "fuente": "criterios_juicio_valor",
+          "tipo": "juicio_valor"
+        }
+      ]
+    },
+    {
+      "clave": "mejora_social",
+      "label": "Mejoras sociales / empleo local",
+      "tipo": "tecnico_juicio",
+      "frecuencia": 1,
+      "ocurrencias_total": 1,
+      "peso_min": 60,
+      "peso_max": 60,
+      "peso_promedio": 60,
+      "descripciones_observadas": [
+        "Proyecto de implantación (subtipo social). 15/25 puntos brutos del pliego = 60 % normalizado del total."
+      ],
+      "licitaciones": [
+        "6604680"
+      ],
+      "ocurrencias": [
+        {
+          "slug": "6604680",
+          "peso": 60,
+          "fuente": "criterios_valoracion.tecnicos",
+          "tipo": "tecnico"
         }
       ]
     }

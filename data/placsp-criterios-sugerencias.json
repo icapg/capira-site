@@ -1,6 +1,35 @@
 {
-  "generado_en": "2026-04-26T14:22:43.535Z",
-  "total_sugerencias": 0,
+  "generado_en": "2026-04-27T16:04:09.800Z",
+  "total_sugerencias": 2,
   "como_usar": "Cada sugerencia propone fusionar varias claves fallback (no normalizadas) bajo un único concepto canónico. Revisar y, si tiene sentido, agregar la regla a clavearCriterio() en scripts/placsp-auditoria.mjs.",
-  "sugerencias": []
+  "sugerencias": [
+    {
+      "prefijo_comun": "mayor_numero",
+      "claves_actuales": [
+        "mayor_numero_cargadores",
+        "mayor_numero_total"
+      ],
+      "ocurrencias_total": 2,
+      "descripciones_observadas": [
+        "Mayor número de cargadores RÁPIDOS a instalar (máximo 18 sobre el mínimo nominal del pliego). Fórmula proporcional sobre la oferta más alta.",
+        "Mayor número total de plazas dotadas de cargadores (rango 15–18). Fórmula proporcional."
+      ],
+      "sugerencia_codigo": "if (/mayor.*numero/.test(join)) return 'mayor_numero';",
+      "accion": "Agregar la regla anterior a clavearCriterio() en placsp-auditoria.mjs y a ETIQUETAS_CANONICAS con label legible y tipo apropiado."
+    },
+    {
+      "prefijo_comun": "compromiso_mejora",
+      "claves_actuales": [
+        "compromiso_mejora_renovacion",
+        "compromiso_mejora_estaciones"
+      ],
+      "ocurrencias_total": 2,
+      "descripciones_observadas": [
+        "Compromiso de mejora/renovación de las estaciones durante la concesión adaptándose a innovaciones tecnológicas.",
+        "Compromiso de mejora de las estaciones durante el tiempo de la concesión, adecuándolas y renovándolas conforme a nuevas innovaciones tecnoló"
+      ],
+      "sugerencia_codigo": "if (/compromiso.*mejora/.test(join)) return 'compromiso_mejora';",
+      "accion": "Agregar la regla anterior a clavearCriterio() en placsp-auditoria.mjs y a ETIQUETAS_CANONICAS con label legible y tipo apropiado."
+    }
+  ]
 }

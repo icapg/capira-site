@@ -342,26 +342,26 @@ export function AuditoriaTable({ data }: Props) {
       </div>
 
       <div style={{ marginTop: 16, maxHeight: "75vh", overflowX: "auto", overflowY: "auto", border: `1px solid ${C.border}`, borderRadius: 10, position: "relative" }}>
-        <table style={{ width: "100%", minWidth: 1380, borderCollapse: "collapse", fontSize: 12 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, tableLayout: "fixed" }}>
+          <colgroup>
+            <col style={{ width: "21%" }} />
+            <col style={{ width: "8%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "11%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "7%" }} />
+            <col style={{ width: "7%" }} />
+          </colgroup>
           <thead style={{ position: "sticky", top: 0, zIndex: 5, background: C.cardSolid, boxShadow: `0 1px 0 ${C.border}` }}>
             <tr style={{ color: C.muted, textAlign: "left" }}>
               <Th>Licitación</Th>
               <Th>Confianza</Th>
-              <Th>Cob. pliego</Th>
-              <Th>Cob. adj.</Th>
-              <Th>Cob. lectura</Th>
-              <Th>Docs</Th>
-              <Th>Links emb.</Th>
-              <Th>Vision</Th>
-              <Th>Σ=100</Th>
+              <Th>Coberturas</Th>
+              <Th>Documentos</Th>
               <Th>Criterios</Th>
-              <Th>Σ ubis</Th>
-              <Th>Cob. geo</Th>
-              <Th>Cob. puntos</Th>
-              <Th>Anexos</Th>
+              <Th>Ubicaciones</Th>
               <Th>Licitadores</Th>
-              <Th>Pliego complejo</Th>
-              <Th>Última extr.</Th>
               <Th>Flags</Th>
             </tr>
           </thead>
@@ -371,97 +371,115 @@ export function AuditoriaTable({ data }: Props) {
               return (
                 <tr key={r.slug} style={{ background: i % 2 === 0 ? "transparent" : C.rowAlt, borderTop: `1px solid ${C.grid}` }}>
                   <Td>
-                    <Link href={`/info/licitaciones/auditoria/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "8px 0" }} title="Ver auditoría detallada">
-                      <div style={{ fontWeight: 600, fontSize: 12 }}>{r.titulo.length > 56 ? r.titulo.slice(0, 56) + "…" : r.titulo}</div>
-                      <div style={{ color: C.soft, fontSize: 11, marginTop: 3 }}>{r.slug} · {r.ciudad ?? "—"}</div>
+                    <Link href={`/info/licitaciones/auditoria/${r.slug}`} style={{ color: C.text, textDecoration: "none", display: "block", padding: "6px 0" }} title="Ver auditoría detallada">
+                      <div style={{ fontWeight: 600, fontSize: 12, lineHeight: 1.35 }}>{r.titulo}</div>
+                      <div style={{ color: C.soft, fontSize: 10.5, marginTop: 4, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                        <span>{r.slug}</span>
+                        <span style={{ color: C.dim }}>·</span>
+                        <span>{r.ciudad ?? "—"}</span>
+                        {r.pliego_complejo && (
+                          <ExplainCell titulo="Pliego complejo" explicacion={ex.pliego_complejo}>
+                            <Badge color={C.purple} title="Pliego complejo">⚙ Complejo</Badge>
+                          </ExplainCell>
+                        )}
+                      </div>
+                      <div style={{ color: C.dim, fontSize: 9.5, marginTop: 4 }}>
+                        <ExplainCell titulo="Última extracción" explicacion={ex.ultima_extraccion}>
+                          <span>
+                            {r.ultima_extraccion.fecha ? new Date(r.ultima_extraccion.fecha).toLocaleDateString("es-ES") : "sin fecha"}
+                            {r.ultima_extraccion.modelo ? ` · ${r.ultima_extraccion.modelo}` : ""}
+                          </span>
+                        </ExplainCell>
+                      </div>
                     </Link>
                   </Td>
                   <Td>
                     <ExplainCell titulo="Confianza global" explicacion={ex.confianza_global}>
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontSize: 14 }}>{semaforoEmoji(r.semaforo)}</span>
-                        <span style={{ color: semaforoColor(r.semaforo), fontWeight: 700 }}>{r.confianza_global}%</span>
+                        <span style={{ fontSize: 16 }}>{semaforoEmoji(r.semaforo)}</span>
+                        <span style={{ color: semaforoColor(r.semaforo), fontWeight: 700, fontSize: 14 }}>{r.confianza_global}%</span>
                       </div>
                     </ExplainCell>
                   </Td>
                   <Td>
-                    <ExplainCell titulo="Cobertura pliego" explicacion={ex.cobertura_pliego}>
-                      <PctBar pct={r.cobertura_pliego_pct} />
-                    </ExplainCell>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      <StackedRow label="Pliego">
+                        <ExplainCell titulo="Cobertura pliego" explicacion={ex.cobertura_pliego}>
+                          <PctBar pct={r.cobertura_pliego_pct} />
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Adj.">
+                        <ExplainCell titulo="Cobertura adjudicación" explicacion={ex.cobertura_adjudicacion}>
+                          {r.cobertura_adjudicacion_pct == null ? <span style={{ color: C.dim }}>—</span> : <PctBar pct={r.cobertura_adjudicacion_pct} />}
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Lectura">
+                        <ExplainCell titulo="Cobertura lectura" explicacion={ex.cobertura_lectura}>
+                          <CoberturaLectura row={r} />
+                        </ExplainCell>
+                      </StackedRow>
+                    </div>
                   </Td>
                   <Td>
-                    <ExplainCell titulo="Cobertura adjudicación" explicacion={ex.cobertura_adjudicacion}>
-                      {r.cobertura_adjudicacion_pct == null ? <span style={{ color: C.dim }}>—</span> : <PctBar pct={r.cobertura_adjudicacion_pct} />}
-                    </ExplainCell>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      <StackedRow label="Docs">
+                        <ExplainCell titulo="Documentos descargados" explicacion={ex.docs_completos}>
+                          <span>{r.docs_completos}</span>
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Links">
+                        <ExplainCell titulo="Enlaces internos resueltos" explicacion={ex.links_embebidos_resueltos}>
+                          <span>{r.links_embebidos_resueltos}</span>
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Vision">
+                        <ExplainCell titulo="Lectura por Vision API" explicacion={ex.docs_legibles}>
+                          {r.uso_vision ? <Badge color={C.blue}>${r.coste_vision_usd}</Badge> : <span style={{ color: C.dim }}>—</span>}
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Anexos">
+                        <ExplainCell titulo="Anexos del pliego" explicacion={ex.anexos_validos}>
+                          <span>{r.anexos_validos}</span>
+                        </ExplainCell>
+                      </StackedRow>
+                    </div>
                   </Td>
                   <Td>
-                    <ExplainCell titulo="Cobertura lectura" explicacion={ex.cobertura_lectura}>
-                      <CoberturaLectura row={r} />
-                    </ExplainCell>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      <StackedRow label="Σ=100">
+                        <ExplainCell titulo="Σ pesos = 100" explicacion={ex.criterios_suman_100}>
+                          <span>{r.criterios_suman_100}</span>
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Total">
+                        <ExplainCell titulo="Criterios encontrados" explicacion={ex.criterios_detalle}>
+                          <CriteriosBadge counts={r.criterios_count} />
+                        </ExplainCell>
+                      </StackedRow>
+                    </div>
                   </Td>
                   <Td>
-                    <ExplainCell titulo="Documentos descargados" explicacion={ex.docs_completos}>
-                      <span>{r.docs_completos}</span>
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Enlaces internos resueltos" explicacion={ex.links_embebidos_resueltos}>
-                      <span>{r.links_embebidos_resueltos}</span>
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Lectura por Vision API" explicacion={ex.docs_legibles}>
-                      {r.uso_vision ? <Badge color={C.blue}>Vision ${r.coste_vision_usd}</Badge> : <span style={{ color: C.dim }}>—</span>}
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Σ pesos = 100" explicacion={ex.criterios_suman_100}>
-                      <span>{r.criterios_suman_100}</span>
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Criterios encontrados" explicacion={ex.criterios_detalle}>
-                      <CriteriosBadge counts={r.criterios_count} />
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Σ ubicaciones vs mínimo pliego" explicacion={ex.coherencia_ubis}>
-                      <span>{r.coherencia_ubis}</span>
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Cobertura geográfica" explicacion={ex.cobertura_geo}>
-                      <CoberturaGeo row={r} />
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Puntos de carga por ubicación" explicacion={ex.cobertura_puntos}>
-                      <CoberturaPuntos row={r} />
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Anexos del pliego" explicacion={ex.anexos_validos}>
-                      <span>{r.anexos_validos}</span>
-                    </ExplainCell>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      <StackedRow label="Σ ubis">
+                        <ExplainCell titulo="Σ ubicaciones vs mínimo pliego" explicacion={ex.coherencia_ubis}>
+                          <span>{r.coherencia_ubis}</span>
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Geo">
+                        <ExplainCell titulo="Cobertura geográfica" explicacion={ex.cobertura_geo}>
+                          <CoberturaGeo row={r} />
+                        </ExplainCell>
+                      </StackedRow>
+                      <StackedRow label="Puntos">
+                        <ExplainCell titulo="Puntos de carga por ubicación" explicacion={ex.cobertura_puntos}>
+                          <CoberturaPuntos row={r} />
+                        </ExplainCell>
+                      </StackedRow>
+                    </div>
                   </Td>
                   <Td>
                     <ExplainCell titulo="Licitadores extraídos" explicacion={ex.licitadores_vs_acta}>
                       <span>{r.licitadores_vs_acta}</span>
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Pliego complejo" explicacion={ex.pliego_complejo}>
-                      {r.pliego_complejo
-                        ? <Badge color={C.purple}>⚙ Complejo</Badge>
-                        : <span style={{ color: C.dim }}>—</span>}
-                    </ExplainCell>
-                  </Td>
-                  <Td>
-                    <ExplainCell titulo="Última extracción" explicacion={ex.ultima_extraccion}>
-                      <div>
-                        <div style={{ fontSize: 10 }}>{r.ultima_extraccion.fecha ? new Date(r.ultima_extraccion.fecha).toLocaleDateString("es-ES") : "—"}</div>
-                        <div style={{ color: C.muted, fontSize: 9 }}>{r.ultima_extraccion.modelo ?? ""}</div>
-                      </div>
                     </ExplainCell>
                   </Td>
                   <Td>
@@ -475,7 +493,7 @@ export function AuditoriaTable({ data }: Props) {
               );
             })}
             {filtrados.length === 0 && (
-              <tr><Td>—</Td><td colSpan={13} style={{ padding: 24, textAlign: "center", color: C.muted, fontSize: 12 }}>Sin resultados.</td></tr>
+              <tr><td colSpan={8} style={{ padding: 24, textAlign: "center", color: C.muted, fontSize: 12 }}>Sin resultados.</td></tr>
             )}
           </tbody>
         </table>
@@ -498,6 +516,15 @@ function Th({ children, title }: { children: React.ReactNode; title?: string }) 
 
 function Td({ children, title, ...rest }: React.HTMLAttributes<HTMLTableCellElement>) {
   return <td title={title} style={{ padding: "10px 12px", verticalAlign: "middle" }} {...rest}>{children}</td>;
+}
+
+function StackedRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <span style={{ fontSize: 9, color: C.muted, textTransform: "uppercase", letterSpacing: "0.04em", width: 52, flexShrink: 0, fontWeight: 700 }}>{label}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>{children}</div>
+    </div>
+  );
 }
 
 function CriteriosBadge({ counts }: { counts?: { economicos: number; tecnicos: number; mejoras: number; juicio: number; total: number } }) {

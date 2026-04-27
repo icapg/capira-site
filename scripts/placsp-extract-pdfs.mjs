@@ -1,12 +1,19 @@
 /**
- * placsp-extract-pdfs.mjs  —  v2
+ * placsp-extract-pdfs.mjs  —  v3
  *
  * Scrapea la página HTML pública del expediente PLACSP (via `idEvl`) y extrae
  * TODOS los documentos del expediente (Anuncio, Pliego, Adjudicación,
  * Formalización, Memoria, Planos, Actas, Informes de baremación, etc.).
  *
- * A diferencia del enfoque anterior que solo leía el Atom XML (2-3 docs),
- * el HTML público suele contener 20-30+ documentos completos del expediente.
+ * v3 (descarga universal): se baja CUALQUIER tipo de archivo que publique el
+ * órgano — PDF, DOC/DOCX, XLS/XLSX, CSV, TXT, JPG/PNG/TIFF, DWG, etc. — no
+ * solo PDF/ZIP. Solo se descartan respuestas HTML/XML (típicamente páginas de
+ * error o redirects). Los ZIPs se descomprimen completos manteniendo todas
+ * las extensiones internas, y los archivos descargados pasan por la cola FIFO
+ * de descubrimiento de URLs embebidas (regex sobre el binario en latin1).
+ *
+ * Spec de la regla: §4.ter K de la spec v2 + memoria
+ * `reference_placsp_pliego_enlaces_embebidos.md`.
  *
  * Usage:
  *   node scripts/placsp-extract-pdfs.mjs --slug=19140288
@@ -192,10 +199,70 @@ fs.mkdirSync(destDir, { recursive: true });
 
 // PLACSP a veces sirve un ZIP con extensión .pdf cuando un "documento"
 // agrupa varios anexos (planos, fotos, etc.). Detectamos por magic bytes
-// `PK\x03\x04` y descomprimimos los PDFs internos en la misma carpeta.
+// `PK\x03\x04` y descomprimimos TODOS los archivos internos.
 function isZipBuffer(buf) {
   return buf.length >= 4 && buf[0] === 0x50 && buf[1] === 0x4b && buf[2] === 0x03 && buf[3] === 0x04;
 }
+
+// Detecta la extensión real de un buffer descargado a partir de magic bytes
+// y, como fallback, del Content-Type del header HTTP. Devuelve `null` si la
+// respuesta es HTML/XML (= se descarta) o `'bin'` si no se puede inferir.
+function detectExtension(buf, contentType) {
+  if (buf.length < 4) return 'bin';
+  const head4 = buf.slice(0, 4).toString();
+  const head4hex = buf.slice(0, 4).toString('hex');
+  const head8hex = buf.slice(0, 8).toString('hex');
+  // Magic bytes
+  if (head4 === '%PDF') return 'pdf';
+  if (head4hex === '504b0304') return 'zip'; // ZIP / DOCX / XLSX / PPTX (se desambigua después)
+  if (head4hex === 'd0cf11e0') return 'doc'; // CFB legacy: DOC/XLS/PPT/MSG
+  if (head4hex.startsWith('ffd8ff')) return 'jpg';
+  if (head8hex === '89504e470d0a1a0a') return 'png';
+  if (head4 === 'GIF8') return 'gif';
+  if (head4hex === '49492a00' || head4hex === '4d4d002a') return 'tiff';
+  if (head4hex === '38425053') return 'psd';
+  if (head4hex === '52494646') return 'webp';
+  if (head4hex === '41433130') return 'dwg'; // AutoCAD
+  if (head4hex === '7b5c7274') return 'rtf'; // {\rt
+  // HTML/XML response → descartar
+  const sniff = buf.slice(0, 200).toString('utf8').replace(/^﻿/, '');
+  if (/^\s*<(\?xml|!DOCTYPE|html\b|HTML\b|head\b|body\b)/i.test(sniff)) return null;
+  // Fallback al Content-Type del header HTTP
+  const ct = String(contentType || '').toLowerCase();
+  if (ct.includes('csv'))                                       return 'csv';
+  if (ct.includes('text/plain'))                                return 'txt';
+  if (ct.includes('json'))                                      return 'json';
+  if (ct.includes('msword'))                                    return 'doc';
+  if (ct.includes('officedocument.wordprocessingml'))           return 'docx';
+  if (ct.includes('vnd.ms-excel'))                              return 'xls';
+  if (ct.includes('officedocument.spreadsheetml'))              return 'xlsx';
+  if (ct.includes('vnd.ms-powerpoint'))                         return 'ppt';
+  if (ct.includes('officedocument.presentationml'))             return 'pptx';
+  if (ct.includes('image/jpeg'))                                return 'jpg';
+  if (ct.includes('image/png'))                                 return 'png';
+  if (ct.includes('image/'))                                    return ct.split('/')[1].split(';')[0].trim().slice(0, 6);
+  // Texto plano que parece texto → txt
+  const isAscii = buf.slice(0, Math.min(buf.length, 512)).every((b) => b === 0x09 || b === 0x0a || b === 0x0d || (b >= 0x20 && b < 0x7f));
+  if (isAscii) return 'txt';
+  return 'bin';
+}
+
+// Si el ZIP es en realidad un Office Open XML (DOCX/XLSX/PPTX), refinamos.
+function refineZipExtension(buf) {
+  try {
+    const zip = new AdmZip(buf);
+    const names = zip.getEntries().map((e) => e.entryName);
+    if (names.includes('word/document.xml'))      return 'docx';
+    if (names.includes('xl/workbook.xml'))        return 'xlsx';
+    if (names.includes('ppt/presentation.xml'))   return 'pptx';
+  } catch {}
+  return 'zip';
+}
+
+// Solo tiene sentido escanear URLs embebidas en formatos basados en texto/PDF.
+// Imágenes y binarios opacos (DWG, etc.) no contienen URLs útiles.
+const EMBED_SCAN_EXTS = new Set(['pdf', 'docx', 'xlsx', 'pptx', 'doc', 'xls', 'ppt', 'rtf', 'txt', 'csv', 'html', 'xml', 'json']);
+function shouldScanEmbedded(ext) { return EMBED_SCAN_EXTS.has(ext); }
 
 // Algunos PDFs (típicamente el "Pliego" estructurado de PLACSP) tienen
 // hyperlinks a otros documentos del expediente embebidos como anotaciones.
@@ -218,13 +285,29 @@ function findEmbeddedDocUrls(buf) {
 function inferTipoFromText(head, fallback) {
   if (!head) return fallback ?? 'enlazado';
   const t = head.toUpperCase();
-  if (/PLIEGO\s+DE\s+CONDICIONES\s+ECON[ÓO]MICO[\s-]?ADMINISTRATIVAS|PLIEGO\s+DE\s+CL[ÁA]USULAS\s+ADMINISTRATIVAS|\bPCAP\b/.test(t)) return 'pliego_administrativo';
-  if (/PLIEGO\s+DE\s+PRESCRIPCIONES\s+T[ÉE]CNICAS|PRESCRIPCIONES\s+T[ÉE]CNICAS\s+PARTICULARES|\bPPT\b/.test(t)) return 'pliego_tecnico';
+  // ORDEN CRÍTICO: identificar primero los pliegos completos (PCAP/PPT) porque
+  // suelen contener en su índice menciones a "FORMALIZACIÓN", "ADJUDICACIÓN",
+  // "RESOLUCIÓN", etc. — keywords que matcharían tipos posteriores y harían que
+  // el PCAP/PPT entero quede mal etiquetado (ej. caso Alcorcón 19129858 donde
+  // el PCAP tenía "Artículo 8 FORMALIZACIÓN DEL CONTRATO" en el índice y el
+  // refresh-slug mutaba el estado a RES). Variantes admitidas del PCAP:
+  //   "PLIEGO DE CLÁUSULAS ADMINISTRATIVAS PARTICULARES" (LCSP estándar)
+  //   "PLIEGO DE CONDICIONES ECONÓMICO-ADMINISTRATIVAS" (uso patrimonial)
+  //   "PLIEGOS DE CONDICIONES ADMINISTRATIVAS, JURÍDICAS Y ECONÓMICAS" (Alcorcón)
+  //   "PCAP" (acrónimo)
+  if (/PLIEGOS?\s+DE\s+CL[ÁA]USULAS\s+ADMINISTRATIVAS/.test(t)) return 'pliego_administrativo';
+  if (/PLIEGOS?\s+DE\s+CONDICIONES\s+(ECON[ÓO]MICO[\s-]?)?ADMINISTRATIVAS/.test(t)) return 'pliego_administrativo';
+  if (/PLIEGOS?\s+DE\s+CONDICIONES\s+ADMINISTRATIVAS,?\s+JUR[ÍI]DICAS/.test(t)) return 'pliego_administrativo';
+  if (/\bPCAP\b/.test(t)) return 'pliego_administrativo';
+  if (/PLIEGOS?\s+DE\s+PRESCRIPCIONES\s+T[ÉE]CNICAS|PRESCRIPCIONES\s+T[ÉE]CNICAS\s+PARTICULARES|\bPPT\b|PLIEGOS?\s+DE\s+CONDICIONES\s+T[ÉE]CNICAS/.test(t)) return 'pliego_tecnico';
   if (/MEMORIA\s+(JUSTIFICATIVA|ECON[ÓO]MICA|EXPLICATIVA)/.test(t)) return 'memoria';
   if (/PROYECTO\s+(DE|T[ÉE]CNICO|UNIFICADO)/.test(t)) return 'proyecto';
   if (/INFORME\s+(DE\s+)?BAREMACI/.test(t)) return 'informe_baremacion';
   if (/RESOLUCI[ÓO]N\s+DE\s+ADJUDICACI/.test(t)) return 'resolucion_adjudicacion';
-  if (/FORMALIZACI[ÓO]N/.test(t)) return 'formalizacion';
+  // Formalización SOLO si el documento es un acta de formalización propiamente
+  // dicha — no si la palabra aparece como artículo dentro de un pliego.
+  if (/ACTA\s+DE\s+FORMALIZACI[ÓO]N|DOCUMENTO\s+DE\s+FORMALIZACI[ÓO]N|FORMALIZACI[ÓO]N\s+DEL\s+CONTRATO\s+DE\s+CONCESI/.test(t) &&
+      !/[ÍI]NDICE|ART[ÍI]CULO\s+\d+/.test(t.slice(0, 1500))) return 'formalizacion';
   if (/RECTIFICACI[ÓO]N|CORRECCI[ÓO]N/.test(t)) return 'rectificacion';
   if (/PRESUPUESTO/.test(t)) return 'presupuesto';
   if (/\bPLANO\b|PLANTA|ALZADO|SECCI[ÓO]N\s+CONSTRUCT/.test(t)) return 'planos';
@@ -243,11 +326,11 @@ function inferTipoFromPdfFile(filePath, fallback) {
   }
 }
 function expandZip(zipPath, baseFilename, destDir) {
-  const baseNoExt = baseFilename.replace(/\.pdf$/i, '');
+  const baseNoExt = baseFilename.replace(/\.[a-z0-9]+$/i, '');
   const zip = new AdmZip(zipPath);
-  const entries = zip.getEntries().filter((e) => !e.isDirectory && /\.pdf$/i.test(e.entryName));
+  const entries = zip.getEntries().filter((e) => !e.isDirectory);
   if (entries.length === 0) {
-    console.log(`     ⚠ ZIP sin PDFs internos`);
+    console.log(`     ⚠ ZIP vacío`);
     return [];
   }
   const extracted = [];
@@ -259,8 +342,9 @@ function expandZip(zipPath, baseFilename, destDir) {
     if (!fs.existsSync(outPath)) fs.writeFileSync(outPath, e.getData());
     extracted.push(outName);
   });
-  console.log(`     📦 ZIP descomprimido → ${extracted.length} PDFs internos`);
-  // Renombrar el archivo original a .zip para que pdftotext no lo procese.
+  console.log(`     📦 ZIP descomprimido → ${extracted.length} archivos internos`);
+  // Renombrar el archivo original a .zip si quedó con otra extensión, para
+  // que pdftotext y otros lectores no intenten procesarlo como su tipo aparente.
   const zipDest = path.join(destDir, `${baseNoExt}.zip`);
   if (zipPath !== zipDest && !fs.existsSync(zipDest)) fs.renameSync(zipPath, zipDest);
   else if (zipPath !== zipDest) fs.unlinkSync(zipPath);
@@ -355,47 +439,51 @@ while (queue.length > 0) {
   const prefix = d.parent
     ? `${String(d.parent.idx).padStart(2, '0')}${String.fromCharCode(64 + d.subIdx)}` // 02A, 02B, ...
     : `${String(d.idx).padStart(2, '0')}`;
-  const filename = `${prefix}-${d.tipo}-${safe}.pdf`;
-  const dest = path.join(destDir, filename);
-  const zipDest = dest.replace(/\.pdf$/i, '.zip');
-  // Cache: ya bajado como .pdf o ya renombrado a .zip
-  if (fs.existsSync(dest) || fs.existsSync(zipDest)) {
-    console.log(`   ✔ (cache) ${filename}`);
+  const baseName = `${prefix}-${d.tipo}-${safe}`;
+  // Cache: cualquier archivo del slug que empiece por baseName cuenta como ya bajado.
+  // Esto cubre todas las extensiones posibles (.pdf, .zip, .docx, .xlsx, .csv, .jpg, …).
+  const cachedFile = fs.readdirSync(destDir).find((f) => f.startsWith(`${baseName}.`));
+  if (cachedFile) {
+    const cachedPath = path.join(destDir, cachedFile);
+    console.log(`   ✔ (cache) ${cachedFile}`);
     ok++;
-    // Si el archivo en cache es un PDF embebido (tiene parent), asegurarse de
-    // que esté registrado en la tabla `documentos` con el tipo correcto.
-    if (d.parent && fs.existsSync(dest)) {
-      const tipoInf = registerEmbeddedDoc(d, dest);
+    if (d.parent && cachedFile.toLowerCase().endsWith('.pdf')) {
+      const tipoInf = registerEmbeddedDoc(d, cachedPath);
       console.log(`     ↳ registrado como '${tipoInf}' en tabla documentos`);
     }
-    // Aún en cache, escanear enlaces internos para descubrir docs nuevos.
-    try {
-      const buf = fs.existsSync(dest) ? fs.readFileSync(dest) : null;
-      if (buf && !isZipBuffer(buf)) enqueueEmbedded(buf, d);
-    } catch {}
+    // Aún en cache, escanear enlaces internos sobre formatos que pueden contenerlos.
+    const cachedExt = path.extname(cachedFile).slice(1).toLowerCase();
+    if (shouldScanEmbedded(cachedExt)) {
+      try {
+        const buf = fs.readFileSync(cachedPath);
+        if (!isZipBuffer(buf)) enqueueEmbedded(buf, d);
+      } catch {}
+    }
     continue;
   }
   try {
     const r = await fetch(d.url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const buf = Buffer.from(await r.arrayBuffer());
-    // Si la URL devuelve HTML/XML (versiones alternas del mismo doc), saltarla.
-    const head4 = buf.slice(0, 4).toString();
-    const head4hex = buf.slice(0, 4).toString('hex');
-    if (head4 !== '%PDF' && head4hex !== '504b0304') {
-      console.log(`   ↪ skip ${filename}  (no es PDF/ZIP, magic=${head4hex})`);
+    // Detectar extensión real desde magic bytes + Content-Type.
+    let ext = detectExtension(buf, r.headers.get('content-type'));
+    if (ext === null) {
+      console.log(`   ↪ skip ${baseName}  (HTML/XML, no es archivo descargable)`);
       continue;
     }
+    if (ext === 'zip') ext = refineZipExtension(buf); // distinguir zip vs docx/xlsx/pptx
+    const filename = `${baseName}.${ext}`;
+    const dest = path.join(destDir, filename);
     fs.writeFileSync(dest, buf);
     const note = d.parent ? ` ← anidado bajo ${String(d.parent.idx).padStart(2, '0')}` : '';
     console.log(`   ⬇ ${filename}  (${(buf.length / 1024).toFixed(1)} KB)${note}`);
-    if (isZipBuffer(buf)) {
+    // Solo expandimos ZIPs puros (no DOCX/XLSX/PPTX, que se leen como tales).
+    if (ext === 'zip') {
       const innerCount = expandZip(dest, filename, destDir).length;
       if (innerCount > 0) zipExpanded++;
-    } else {
+    } else if (shouldScanEmbedded(ext)) {
       enqueueEmbedded(buf, d);
-      // Registrar el PDF embebido en `documentos` con tipo inferido del título
-      if (d.parent) {
+      if (d.parent && ext === 'pdf') {
         const tipoInf = registerEmbeddedDoc(d, dest);
         console.log(`     ↳ registrado como '${tipoInf}' en tabla documentos`);
       }
@@ -403,8 +491,8 @@ while (queue.length > 0) {
     db.prepare(`UPDATE documentos SET descargado = 1 WHERE licitacion_id = ? AND url = ?`).run(row.id, d.url);
     ok++;
   } catch (e) {
-    console.log(`   ✖ ${filename}  ${e.message}`);
+    console.log(`   ✖ ${baseName}  ${e.message}`);
     fail++;
   }
 }
-console.log(`\n✅ ${ok} PDFs descargados · ${fail} fallos${zipExpanded ? ` · ${zipExpanded} ZIPs descomprimidos` : ''}${embeddedFound ? ` · ${embeddedFound} enlaces internos seguidos` : ''} · destino: ${destDir}`);
+console.log(`\n✅ ${ok} archivos descargados · ${fail} fallos${zipExpanded ? ` · ${zipExpanded} ZIPs descomprimidos` : ''}${embeddedFound ? ` · ${embeddedFound} enlaces internos seguidos` : ''} · destino: ${destDir}`);

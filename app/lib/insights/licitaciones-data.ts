@@ -186,6 +186,8 @@ export type ProcesoLicitacion = {
   /** Sub-pesos del económico (suman `peso_economico`) */
   peso_canon_fijo?:          number;
   peso_canon_variable?:      number;
+  /** Otros criterios cifras no-canon: gratuidades, descuentos a residentes, abonos (spec §4.ter O). */
+  peso_otros_economicos?:    number;
   /** Sub-pesos del técnico (suman `peso_tecnico`) */
   peso_construccion_tiempo?: number;
   peso_proyecto_tecnico?:    number;
@@ -210,6 +212,15 @@ export type ProcesoLicitacion = {
     /** Legacy: array plano de notas sin clasificar. Se mantiene por compatibilidad; la UI lo reclasifica con heurística. */
     warnings?: string[];
   };
+};
+
+/** Bloque de texto estructurado para modales explicativos (spec §4.ter P). */
+export type ExplicacionExtendida = {
+  titulo:               string;
+  descripcion_breve?:   string;
+  /** Marca visual del bloque: "obligatorio" (rojo), "alternativa" (ámbar — opción a elección del licitador), "opcional" (verde — mejora puntuable o adicional). Si null, se renderiza sin badge. */
+  caracter?:            "obligatorio" | "alternativa" | "opcional" | "informativo";
+  items:                string[];
 };
 
 export type Concesion = {
@@ -246,6 +257,15 @@ export type Concesion = {
   canon_mix_var_pct?:           number;
   canon_mix_var_eur_kwh?:       number;
   canon_mix_fijo_por_cargador?: number;
+  /** Canon basado en €/m² del valor del suelo (spec §4.ter N — patrimonial municipal típico). */
+  canon_eur_m2_ano?:            number;
+  valor_suelo_eur_m2_ano?:      number;
+  canon_pct_valor_suelo?:       number;
+  superficie_minima_m2?:        number;
+  superficie_maxima_m2?:        number;
+  /** Explicaciones extendidas para modales (spec §4.ter P). */
+  hardware_especificaciones?:   ExplicacionExtendida[];
+  canon_explicacion?:           ExplicacionExtendida;
   /** Variante "venta_energia_usuario": el adjudicatario no paga canon — vende energía al usuario y el órgano puntúa el precio bajo. */
   precio_max_kwh_usuario?:      number;
   precio_kwh_ofertado_ganador?: number;

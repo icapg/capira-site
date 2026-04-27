@@ -31,6 +31,7 @@ import fs from 'node:fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync } from 'node:child_process';
+import AdmZip from 'adm-zip';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT      = join(__dirname, '..');
@@ -74,6 +75,48 @@ function analizarPDF(pdfPath) {
     const charsPerPage = pages > 0 ? Math.round(chars / pages) : chars;
     const isScanned = charsPerPage < 50;
     return { pages, chars, charsPerPage, isScanned, sizeBytes };
+  } catch (e) {
+    return { pages: null, chars: 0, charsPerPage: 0, isScanned: true, error: e.message };
+  }
+}
+
+/**
+ * Extrae texto de un DOCX/XLSX/PPTX abriéndolo como ZIP (Office Open XML) y
+ * leyendo los XML de contenido, strippeando tags. NO usa dependencias
+ * externas pesadas (mammoth, libreoffice). Retorna null si no es un OOXML
+ * válido (caso ZIP puro, .doc/.xls legacy CFB, etc).
+ *
+ * @param {string} filePath
+ * @returns {{ chars: number, charsPerPage: number, isScanned: boolean, error?: string } | null}
+ */
+function analizarOoxml(filePath) {
+  try {
+    const sizeBytes = fs.statSync(filePath).size;
+    const zip = new AdmZip(filePath);
+    const entries = zip.getEntries();
+    // Detectar tipo OOXML: docx → word/document.xml, xlsx → xl/sharedStrings.xml + xl/worksheets/*.xml,
+    // pptx → ppt/slides/*.xml.
+    const isDocx = entries.some((e) => e.entryName === 'word/document.xml');
+    const isXlsx = entries.some((e) => e.entryName === 'xl/workbook.xml');
+    const isPptx = entries.some((e) => e.entryName === 'ppt/presentation.xml');
+    if (!isDocx && !isXlsx && !isPptx) return null; // ZIP puro u otro tipo
+    const xmlsAleer = entries
+      .filter((e) =>
+        (isDocx && e.entryName === 'word/document.xml') ||
+        (isXlsx && (e.entryName === 'xl/sharedStrings.xml' || /^xl\/worksheets\/sheet\d+\.xml$/.test(e.entryName))) ||
+        (isPptx && /^ppt\/slides\/slide\d+\.xml$/.test(e.entryName))
+      );
+    let texto = '';
+    for (const e of xmlsAleer) {
+      texto += '\n' + e.getData().toString('utf8').replace(/<[^>]+>/g, ' ');
+    }
+    // Decodificar entidades XML básicas
+    texto = texto.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+    const chars = texto.replace(/\s+/g, '').length;
+    const pages = Math.max(1, Math.round(sizeBytes / 30_000)); // proxy
+    const charsPerPage = pages > 0 ? Math.round(chars / pages) : chars;
+    const isScanned = chars < 50; // si está vacío total, igual que un PDF scanned sin OCR
+    return { pages, chars, charsPerPage, isScanned, sizeBytes, formato: isDocx ? 'docx' : isXlsx ? 'xlsx' : 'pptx' };
   } catch (e) {
     return { pages: null, chars: 0, charsPerPage: 0, isScanned: true, error: e.message };
   }
@@ -321,25 +364,65 @@ for (const slug of slugs) {
   //   - PDF con texto extraíble + citado en extraccion.json   → ✅ leído
   //   - PDF scanned + hay vision-*.raw.txt para el slug        → ✅ leído (vía Vision)
   //   - PDF scanned sin Vision                                 → ❌ no leído (scanned huérfano)
-  //   - .zip / .docx / .xlsx / .pptx                           → ❌ tipo no soportado
-  //   - PDF con texto NO citado en extraccion.json             → ⚠ posiblemente no leído
+  //   - .docx / .xlsx / .pptx (Office Open XML)                → ✅ legible vía AdmZip + strip XML
+  //   - .zip puro / .doc / .xls legacy CFB / .odt / .ods       → ❌ tipo no soportado
+  //   - PDF/DOCX/XLSX con texto NO citado en extraccion.json   → ⚠ posiblemente no leído
   const archivosCarpeta = fs.existsSync(slugDir) ? fs.readdirSync(slugDir) : [];
   const archivosDoc = archivosCarpeta.filter((f) =>
     !f.startsWith('_') && !f.startsWith('.') &&
     !/^(extraccion|vision-)/i.test(f) &&
-    /\.(pdf|zip|docx?|xlsx?|pptx?)$/i.test(f)
+    /\.(pdf|zip|docx?|xlsx?|pptx?|odt|ods)$/i.test(f)
   );
 
   const extraccionStr = fs.readFileSync(join(slugDir, 'extraccion.json'), 'utf8');
   const lecturaDetalles = [];
   let leidos = 0, scannedSinVision = 0, tiposNoSoportados = 0, posiblementeNoLeidos = 0;
+
+  const evaluarCitado = (f, an, formatoLabel) => {
+    const citadoPorNombre = fueCitado(f, extraccionStr);
+    const tipo = tipoDelArchivo(f);
+    const implicito = leidoImplicitamentePorTipo(tipo, it, ext);
+    if (citadoPorNombre || implicito) {
+      leidos++;
+      const motivo = citadoPorNombre && implicito ? 'citado + tipo poblado'
+        : citadoPorNombre ? 'citado en JSON'
+        : `tipo "${tipo}" poblado en extraccion.json`;
+      lecturaDetalles.push(`✅ ${f} — ${formatoLabel} OK (${an.charsPerPage} c/p), ${motivo}`);
+    } else {
+      posiblementeNoLeidos++;
+      lecturaDetalles.push(`⚠ ${f} — ${formatoLabel} OK (${an.charsPerPage} c/p), tipo "${tipo ?? '?'}" pero campos típicos vacíos en JSON`);
+    }
+  };
+
   for (const f of archivosDoc) {
     const fullPath = join(slugDir, f);
-    if (TIPOS_NO_TEXTO.test(f)) {
+    const ext_ = f.split('.').pop().toLowerCase();
+
+    // Intento OOXML primero para docx/xlsx/pptx (también para .zip por si es DOCX renombrado)
+    if (/^(docx?|xlsx?|pptx|zip)$/.test(ext_)) {
+      const ooxml = analizarOoxml(fullPath);
+      if (ooxml && !ooxml.error) {
+        if (ooxml.isScanned || ooxml.chars < 50) {
+          tiposNoSoportados++;
+          lecturaDetalles.push(`❌ ${f} — ${ooxml.formato.toUpperCase()} sin texto extraíble`);
+        } else {
+          evaluarCitado(f, ooxml, ooxml.formato.toUpperCase());
+        }
+        continue;
+      }
+      // Fallback: ZIP puro / DOC legacy / formato no OOXML
       tiposNoSoportados++;
-      lecturaDetalles.push(`❌ ${f} — tipo no soportado por pdftotext (${f.split('.').pop().toUpperCase()})`);
+      lecturaDetalles.push(`❌ ${f} — tipo no soportado (${ext_.toUpperCase()}: no es PDF ni Office Open XML)`);
       continue;
     }
+
+    // Resto de tipos textuales no soportados (odt/ods, doc/xls legacy CFB, etc.)
+    if (TIPOS_NO_TEXTO.test(f)) {
+      tiposNoSoportados++;
+      lecturaDetalles.push(`❌ ${f} — tipo no soportado (${ext_.toUpperCase()})`);
+      continue;
+    }
+
     if (!/\.pdf$/i.test(f)) continue;
     const an = analizarPDF(fullPath);
     if (an.error) {
@@ -356,19 +439,7 @@ for (const slug of slugs) {
         lecturaDetalles.push(`❌ ${f} — scanned (${an.charsPerPage} c/p) y NO se ejecutó Vision sobre este slug`);
       }
     } else {
-      const citadoPorNombre = fueCitado(f, extraccionStr);
-      const tipo = tipoDelArchivo(f);
-      const implicito = leidoImplicitamentePorTipo(tipo, it, ext);
-      if (citadoPorNombre || implicito) {
-        leidos++;
-        const motivo = citadoPorNombre && implicito ? 'citado + tipo poblado'
-          : citadoPorNombre ? 'citado en JSON'
-          : `tipo "${tipo}" poblado en extraccion.json`;
-        lecturaDetalles.push(`✅ ${f} — texto OK (${an.charsPerPage} c/p), ${motivo}`);
-      } else {
-        posiblementeNoLeidos++;
-        lecturaDetalles.push(`⚠ ${f} — texto OK (${an.charsPerPage} c/p), tipo "${tipo ?? '?'}" pero campos típicos vacíos en JSON`);
-      }
+      evaluarCitado(f, an, 'texto');
     }
   }
   const totalArchivos     = archivosDoc.length;
@@ -414,6 +485,36 @@ for (const slug of slugs) {
   const criteriosTec  = it.proceso?.criterios_valoracion?.tecnicos   ?? [];
   const mejorasPunt   = it.proceso?.mejoras_puntuables                ?? [];
   const criteriosJV   = it.proceso?.criterios_juicio_valor            ?? [];
+
+  // §4.ter O · Σ criterios renderizables (mejoras + juicio_valor) debe ≈ 100
+  const sumaMejorasPts = mejorasPunt.reduce((s, m) => s + (m.puntos_max ?? 0), 0);
+  const sumaJVPts      = criteriosJV.reduce((s, c) => s + (c.puntos_max ?? 0), 0);
+  const totalCriteriosPts = sumaMejorasPts + sumaJVPts;
+  const flagIncompleto = it.proceso?.flag_criterios_incompletos === true;
+  if (totalCriteriosPts > 0 && Math.abs(totalCriteriosPts - 100) > 0.5) {
+    if (flagIncompleto) {
+      flags.push(`Σ criterios renderizables = ${totalCriteriosPts} pts (≠ 100) · flag_criterios_incompletos=true → revisar manualmente PCAP/anuncio/notas`);
+    } else if (mejorasPunt.length === 0 && Math.abs(sumaJVPts - 50) <= 0.5) {
+      flags.push(`Solo criterios_juicio_valor (50 pts) — falta poblar mejoras_puntuables (cifras del Sobre 3)`);
+    } else if (criteriosJV.length === 0 && Math.abs(sumaMejorasPts - 50) <= 0.5) {
+      flags.push(`Solo mejoras_puntuables (50 pts) — falta poblar criterios_juicio_valor (juicio del Sobre 2)`);
+    } else {
+      flags.push(`Σ criterios renderizables = ${totalCriteriosPts} pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true`);
+    }
+  }
+
+  // §4.ter O · Cobertura de sub-pesos top-level (alimentan el donut del dashboard).
+  // Σ sub-pesos económicos (canon_fijo + canon_variable + otros_economicos) debe ≈ peso_economico.
+  // Σ sub-pesos técnicos (construccion + proyecto + hw + ubicaciones + otros) debe ≈ peso_tecnico.
+  const sumSub = (campos) => campos.map((c) => it.proceso?.[c]).filter((v) => v != null).reduce((a, b) => a + b, 0);
+  const subEco = sumSub(['peso_canon_fijo', 'peso_canon_variable', 'peso_otros_economicos']);
+  const subTec = sumSub(['peso_construccion_tiempo', 'peso_proyecto_tecnico', 'peso_mas_hw_potencia', 'peso_mas_ubicaciones', 'peso_otros']);
+  if (peso_econ > 0 && subEco > 0 && peso_econ - subEco > 0.5) {
+    flags.push(`Sub-pesos económicos (${subEco}) no cubren peso económico ${peso_econ} — faltan ${peso_econ - subEco} pts. El donut quedará incompleto. Usar peso_otros_economicos para cifras no-canon (gratuidades, descuentos, abonos).`);
+  }
+  if (peso_tec > 0 && subTec > 0 && peso_tec - subTec > 0.5) {
+    flags.push(`Sub-pesos técnicos (${subTec}) no cubren peso técnico ${peso_tec} — faltan ${peso_tec - subTec} pts. Encuadrar en construccion/proyecto/HW/ubicaciones o peso_otros.`);
+  }
 
   // Construir lista plana de criterios para esta licitación + registrar master
   const criteriosDetalle = [];
@@ -556,7 +657,9 @@ for (const slug of slugs) {
 
   // ── 11. Coherencia ubicaciones ─────────────────────────────────────────
   const ubis = it.concesion?.ubicaciones ?? [];
-  const ubisNuevas = ubis.filter((u) => !u.es_existente);
+  // §4.ter M · solo obligatorias suman a num_cargadores_minimo. Las opcionales
+  // (es_opcional: true) son el cupo del licitador y NO suman al mínimo del pliego.
+  const ubisNuevas = ubis.filter((u) => !u.es_existente && !u.es_opcional);
   const sumaCargadoresNuevos = ubisNuevas.reduce((acc, u) => acc + (u.cargadores_total ?? 0), 0);
   const minimoPliego = it.concesion?.num_cargadores_minimo ?? null;
   let coherenciaUbis = '—';

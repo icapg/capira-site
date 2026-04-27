@@ -165,6 +165,66 @@ snapshots_estado    — historial PUB → EV → ADJ → RES
 ingest_log          — control de ficheros Atom ingestados
 benchmarks_cpo      — vista materializada de mercado por bucket
 
+## Pipeline cat=1 — extracción LLM de licitaciones (operativo)
+
+Para concesiones demaniales (cat=1) existe un pipeline establecido que convierte
+cada expediente PLACSP en un \`extraccion.json\` canónico (spec v2) y poblar
+SQLite + bundle web + auditoría cross-licitación. La extracción la hace una
+sesión Claude Max leyendo los PDFs en local — NO se llama a la API paga.
+
+### Flujo por slug
+
+1. \`node scripts/placsp-extract-pdfs.mjs --slug=<N>\` — descarga universal
+   recursiva. Baja TODOS los archivos del expediente (PDF, DOC, DOCX, XLS,
+   XLSX, CSV, TXT, JPG/PNG/TIFF, DWG, etc.) — no solo PDF/ZIP. Cola FIFO que
+   escanea cada archivo descargado en busca de URLs embebidas
+   (\`https://contrataciondelestado.es/FileSystem/servlet/GetDocumentByIdServlet?...\`)
+   y las agrega a la cola hasta vaciarla. Los ZIPs se descomprimen completos.
+   Solo se descartan respuestas HTML/XML (páginas de error). Destino:
+   \`data/placsp-pdfs/<slug>/\`.
+2. La sesión Claude lee TODOS los archivos de la carpeta y produce
+   \`data/placsp-pdfs/<slug>/extraccion.json\` siguiendo la spec v2 (§2 schema,
+   §3.bis coherencias, §4 notas pliego/adjudicación, §4.ter A–K casos edge).
+3. Si el Anexo I son planos escaneados sin OCR →
+   \`node scripts/placsp-llm-vision-ubicaciones.mjs --slug=<N>\` (Sonnet 4.6 con
+   vision; ~$0.10–0.40/slug). Esta es la ÚNICA llamada a API paga del pipeline.
+4. \`node scripts/placsp-llm-validate.mjs --slug=<N>\` — valida el JSON contra
+   reglas declarativas. Si falla, se corrige el JSON.
+5. \`node scripts/placsp-llm-apply.mjs --slug=<N>\` — UPSERT del JSON a SQLite
+   (\`licitaciones\`, \`licitadores\`, \`documentos\`).
+6. \`node scripts/placsp-geocode.mjs --slug=<N>\` — geocodifica direcciones nuevas
+   (escribe lat/lng al \`extraccion.json\`, NO a SQLite).
+7. \`node scripts/placsp-llm-apply.mjs --slug=<N>\` — **RE-APPLY tras geocode**
+   (CRÍTICO: sin este paso las coords no llegan al bundle web → mapa vacío).
+8. \`node scripts/placsp-refresh-slug.mjs --slug=<N>\` — refresca fechas si las
+   trae el LLM y la DB las tiene null.
+
+### Cierre del lote
+
+8. \`node scripts/placsp-build-json.mjs\` — regenera \`data/licitaciones-emov.json\`
+   (bundle web).
+9. \`node scripts/placsp-auditoria.mjs\` — regenera 4 outputs cross-licitación:
+   - \`data/licitaciones-auditoria.json\` (16 métricas + flags + cobertura)
+   - \`data/licitaciones-criterios-master.json\` (taxonomía de criterios)
+   - \`data/placsp-correcciones-aprendidas.json\` (few-shots para futuras sesiones)
+   - \`data/placsp-criterios-sugerencias.json\` (fusión de claves canónicas)
+
+### Spec canónica
+\`~/.claude/.../memory/reference_placsp_extraction_spec_v2.md\` (§4.ter A–P, vivo).
+- §4.ter A (refinada 2026-04-27): num_cargadores_opcional_extra = TRUE siempre que el pliego permita agregar más puntos de carga, sea o no criterio puntuable. El KpiBar muestra "+ X" para reflejar el techo físico potencial. Patrones: criterios puntuables de "incremento de puntos" + autorizaciones tipo "podrá realizar mejoras con recursos propios".
+- §4.ter L: clasificador inferTipoFromText estricto (pliegos antes que formalización).
+- §4.ter M: ubicaciones y puntos en 3 tramos × 2 dimensiones (existentes / obligatorias / opcionales).
+- §4.ter N: canon basado en €/m² del valor del suelo — campos canon_eur_m2_ano, valor_suelo_eur_m2_ano, canon_pct_valor_suelo, superficie_minima_m2, superficie_maxima_m2.
+- §4.ter O: criterios en 2 arrays separados (mejoras_puntuables + criterios_juicio_valor) + suma debe ≈ 100. Aplica en DOS niveles: (A) Σ arrays = 100 (alimentan tablas) Y (B) Σ sub-pesos económicos = peso_criterios_economicos + Σ sub-pesos técnicos = peso_criterios_tecnicos (alimentan el DONUT). Sub-pesos económicos: peso_canon_fijo + peso_canon_variable + peso_otros_economicos (criterios cifras no-canon: gratuidades, descuentos, abonos). Si no llega en cualquier nivel, buscar criterios omitidos o marcar flag_criterios_incompletos:true.
+- §4.ter P: explicaciones extendidas para modales — hardware_especificaciones[] (array, empieza con marco "informativo" + N tipologías "alternativa"/"obligatorio"/"opcional") + canon_explicacion (objeto). Schema {titulo, descripcion_breve?, caracter?, items[]}. Tono narrativo obligatorio (párrafos, no bullets de specs). Badges visuales por carácter. NUNCA marcar varias tipologías como "obligatorio" cuando son alternativas a elegir.
+- §4.ter T (sesión 2026-04-27): pre-extracción programática + cross-validation. Los NÚMEROS del pliego (cantidades, ponderaciones, conectores, canon, superficies, plazos) NO se extraen leyendo PDFs por bloques — los extrae el script determinista `placsp-extraer-datos-base.mjs` que recorre TODO el texto y produce `_datos_base.json`. Detecta automáticamente discrepancias internas (ej. "5 vs 10 cargadores" en distintas secciones del pliego). El applier valida CRUZADO contra `_datos_base.json`: si los números del extraccion.json divergen sin `_override_datos_base` justificado, ABORTA con exit 3. El LLM solo verifica + redacta narrativa; los números los aporta el script. Workflow paso 1.5b NUEVO en el pipeline cat=1.
+- §4.ter S (sesión 2026-04-27): KpiBar omite tramos con valor 0. En las cajas Ubicaciones y Puntos de carga, "0 + 5" se renderiza como "5". El cliente ve solo los tramos que aportan algo distinto de cero. Sub-texto sigue la misma regla. Caso piloto: Breña Baja 18309278.
+- §4.ter R (sesión 2026-04-27): texto cliente-friendly. NO filtrar nombres del schema en strings (notas, descripciones, items). Términos PROHIBIDOS: num_cargadores_minimo, es_existente, tipo_hw, peso_canon_fijo, flag_criterios_incompletos, §4.ter, spec v2, extraccion.json, placsp-*.mjs, etc. Las notas se renderizan al cliente final — usar lenguaje natural sin jerga interna del schema o del pipeline. En lugar de "NO suma al num_cargadores_minimo (88 nuevos)" usar "NO se cuenta dentro de los 88 puntos nuevos exigidos por el pliego".
+- §4.ter Q (sesión 2026-04-27): SCRIPT OBLIGATORIO + suma literal del pliego. (1) Antes de extraer ejecutar \`node scripts/placsp-cobertura-pliego.mjs --slug=<N>\` que genera \`_cobertura.txt\` con índice exhaustivo de qué hay en cada documento + banderas críticas + checklist obligatorio (detecta Anexos, AUTOEVALUACIÓN/Anexo I, Q&A, DESIERTA, ponderaciones, fórmulas). (2) Pliegos con errata interna (suma criterios ≠ 100): NO normalizar — preservar suma LITERAL + marcar flag_criterios_incompletos:true. El validador acepta la suma ≠ 100 cuando ese flag está activo. La UI muestra la suma real + flag visible. Caso piloto Breña Baja 18309278 con suma 120 (Anexo I: canon 70 + Ampliación 30 + GdO 20).
+\`scripts/placsp-llm-schema.mjs\` (texto del prompt + ENUMS + reglas).
+Pilotos cerrados (gold standard): 19140288, 13576641, 15534510, 19217419,
+17776623, 17794455.
+
 ## Reglas anti-error al responder
 
 1. SIEMPRE sustentar afirmaciones con SQL. "X es el top CPO en Madrid" debe venir acompañado

@@ -20,6 +20,7 @@ import {
 } from "../../../lib/insights/licitaciones-data";
 import { DonutCriterios, BarPuntuaciones, BarMixHW, BarCanonOferta } from "./Charts";
 import { UbicacionesMapa } from "./UbicacionesMapa";
+import ExplicacionButton from "./ExplicacionButton";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -42,6 +43,7 @@ const C = {
   purple: "#a78bfa",
   orange: "#fb923c",
   amber:  "#fbbf24",
+  yellow: "#facc15",
   red:    "#f87171",
   teal:   "#06b6d4",
   text:   "#f1f5f9",
@@ -650,88 +652,136 @@ function KpiBar({ lic, esConcesion, nParticipantes, nExcluidos, winner }: { lic:
 
   const boxes: Array<Dual | Simple> = [];
 
-  // Ubicaciones (primero) — siempre presente para cat=1 (con N/A si falta)
+  // ── Descomposición de ubicaciones y puntos de carga (spec §4.ter M) ────
+  // Las dos dimensiones (UBICACIONES físicas y PUNTOS DE CARGA / tomas)
+  // tienen rango propio y se descomponen en 3 tramos mutuamente excluyentes:
+  //   1. Existentes asumidas        (es_existente: true)
+  //   2. Nuevas obligatorias        (es_existente: false, es_opcional: false)
+  //   3. Nuevas opcionales (cupo)   (es_existente: false, es_opcional: true)
+  // Cuando el pliego define cupo cerrado (Alcorcón: máx 25), las opcionales
+  // se modelan como ubicaciones placeholder. Cuando es apertura sin techo
+  // (Mancomunitat: incremento sin máximo), no se modelan y el flag
+  // num_cargadores_opcional + posibilidadAdicionales() las refleja con "+ X".
   if (esConcesion) {
-    const nUbicaciones = con?.num_ubicaciones ?? (con?.ubicaciones?.length != null && con.ubicaciones.length > 0 ? con.ubicaciones.length : null);
-    const ciudadesUnicas = Array.from(new Set(
-      (con?.ubicaciones ?? [])
-        .map((u) => u.municipio)
-        .filter((m): m is string => !!m && m.trim().length > 0)
-    ));
-    const subCiudades = ciudadesUnicas.length > 0
-      ? ciudadesUnicas.join(" · ")
-      : (lic.ciudad ?? lic.provincia ?? undefined);
-    // Posibilidad del pliego: ¿se permite ofertar ubicaciones adicionales?
-    const posUbic = posibilidadAdicionales(con, mejoras, "ubicaciones");
-    const adicionalLabel = posUbic.permitido ? (posUbic.maximo != null ? String(posUbic.maximo) : "X") : null;
-    const valueUbic = nUbicaciones != null
-      ? (adicionalLabel ? `${nUbicaciones} + ${adicionalLabel}` : String(nUbicaciones))
-      : "N/A";
-    const cuant: string[] = [];
-    if (nUbicaciones != null) cuant.push(`${nUbicaciones} mínimo del pliego`);
-    if (adicionalLabel) {
-      cuant.push(posUbic.maximo != null
-        ? `hasta ${posUbic.maximo} ubicaciones adicionales a ofertar`
-        : `${adicionalLabel} ubicaciones adicionales a ofertar (sin tope explícito)`);
-    }
-    const sumaTexto = cuant.join(" + ");
-    const subUbic = subCiudades
-      ? (sumaTexto ? `${sumaTexto} · ${subCiudades}` : subCiudades)
-      : sumaTexto || undefined;
-    boxes.push({
-      emoji: "📍",
-      label: "Ubicaciones",
-      value: valueUbic,
-      sub:   subUbic,
-      color: C.green,
-    });
-  }
+    const ubics = con?.ubicaciones ?? [];
+    const ubicExistentes  = ubics.filter((u) => u.es_existente);
+    const ubicOpcionales  = ubics.filter((u) => !u.es_existente && u.es_opcional);
+    const ubicObligatorias = ubics.filter((u) => !u.es_existente && !u.es_opcional);
+    const nUbicExist = ubicExistentes.length;
+    const nUbicOpc   = ubicOpcionales.length;
+    const nUbicObl   = ubicObligatorias.length;
 
-  // Puntos de carga (después) — siempre presente para cat=1
-  if (esConcesion) {
-    const nuevos = con?.num_cargadores ?? con?.num_cargadores_minimo ?? null;
-    // Puntos existentes que el adjudicatario asume sin reemplazo
-    const existentes = (con?.ubicaciones ?? [])
-      .filter((u) => u.es_existente)
-      .reduce((s, u) => s + (u.cargadores_total ?? 1), 0);
-    // Posibilidad del pliego: ¿se permite ofertar puntos de carga adicionales?
-    const posPuntos = posibilidadAdicionales(con, mejoras, "puntos");
-    const adicionalLabel = posPuntos.permitido ? (posPuntos.maximo != null ? String(posPuntos.maximo) : "X") : null;
-    // Construir el value: <nuevos>[ + <existentes>][ + <adicionales>]
-    let value: string;
-    if (nuevos == null) {
-      value = "N/A";
-    } else {
-      const partes: (string | number)[] = [nuevos];
-      if (existentes > 0)    partes.push(`+ ${existentes}`);
-      if (adicionalLabel)    partes.push(`+ ${adicionalLabel}`);
-      value = partes.join(" ");
+    // Ubicaciones (primero) — siempre presente para cat=1 (con N/A si falta)
+    {
+      // Si el extractor descompuso por flags, usamos el desglose. Si no, caemos
+      // al num_ubicaciones bruto (caso simple: pliego con N único sin tramos).
+      const huboDesglose = nUbicExist + nUbicOpc + nUbicObl > 0;
+      const nObligatorias = huboDesglose
+        ? nUbicObl
+        : (con?.num_ubicaciones ?? (ubics.length > 0 ? ubics.length : null));
+      const ciudadesUnicas = Array.from(new Set(
+        ubics.map((u) => u.municipio).filter((m): m is string => !!m && m.trim().length > 0)
+      ));
+      const subCiudades = ciudadesUnicas.length > 0
+        ? ciudadesUnicas.join(" · ")
+        : (lic.ciudad ?? lic.provincia ?? undefined);
+      // Posibilidad del pliego — solo si NO hay opcionales ya modeladas (caso
+      // apertura sin techo: Mancomunitat). Si hay placeholders modelados se
+      // prefiere ese número concreto sobre el flag boolean.
+      const posUbic = posibilidadAdicionales(con, mejoras, "ubicaciones");
+      const usarFlagAdicional = nUbicOpc === 0 && posUbic.permitido;
+      const adicionalLabel = usarFlagAdicional
+        ? (posUbic.maximo != null ? String(posUbic.maximo) : "X")
+        : null;
+
+      // Construir value: <obligatorias>[ + <existentes>][ + <opcionales modeladas o flag>]
+      // §4.ter S: omitir tramos con valor 0 — solo mostrar los que aportan algo.
+      let valueUbic: string;
+      if (nObligatorias == null) {
+        valueUbic = "N/A";
+      } else {
+        const partes: string[] = [];
+        if (nObligatorias > 0) partes.push(String(nObligatorias));
+        if (nUbicExist > 0)    partes.push(String(nUbicExist));
+        if (nUbicOpc > 0)              partes.push(String(nUbicOpc));
+        else if (adicionalLabel)       partes.push(adicionalLabel);
+        valueUbic = partes.length > 0 ? partes.join(" + ") : "0";
+      }
+      const cuant: string[] = [];
+      if (nObligatorias != null && nObligatorias > 0) cuant.push(`${nObligatorias} mínimo del pliego`);
+      if (nUbicExist > 0) cuant.push(`${nUbicExist} existente${nUbicExist > 1 ? "s" : ""} asumida${nUbicExist > 1 ? "s" : ""}`);
+      if (nUbicOpc > 0) {
+        cuant.push(`hasta ${nUbicOpc} ubicaciones adicionales del cupo del pliego`);
+      } else if (adicionalLabel) {
+        cuant.push(posUbic.maximo != null
+          ? `hasta ${posUbic.maximo} ubicaciones adicionales a ofertar`
+          : `${adicionalLabel} ubicaciones adicionales a ofertar (sin tope explícito)`);
+      }
+      const sumaTexto = cuant.join(" + ");
+      const subUbic = subCiudades
+        ? (sumaTexto ? `${sumaTexto} · ${subCiudades}` : subCiudades)
+        : sumaTexto || undefined;
+      boxes.push({
+        emoji: "📍",
+        label: "Ubicaciones",
+        value: valueUbic,
+        sub:   subUbic,
+        color: C.green,
+      });
     }
-    const desglose = [con?.num_cargadores_ac, con?.num_cargadores_dc, con?.num_cargadores_dc_plus, con?.num_cargadores_hpc].some((v) => v != null)
-      ? [con?.num_cargadores_ac && `${con.num_cargadores_ac} AC`, con?.num_cargadores_dc && `${con.num_cargadores_dc} DC`, con?.num_cargadores_dc_plus && `${con.num_cargadores_dc_plus} DC+`, con?.num_cargadores_hpc && `${con.num_cargadores_hpc} HPC`].filter(Boolean).join(" · ")
-      : null;
-    const subBase = desglose ?? (con?.tecnologia_requerida ? `tecnología ${fmtTipoHw(con.tecnologia_requerida)}` : undefined);
-    const subParts: string[] = [];
-    if (nuevos != null) subParts.push(`${nuevos} mínimo del pliego`);
-    if (existentes > 0) subParts.push(`${existentes} existente${existentes > 1 ? "s" : ""} asumidos`);
-    if (adicionalLabel) {
-      subParts.push(posPuntos.maximo != null
-        ? `hasta ${posPuntos.maximo} puntos adicionales a ofertar`
-        : `${adicionalLabel} puntos adicionales a ofertar (sin tope explícito)`);
+
+    // Puntos de carga (después) — siempre presente para cat=1
+    {
+      const nuevos = con?.num_cargadores ?? con?.num_cargadores_minimo ?? null;
+      // Puntos existentes que el adjudicatario asume sin reemplazo
+      const existentes = ubicExistentes.reduce((s, u) => s + (u.cargadores_total ?? 1), 0);
+      // Puntos opcionales MODELADOS (suma de cargadores en placeholders) —
+      // preferido sobre el flag boolean cuando hay cupo cerrado.
+      const opcionalesModelados = ubicOpcionales.reduce((s, u) => s + (u.cargadores_total ?? 0), 0);
+      const posPuntos = posibilidadAdicionales(con, mejoras, "puntos");
+      const usarFlagAdicional = opcionalesModelados === 0 && posPuntos.permitido;
+      const adicionalLabel = usarFlagAdicional
+        ? (posPuntos.maximo != null ? String(posPuntos.maximo) : "X")
+        : null;
+
+      // §4.ter S: omitir tramos con valor 0 — solo mostrar los que aportan algo.
+      let value: string;
+      if (nuevos == null) {
+        value = "N/A";
+      } else {
+        const partes: string[] = [];
+        if (nuevos > 0)             partes.push(String(nuevos));
+        if (existentes > 0)         partes.push(String(existentes));
+        if (opcionalesModelados > 0) partes.push(String(opcionalesModelados));
+        else if (adicionalLabel)     partes.push(adicionalLabel);
+        value = partes.length > 0 ? partes.join(" + ") : "0";
+      }
+      const desglose = [con?.num_cargadores_ac, con?.num_cargadores_dc, con?.num_cargadores_dc_plus, con?.num_cargadores_hpc].some((v) => v != null)
+        ? [con?.num_cargadores_ac && `${con.num_cargadores_ac} AC`, con?.num_cargadores_dc && `${con.num_cargadores_dc} DC`, con?.num_cargadores_dc_plus && `${con.num_cargadores_dc_plus} DC+`, con?.num_cargadores_hpc && `${con.num_cargadores_hpc} HPC`].filter(Boolean).join(" · ")
+        : null;
+      const subBase = desglose ?? (con?.tecnologia_requerida ? `tecnología ${fmtTipoHw(con.tecnologia_requerida)}` : undefined);
+      const subParts: string[] = [];
+      if (nuevos != null && nuevos > 0) subParts.push(`${nuevos} mínimo del pliego`);
+      if (existentes > 0) subParts.push(`${existentes} existente${existentes > 1 ? "s" : ""} asumidos`);
+      if (opcionalesModelados > 0) {
+        subParts.push(`hasta ${opcionalesModelados} puntos adicionales del cupo del pliego`);
+      } else if (adicionalLabel) {
+        subParts.push(posPuntos.maximo != null
+          ? `hasta ${posPuntos.maximo} puntos adicionales a ofertar`
+          : `${adicionalLabel} puntos adicionales a ofertar (sin tope explícito)`);
+      }
+      const sumaTexto = subParts.join(" + ");
+      const sub = subBase
+        ? (sumaTexto ? `${sumaTexto} · ${subBase}` : subBase)
+        : sumaTexto || undefined;
+      boxes.push({
+        emoji: "🔌",
+        label: "Puntos de carga",
+        value,
+        sub,
+        color: C.green,
+      });
     }
-    // Las partes cuantificables se unen con " + ". Si hay desglose tecnológico,
-    // se agrega al final separado con " · ".
-    const sumaTexto = subParts.join(" + ");
-    const sub = subBase
-      ? (sumaTexto ? `${sumaTexto} · ${subBase}` : subBase)
-      : sumaTexto || undefined;
-    boxes.push({
-      emoji: "🔌",
-      label: "Puntos de carga",
-      value,
-      sub,
-      color: C.green,
-    });
   }
 
   // Plazo (último) — siempre presente
@@ -826,10 +876,13 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
 
   // Armar criterios para donut
   const criterios: Array<{ nombre: string; peso: number; color: string }> = [];
-  const hasSubEco = proceso?.peso_canon_fijo != null || proceso?.peso_canon_variable != null;
+  const hasSubEco = proceso?.peso_canon_fijo != null
+                 || proceso?.peso_canon_variable != null
+                 || (proceso as any)?.peso_otros_economicos != null;
   if (hasSubEco) {
     if (proceso?.peso_canon_fijo     != null) criterios.push({ nombre: "Canon fijo",     peso: proceso.peso_canon_fijo,     color: C.amber });
     if (proceso?.peso_canon_variable != null) criterios.push({ nombre: "Canon variable", peso: proceso.peso_canon_variable, color: C.orange });
+    if ((proceso as any)?.peso_otros_economicos != null) criterios.push({ nombre: "Otros económicos", peso: (proceso as any).peso_otros_economicos, color: C.yellow });
   } else if (proceso?.peso_economico != null) {
     criterios.push({ nombre: "Económico", peso: proceso.peso_economico, color: C.amber });
   }
@@ -886,6 +939,16 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
                 ? `${concesion.potencia_disponible_kw.toLocaleString("es-ES")} kW${concesion.potencia_garantizada ? " · ✅ garantizada" : " · ⚠ no garantizada"}`
                 : <span style={{ color: C.dim }}>N/A</span>} />
 
+          {(concesion.hardware_especificaciones?.length ?? 0) > 0 && (
+            <div style={{ marginTop: 10 }}>
+              <ExplicacionButton
+                label="📖 HW explicado"
+                modalTitulo="Hardware exigido — especificaciones del pliego"
+                contenido={concesion.hardware_especificaciones!}
+              />
+            </div>
+          )}
+
           {concesion.tipo_retribucion === "venta_energia_usuario" ? (
             <>
               <SubTitle>⚡ Precio de venta de energía al usuario</SubTitle>
@@ -898,12 +961,63 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
             </>
           ) : (
             <>
+              {/* Canon basado en €/m² del valor del suelo (spec §4.ter N) */}
+              {(concesion.canon_eur_m2_ano != null
+                || concesion.valor_suelo_eur_m2_ano != null
+                || concesion.canon_pct_valor_suelo != null
+                || concesion.superficie_minima_m2 != null
+                || concesion.superficie_maxima_m2 != null) && (
+                <>
+                  <SubTitle>📐 Canon mínimo unitario (€/m²)</SubTitle>
+                  <Kv
+                    label="Canon mínimo €/m²/año"
+                    value={
+                      concesion.canon_eur_m2_ano != null
+                        ? <strong>{concesion.canon_eur_m2_ano.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/m²/año</strong>
+                        : <span style={{ color: C.dim }}>N/A</span>
+                    }
+                  />
+                  {(concesion.canon_pct_valor_suelo != null || concesion.valor_suelo_eur_m2_ano != null) && (
+                    <Kv
+                      label="Cálculo"
+                      value={
+                        <span style={{ color: C.dim, fontSize: 13 }}>
+                          {concesion.canon_pct_valor_suelo != null ? `${concesion.canon_pct_valor_suelo} %` : "—"}
+                          {" × "}
+                          {concesion.valor_suelo_eur_m2_ano != null ? `${concesion.valor_suelo_eur_m2_ano.toLocaleString("es-ES", { maximumFractionDigits: 2 })} €/m²/año` : "—"}
+                          {" (valor del suelo)"}
+                        </span>
+                      }
+                    />
+                  )}
+                  {(concesion.superficie_minima_m2 != null || concesion.superficie_maxima_m2 != null) && (
+                    <Kv
+                      label="Superficie por ubicación"
+                      value={
+                        concesion.superficie_minima_m2 != null && concesion.superficie_maxima_m2 != null
+                          ? `${concesion.superficie_minima_m2.toLocaleString("es-ES")}–${concesion.superficie_maxima_m2.toLocaleString("es-ES")} m²`
+                          : (concesion.superficie_minima_m2 != null ? `mín ${concesion.superficie_minima_m2} m²` : `máx ${concesion.superficie_maxima_m2} m²`)
+                      }
+                    />
+                  )}
+                </>
+              )}
+
               <SubTitle>💰 Canon exigido</SubTitle>
               <Kv label="Canon fijo mínimo" value={concesion.canon_minimo_anual != null ? `${fmtEurExact(concesion.canon_minimo_anual)}/año` : <span style={{ color: C.dim }}>N/A</span>} />
               <Kv label="Por ubicación" value={concesion.canon_por_ubicacion_anual != null ? `${fmtEurExact(concesion.canon_por_ubicacion_anual)}/ubic./año` : <span style={{ color: C.dim }}>N/A</span>} />
               <Kv label="Por punto de carga" value={concesion.canon_por_cargador != null ? `${fmtEurExact(concesion.canon_por_cargador)}/punto/año` : <span style={{ color: C.dim }}>N/A</span>} />
               <Kv label="Variable mínimo (€/kWh)" value={concesion.canon_variable_eur_kwh != null ? `${concesion.canon_variable_eur_kwh.toLocaleString("es-ES", { maximumFractionDigits: 4 })} €/kWh` : <span style={{ color: C.dim }}>N/A</span>} />
               <Kv label="Variable mínimo (%)" value={concesion.canon_variable_pct != null ? `${concesion.canon_variable_pct}% s/ facturación` : <span style={{ color: C.dim }}>N/A</span>} />
+              {concesion.canon_explicacion && (
+                <div style={{ marginTop: 10 }}>
+                  <ExplicacionButton
+                    label="📖 Canon explicado"
+                    modalTitulo="Canon exigido — desglose del cálculo"
+                    contenido={concesion.canon_explicacion}
+                  />
+                </div>
+              )}
             </>
           )}
 
@@ -966,6 +1080,28 @@ function ConcesionBlock({ lic, concesion, proceso }: { lic: LicitacionItem; conc
                 </div>
               ))}
             </div>
+            {/* Nota cuando la suma del pliego ≠ 100 (errata interna del documento original) */}
+            {Math.abs(sumCri - 100) > 1 && sumCri > 0 && (
+              <div style={{
+                marginTop: 14,
+                padding: "10px 12px",
+                background: "rgba(251,191,36,0.08)",
+                border: `1px solid rgba(251,191,36,0.32)`,
+                borderRadius: 8,
+                fontSize: 12,
+                lineHeight: 1.55,
+                color: C.text,
+              }}>
+                <span style={{ color: C.amber, fontWeight: 700 }}>ℹ️ Suma {sumCri} pts (no 100)</span>
+                {" — "}
+                Esta cifra <strong>refleja literalmente lo que dice el pliego</strong> original; no es un error de
+                nuestra extracción. El documento {sumCri > 100 ? "asigna más" : "deja menos"} de 100 pts en total
+                porque el redactor publicó ponderaciones inconsistentes entre el articulado y el modelo de oferta
+                económica del Anexo I (errata interna del pliego). Preservamos los valores exactos del Anexo I que
+                firma el licitador para fidelidad documental. Sin Q&A oficial del órgano que aclare la
+                ponderación intencionada, la suma queda como está en el pliego.
+              </div>
+            )}
           </div>
         </div>
       )}

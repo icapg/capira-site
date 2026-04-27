@@ -339,9 +339,12 @@ function main() {
       canon_por_ubicacion_anual,
       canon_variable_pct, canon_variable_eur_kwh,
       canon_mix_fijo_anual, canon_mix_var_pct, canon_mix_var_eur_kwh, canon_mix_fijo_por_cargador,
+      canon_eur_m2_ano, valor_suelo_eur_m2_ano, canon_pct_valor_suelo,
+      superficie_minima_m2, superficie_maxima_m2,
+      hardware_especificaciones_json, canon_explicacion_json,
       precio_max_kwh_usuario, precio_kwh_ofertado_ganador, mantenimiento_precio_anos,
       peso_construccion_tiempo, peso_proyecto_tecnico, peso_mas_hw_potencia, peso_mas_ubicaciones, peso_otros,
-      peso_canon_fijo, peso_canon_variable,
+      peso_canon_fijo, peso_canon_variable, peso_otros_economicos,
       garantia_provisional_eur, garantia_provisional_pct, garantia_provisional_exigida,
       garantia_definitiva_eur, garantia_definitiva_pct, garantia_definitiva_base,
       requisitos_solvencia_economica, requisitos_solvencia_tecnica, requisitos_adicionales
@@ -575,6 +578,15 @@ function main() {
       put(concesion, 'canon_mix_var_pct',               r.canon_mix_var_pct);
       put(concesion, 'canon_mix_var_eur_kwh',           r.canon_mix_var_eur_kwh);
       put(concesion, 'canon_mix_fijo_por_cargador',     r.canon_mix_fijo_por_cargador);
+      // Canon basado en €/m² del valor del suelo (spec §4.ter N)
+      put(concesion, 'canon_eur_m2_ano',                r.canon_eur_m2_ano);
+      put(concesion, 'valor_suelo_eur_m2_ano',          r.valor_suelo_eur_m2_ano);
+      put(concesion, 'canon_pct_valor_suelo',           r.canon_pct_valor_suelo);
+      put(concesion, 'superficie_minima_m2',            r.superficie_minima_m2);
+      put(concesion, 'superficie_maxima_m2',            r.superficie_maxima_m2);
+      // Explicaciones extendidas (spec §4.ter P)
+      put(concesion, 'hardware_especificaciones',       safeJson(r.hardware_especificaciones_json));
+      put(concesion, 'canon_explicacion',               safeJson(r.canon_explicacion_json));
       // Variante venta de energía al usuario
       put(concesion, 'precio_max_kwh_usuario',          r.precio_max_kwh_usuario);
       put(concesion, 'precio_kwh_ofertado_ganador',     r.precio_kwh_ofertado_ganador);
@@ -602,6 +614,7 @@ function main() {
     put(proceso, 'peso_otros',               r.peso_otros);
     put(proceso, 'peso_canon_fijo',          r.peso_canon_fijo);
     put(proceso, 'peso_canon_variable',      r.peso_canon_variable);
+    put(proceso, 'peso_otros_economicos',    r.peso_otros_economicos);
 
     // Garantías
     const garantias = {};

@@ -23,6 +23,7 @@ import path from 'node:path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Database from 'better-sqlite3';
+import { validate } from './placsp-llm-validate.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.join(__dirname, '..');
@@ -52,6 +53,94 @@ const now    = new Date().toISOString();
 const isConcesion = row.categoria_emov === '1';
 
 console.log(`📝 Aplicando extracción a ${slug} (${row.expediente ?? ''})`);
+
+// ── Validar antes de aplicar (spec §4.ter O · cierre del loop) ─────────
+// Si el validador devuelve errores, abortar antes de tocar la DB. Esto
+// fuerza al extractor a corregir el JSON o a marcar flag_criterios_incompletos
+// explícitamente. Use --skip-validate para forzar la aplicación con errores
+// (NO recomendado — solo para debugging).
+if (!args['skip-validate']) {
+  const { errors, warnings } = validate(parsed, { isConcesion });
+  if (warnings && warnings.length > 0) {
+    console.log(`   ⚠ ${warnings.length} warning${warnings.length === 1 ? '' : 's'} del validador (no bloquean):`);
+    warnings.forEach((w) => console.log(`     · ${w}`));
+  }
+  if (errors && errors.length > 0) {
+    console.error(`\n❌ El validador encontró ${errors.length} error${errors.length === 1 ? '' : 'es'} BLOQUEANTES:`);
+    errors.forEach((e) => console.error(`   · ${e}`));
+    console.error(`\nApplier abortado. Corregir el extraccion.json y reintentar.`);
+    console.error(`(O forzar con --skip-validate si sabés lo que estás haciendo.)`);
+    process.exit(2);
+  }
+}
+
+// ── §4.ter T · Cross-validation contra _datos_base.json ────────────────
+// Si existe `_datos_base.json` (generado por placsp-extraer-datos-base.mjs),
+// chequear que los números clave del extraccion.json coinciden con los
+// extraídos programáticamente del pliego. Si divergen sin override
+// explícito, abortar.
+//
+// Esto saca al LLM del path crítico para los números: la fuente de verdad
+// numérica es el script determinista, no la lectura del LLM.
+if (!args['skip-cross-validate']) {
+  const dbPath = path.join(PDF_DIR, slug, '_datos_base.json');
+  if (fs.existsSync(dbPath)) {
+    const db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+    const overrides = parsed._override_datos_base ?? {};
+    const xerrors = [];
+    const xwarns  = [];
+
+    // 1. Cantidades de cargadores: si hay un número del pliego CERCA del total
+    //    declarado pero distinto, alertar. Si las cifras del pliego son MUY
+    //    distintas (>5×), probablemente son falsos positivos del regex
+    //    (presupuestos, referencias normativas, etc.) — no abortar.
+    const cantNums = (db.cantidades_cargadores ?? []).map((c) => c.n).filter((n) => n > 0);
+    const totalDeclarado = (parsed.num_cargadores_minimo ?? 0)
+      + (parsed.ubicaciones ?? []).filter((u) => u.es_existente).reduce((s, u) => s + (u.num_cargadores_total ?? 0), 0)
+      + (parsed.ubicaciones ?? []).filter((u) => u.es_opcional).reduce((s, u) => s + (u.num_cargadores_total ?? 0), 0);
+    // Filtrar candidatos plausibles: dentro de un orden de magnitud del declarado
+    const plausibles = totalDeclarado > 0
+      ? cantNums.filter((n) => n >= totalDeclarado / 5 && n <= totalDeclarado * 5)
+      : cantNums;
+    const maxPlausible = plausibles.length > 0 ? Math.max(...plausibles) : null;
+    if (maxPlausible != null && totalDeclarado > 0 && Math.abs(maxPlausible - totalDeclarado) > Math.max(3, maxPlausible * 0.25)) {
+      if (overrides.num_cargadores) {
+        xwarns.push(`Cross-validate: el pliego menciona ${maxPlausible} (cargadores/puntos/tomas plausibles) pero el extraccion declara total ${totalDeclarado}. Override justificado: "${overrides.num_cargadores}"`);
+      } else {
+        xerrors.push(`Cross-validate: el pliego menciona ${maxPlausible} (cargadores/puntos/tomas plausibles) pero el extraccion declara total ${totalDeclarado}. Diferencia >25%. Justificar con _override_datos_base.num_cargadores o corregir el JSON.`);
+      }
+    }
+
+    // 2. Discrepancias internas detectadas por el script (ej. "5 vs 10")
+    //    Independientes del flag_criterios_incompletos (que cubre erratas
+    //    en suma de criterios, no contradicciones de cantidades).
+    if ((db.discrepancias ?? []).length > 0 && !overrides.discrepancias) {
+      const lista = db.discrepancias.map((d) => `"${d.unidad}": [${d.valores.join(', ')}]`).join(' · ');
+      xerrors.push(`Cross-validate: el pliego tiene discrepancias numéricas internas (${lista}). Justificar con _override_datos_base.discrepancias = "explicación de cuál valor es correcto y por qué" + nota en notas_pliego.`);
+    }
+
+    // 3. Secciones críticas (Anexo I / AUTOEVALUACIÓN) detectadas — recordatorio
+    const seccionesCriticas = (db.secciones_criticas ?? []);
+    if (seccionesCriticas.length > 0) {
+      const sample = seccionesCriticas[0];
+      xwarns.push(`Cross-validate: ${seccionesCriticas.length} sección(es) crítica(s) detectada(s) (ej: "${sample.seccion}" en ${sample.archivo}:L${sample.linea}). Verificar que se haya leído.`);
+    }
+
+    if (xwarns.length > 0) {
+      console.log(`   ⚠ ${xwarns.length} cross-validate warning${xwarns.length === 1 ? '' : 's'}:`);
+      xwarns.forEach((w) => console.log(`     · ${w}`));
+    }
+    if (xerrors.length > 0) {
+      console.error(`\n❌ Cross-validate (§4.ter T) encontró ${xerrors.length} discrepancia${xerrors.length === 1 ? '' : 's'} entre extraccion.json y _datos_base.json:`);
+      xerrors.forEach((e) => console.error(`   · ${e}`));
+      console.error(`\nApplier abortado. Corregir el JSON o agregar _override_datos_base con justificación.`);
+      console.error(`(O forzar con --skip-cross-validate si sabés lo que estás haciendo.)`);
+      process.exit(3);
+    }
+  } else {
+    console.log(`   ⚠ No existe _datos_base.json — recomendado ejecutar 'node scripts/placsp-extraer-datos-base.mjs --slug=${slug}' antes para cross-validation`);
+  }
+}
 
 // ─── Auto-completado (spec v2 §3.bis) ────────────────────────────────────
 // Rellenamos campos derivables ANTES del UPDATE para que las invariantes se
@@ -166,6 +255,17 @@ if (isConcesion) {
   set('canon_mix_var_pct',         parsed.canon_mix_var_pct ?? null);
   set('canon_mix_var_eur_kwh',     parsed.canon_mix_var_eur_kwh ?? null);
   set('canon_mix_fijo_por_cargador', parsed.canon_mix_fijo_por_cargador ?? null);
+  // Canon basado en €/m² del valor del suelo (spec §4.ter N)
+  set('canon_eur_m2_ano',          parsed.canon_eur_m2_ano ?? null);
+  set('valor_suelo_eur_m2_ano',    parsed.valor_suelo_eur_m2_ano ?? null);
+  set('canon_pct_valor_suelo',     parsed.canon_pct_valor_suelo ?? null);
+  set('superficie_minima_m2',      parsed.superficie_minima_m2 ?? null);
+  set('superficie_maxima_m2',      parsed.superficie_maxima_m2 ?? null);
+  // Explicaciones extendidas para modales de la UI (spec §4.ter P)
+  set('hardware_especificaciones_json', parsed.hardware_especificaciones != null ? JSON.stringify(parsed.hardware_especificaciones) : null);
+  set('canon_explicacion_json',         parsed.canon_explicacion != null ? JSON.stringify(parsed.canon_explicacion) : null);
+  // Sub-peso económico no-canon (spec §4.ter O — criterios cifras tipo gratuidad/descuento/abono)
+  set('peso_otros_economicos',          parsed.peso_otros_economicos ?? null);
   // Variante venta de energía al usuario
   set('precio_max_kwh_usuario',      parsed.precio_max_kwh_usuario ?? null);
   set('precio_kwh_ofertado_ganador', parsed.precio_kwh_ofertado_ganador ?? null);
