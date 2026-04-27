@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-04-27T16:04:09.800Z",
+  "generado_en": "2026-04-27T21:20:10.481Z",
   "total_sugerencias": 2,
   "como_usar": "Cada sugerencia propone fusionar varias claves fallback (no normalizadas) bajo un único concepto canónico. Revisar y, si tiene sentido, agregar la regla a clavearCriterio() en scripts/placsp-auditoria.mjs.",
   "sugerencias": [

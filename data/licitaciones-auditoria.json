@@ -1,9 +1,9 @@
 {
-  "generado_en": "2026-04-27T16:04:09.792Z",
-  "total": 11,
+  "generado_en": "2026-04-27T21:20:10.469Z",
+  "total": 21,
   "resumen": {
-    "verdes": 8,
-    "amarillos": 3,
+    "verdes": 15,
+    "amarillos": 6,
     "rojos": 0,
     "complejos": 4,
     "con_vision": 2,
@@ -1323,6 +1323,1216 @@
       }
     },
     {
+      "slug": "16959879",
+      "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
+      "ciudad": "Haro",
+      "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
+      "estado": "DES",
+      "categoria": "1",
+      "confianza_global": 84,
+      "semaforo": "amarillo",
+      "docs_completos": "8/8",
+      "links_embebidos_resueltos": "⚠️ parcial",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 8,
+      "cobertura_lectura_leidos": 8,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 100,
+      "peso_tecnico": 0,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 100,
+          "descripcion": "Único criterio de adjudicación: precio. Hasta 100 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 720 €/plaza/año (= 20.160 €/año total para las 28 plazas). Las ofertas inferiores al canon mínimo se rechazan automáticamente.",
+          "formula": "Único criterio de adjudicación: precio. Hasta 100 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 720 €/plaza/año (= 20.160 €/año total para las 28 plazas). Las ofertas inferiores al canon mínimo se rechazan automáticamente.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 100,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (20.160 €/año = 720 €/plaza/año × 28 plazas). Único criterio de adjudicación. Las ofertas con canon inferior al mínimo se rechazan automáticamente.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 0,
+        "mejoras": 1,
+        "juicio": 0,
+        "total": 2
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 92,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "1 extraídos",
+      "coherencia_ubis": "✅ 28/28",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 29,
+      "cobertura_geo_con_coord": 29,
+      "cobertura_geo_aprox": 28,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 29,
+      "cobertura_puntos_con": 29,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T21:04:10.825Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "28 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "8 de 8 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ otro · Providencia necesidad e iniciación",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ otro · Declaración desiesta del contrato",
+            "✅ acta_apertura · Acta de apertura",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "❌ Al menos 1 PPT (pliego_tecnico): 0 encontrados",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 3 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: falta uno de los pliegos canónicos"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 8",
+            "✅ Leídos: 8",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (960 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (972 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (1195 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (1613 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-otro-Providencia_necesidad_e_iniciación.pdf — texto OK (297 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 04-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1295 c/p), citado + tipo poblado",
+            "✅ 05-otro-Declaración_desiesta_del_contrato.pdf — texto OK (1124 c/p), citado + tipo poblado",
+            "✅ 06-acta_apertura-Acta_de_apertura.pdf — texto OK (855 c/p), citado + tipo poblado"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (100) + técnicos (0) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (100 pts):",
+            "   · 100 pts — Único criterio de adjudicación: precio. Hasta 100 puntos al licitador con el mayor canon o",
+            "Técnicos (0 pts):"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (2 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 0",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 100 pts → Único criterio de adjudicación: precio. Hasta 100 puntos al licitador con el mayor canon ofertado al (clave: mejora_canon)",
+            "2. [mejora_puntuable] 100 pts → Oferta económica al alza sobre el canon mínimo anual (20.160 €/año = 720 €/plaza/año × 28 plazas). Ú (clave: mejora_canon)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "12 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial para la instalación, mantenimiento y expl",
+            "✅ organo contratante → Junta del Gobierno Local del Ayuntamiento de Haro",
+            "✅ importe base / estimado → 20160",
+            "✅ fecha publicación → 2025-03-21",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 20160",
+            "✅ nº cargadores mínimo → 28",
+            "✅ tecnología requerida → AC",
+            "✅ ubicaciones extraídas → 29",
+            "✅ garantía definitiva → 4%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 0 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. QWELLO ESPAÑA, S.L."
+          ]
+        },
+        "cobertura_geo": {
+          "descripcion": "29 de 29 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 28 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 1",
+            "Aproximadas (centroide municipio): 28",
+            "Sin coords: 0",
+            "⚠ #2 Plaza nueva 1/28 — a definir por el licitador → centroide Haro",
+            "⚠ #3 Plaza nueva 2/28 — a definir por el licitador → centroide Haro",
+            "⚠ #4 Plaza nueva 3/28 — a definir por el licitador → centroide Haro",
+            "⚠ #5 Plaza nueva 4/28 — a definir por el licitador → centroide Haro",
+            "⚠ #6 Plaza nueva 5/28 — a definir por el licitador → centroide Haro",
+            "⚠ #7 Plaza nueva 6/28 — a definir por el licitador → centroide Haro",
+            "⚠ #8 Plaza nueva 7/28 — a definir por el licitador → centroide Haro",
+            "⚠ #9 Plaza nueva 8/28 — a definir por el licitador → centroide Haro",
+            "⚠ #10 Plaza nueva 9/28 — a definir por el licitador → centroide Haro",
+            "⚠ #11 Plaza nueva 10/28 — a definir por el licitador → centroide Haro",
+            "⚠ #12 Plaza nueva 11/28 — a definir por el licitador → centroide Haro",
+            "⚠ #13 Plaza nueva 12/28 — a definir por el licitador → centroide Haro",
+            "⚠ #14 Plaza nueva 13/28 — a definir por el licitador → centroide Haro",
+            "⚠ #15 Plaza nueva 14/28 — a definir por el licitador → centroide Haro",
+            "⚠ #16 Plaza nueva 15/28 — a definir por el licitador → centroide Haro",
+            "⚠ #17 Plaza nueva 16/28 — a definir por el licitador → centroide Haro",
+            "⚠ #18 Plaza nueva 17/28 — a definir por el licitador → centroide Haro",
+            "⚠ #19 Plaza nueva 18/28 — a definir por el licitador → centroide Haro",
+            "⚠ #20 Plaza nueva 19/28 — a definir por el licitador → centroide Haro",
+            "⚠ #21 Plaza nueva 20/28 — a definir por el licitador → centroide Haro",
+            "⚠ #22 Plaza nueva 21/28 — a definir por el licitador → centroide Haro",
+            "⚠ #23 Plaza nueva 22/28 — a definir por el licitador → centroide Haro",
+            "⚠ #24 Plaza nueva 23/28 — a definir por el licitador → centroide Haro",
+            "⚠ #25 Plaza nueva 24/28 — a definir por el licitador → centroide Haro",
+            "⚠ #26 Plaza nueva 25/28 — a definir por el licitador → centroide Haro",
+            "⚠ #27 Plaza nueva 26/28 — a definir por el licitador → centroide Haro",
+            "⚠ #28 Plaza nueva 27/28 — a definir por el licitador → centroide Haro",
+            "⚠ #29 Plaza nueva 28/28 — a definir por el licitador → centroide Haro"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "29 de 29 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 29",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle Grecia (estación existente con 2 cargadores  → 2 puntos (AC)",
+            "✅ #2 Plaza nueva 1/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #3 Plaza nueva 2/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #4 Plaza nueva 3/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #5 Plaza nueva 4/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #6 Plaza nueva 5/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #7 Plaza nueva 6/28 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #8 Plaza nueva 7/28 — a definir por el licitador → 1 puntos (AC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 28 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 28",
+            "Σ ubicaciones nuevas (28): 28 puntos de carga",
+            "Σ ubicaciones existentes (1): 2 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 23:04:10",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 92%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−5: faltó descubrir un pliego canónico embebido",
+            "−3: 28 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 84% (🟡 amarillo)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ 28 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "17085506",
+      "titulo": "La concesión demanial del uso privativo del espacio de la vía pública para la ubicación, instalación, mantenimiento y explotación de cinco estaciones de recarga rápida y semirápida, para el suministro eléctrico a vehículos.",
+      "ciudad": "Miraflores de la Sierra",
+      "organo": "Alcaldía del Ayuntamiento de Miraflores de la Sierra",
+      "estado": "ADJ",
+      "categoria": "1",
+      "confianza_global": 97,
+      "semaforo": "verde",
+      "docs_completos": "18/18",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 18,
+      "cobertura_lectura_leidos": 18,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 67,
+      "peso_tecnico": 33,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 20,
+          "descripcion": "P = 20 × (10 + oferta) / (10 + mejor_oferta). Otorga la máxima puntuación a la oferta del mayor canon anual por estación de recarga (sobre el mínimo 300 €/estación/año). En caso de única oferta, se asigna la máxima puntuación posible (20 pts).",
+          "formula": "P = 20 × (10 + oferta) / (10 + mejor_oferta). Otorga la máxima puntuación a la oferta del mayor canon anual por estación de recarga (sobre el mínimo 300 €/estación/año). En caso de única oferta, se asigna la máxima puntuación posible (20 pts).",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 30,
+          "descripcion": "Mejora 1 — Descuento a usuarios empadronados en Miraflores de la Sierra: hasta 30 puntos por descuento ofertado sobre las tarifas ordinarias del servicio (% sobre tarifas).",
+          "formula": "Mejora 1 — Descuento a usuarios empadronados en Miraflores de la Sierra: hasta 30 puntos por descuento ofertado sobre las tarifas ordinarias del servicio (% sobre tarifas).",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 7,
+          "descripcion": "Mejora 2 — Acuerdos de interoperabilidad: hasta 7 puntos por la presentación de acuerdos certificados que garanticen la interoperabilidad con otros operadores y plataformas de usuarios de vehículos eléctricos.",
+          "formula": "Mejora 2 — Acuerdos de interoperabilidad: hasta 7 puntos por la presentación de acuerdos certificados que garanticen la interoperabilidad con otros operadores y plataformas de usuarios de vehículos eléctricos.",
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 10,
+          "descripcion": "Mejora 3 — Suministro de energía 100 % renovable: 10 puntos por compromiso acreditado mediante certificación de garantía de origen.",
+          "formula": "Mejora 3 — Suministro de energía 100 % renovable: 10 puntos por compromiso acreditado mediante certificación de garantía de origen.",
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 15,
+          "descripcion": "Memoria técnica de las cinco estaciones de recarga: características técnicas del sistema, descripción y gráfico de la propuesta de las tres nuevas ubicaciones, propuesta de punto de conexión y obra civil. Se valora especialmente que el sistema permita la recarga de motos.",
+          "formula": null,
+          "clave_canonica": "calidad_proyecto_tecnico",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 8,
+          "descripcion": "Plan de mantenimiento preventivo y correctivo: medios personales suficientes, sistema de seguimiento de averías y respuesta a vandalismo o sobretensiones.",
+          "formula": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Sistema de gestión: incorporación de plataforma de gestión, información y publicidad para usuarios, cobro de tarifas, gestión de la tarifa a empadronados, atención al usuario y al Ayuntamiento. Memoria económica con previsiones de ingresos y gasto por anualidad.",
+          "formula": null,
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual por estación (300 €/estación/año). Fórmula proporcional con offset: P = 20 × (10 + oferta) / (10 + mejor_oferta). En caso de única oferta, se asigna la máxima puntuación.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 30,
+          "descripcion": "Mejora 1 — Descuento porcentual sobre las tarifas ordinarias del servicio aplicable a usuarios empadronados en Miraflores de la Sierra (residentes y empresas con actividad registrada en el municipio).",
+          "subtipo": "descuento",
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 7,
+          "descripcion": "Mejora 2 — Compromiso y acreditación de acuerdos de interoperabilidad con otros operadores privados de servicio de recarga energética y/o plataformas de usuarios de vehículos eléctricos. Se valora el número y calidad de los acuerdos presentados.",
+          "subtipo": "otro",
+          "clave_canonica": "app_plataforma",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 10,
+          "descripcion": "Mejora 3 — Compromiso de suministrar energía 100 % de origen renovable a todos los puntos de recarga, acreditado mediante certificación de garantía de origen.",
+          "subtipo": "sostenibilidad",
+          "clave_canonica": "sostenibilidad",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 15,
+          "descripcion": "Memoria técnica de las cinco estaciones de recarga: características técnicas del sistema, descripción y gráfico de la propuesta de las tres nuevas ubicaciones, punto de conexión y obra civil. Mejor puntuación a quien permita la recarga de motos.",
+          "subtipo": null,
+          "clave_canonica": "calidad_proyecto_tecnico",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 8,
+          "descripcion": "Plan de mantenimiento preventivo y correctivo: medios personales adscritos, sistema de seguimiento de averías, respuesta ante vandalismo y sobretensiones.",
+          "subtipo": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Sistema de gestión: plataforma de gestión, información y publicidad para usuarios, cobro de tarifas, gestión de la tarifa a empadronados, atención al usuario y al Ayuntamiento. Memoria económica del proyecto con previsiones anuales de ingresos y gastos.",
+          "subtipo": null,
+          "clave_canonica": "precio_kwh_usuario",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 4,
+        "tecnicos": 3,
+        "mejoras": 4,
+        "juicio": 3,
+        "total": 14
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": 100,
+      "licitadores_vs_acta": "1 extraídos",
+      "coherencia_ubis": "✅ 10/10",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 5,
+      "cobertura_geo_con_coord": 5,
+      "cobertura_geo_aprox": 5,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 5,
+      "cobertura_puntos_con": 5,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T20:04:35.545Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "5 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "18 de 18 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ memoria · Memoria justificativa",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ otro · Composición de la mesa de contratación",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ otro · Composición de la mesa de contratación",
+            "✅ otro · Informe de valoración de los criterios de adjudicación cuantificables mediante juicio de valor",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ enlazado · EXPLOTACIÓN DE ESTACIONES DE RECARGA DOBLE",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ enlazado · CONCECIÓN DEMANIAL INSTALACIONES DE",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ rectificacion · Rectificación"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 4 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 18",
+            "✅ Leídos: 18",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (969 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (987 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (1923 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2102 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.pdf — texto OK (1100 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02D-enlazado-enlace_interno_4.pdf — texto OK (1063 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02E-enlazado-enlace_interno_5.pdf — texto OK (1159 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02F-enlazado-enlace_interno_6.pdf — texto OK (1200 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02G-enlazado-enlace_interno_7.pdf — texto OK (779 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-memoria-Memoria_justificativa.pdf — texto OK (2191 c/p), citado + tipo poblado",
+            "✅ 04-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (1263 c/p), citado + tipo poblado",
+            "✅ 05-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1384 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 06-otro-Composición_de_la_mesa_de_contratación.pdf — texto OK (545 c/p), citado + tipo poblado",
+            "✅ 07-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (876 c/p), citado + tipo poblado",
+            "✅ 08-otro-Composición_de_la_mesa_de_contratación.pdf — texto OK (494 c/p), citado + tipo poblado",
+            "✅ 09-otro-Informe_de_valoración_de_los_criterios_de_adjudicación_cuant.pdf — texto OK (1357 c/p), citado + tipo poblado",
+            "✅ 10-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (1887 c/p), citado + tipo poblado",
+            "✅ 11-resolucion_adjudicacion-Adjudicación.pdf — texto OK (1082 c/p), citado + tipo poblado"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (67) + técnicos (33) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (67 pts):",
+            "   · 20 pts — P = 20 × (10 + oferta) / (10 + mejor_oferta). Otorga la máxima puntuación a la oferta del ",
+            "   · 30 pts — Mejora 1 — Descuento a usuarios empadronados en Miraflores de la Sierra: hasta 30 puntos p",
+            "   · 7 pts — Mejora 2 — Acuerdos de interoperabilidad: hasta 7 puntos por la presentación de acuerdos c",
+            "   · 10 pts — Mejora 3 — Suministro de energía 100 % renovable: 10 puntos por compromiso acreditado medi",
+            "Técnicos (33 pts):",
+            "   · 15 pts — Memoria técnica de las cinco estaciones de recarga: características técnicas del sistema, ",
+            "   · 8 pts — Plan de mantenimiento preventivo y correctivo: medios personales suficientes, sistema de s",
+            "   · 10 pts — Sistema de gestión: incorporación de plataforma de gestión, información y publicidad para "
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (14 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 4",
+            "Técnicos (peso top-level): 3",
+            "Mejoras puntuables (subcriterios automáticos): 4",
+            "Criterios juicio de valor (subjetivos): 3",
+            "",
+            "1. [economico] 20 pts → P = 20 × (10 + oferta) / (10 + mejor_oferta). Otorga la máxima puntuación a la oferta del mayor cano (clave: mejora_canon)",
+            "2. [economico] 30 pts → Mejora 1 — Descuento a usuarios empadronados en Miraflores de la Sierra: hasta 30 puntos por descuen (clave: precio_kwh_usuario)",
+            "3. [economico] 7 pts → Mejora 2 — Acuerdos de interoperabilidad: hasta 7 puntos por la presentación de acuerdos certificado (clave: app_plataforma)",
+            "4. [economico] 10 pts → Mejora 3 — Suministro de energía 100 % renovable: 10 puntos por compromiso acreditado mediante certi (clave: sostenibilidad)",
+            "5. [tecnico] 15 pts → Memoria técnica de las cinco estaciones de recarga: características técnicas del sistema, descripció (clave: calidad_proyecto_tecnico)",
+            "6. [tecnico] 8 pts → Plan de mantenimiento preventivo y correctivo: medios personales suficientes, sistema de seguimiento (clave: mantenimiento)",
+            "7. [tecnico] 10 pts → Sistema de gestión: incorporación de plataforma de gestión, información y publicidad para usuarios,  (clave: precio_kwh_usuario)",
+            "8. [mejora_puntuable] 20 pts → Oferta económica al alza sobre el canon mínimo anual por estación (300 €/estación/año). Fórmula prop (clave: mejora_canon)",
+            "9. [mejora_puntuable] 30 pts → Mejora 1 — Descuento porcentual sobre las tarifas ordinarias del servicio aplicable a usuarios empad (clave: precio_kwh_usuario)",
+            "10. [mejora_puntuable] 7 pts → Mejora 2 — Compromiso y acreditación de acuerdos de interoperabilidad con otros operadores privados  (clave: app_plataforma)",
+            "11. [mejora_puntuable] 10 pts → Mejora 3 — Compromiso de suministrar energía 100 % de origen renovable a todos los puntos de recarga (clave: sostenibilidad)",
+            "12. [juicio_valor] 15 pts → Memoria técnica de las cinco estaciones de recarga: características técnicas del sistema, descripció (clave: calidad_proyecto_tecnico)",
+            "13. [juicio_valor] 8 pts → Plan de mantenimiento preventivo y correctivo: medios personales adscritos, sistema de seguimiento d (clave: mantenimiento)",
+            "14. [juicio_valor] 10 pts → Sistema de gestión: plataforma de gestión, información y publicidad para usuarios, cobro de tarifas, (clave: precio_kwh_usuario)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → La concesión demanial del uso privativo del espacio de la ví",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Miraflores de la Sierra",
+            "✅ importe base / estimado → 15000",
+            "✅ fecha publicación → 2025-04-08",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 1500",
+            "✅ nº cargadores mínimo → 10",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 5",
+            "✅ garantía definitiva → 10%",
+            "✅ criterios económicos → 4 criterios",
+            "✅ criterios técnicos → 3 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"ADJ\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2025-07-03",
+            "✅ Importe / canon ganador → 1800",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (1)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. ERANOVUM E-MOBILITY 101, S.L."
+          ]
+        },
+        "cobertura_geo": {
+          "descripcion": "5 de 5 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 5 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 0",
+            "Aproximadas (centroide municipio): 5",
+            "Sin coords: 0",
+            "⚠ #1 Calle Norte (sustituye al punto de recarga existente) → centroide Miraflores de la Sierra",
+            "⚠ #2 Padre Ribero (sustituye al segundo punto de recarga existent → centroide Miraflores de la Sierra",
+            "⚠ #3 Zona Barrio del Arenal (nueva ubicación a proponer por el li → centroide Miraflores de la Sierra",
+            "⚠ #4 Zona Centro del municipio — Calle Valverde y alrededores (nu → centroide Miraflores de la Sierra",
+            "⚠ #5 Avenida de la Constitución (nueva ubicación a proponer por e → centroide Miraflores de la Sierra"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "5 de 5 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 5",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle Norte (sustituye al punto de recarga existen → 2 puntos (mixto)",
+            "✅ #2 Padre Ribero (sustituye al segundo punto de recarg → 2 puntos (mixto)",
+            "✅ #3 Zona Barrio del Arenal (nueva ubicación a proponer → 2 puntos (mixto)",
+            "✅ #4 Zona Centro del municipio — Calle Valverde y alred → 2 puntos (mixto)",
+            "✅ #5 Avenida de la Constitución (nueva ubicación a prop → 2 puntos (mixto)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 10 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 10",
+            "Σ ubicaciones nuevas (5): 10 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 22:04:35",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "−3: 5 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 97% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ 5 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "17723848",
+      "titulo": "Licitación para la adjudicación de la concesión administrativa del uso privativo para la instalación, uso, mantenimiento y explotación de red de puntos de recarga de vehículos eléctricos en el aparcamiento La Conchada y en el núcleo de Escuer.&#xD;",
+      "ciudad": "Biescas",
+      "organo": "Alcaldía del Ayuntamiento de Biescas",
+      "estado": "DES",
+      "categoria": "1",
+      "confianza_global": 90,
+      "semaforo": "verde",
+      "docs_completos": "7/7",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 7,
+      "cobertura_lectura_leidos": 7,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "❌ 90",
+      "suma_pesos": 90,
+      "peso_economico": 55,
+      "peso_tecnico": 35,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 25,
+          "descripcion": "Hasta 25 puntos al licitador con el mayor canon ofertado por encima del mínimo de 173,25 €/plaza/mes (rápida) y 148,50 €/plaza/mes (semirrápida). Valoración proporcional sobre la totalidad de la vida de la concesión.",
+          "formula": "Hasta 25 puntos al licitador con el mayor canon ofertado por encima del mínimo de 173,25 €/plaza/mes (rápida) y 148,50 €/plaza/mes (semirrápida). Valoración proporcional sobre la totalidad de la vida de la concesión.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 25,
+          "descripcion": "Hasta 25 puntos al porcentaje de canon variable que se aplicará sobre los importes abonados (impuestos incluidos) por los usuarios al concesionario. Valoración proporcional sobre el total de la concesión; 0 puntos si no se mejora; 25 al mayor porcentaje.",
+          "formula": "Hasta 25 puntos al porcentaje de canon variable que se aplicará sobre los importes abonados (impuestos incluidos) por los usuarios al concesionario. Valoración proporcional sobre el total de la concesión; 0 puntos si no se mejora; 25 al mayor porcentaje.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 5,
+          "descripcion": "5 puntos íntegros si el adjudicatario acredita que la energía suministrada en la red de recarga procede al 100 % de fuentes renovables (certificado de origen).",
+          "formula": "5 puntos íntegros si el adjudicatario acredita que la energía suministrada en la red de recarga procede al 100 % de fuentes renovables (certificado de origen).",
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 15,
+          "descripcion": "Proyecto de implantación: número de cargadores y su eficiencia, características técnicas y estéticas (integración con el entorno), respeto de la capacidad máxima de acceso 150 kW en La Conchada y de los requisitos mínimos del pliego.",
+          "formula": null,
+          "clave_canonica": "diseno_estacion",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Plazo de ejecución de la instalación: cronograma. La oferta con menor plazo obtiene 5 puntos (sic, el pliego dice 5 pero el anuncio total indica 20 — el pliego tiene errata; se respeta lo que figura en el anuncio público). Las ofertas intermedias se evalúan por proporcionalidad matemática.",
+          "formula": null,
+          "clave_canonica": "reduccion_plazo",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 25,
+          "descripcion": "Mayor canon a abonar a la entidad por encima del mínimo del pliego (173,25 €/plaza/mes en plazas de carga rápida y 148,50 €/plaza/mes en plazas de carga semirrápida). Valoración proporcional sobre la vida total de la concesión.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 25,
+          "descripcion": "Porcentaje de canon variable sobre los importes abonados (impuestos incluidos) por los usuarios. Cuanto mayor el % ofertado, mejor puntuación.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 20,
+          "descripcion": "Plazo de ejecución de la instalación: la oferta con menor plazo obtiene la máxima puntuación (cronograma de obras y puesta en servicio).",
+          "subtipo": "otro",
+          "clave_canonica": "reduccion_plazo",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 15,
+          "descripcion": "Proyecto de implantación: número de cargadores, eficiencia, características técnicas y estéticas (integración con el entorno).",
+          "subtipo": "otro",
+          "clave_canonica": "diseno_estacion",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 5,
+          "descripcion": "Origen 100 % renovable de la energía suministrada en la red de recarga, acreditado mediante certificado oficial de garantía de origen.",
+          "subtipo": "sostenibilidad",
+          "clave_canonica": "sostenibilidad",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 3,
+        "tecnicos": 2,
+        "mejoras": 5,
+        "juicio": 0,
+        "total": 10
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "—",
+      "coherencia_ubis": "✅ 7/7",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 2,
+      "cobertura_geo_con_coord": 2,
+      "cobertura_geo_aprox": 2,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 2,
+      "cobertura_puntos_con": 2,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T19:53:23.351Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "Σ pesos = 90 ≠ 100 (econ 55 + tec 35)",
+        "Σ criterios renderizables = 90 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "2 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "7 de 7 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ anuncio_licitacion · Anuncio de licitación"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 2 encontrados",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 7",
+            "✅ Leídos: 7",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1107 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1124 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (1570 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2167 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.pdf — texto OK (1468 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-resolucion_adjudicacion-Adjudicación.pdf — texto OK (955 c/p), citado + tipo poblado",
+            "✅ 03A-enlazado-enlace_interno_1.pdf — texto OK (612 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma da 90 en lugar de 100. Probablemente falta capturar algún criterio del pliego, o los pesos no estaban bien declarados en el extractor.",
+          "detalles": [
+            "Económicos (55 pts):",
+            "   · 25 pts — Hasta 25 puntos al licitador con el mayor canon ofertado por encima del mínimo de 173,25 €",
+            "   · 25 pts — Hasta 25 puntos al porcentaje de canon variable que se aplicará sobre los importes abonado",
+            "   · 5 pts — 5 puntos íntegros si el adjudicatario acredita que la energía suministrada en la red de re",
+            "Técnicos (35 pts):",
+            "   · 15 pts — Proyecto de implantación: número de cargadores y su eficiencia, características técnicas y",
+            "   · 20 pts — Plazo de ejecución de la instalación: cronograma. La oferta con menor plazo obtiene 5 punt"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (10 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 3",
+            "Técnicos (peso top-level): 2",
+            "Mejoras puntuables (subcriterios automáticos): 5",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 25 pts → Hasta 25 puntos al licitador con el mayor canon ofertado por encima del mínimo de 173,25 €/plaza/mes (clave: mejora_canon)",
+            "2. [economico] 25 pts → Hasta 25 puntos al porcentaje de canon variable que se aplicará sobre los importes abonados (impuest (clave: mejora_canon)",
+            "3. [economico] 5 pts → 5 puntos íntegros si el adjudicatario acredita que la energía suministrada en la red de recarga proc (clave: sostenibilidad)",
+            "4. [tecnico] 15 pts → Proyecto de implantación: número de cargadores y su eficiencia, características técnicas y estéticas (clave: diseno_estacion)",
+            "5. [tecnico] 20 pts → Plazo de ejecución de la instalación: cronograma. La oferta con menor plazo obtiene 5 puntos (sic, e (clave: reduccion_plazo)",
+            "6. [mejora_puntuable] 25 pts → Mayor canon a abonar a la entidad por encima del mínimo del pliego (173,25 €/plaza/mes en plazas de  (clave: mejora_canon)",
+            "7. [mejora_puntuable] 25 pts → Porcentaje de canon variable sobre los importes abonados (impuestos incluidos) por los usuarios. Cua (clave: mejora_canon)",
+            "8. [mejora_puntuable] 20 pts → Plazo de ejecución de la instalación: la oferta con menor plazo obtiene la máxima puntuación (cronog (clave: reduccion_plazo)",
+            "9. [mejora_puntuable] 15 pts → Proyecto de implantación: número de cargadores, eficiencia, características técnicas y estéticas (in (clave: diseno_estacion)",
+            "10. [mejora_puntuable] 5 pts → Origen 100 % renovable de la energía suministrada en la red de recarga, acreditado mediante certific (clave: sostenibilidad)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Licitación para la adjudicación de la concesión administrati",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Biescas",
+            "✅ importe base / estimado → 200325",
+            "✅ fecha publicación → 2025-07-23",
+            "✅ plazo de la concesión → 15 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 13365",
+            "✅ nº cargadores mínimo → 7",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 2",
+            "✅ garantía definitiva → 4%",
+            "✅ criterios económicos → 3 criterios",
+            "✅ criterios técnicos → 2 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "cobertura_geo": {
+          "descripcion": "2 de 2 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 2 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 0",
+            "Aproximadas (centroide municipio): 2",
+            "Sin coords: 0",
+            "⚠ #1 Aparcamiento La Conchada (Calle La Conchada, 2) — Lote 1: 3  → centroide Biescas",
+            "⚠ #2 Núcleo de Escuer — Lote 2: 1 cargador con 1 punto de carga r → centroide Biescas"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "2 de 2 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 2",
+            "Sin puntos declarados: 0",
+            "✅ #1 Aparcamiento La Conchada (Calle La Conchada, 2) —  → 6 puntos (mixto)",
+            "✅ #2 Núcleo de Escuer — Lote 2: 1 cargador con 1 punto  → 1 puntos (DC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 7 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 7",
+            "Σ ubicaciones nuevas (2): 7 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 21:53:23",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−8: criterios no suman 100 (90)",
+            "−2: 2 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 90% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 3 alertas que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ Σ pesos = 90 ≠ 100 (econ 55 + tec 35)",
+            "⚠️ Σ criterios renderizables = 90 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+            "⚠️ 2 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "17739483",
+      "titulo": "Impulso de la movilidad sostenible mediante concesión demanial en dominio público, para la instalación, mantenimiento y explotación de infraestructuras para puntos de recarga de vehículos eléctricos en Cangas del Narcea: Plan de Sostenibilidad Turística en Destino Cangas del Narcea (Plan de Transformación, Recuperación y Resiliencia Financiado por la Unión Europea-Next Generation EU)",
+      "ciudad": "Cangas del Narcea",
+      "organo": "Alcaldía del Ayuntamiento de Cangas del Narcea",
+      "estado": "DES",
+      "categoria": "1",
+      "confianza_global": 92,
+      "semaforo": "verde",
+      "docs_completos": "5/5",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 5,
+      "cobertura_lectura_leidos": 5,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 100,
+      "peso_tecnico": 0,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 60,
+          "descripcion": "P = 60 × (OF/OM). OF es el canon ofertado por el licitador y OM la oferta más alta de canon. La mejor oferta económica obtiene los 60 puntos completos y el resto en proporción.",
+          "formula": "P = 60 × (OF/OM). OF es el canon ofertado por el licitador y OM la oferta más alta de canon. La mejor oferta económica obtiene los 60 puntos completos y el resto en proporción.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "40 puntos al licitador que oferte la instalación adicional de un punto de recarga rápida (50–100 kW) en una tercera ubicación a determinar con el Ayuntamiento y la distribuidora E-REDES.",
+          "formula": "40 puntos al licitador que oferte la instalación adicional de un punto de recarga rápida (50–100 kW) en una tercera ubicación a determinar con el Ayuntamiento y la distribuidora E-REDES.",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 60,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.057,50 €/año). Fórmula proporcional P = 60 × (OF/OM): el licitador con mayor canon obtiene los 60 puntos completos y el resto en proporción.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Compromiso de instalar un punto adicional de carga rápida (50–100 kW DC, doble) en una tercera ubicación a acordar con el Ayuntamiento y la distribuidora E-REDES. La mejora se valora íntegramente con 40 puntos (sí o no). El canon de la nueva ubicación se paga aparte conforme a la ordenanza de ocupación de suelo.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 2,
+        "tecnicos": 0,
+        "mejoras": 2,
+        "juicio": 0,
+        "total": 4
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 92,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "—",
+      "coherencia_ubis": "✅ 4/4",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "✅ 100%",
+      "cobertura_geo_total": 2,
+      "cobertura_geo_con_coord": 2,
+      "cobertura_geo_aprox": 0,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 2,
+      "cobertura_puntos_con": 2,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T19:49:13.163Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "5 de 5 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ enlazado · AYTO. DE CANGAS DEL NARCEA"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 1 encontrado",
+            "   · Pliego",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 5",
+            "✅ Leídos: 5",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1008 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1018 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2170 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (3187 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-resolucion_adjudicacion-Adjudicación.pdf — texto OK (993 c/p), citado + tipo poblado"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (100) + técnicos (0) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (100 pts):",
+            "   · 60 pts — P = 60 × (OF/OM). OF es el canon ofertado por el licitador y OM la oferta más alta de cano",
+            "   · 40 pts — 40 puntos al licitador que oferte la instalación adicional de un punto de recarga rápida (",
+            "Técnicos (0 pts):"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (4 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 2",
+            "Técnicos (peso top-level): 0",
+            "Mejoras puntuables (subcriterios automáticos): 2",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 60 pts → P = 60 × (OF/OM). OF es el canon ofertado por el licitador y OM la oferta más alta de canon. La mejo (clave: mejora_canon)",
+            "2. [economico] 40 pts → 40 puntos al licitador que oferte la instalación adicional de un punto de recarga rápida (50–100 kW) (clave: mas_puntos_de_carga)",
+            "3. [mejora_puntuable] 60 pts → Oferta económica al alza sobre el canon mínimo anual (2.057,50 €/año). Fórmula proporcional P = 60 × (clave: mejora_canon)",
+            "4. [mejora_puntuable] 40 pts → Compromiso de instalar un punto adicional de carga rápida (50–100 kW DC, doble) en una tercera ubica (clave: mejora_canon)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "12 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Impulso de la movilidad sostenible mediante concesión demani",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Cangas del Narcea",
+            "✅ importe base / estimado → 20575",
+            "✅ fecha publicación → 2025-07-25",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 2057.5",
+            "✅ nº cargadores mínimo → 4",
+            "✅ tecnología requerida → AC",
+            "✅ ubicaciones extraídas → 2",
+            "✅ garantía definitiva → 5%",
+            "✅ criterios económicos → 2 criterios",
+            "✅ criterios técnicos → 0 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "cobertura_geo": {
+          "descripcion": "2 de 2 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa.",
+          "detalles": [
+            "Con coords exactas: 2",
+            "Aproximadas (centroide municipio): 0",
+            "Sin coords: 0"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "2 de 2 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 2",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle de la Esperanza s/n (Aparcamiento) — categor → 2 puntos (AC)",
+            "✅ #2 Calle Uría, 17 — categoría 1ª → 2 puntos (AC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 4 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 4",
+            "Σ ubicaciones nuevas (2): 4 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 21:49:13",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 92%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "= 92% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
+    },
+    {
       "slug": "17776623",
       "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
       "ciudad": "Haro",
@@ -2027,6 +3237,530 @@
       }
     },
     {
+      "slug": "17957238",
+      "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de una infraestructura de estaciones de recarga pública para vehículos eléctricos en bienes de dominio y uso público local",
+      "ciudad": "Castalla",
+      "organo": "Alcaldía del Ayuntamiento de Castalla",
+      "estado": "PUB",
+      "categoria": "1",
+      "confianza_global": 82,
+      "semaforo": "amarillo",
+      "docs_completos": "8/8",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 8,
+      "cobertura_lectura_leidos": 8,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 70,
+      "peso_tecnico": 30,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 70,
+          "descripcion": "P = 70 × (OM/OF), donde OF es la oferta del licitador (% sobre la facturación bruta, mínimo 5 %) y OM la oferta más baja presentada. La fórmula está formulada de forma INVERTIDA respecto al patrón habitual: el licitador con MENOR % obtiene los 70 puntos. Esto sugiere que en realidad el % se entiende como descuento o como penalización; comportamiento atípico que conviene contrastar al cierre con el adjudicatario.",
+          "formula": "P = 70 × (OM/OF), donde OF es la oferta del licitador (% sobre la facturación bruta, mínimo 5 %) y OM la oferta más baja presentada. La fórmula está formulada de forma INVERTIDA respecto al patrón habitual: el licitador con MENOR % obtiene los 70 puntos. Esto sugiere que en realidad el % se entiende como descuento o como penalización; comportamiento atípico que conviene contrastar al cierre con el adjudicatario.",
+          "clave_canonica": "mas_puntos_de_carga",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Proyecto de instalación, metodología y medios para la actividad de recarga (hasta 20 puntos): planificación/cronograma, soluciones técnicas, calidad de materiales y diseño (5 pts); mantenimiento preventivo y correctivo (5 pts); asistencia urgente para incidencias (5 pts); red nacional ≥ 200 estaciones interoperables (5 pts).",
+          "formula": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Plan de calidad de la plataforma telemática (hasta 10 puntos): sistemas de comunicación, tecnologías Smart, posibilidad de reserva (5 pts); aplicación móvil con compatibilidad Android e iOS, facilidad de uso, rapidez y diseño (5 pts).",
+          "formula": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 70,
+          "descripcion": "Oferta económica: porcentaje sobre la facturación bruta anual del concesionario (% al alza sobre el mínimo de 5 %). Fórmula P = 70 × (OM/OF) sobre el porcentaje ofertado por cada licitador. Devengo trimestral con liquidación dentro de los 5 primeros días del mes siguiente al vencimiento de cada trimestre.",
+          "subtipo": "descuento",
+          "clave_canonica": "oferta_economica_porcentaje",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 20,
+          "descripcion": "Proyecto de instalación, metodología y medios para la actividad de recarga: planificación/cronograma, soluciones técnicas, calidad de materiales (5 pts); mantenimiento preventivo y correctivo (5 pts); asistencia urgente para incidencias (5 pts); red nacional ≥ 200 estaciones interoperables (5 pts).",
+          "subtipo": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Plan de calidad de la plataforma telemática: sistemas Smart con posibilidad de reserva (5 pts); App móvil compatible con Android e iOS, facilidad de uso, rapidez y diseño (5 pts).",
+          "subtipo": null,
+          "clave_canonica": "app_plataforma",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 2,
+        "mejoras": 1,
+        "juicio": 2,
+        "total": 6
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 85,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "—",
+      "coherencia_ubis": "—",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 8,
+      "cobertura_geo_con_coord": 8,
+      "cobertura_geo_aprox": 7,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 8,
+      "cobertura_puntos_con": 8,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T21:13:46.670Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "7 ubicaciones con coords aproximadas (centroide municipio)",
+        "Peso atípico para \"mas_puntos_de_carga\": 70 pts (promedio 24.0, ratio 2.92)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "8 de 8 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ enlazado · URL del DOS",
+            "✅ enlazado · “SOLICITUD INFORME DE VALORACIÓN",
+            "✅ enlazado · “SOLICITUD INFORME DE VALORACIÓN",
+            "✅ enlazado · INFORME TÉCNICO DE LOS SERVICIOS TÉCNICOS MUNICIPALES EN REFERENCIA A LA"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 8",
+            "✅ Leídos: 8",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (938 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (987 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2180 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2434 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.pdf — texto OK (934 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02D-enlazado-enlace_interno_4.pdf — texto OK (1327 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02E-enlazado-enlace_interno_5.pdf — texto OK (1327 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02F-enlazado-enlace_interno_6.pdf — texto OK (2288 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (70) + técnicos (30) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (70 pts):",
+            "   · 70 pts — P = 70 × (OM/OF), donde OF es la oferta del licitador (% sobre la facturación bruta, mínim",
+            "Técnicos (30 pts):",
+            "   · 20 pts — Proyecto de instalación, metodología y medios para la actividad de recarga (hasta 20 punto",
+            "   · 10 pts — Plan de calidad de la plataforma telemática (hasta 10 puntos): sistemas de comunicación, t"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (6 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 2",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 2",
+            "",
+            "1. [economico] 70 pts → P = 70 × (OM/OF), donde OF es la oferta del licitador (% sobre la facturación bruta, mínimo 5 %) y O (clave: mas_puntos_de_carga)",
+            "2. [tecnico] 20 pts → Proyecto de instalación, metodología y medios para la actividad de recarga (hasta 20 puntos): planif (clave: mantenimiento)",
+            "3. [tecnico] 10 pts → Plan de calidad de la plataforma telemática (hasta 10 puntos): sistemas de comunicación, tecnologías (clave: app_plataforma)",
+            "4. [mejora_puntuable] 70 pts → Oferta económica: porcentaje sobre la facturación bruta anual del concesionario (% al alza sobre el  (clave: oferta_economica_porcentaje)",
+            "5. [juicio_valor] 20 pts → Proyecto de instalación, metodología y medios para la actividad de recarga: planificación/cronograma (clave: mantenimiento)",
+            "6. [juicio_valor] 10 pts → Plan de calidad de la plataforma telemática: sistemas Smart con posibilidad de reserva (5 pts); App  (clave: app_plataforma)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "11 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial para la instalación, mantenimiento y expl",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Castalla",
+            "✅ importe base / estimado → 0",
+            "✅ fecha publicación → 2025-09-09",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_variable_pct",
+            "❌ canon o precio mín",
+            "❌ nº cargadores mínimo",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 8",
+            "✅ garantía definitiva → 3%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 2 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"PUB\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "cobertura_geo": {
+          "descripcion": "8 de 8 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 7 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 1",
+            "Aproximadas (centroide municipio): 7",
+            "Sin coords: 0",
+            "⚠ #1 Calle Jaume I, prox. 3 (CIRCUTOR RAPTION 50 — traslado a Cal → centroide Castalla",
+            "⚠ #2 Calle Tte. General Ripoll Valls (CIRCUTOR RAPTION 50 — cambi → centroide Castalla",
+            "⚠ #4 Plaza Mayor (Ingeteam fusión — cambio de ubicación a Urbaniz → centroide Castalla",
+            "⚠ #5 Calle Dr. Fleming, prox. 1 (Ingeteam fusión — cambio de punt → centroide Castalla",
+            "⚠ #6 Calle Cuatre Camins, prox. 50 (Ingeteam fusión — cambio de p → centroide Castalla",
+            "⚠ #7 Calle Ciutat Esportiva, prox. 1 (Ingeteam fusión — cambio de → centroide Castalla",
+            "⚠ #8 Ubicación 8/8 (Ingeteam fusión — pendiente de detalle por er → centroide Castalla"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "8 de 8 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 8",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle Jaume I, prox. 3 (CIRCUTOR RAPTION 50 — tras → 2 puntos (mixto)",
+            "✅ #2 Calle Tte. General Ripoll Valls (CIRCUTOR RAPTION  → 2 puntos (mixto)",
+            "✅ #3 Calle Valencia (CIRCUTOR URBAN T 22 — Plaza Mayor) → 2 puntos (AC)",
+            "✅ #4 Plaza Mayor (Ingeteam fusión — cambio de ubicación → 2 puntos (AC)",
+            "✅ #5 Calle Dr. Fleming, prox. 1 (Ingeteam fusión — camb → 2 puntos (AC)",
+            "✅ #6 Calle Cuatre Camins, prox. 50 (Ingeteam fusión — c → 2 puntos (AC)",
+            "✅ #7 Calle Ciutat Esportiva, prox. 1 (Ingeteam fusión — → 2 puntos (AC)",
+            "✅ #8 Ubicación 8/8 (Ingeteam fusión — pendiente de deta → 2 puntos (AC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 0 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 0",
+            "Σ ubicaciones nuevas (0): 0 puntos de carga",
+            "Σ ubicaciones existentes (8): 16 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 23:13:46",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 85%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−3: 7 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 82% (🟡 amarillo)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ 7 ubicaciones con coords aproximadas (centroide municipio)",
+            "⚠️ Peso atípico para \"mas_puntos_de_carga\": 70 pts (promedio 24.0, ratio 2.92)"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "17957503",
+      "titulo": "Constituye el objeto del contrato la Concesión demanial para el mantenimiento y explotación de infraestructura de estaciones de recarga pública para vehículos eléctricos ubicadas en plaza&#xD;\nde abastos y en plaza la rosaleda",
+      "ciudad": "Olvera",
+      "organo": "Junta de Gobierno del Ayuntamiento de Olvera",
+      "estado": "DES",
+      "categoria": "1",
+      "confianza_global": 78,
+      "semaforo": "amarillo",
+      "docs_completos": "8/8",
+      "links_embebidos_resueltos": "⚠️ parcial",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 8,
+      "cobertura_lectura_leidos": 8,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 100,
+      "peso_tecnico": 0,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 100,
+          "descripcion": "P = (CP/CM) × 100. P es la puntuación a obtener, CP el canon propuesto por el licitador y CM el canon más elevado de las propuestas presentadas. La oferta con el mayor canon anual obtiene los 100 puntos y el resto en proporción.",
+          "formula": "P = (CP/CM) × 100. P es la puntuación a obtener, CP el canon propuesto por el licitador y CM el canon más elevado de las propuestas presentadas. La oferta con el mayor canon anual obtiene los 100 puntos y el resto en proporción.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 100,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (880 €/año). Fórmula proporcional P = (CP/CM) × 100: el licitador con el mayor canon ofertado obtiene los 100 puntos completos y el resto en proporción.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 0,
+        "mejoras": 1,
+        "juicio": 0,
+        "total": 2
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 85,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "—",
+      "coherencia_ubis": "—",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 2,
+      "cobertura_geo_con_coord": 2,
+      "cobertura_geo_aprox": 2,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 2,
+      "cobertura_puntos_con": 2,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T19:45:06.675Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "2 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "8 de 8 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ memoria · Memoria justificativa",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ enlazado · DECRETO DE ALCALDÍA."
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "❌ Al menos 1 PPT (pliego_tecnico): 0 encontrados",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 3 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: falta uno de los pliegos canónicos"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 8",
+            "✅ Leídos: 8",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1003 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1015 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2107 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2304 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (930 c/p), citado + tipo poblado",
+            "✅ 04-memoria-Memoria_justificativa.pdf — texto OK (646 c/p), tipo \"memoria\" poblado en extraccion.json",
+            "✅ 05-resolucion_adjudicacion-Adjudicación.pdf — texto OK (912 c/p), citado + tipo poblado",
+            "✅ 05A-enlazado-enlace_interno_1.pdf — texto OK (1263 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (100) + técnicos (0) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (100 pts):",
+            "   · 100 pts — P = (CP/CM) × 100. P es la puntuación a obtener, CP el canon propuesto por el licitador y ",
+            "Técnicos (0 pts):"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (2 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 0",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 0",
+            "",
+            "1. [economico] 100 pts → P = (CP/CM) × 100. P es la puntuación a obtener, CP el canon propuesto por el licitador y CM el cano (clave: mejora_canon)",
+            "2. [mejora_puntuable] 100 pts → Oferta económica al alza sobre el canon mínimo anual (880 €/año). Fórmula proporcional P = (CP/CM) × (clave: mejora_canon)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "11 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Constituye el objeto del contrato la Concesión demanial para",
+            "✅ organo contratante → Junta de Gobierno del Ayuntamiento de Olvera",
+            "✅ importe base / estimado → 17600",
+            "✅ fecha publicación → 2025-09-09",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 880",
+            "❌ nº cargadores mínimo",
+            "✅ tecnología requerida → AC",
+            "✅ ubicaciones extraídas → 2",
+            "✅ garantía definitiva → 4%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 0 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "cobertura_geo": {
+          "descripcion": "2 de 2 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 2 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 0",
+            "Aproximadas (centroide municipio): 2",
+            "Sin coords: 0",
+            "⚠ #1 Plaza La Rosaleda — cargador 22 kW (existente, se asume) → centroide Olvera",
+            "⚠ #2 Plaza de Abastos — cargador 30 kW (existente, se asume) → centroide Olvera"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "2 de 2 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 2",
+            "Sin puntos declarados: 0",
+            "✅ #1 Plaza La Rosaleda — cargador 22 kW (existente, se  → 2 puntos (AC)",
+            "✅ #2 Plaza de Abastos — cargador 30 kW (existente, se a → 2 puntos (AC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 0 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 0",
+            "Σ ubicaciones nuevas (0): 0 puntos de carga",
+            "Σ ubicaciones existentes (2): 4 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 21:45:06",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 85%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−5: faltó descubrir un pliego canónico embebido",
+            "−2: 2 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 78% (🟡 amarillo)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ 2 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
       "slug": "18309278",
       "titulo": "Concesion administrativa sobre las infraestructuras de estaciones de recarga publica para vehiculos electricos en bienes de dominio y uso publico local (viario) en el T.M. de Breña Baja.",
       "ciudad": "Breña Baja",
@@ -2289,6 +4023,663 @@
       }
     },
     {
+      "slug": "18421621",
+      "titulo": "Concesión demanial administrativa que habilite el uso privativo de diferentes espacios públicos de la ciudad de Segorbe para la instalación, explotación, mantenimiento y gestión de puntos de recarga de vehículos eléctricos, en el marco del impulso a la movilidad sostenible y la transición energética, de acuerdo con los pliegos.",
+      "ciudad": "Segorbe",
+      "organo": "Alcaldía del Ayuntamiento de Segorbe",
+      "estado": "DES",
+      "categoria": "1",
+      "confianza_global": 97,
+      "semaforo": "verde",
+      "docs_completos": "11/11",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 11,
+      "cobertura_lectura_leidos": 11,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 80,
+      "peso_tecnico": 20,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 35,
+          "descripcion": "VO = (OLca × 35) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca es el mejor canon ofertado de todas las propuestas. Máximo a la oferta con mayor canon anual fijo.",
+          "formula": "VO = (OLca × 35) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca es el mejor canon ofertado de todas las propuestas. Máximo a la oferta con mayor canon anual fijo.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 5,
+          "descripcion": "5 puntos al licitador que se comprometa a instalar un punto de recarga adicional semi-rápido (≥ 12 kW, doble) en el parking municipal de la calle Marcelino Blasco, de uso exclusivo para vehículos eléctricos del Ayuntamiento (incluye suministro, instalación, legalización y mantenimiento; gestión a cargo del Ayuntamiento).",
+          "formula": "5 puntos al licitador que se comprometa a instalar un punto de recarga adicional semi-rápido (≥ 12 kW, doble) en el parking municipal de la calle Marcelino Blasco, de uso exclusivo para vehículos eléctricos del Ayuntamiento (incluye suministro, instalación, legalización y mantenimiento; gestión a cargo del Ayuntamiento).",
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter medioambiental y cronograma de actuaciones. Escala excelente 10 / notable 7,5 / bien 5 / insuficiente 2,5 / mal 0. Umbral mínimo: 5 puntos para pasar al Sobre B; quien no llega queda excluido.",
+          "formula": null,
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 35,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLca × 35 / MOca: la mejor oferta obtiene los 35 puntos completos y el resto en proporción.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 5,
+          "descripcion": "Compromiso de instalar un punto de recarga semi-rápido adicional (≥ 12 kW, doble) en el parking municipal de la calle Marcelino Blasco, de uso exclusivo para los vehículos eléctricos del Ayuntamiento (Policía Local y servicios). El concesionario asume suministro, instalación, legalización y mantenimiento; la gestión y el suministro eléctrico van por cuenta del Ayuntamiento.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mantenimiento",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Memoria de gestión: plan de gestión, inversiones a acometer, infraestructuras a instalar, innovación tecnológica, carácter medioambiental y cronograma de actuaciones. Extensión máxima 25 páginas A4 Arial 11. Escala: excelente 10 / notable 7,5 / bien 5 / insuficiente 2,5 / mal 0. Umbral de 5 puntos para no quedar excluida la oferta.",
+          "subtipo": null,
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 2,
+        "tecnicos": 1,
+        "mejoras": 2,
+        "juicio": 1,
+        "total": 6
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "—",
+      "coherencia_ubis": "✅ 9/9",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 5,
+      "cobertura_geo_con_coord": 5,
+      "cobertura_geo_aprox": 3,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 5,
+      "cobertura_puntos_con": 5,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T19:04:34.967Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "3 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "11 de 11 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ memoria · Memoria justificativa",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ proyecto · Proyecto de concesión",
+            "✅ otro · Informe técnico canon",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ proyecto · Proyecto técnico"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 11",
+            "✅ Leídos: 11",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (858 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (867 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (1654 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2332 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (1133 c/p), citado + tipo poblado",
+            "✅ 04-memoria-Memoria_justificativa.pdf — texto OK (804 c/p), citado + tipo poblado",
+            "✅ 05-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1229 c/p), citado + tipo poblado",
+            "✅ 06-proyecto-Proyecto_de_concesión.pdf — texto OK (2019 c/p), citado + tipo poblado",
+            "✅ 07-otro-Informe_técnico_canon.pdf — texto OK (1369 c/p), citado + tipo poblado",
+            "✅ 08-resolucion_adjudicacion-Adjudicación.pdf — texto OK (855 c/p), citado + tipo poblado",
+            "✅ 08A-enlazado-enlace_interno_1.pdf — texto OK (817 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (80) + técnicos (20) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (80 pts):",
+            "   · 35 pts — VO = (OLca × 35) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca es ",
+            "   · 5 pts — 5 puntos al licitador que se comprometa a instalar un punto de recarga adicional semi-rápi",
+            "Técnicos (20 pts):",
+            "   · 10 pts — Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter m"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (6 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 2",
+            "Técnicos (peso top-level): 1",
+            "Mejoras puntuables (subcriterios automáticos): 2",
+            "Criterios juicio de valor (subjetivos): 1",
+            "",
+            "1. [economico] 35 pts → VO = (OLca × 35) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca es el mejor c (clave: mejora_canon)",
+            "2. [economico] 5 pts → 5 puntos al licitador que se comprometa a instalar un punto de recarga adicional semi-rápido (≥ 12 k (clave: mantenimiento)",
+            "3. [tecnico] 10 pts → Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter medioambien (clave: sostenibilidad)",
+            "4. [mejora_puntuable] 35 pts → Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLc (clave: mejora_canon)",
+            "5. [mejora_puntuable] 5 pts → Compromiso de instalar un punto de recarga semi-rápido adicional (≥ 12 kW, doble) en el parking muni (clave: mantenimiento)",
+            "6. [juicio_valor] 10 pts → Memoria de gestión: plan de gestión, inversiones a acometer, infraestructuras a instalar, innovación (clave: sostenibilidad)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial administrativa que habilite el uso privat",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Segorbe",
+            "✅ importe base / estimado → 2954.36",
+            "✅ fecha publicación → 2025-11-19",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 2954.36",
+            "✅ nº cargadores mínimo → 9",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 5",
+            "✅ garantía definitiva → 15000",
+            "✅ criterios económicos → 2 criterios",
+            "✅ criterios técnicos → 1 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"DES\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "No hay licitadores extraídos. Puede ser porque la licitación todavía está en plazo de presentación o porque las actas no se procesaron aún.",
+          "detalles": []
+        },
+        "cobertura_geo": {
+          "descripcion": "5 de 5 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 3 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 2",
+            "Aproximadas (centroide municipio): 3",
+            "Sin coords: 0",
+            "⚠ #3 Calle Cantar de Mio Cid esquina Calle Enramada → centroide Segorbe",
+            "⚠ #4 Polígono Industrial La Esperanza, Calle Comunidad Islas Cana → centroide Segorbe",
+            "⚠ #5 Zona salida Oeste de la población por Avenida España (instal → centroide Segorbe"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "5 de 5 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 5",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle Bonifacio Ferrer, 2 (sustitución de la antig → 2 puntos (AC)",
+            "✅ #2 Avenida Fray Luis Amigó, 14 (estación existente qu → 3 puntos (mixto)",
+            "✅ #3 Calle Cantar de Mio Cid esquina Calle Enramada → 2 puntos (AC)",
+            "✅ #4 Polígono Industrial La Esperanza, Calle Comunidad  → 2 puntos (AC)",
+            "✅ #5 Zona salida Oeste de la población por Avenida Espa → 3 puntos (mixto)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 9 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 9",
+            "Σ ubicaciones nuevas (4): 9 puntos de carga",
+            "Σ ubicaciones existentes (1): 3 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 21:04:34",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "−3: 3 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 97% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+            "⚠️ 3 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "18449184",
+      "titulo": "Concesión demanial de la instalación, mantenimiento y explotación de infraestructuras de estaciones de recarga para vehículos eléctricos.",
+      "ciudad": "Alhaurín el Grande",
+      "organo": "Alcaldía del Ayuntamiento de Alhaurín el Grande",
+      "estado": "RES",
+      "categoria": "1",
+      "confianza_global": 97,
+      "semaforo": "verde",
+      "docs_completos": "20/20",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 20,
+      "cobertura_lectura_leidos": 20,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 60,
+      "peso_tecnico": 40,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "Por cada 1 % de incremento sobre el canon mínimo (2.634,38 €/año), el licitador obtiene 2 puntos hasta un máximo de 40 puntos. Equivale a un 20 % de incremento sobre el mínimo.",
+          "formula": "Por cada 1 % de incremento sobre el canon mínimo (2.634,38 €/año), el licitador obtiene 2 puntos hasta un máximo de 40 puntos. Equivale a un 20 % de incremento sobre el mínimo.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 10,
+          "descripcion": "Compromiso de instalar 1 cargador de carga rápida (potencia mínima 50 kW).",
+          "formula": "Compromiso de instalar 1 cargador de carga rápida (potencia mínima 50 kW).",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "economico",
+          "peso": 10,
+          "descripcion": "Compromiso de instalar el punto de recarga doble interior tipo 2 22 kW en la nave de los Servicios Operativos Municipales.",
+          "formula": "Compromiso de instalar el punto de recarga doble interior tipo 2 22 kW en la nave de los Servicios Operativos Municipales.",
+          "clave_canonica": "compromiso_instalar_punto",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 20,
+          "descripcion": "Memoria sobre la ubicación de los puntos de recarga: zonas públicas municipales, zonas de tráfico/densidad, accesos al municipio, zonas comerciales y otras circunstancias (5 sub-criterios de hasta 4 puntos).",
+          "formula": null,
+          "clave_canonica": "memoria_ubicacion_puntos",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 15,
+          "descripcion": "Memoria del plan de mantenimiento: tiempo de respuesta ante averías, plan de limpieza, iluminación, pintura/señalización y otros aspectos.",
+          "formula": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 5,
+          "descripcion": "Plan de señalética de los cargadores: claridad y precisión, calidad gráfica, efectividad y número de señales.",
+          "formula": null,
+          "clave_canonica": "plan_senaletica_cargadores",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.634,38 €/año). Cada 1 % de incremento sobre el mínimo otorga 2 puntos, con un máximo del 20 % de incremento.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 10,
+          "descripcion": "Compromiso de instalar 1 cargador de carga rápida (al menos 50 kW de potencia de salida) entre los 7 puntos del pliego.",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "mejora_potencia_hw",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 10,
+          "descripcion": "Compromiso de instalar un punto de recarga doble interior tipo 2 de 22 kW en la nave de los Servicios Operativos Municipales (uso de la propia flota municipal).",
+          "subtipo": "ampliacion_hw",
+          "clave_canonica": "compromiso_instalar_punto",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 20,
+          "descripcion": "Ubicación de los puntos de recarga (memoria descriptiva): mejor puntuación a quien priorice zonas públicas municipales, zonas de mayor tráfico/densidad, accesos al municipio, zonas comerciales/edificios públicos y cualquier otra circunstancia favorable.",
+          "subtipo": null,
+          "clave_canonica": "ubicacion_puntos_recarga",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 15,
+          "descripcion": "Memoria del plan de mantenimiento: tiempo de respuesta ante averías, plan de limpieza, iluminación, pintura/señalización y otros aspectos.",
+          "subtipo": null,
+          "clave_canonica": "mantenimiento",
+          "fuente": "criterios_juicio_valor"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 5,
+          "descripcion": "Plan de señalética de los cargadores para facilitar su localización: claridad de la señalización, calidad gráfica, efectividad de la propuesta y número de señales.",
+          "subtipo": null,
+          "clave_canonica": "plan_senaletica_cargadores",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 3,
+        "tecnicos": 3,
+        "mejoras": 3,
+        "juicio": 3,
+        "total": 12
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": 100,
+      "licitadores_vs_acta": "1 extraídos",
+      "coherencia_ubis": "✅ 7/7",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 7,
+      "cobertura_geo_con_coord": 7,
+      "cobertura_geo_aprox": 7,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 7,
+      "cobertura_puntos_con": 7,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T18:25:02.884Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "7 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "20 de 20 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ otro · Composición de la mesa de contratación",
+            "✅ memoria · Memoria justificativa",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ otro · DILIGENCIA APLIEGO",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ otro · Acta del órgano de asistencia",
+            "✅ otro · Informe de valoración de los criterios de adjudicación cuantificables mediante juicio de valor",
+            "✅ otro · REQ. DOC. PREVIA",
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ formalizacion · Formalización",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "✅ enlazado · AYUNTAMIENTO DE ALHAURÍN EL GRANDE (MÁLAGA)",
+            "✅ enlazado · AYUNTAMIENTO DE ALHAURÍN EL GRANDE (MÁLAGA)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 4 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 20",
+            "✅ Leídos: 20",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1026 c/p), citado + tipo poblado",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1044 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2194 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2110 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.pdf — texto OK (1171 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-otro-Composición_de_la_mesa_de_contratación.pdf — texto OK (1336 c/p), citado + tipo poblado",
+            "✅ 04-memoria-Memoria_justificativa.pdf — texto OK (1505 c/p), citado + tipo poblado",
+            "✅ 05-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (1336 c/p), citado + tipo poblado",
+            "✅ 06-otro-DILIGENCIA_APLIEGO.pdf — texto OK (1171 c/p), citado + tipo poblado",
+            "✅ 07-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (800 c/p), citado en JSON",
+            "✅ 08-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (885 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 09-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (803 c/p), citado en JSON",
+            "✅ 10-otro-Acta_del_órgano_de_asistencia.pdf — texto OK (745 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 11-otro-Informe_de_valoración_de_los_criterios_de_adjudicación_cuant.pdf — texto OK (1706 c/p), citado + tipo poblado",
+            "✅ 12-otro-REQ._DOC._PREVIA.pdf — texto OK (1445 c/p), tipo \"otro\" poblado en extraccion.json",
+            "✅ 13-resolucion_adjudicacion-Adjudicación.pdf — texto OK (1109 c/p), citado + tipo poblado",
+            "✅ 13A-enlazado-enlace_interno_1.pdf — texto OK (1393 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 14-formalizacion-Formalización.pdf — texto OK (1037 c/p), citado + tipo poblado",
+            "✅ 14A-enlazado-enlace_interno_1.pdf — texto OK (2194 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 14B-enlazado-enlace_interno_2.pdf — texto OK (2194 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (60) + técnicos (40) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (60 pts):",
+            "   · 40 pts — Por cada 1 % de incremento sobre el canon mínimo (2.634,38 €/año), el licitador obtiene 2 ",
+            "   · 10 pts — Compromiso de instalar 1 cargador de carga rápida (potencia mínima 50 kW).",
+            "   · 10 pts — Compromiso de instalar el punto de recarga doble interior tipo 2 22 kW en la nave de los S",
+            "Técnicos (40 pts):",
+            "   · 20 pts — Memoria sobre la ubicación de los puntos de recarga: zonas públicas municipales, zonas de ",
+            "   · 15 pts — Memoria del plan de mantenimiento: tiempo de respuesta ante averías, plan de limpieza, ilu",
+            "   · 5 pts — Plan de señalética de los cargadores: claridad y precisión, calidad gráfica, efectividad y"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (12 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 3",
+            "Técnicos (peso top-level): 3",
+            "Mejoras puntuables (subcriterios automáticos): 3",
+            "Criterios juicio de valor (subjetivos): 3",
+            "",
+            "1. [economico] 40 pts → Por cada 1 % de incremento sobre el canon mínimo (2.634,38 €/año), el licitador obtiene 2 puntos has (clave: mejora_canon)",
+            "2. [economico] 10 pts → Compromiso de instalar 1 cargador de carga rápida (potencia mínima 50 kW). (clave: mejora_potencia_hw)",
+            "3. [economico] 10 pts → Compromiso de instalar el punto de recarga doble interior tipo 2 22 kW en la nave de los Servicios O (clave: compromiso_instalar_punto)",
+            "4. [tecnico] 20 pts → Memoria sobre la ubicación de los puntos de recarga: zonas públicas municipales, zonas de tráfico/de (clave: memoria_ubicacion_puntos)",
+            "5. [tecnico] 15 pts → Memoria del plan de mantenimiento: tiempo de respuesta ante averías, plan de limpieza, iluminación,  (clave: mantenimiento)",
+            "6. [tecnico] 5 pts → Plan de señalética de los cargadores: claridad y precisión, calidad gráfica, efectividad y número de (clave: plan_senaletica_cargadores)",
+            "7. [mejora_puntuable] 40 pts → Oferta económica al alza sobre el canon mínimo anual (2.634,38 €/año). Cada 1 % de incremento sobre  (clave: mejora_canon)",
+            "8. [mejora_puntuable] 10 pts → Compromiso de instalar 1 cargador de carga rápida (al menos 50 kW de potencia de salida) entre los 7 (clave: mejora_potencia_hw)",
+            "9. [mejora_puntuable] 10 pts → Compromiso de instalar un punto de recarga doble interior tipo 2 de 22 kW en la nave de los Servicio (clave: compromiso_instalar_punto)",
+            "10. [juicio_valor] 20 pts → Ubicación de los puntos de recarga (memoria descriptiva): mejor puntuación a quien priorice zonas pú (clave: ubicacion_puntos_recarga)",
+            "11. [juicio_valor] 15 pts → Memoria del plan de mantenimiento: tiempo de respuesta ante averías, plan de limpieza, iluminación,  (clave: mantenimiento)",
+            "12. [juicio_valor] 5 pts → Plan de señalética de los cargadores para facilitar su localización: claridad de la señalización, ca (clave: plan_senaletica_cargadores)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial de la instalación, mantenimiento y explot",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Alhaurín el Grande",
+            "✅ importe base / estimado → 24587.55",
+            "✅ fecha publicación → 2025-11-24",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 2634.38",
+            "✅ nº cargadores mínimo → 7",
+            "✅ tecnología requerida → AC",
+            "✅ ubicaciones extraídas → 7",
+            "✅ garantía definitiva → 4%",
+            "✅ criterios económicos → 3 criterios",
+            "✅ criterios técnicos → 3 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"RES\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2026-02-16",
+            "✅ Importe / canon ganador → 2634.38",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (1)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. QWELLO ESPAÑA, S.L."
+          ]
+        },
+        "cobertura_geo": {
+          "descripcion": "7 de 7 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 7 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 0",
+            "Aproximadas (centroide municipio): 7",
+            "Sin coords: 0",
+            "⚠ #1 Ubicación 1/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #2 Ubicación 2/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #3 Ubicación 3/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #4 Ubicación 4/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #5 Ubicación 5/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #6 Ubicación 6/7 — a definir por el licitador → centroide Alhaurín el Grande",
+            "⚠ #7 Ubicación 7/7 — a definir por el licitador → centroide Alhaurín el Grande"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "7 de 7 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 7",
+            "Sin puntos declarados: 0",
+            "✅ #1 Ubicación 1/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #2 Ubicación 2/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #3 Ubicación 3/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #4 Ubicación 4/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #5 Ubicación 5/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #6 Ubicación 6/7 — a definir por el licitador → 1 puntos (AC)",
+            "✅ #7 Ubicación 7/7 — a definir por el licitador → 1 puntos (AC)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 7 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 7",
+            "Σ ubicaciones nuevas (7): 7 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 20:25:02",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "−3: 7 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 97% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 1 alerta que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ 7 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
       "slug": "19129858",
       "titulo": "Concesión de dominio público para el uso privativo de la vía pública para la instalación, mantenimiento y explotación de una infraestructura de estaciones de recarga pública para vehículos eléctricos en espacios urbanos del municipio de Alcorcón",
       "ciudad": "Alcorcón",
@@ -2506,8 +4897,8 @@
       },
       "flags_abiertos": [
         "14 ubicaciones con coords aproximadas (centroide municipio)",
-        "Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)",
-        "Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)"
+        "Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)",
+        "Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)"
       ],
       "etapa": "publicado",
       "explicaciones": {
@@ -2710,8 +5101,8 @@
           "descripcion": "Hay 3 alertas que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
             "⚠️ 14 ubicaciones con coords aproximadas (centroide municipio)",
-            "⚠️ Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)",
-            "⚠️ Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)"
+            "⚠️ Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)",
+            "⚠️ Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)"
           ]
         }
       }
@@ -3270,6 +5661,520 @@
       }
     },
     {
+      "slug": "19347107",
+      "titulo": "Concesión demanial para la instalación de puntos de recarga de vehículos eléctricos con reserva de plazas de aparcamiento en vía pública",
+      "ciudad": "Alginet",
+      "organo": "Alcaldía del Ayuntamiento de Alginet",
+      "estado": "EV",
+      "categoria": "1",
+      "confianza_global": 100,
+      "semaforo": "verde",
+      "docs_completos": "11/11",
+      "links_embebidos_resueltos": "✅",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 15,
+      "cobertura_lectura_leidos": 15,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 75,
+      "peso_tecnico": 25,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 75,
+          "descripcion": "Hasta 75 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 4.410 €/año. Valoración proporcional sobre el resto de propuestas.",
+          "formula": "Hasta 75 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 4.410 €/año. Valoración proporcional sobre el resto de propuestas.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 25,
+          "descripcion": "Memoria técnica que detalle la propuesta de instalación y operación de las tres estaciones de recarga: configuración técnica de los equipos, plan de obra civil, plan de mantenimiento, plataforma de gestión y otros aspectos cualitativos del proyecto.",
+          "formula": null,
+          "clave_canonica": "calidad_proyecto_tecnico",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 75,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (4.410 €/año). El licitador con el mayor canon ofertado obtiene los 75 puntos completos y el resto se valora proporcionalmente.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 25,
+          "descripcion": "Memoria técnica del proyecto: configuración técnica de los equipos en cada una de las tres ubicaciones, plan de obra civil, plan de mantenimiento, plataforma de gestión, integración urbana, accesibilidad y otros aspectos cualitativos.",
+          "subtipo": null,
+          "clave_canonica": "calidad_proyecto_tecnico",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 1,
+        "mejoras": 1,
+        "juicio": 1,
+        "total": 4
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": null,
+      "licitadores_vs_acta": "1 extraídos",
+      "coherencia_ubis": "✅ 7/7",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "✅ 100%",
+      "cobertura_geo_total": 3,
+      "cobertura_geo_con_coord": 3,
+      "cobertura_geo_aprox": 0,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 3,
+      "cobertura_puntos_con": 3,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T20:09:45.562Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "11 de 11 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ anuncio_licitacion · Anuncio de Licitación",
+            "✅ pliego_administrativo · Pliego",
+            "✅ acuerdo_iniciacion · Acuerdo de iniciación del expediente",
+            "✅ memoria · Memoria justificativa",
+            "✅ otro · Documento de aprobación del expediente",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ apertura_publica · Actos públicos informativos o de aperturas de ofertas",
+            "✅ otro · Informe apertura Sobre nº1",
+            "✅ otro · Informe apertrua Sobre nº2",
+            "✅ pliego_tecnico · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ pliego_administrativo · Pliego de Cláusulas Administrativas Particulares (PCAP)"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "✅ Al menos 1 PPT (pliego_tecnico): 1 encontrado",
+            "   · Pliego de Prescripciones Técnicas Particulares (PPT)",
+            "✅ Al menos 1 PCAP (pliego_administrativo): 2 encontrados",
+            "   · Pliego",
+            "   · Pliego de Cláusulas Administrativas Particulares (PCAP)",
+            "Estado: todos los pliegos canónicos están descargados"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 15",
+            "✅ Leídos: 15",
+            "",
+            "✅ 01-anuncio_licitacion-Anuncio_de_Licitación.pdf — texto OK (1170 c/p), tipo \"anuncio_licitacion\" poblado en extraccion.json",
+            "✅ 02-pliego_administrativo-Pliego.pdf — texto OK (1194 c/p), citado + tipo poblado",
+            "✅ 02A-enlazado-enlace_interno_1.pdf — texto OK (2154 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02B-enlazado-enlace_interno_2.pdf — texto OK (2982 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02C-enlazado-enlace_interno_3.docx — DOCX OK (12648 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02D-enlazado-enlace_interno_4.docx — DOCX OK (588 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02E-enlazado-enlace_interno_5.docx — DOCX OK (740 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 02F-enlazado-enlace_interno_6.docx — DOCX OK (6728 c/p), tipo \"enlazado\" poblado en extraccion.json",
+            "✅ 03-acuerdo_iniciacion-Acuerdo_de_iniciación_del_expediente.pdf — texto OK (2206 c/p), citado + tipo poblado",
+            "✅ 04-memoria-Memoria_justificativa.pdf — texto OK (2943 c/p), citado + tipo poblado",
+            "✅ 05-otro-Documento_de_aprobación_del_expediente.pdf — texto OK (2276 c/p), citado + tipo poblado",
+            "✅ 06-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (830 c/p), citado en JSON",
+            "✅ 07-apertura_publica-Actos_públicos_informativos_o_de_aperturas_de_ofertas.pdf — texto OK (2279 c/p), citado en JSON",
+            "✅ 08-otro-Informe_apertura_Sobre_n_1.pdf — texto OK (518 c/p), citado + tipo poblado",
+            "✅ 09-otro-Informe_apertrua_Sobre_n_2.pdf — texto OK (472 c/p), citado + tipo poblado"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (75) + técnicos (25) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (75 pts):",
+            "   · 75 pts — Hasta 75 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 4.410 ",
+            "Técnicos (25 pts):",
+            "   · 25 pts — Memoria técnica que detalle la propuesta de instalación y operación de las tres estaciones"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (4 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 1",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 1",
+            "",
+            "1. [economico] 75 pts → Hasta 75 puntos al licitador con el mayor canon ofertado al alza sobre el mínimo de 4.410 €/año. Val (clave: mejora_canon)",
+            "2. [tecnico] 25 pts → Memoria técnica que detalle la propuesta de instalación y operación de las tres estaciones de recarg (clave: calidad_proyecto_tecnico)",
+            "3. [mejora_puntuable] 75 pts → Oferta económica al alza sobre el canon mínimo anual (4.410 €/año). El licitador con el mayor canon  (clave: mejora_canon)",
+            "4. [juicio_valor] 25 pts → Memoria técnica del proyecto: configuración técnica de los equipos en cada una de las tres ubicacion (clave: calidad_proyecto_tecnico)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial para la instalación de puntos de recarga ",
+            "✅ organo contratante → Alcaldía del Ayuntamiento de Alginet",
+            "✅ importe base / estimado → 4410",
+            "✅ fecha publicación → 2026-03-27",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 4410",
+            "✅ nº cargadores mínimo → 7",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 3",
+            "✅ garantía definitiva → 5%",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 1 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Estado \"EV\" — la licitación todavía no está adjudicada ni formalizada. La cobertura de adjudicación no aplica.",
+          "detalles": [
+            "Solo aplica para estados ADJ (adjudicada), RES (resuelta) o FOR (formalizada)."
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. SUMINISTROS ESPECIALES ALGINETENSES, COOP. V."
+          ]
+        },
+        "cobertura_geo": {
+          "descripcion": "3 de 3 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa.",
+          "detalles": [
+            "Con coords exactas: 3",
+            "Aproximadas (centroide municipio): 0",
+            "Sin coords: 0"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "3 de 3 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 3",
+            "Sin puntos declarados: 0",
+            "✅ #1 Ronda Higinio Noja — CT Major (zona de tránsito y  → 2 puntos (DC)",
+            "✅ #2 Calle Colón — Centro urbano (estancia media) → 2 puntos (AC)",
+            "✅ #3 Calle Belenguera — Polígono Industrial Norte (mixt → 3 puntos (mixto)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 7 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 7",
+            "Σ ubicaciones nuevas (3): 7 puntos de carga",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 22:09:45",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Sin adjudicación todavía → solo cuenta cobertura pliego",
+            "= 100% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "No hay alertas pendientes para esta licitación.",
+          "detalles": [
+            "Todo OK."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "19429639",
+      "titulo": "Concesión demanial administrativa que habilite el uso privativo de diferentes espacios públicos de la ciudad de Segorbe para la instalación, explotación, mantenimiento y gestión de puntos de recarga de vehículos eléctricos.",
+      "ciudad": "Segorbe",
+      "organo": "Pleno del Ayuntamiento de Segorbe",
+      "estado": "ADJ",
+      "categoria": "1",
+      "confianza_global": 87,
+      "semaforo": "verde",
+      "docs_completos": "2/2",
+      "links_embebidos_resueltos": "❌",
+      "docs_legibles": "Texto puro",
+      "uso_vision": false,
+      "cobertura_lectura_pct": 100,
+      "cobertura_lectura_label": "✅ 100%",
+      "cobertura_lectura_total": 2,
+      "cobertura_lectura_leidos": 2,
+      "cobertura_lectura_scanned_sin_vision": 0,
+      "cobertura_lectura_no_soportados": 0,
+      "cobertura_lectura_no_citados": 0,
+      "criterios_suman_100": "✅ 100",
+      "suma_pesos": 100,
+      "peso_economico": 80,
+      "peso_tecnico": 20,
+      "criterios_detalle": [
+        {
+          "tipo": "economico",
+          "peso": 40,
+          "descripcion": "VO = (OLca × 40) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca el mejor canon ofertado. Máximo a la oferta con mayor canon anual fijo, sobre el mínimo total de 2.954,36 €/año.",
+          "formula": "VO = (OLca × 40) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca el mejor canon ofertado. Máximo a la oferta con mayor canon anual fijo, sobre el mínimo total de 2.954,36 €/año.",
+          "clave_canonica": "mejora_canon",
+          "fuente": "criterios_valoracion.economicos"
+        },
+        {
+          "tipo": "tecnico",
+          "peso": 10,
+          "descripcion": "Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter medioambiental y cronograma de actuaciones. La calidad de la memoria se valora con escala excelente 10 / notable 7,5 / bien 5 / insuficiente 2,5 / mal 0. Umbral mínimo 5 pts para pasar a la fase económica.",
+          "formula": null,
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_valoracion.tecnicos"
+        },
+        {
+          "tipo": "mejora_puntuable",
+          "peso": 40,
+          "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLca × 40 / MOca: la mejor oferta obtiene los 40 puntos completos y el resto en proporción.",
+          "subtipo": "descuento",
+          "clave_canonica": "mejora_canon",
+          "fuente": "mejoras_puntuables"
+        },
+        {
+          "tipo": "juicio_valor",
+          "peso": 10,
+          "descripcion": "Memoria de gestión: plan de gestión, inversiones a acometer, infraestructuras, innovación tecnológica, carácter medioambiental y cronograma. Extensión máxima 25 páginas A4. Escala: excelente 10 / notable 7,5 / bien 5 / insuficiente 2,5 / mal 0.",
+          "subtipo": null,
+          "clave_canonica": "sostenibilidad",
+          "fuente": "criterios_juicio_valor"
+        }
+      ],
+      "criterios_count": {
+        "economicos": 1,
+        "tecnicos": 1,
+        "mejoras": 1,
+        "juicio": 1,
+        "total": 4
+      },
+      "pliego_complejo": false,
+      "motivos_complejidad": [],
+      "cobertura_pliego_pct": 100,
+      "cobertura_adjudicacion_pct": 100,
+      "licitadores_vs_acta": "1 extraídos",
+      "coherencia_ubis": "✅ 9/9",
+      "anexos_validos": "—",
+      "cobertura_geo_pct": 100,
+      "cobertura_geo_label": "⚠️ 100%",
+      "cobertura_geo_total": 5,
+      "cobertura_geo_con_coord": 5,
+      "cobertura_geo_aprox": 3,
+      "cobertura_geo_sin": 0,
+      "cobertura_puntos_pct": 100,
+      "cobertura_puntos_label": "✅ 100%",
+      "cobertura_puntos_total": 5,
+      "cobertura_puntos_con": 5,
+      "cobertura_puntos_sin": 0,
+      "coste_vision_usd": 0,
+      "ultima_extraccion": {
+        "fecha": "2026-04-27T19:57:38.156Z",
+        "modelo": "claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)"
+      },
+      "flags_abiertos": [
+        "Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "3 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "etapa": "publicado",
+      "explicaciones": {
+        "docs_completos": {
+          "descripcion": "2 de 2 documentos publicados en PLACSP fueron descargados al disco local. Los documentos virtuales tipo \"anexo_*\" (deep-links #page=N) no se cuentan acá porque no son archivos separados.",
+          "detalles": [
+            "✅ resolucion_adjudicacion · Adjudicación",
+            "✅ presupuesto · Presupuesto"
+          ]
+        },
+        "links_embebidos_resueltos": {
+          "descripcion": "PLACSP a veces sube un único PDF \"Pliego\" portada que contiene hyperlinks internos al PCAP y PPT reales. El extractor escanea el binario del PDF para descubrir esos enlaces y descargarlos. Validamos que existan al menos un PPT (pliego_tecnico) y un PCAP (pliego_administrativo) — el nombre exacto varía por órgano (PCAP, \"Pliego\", \"Diligencia corrección PCAP\", etc.).",
+          "detalles": [
+            "❌ Al menos 1 PPT (pliego_tecnico): 0 encontrados",
+            "❌ Al menos 1 PCAP (pliego_administrativo): 0 encontrados",
+            "Estado: no hay pliegos descubiertos"
+          ]
+        },
+        "cobertura_lectura": {
+          "descripcion": "Mide cuántos documentos descargados fueron efectivamente leídos e interpretados. Combina dos chequeos: (nivel 1) pdftotext detecta PDFs scanned por chars/página <50 — si hay scanned y no se ejecutó Vision, su contenido se pierde; (nivel 2) busca el nombre de cada PDF en el extraccion.json para verificar que el LLM lo citó. Todos los archivos del expediente fueron leídos.",
+          "detalles": [
+            "Total archivos en disco: 2",
+            "✅ Leídos: 2",
+            "",
+            "✅ 01-resolucion_adjudicacion-Adjudicación.pdf — texto OK (755 c/p), citado + tipo poblado",
+            "✅ 01A-enlazado-enlace_interno_1.pdf — texto OK (1905 c/p), tipo \"enlazado\" poblado en extraccion.json"
+          ]
+        },
+        "docs_legibles": {
+          "descripcion": "Todos los PDFs tenían texto seleccionable. Se extrajeron con pdftotext sin recurrir a Vision API (sin coste por API).",
+          "detalles": [
+            "📄 pdftotext con encoding UTF-8 + layout preservado"
+          ]
+        },
+        "criterios_suman_100": {
+          "descripcion": "La suma de pesos económicos (80) + técnicos (20) da exactamente 100. Eso confirma que se capturaron todos los criterios de valoración del pliego.",
+          "detalles": [
+            "Económicos (80 pts):",
+            "   · 40 pts — VO = (OLca × 40) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca el ",
+            "Técnicos (20 pts):",
+            "   · 10 pts — Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter m"
+          ]
+        },
+        "criterios_detalle": {
+          "descripcion": "Lista completa de criterios de adjudicación encontrados en el pliego (4 en total). Incluye criterios económicos, técnicos automáticos, mejoras puntuables y criterios de juicio de valor. Cada criterio tiene una clave canónica que se usa para normalizar y agrupar criterios similares en la tabla maestra de auditoría.",
+          "detalles": [
+            "Económicos: 1",
+            "Técnicos (peso top-level): 1",
+            "Mejoras puntuables (subcriterios automáticos): 1",
+            "Criterios juicio de valor (subjetivos): 1",
+            "",
+            "1. [economico] 40 pts → VO = (OLca × 40) / MOca, donde OLca es el canon anual ofertado por el licitador y MOca el mejor cano (clave: mejora_canon)",
+            "2. [tecnico] 10 pts → Memoria de gestión: plan de gestión, inversiones, infraestructuras, innovación, carácter medioambien (clave: sostenibilidad)",
+            "3. [mejora_puntuable] 40 pts → Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLc (clave: mejora_canon)",
+            "4. [juicio_valor] 10 pts → Memoria de gestión: plan de gestión, inversiones a acometer, infraestructuras, innovación tecnológic (clave: sostenibilidad)"
+          ]
+        },
+        "cobertura_pliego": {
+          "descripcion": "13 de 13 campos críticos del pliego están completos. Estos son los datos que el equipo comercial necesita para entender la oportunidad antes de la adjudicación.",
+          "detalles": [
+            "✅ titulo → Concesión demanial administrativa que habilite el uso privat",
+            "✅ organo contratante → Pleno del Ayuntamiento de Segorbe",
+            "✅ importe base / estimado → 2954.36",
+            "✅ fecha publicación → 2026-04-10",
+            "✅ plazo de la concesión → 10 años",
+            "✅ tipo de retribución → canon_fijo",
+            "✅ canon o precio mín → 2954.36",
+            "✅ nº cargadores mínimo → 9",
+            "✅ tecnología requerida → mixto",
+            "✅ ubicaciones extraídas → 5",
+            "✅ garantía definitiva → 15000",
+            "✅ criterios económicos → 1 criterios",
+            "✅ criterios técnicos → 1 criterios"
+          ]
+        },
+        "cobertura_adjudicacion": {
+          "descripcion": "Esta licitación está en estado \"ADJ\". Mide cuántos campos post-adjudicación pudimos extraer (4 campos críticos).",
+          "detalles": [
+            "✅ Fecha de adjudicación / formalización → 2026-04-09",
+            "✅ Importe / canon ganador → 2954.36",
+            "✅ Adjudicatario identificado",
+            "✅ Lista de licitadores extraídos (1)"
+          ]
+        },
+        "licitadores_vs_acta": {
+          "descripcion": "Se extrajeron 1 licitadores (empresas que presentaron oferta) del acta de apertura del sobre 1. Si la licitación todavía no abrió sobres, este valor será 0.",
+          "detalles": [
+            "1. ENERMY S.L."
+          ]
+        },
+        "cobertura_geo": {
+          "descripcion": "5 de 5 ubicaciones tienen coordenadas geo (lat/lon) y aparecen en el mapa. 3 están aproximadas al centroide del municipio porque la dirección postal era genérica (ej. \"Sótano subterráneo\", \"Polideportivo Municipal\").",
+          "detalles": [
+            "Con coords exactas: 2",
+            "Aproximadas (centroide municipio): 3",
+            "Sin coords: 0",
+            "⚠ #3 Calle Cantar de Mio Cid esquina Calle Enramada → centroide Segorbe",
+            "⚠ #4 Polígono Industrial La Esperanza, Calle Comunidad Islas Cana → centroide Segorbe",
+            "⚠ #5 Zona salida Oeste de la población por Avenida España (instal → centroide Segorbe"
+          ]
+        },
+        "cobertura_puntos": {
+          "descripcion": "5 de 5 ubicaciones tienen claramente declarado cuántos puntos de carga (cables) requieren. Todas las ubicaciones tienen su número de puntos de carga claro.",
+          "detalles": [
+            "Con puntos declarados: 5",
+            "Sin puntos declarados: 0",
+            "✅ #1 Calle Bonifacio Ferrer, 2 (sustitución de la antig → 2 puntos (AC)",
+            "✅ #2 Avenida Fray Luis Amigó, 14 (estación existente qu → 3 puntos (mixto)",
+            "✅ #3 Calle Cantar de Mio Cid esquina Calle Enramada → 2 puntos (AC)",
+            "✅ #4 Polígono Industrial La Esperanza, Calle Comunidad  → 2 puntos (AC)",
+            "✅ #5 Zona salida Oeste de la población por Avenida Espa → 3 puntos (mixto)"
+          ]
+        },
+        "coherencia_ubis": {
+          "descripcion": "El pliego exige instalar 9 puntos de carga nuevos. Sumamos los puntos de carga de las ubicaciones nuevas extraídas y comparamos. ±1 es ✅, ±2-3 es ⚠️, más es ❌.",
+          "detalles": [
+            "Mínimo del pliego: 9",
+            "Σ ubicaciones nuevas (4): 9 puntos de carga",
+            "Σ ubicaciones existentes (1): 3 puntos asumidos (no cuentan en el mínimo)",
+            "Diferencia: 0"
+          ]
+        },
+        "anexos_validos": {
+          "descripcion": "No se detectaron anexos del pliego en este expediente. Es posible que no tenga anexos enumerados, o que el extractor no los haya identificado.",
+          "detalles": [
+            "Sin anexos detectados."
+          ]
+        },
+        "ultima_extraccion": {
+          "descripcion": "Fecha y modelo del último procesamiento por LLM. Si la fecha es vieja, conviene re-extraer cuando se publican nuevos documentos en PLACSP (actas, adjudicación, formalización).",
+          "detalles": [
+            "Fecha: 27/4/2026, 21:57:38",
+            "Modelo: claude-opus-4-7 (sesión 2026-04-27, lote cat=1 nuevo)",
+            "Sin Vision API"
+          ]
+        },
+        "pliego_complejo": {
+          "descripcion": "Pliego estándar sin contradicciones detectadas. La extracción siguió las reglas convencionales de la spec v2.",
+          "detalles": [
+            "Sin contradicciones internas detectadas."
+          ]
+        },
+        "confianza_global": {
+          "descripcion": "Score 0-100 que combina cobertura de campos del pliego + cobertura de adjudicación (si aplica), y resta penalizaciones por incoherencias. Umbrales: ≥85 verde, 60-84 amarillo, <60 rojo.",
+          "detalles": [
+            "Base: cobertura pliego = 100%",
+            "Promedio con cobertura adjudicación (100%) → 100",
+            "−10: no se descubrieron pliegos canónicos embebidos",
+            "−3: 3 ubicaciones con coords aproximadas (centroide municipio)",
+            "= 87% (🟢 verde)"
+          ]
+        },
+        "flags_abiertos": {
+          "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
+          "detalles": [
+            "⚠️ Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+            "⚠️ 3 ubicaciones con coords aproximadas (centroide municipio)"
+          ]
+        }
+      }
+    },
+    {
       "slug": "6604680",
       "titulo": "La presente concesión tiene por objeto el uso privativo de espacios en el dominio público viario para la instalación y explotación de puntos de recarga de vehículos eléctricos en el término municipal de Outeiro de Rei.\nEl número máximo de puntos de recarga que serán objeto de concesión será de 15, cuyas dimensiones se corresponderán con las de una plaza de aparcamiento y el espacio adyacente para la colocación del cargador y la acometida a la red de suministro",
       "ciudad": null,
@@ -3359,7 +6264,7 @@
       },
       "flags_abiertos": [
         "Σ criterios renderizables = 25 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
-        "Peso atípico para \"mejora_canon\": 10 pts (promedio 43.4, ratio 0.23)"
+        "Peso atípico para \"mejora_canon\": 10 pts (promedio 47.2, ratio 0.21)"
       ],
       "etapa": "publicado",
       "explicaciones": {
@@ -3511,7 +6416,7 @@
           "descripcion": "Hay 2 alertas que requieren revisión humana antes de usar estos datos en B2B.",
           "detalles": [
             "⚠️ Σ criterios renderizables = 25 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
-            "⚠️ Peso atípico para \"mejora_canon\": 10 pts (promedio 43.4, ratio 0.23)"
+            "⚠️ Peso atípico para \"mejora_canon\": 10 pts (promedio 47.2, ratio 0.21)"
           ]
         }
       }

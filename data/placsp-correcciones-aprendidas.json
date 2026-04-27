@@ -1,6 +1,6 @@
 {
-  "generado_en": "2026-04-27T16:04:09.799Z",
-  "total_ejemplos": 10,
+  "generado_en": "2026-04-27T21:20:10.480Z",
+  "total_ejemplos": 19,
   "como_usar": "Anteponer al prompt del extractor LLM una sección \"Casos resueltos previos\" con estos ejemplos. Especialmente útil cuando el pliego nuevo tiene contradicciones, variantes de retribución, o cargadores mixtos. Cada lección es una regla derivada de un caso real.",
   "ejemplos": [
     {
@@ -154,6 +154,141 @@
       "notas_pliego_resumen": "Régimen del canon mixto: el canon variable (€/kWh) se devenga desde el inicio de la explotación; el canon fijo (€/año) sólo desde el 01/01/2030 (antes de esa fecha = 0 €). Incremento anual del 2% en el canon variable a partir de la formalización. · Prórroga automática: 1 prórroga de 5 años si ninguna parte denuncia con 2 meses de antelación al vencimiento (total máximo 20 años). · Régimen escalonado de plazas: hasta 31/12/2029 mínimo 10 plazas M (≥50 kW) + 2 plazas N (≥150 kW). A partir de esa fecha el adjudicatario debe ampliar a 22 plazas M + 4 plazas N. · Causa de exclusión específica: ofertas con canon (fijo o variable) superior a 3× la media de los otros licitadores (excluido el de menor importe), cuando concurran ≥ 4 solicitantes — penaliza ofertas atípicamente altas. · Pliego rectificado el 05/09/2024 (17 días después de la publicación inicial del 19/08/2024 en BOAM): se modificaron las fórmulas de valoración del Criterio 1 (canon) y se aclararon las puntuaciones para ofertas que no mejoren los mínimos. · Visita obligatoria a la parcela previa a presentar oferta y solicitud de informe de viabilidad urbanística dentro del plazo de presentación de solicitudes — ambos requisitos críticos."
     },
     {
+      "slug": "16959879",
+      "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
+      "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
+      "confianza": 84,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Flag pendiente: 28 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "AC",
+        "num_cargadores_minimo": 28,
+        "potencia_minima_por_cargador_kw": 7,
+        "ubicaciones_total": 29,
+        "ubicaciones_existentes": 1,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (20.160 €/año = 720 €/plaza/año × 28 plazas). Único criterio de adj",
+            "puntos_max": 100
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial para la instalación, mantenimiento y explotación de una red de puntos de recarga pública en Haro (La Rioja) con DOS componentes: 28 plazas nuevas a instalar por el adjudicatario en bienes de dominio público + asunción del punto de recarga existente en Calle Grecia (2 cargadores Tipo 2 ya registrados como BT-26-S000627). · Es la SEGUNDA convocatoria del expediente — la primera convocatoria (PLACSP 17776623) fue adjudicada a Qwello pero quedó por extender, motivando esta segunda licitación con condiciones similares pero canon mínimo elevado a 720 €/plaza/año. Procedimiento abierto con UN ÚNICO CRITERIO: el precio (canon ofertado al alza), 100 puntos al mayor canon. Las ofertas con canon inferior al mínimo del pliego se rechazan automáticamente. · Canon mínimo: 720 €/plaza/año para cada una de las 28 plazas, que da un canon total mínimo de 20.160 €/año (= 201.600 € durante los 10 años de concesión). El canon es exento de IVA y se actualiza anualmente por el IPC. La oferta del adjudicatario incluye también la gestión del punto existente de Calle Grecia sin pago adicional. · Plazo: 10 años desde la formalización del contrato, SIN posibilidad de prórroga. Plazo de ejecución de las obras: 6 meses para tener operativos los 28 puntos nuevos. · Garantía definitiva: 4 % del canon de adjudicación referido al plazo de vigencia (canon ofertado × 10 años). No se exige garantía provisional. El primer año del canon se paga antes de la formalización del contrato, los siguien"
+    },
+    {
+      "slug": "17085506",
+      "titulo": "La concesión demanial del uso privativo del espacio de la vía pública para la ubicación, instalación, mantenimiento y explotación de cinco estaciones de recarga rápida y semirápida, para el suministro eléctrico a vehículos.",
+      "organo": "Alcaldía del Ayuntamiento de Miraflores de la Sierra",
+      "confianza": 97,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: 5 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 10,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 5,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual por estación (300 €/estación/año). Fórmula proporcional con offset:",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Mejora 1 — Descuento porcentual sobre las tarifas ordinarias del servicio aplicable a usuarios empadronados en Miraflore",
+            "puntos_max": 30
+          },
+          {
+            "descripcion": "Mejora 2 — Compromiso y acreditación de acuerdos de interoperabilidad con otros operadores privados de servicio de recar",
+            "puntos_max": 7
+          },
+          {
+            "descripcion": "Mejora 3 — Compromiso de suministrar energía 100 % de origen renovable a todos los puntos de recarga, acreditado mediant",
+            "puntos_max": 10
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial regulada por el RBEL (RD 1372/1986) y la LPAP (Ley 33/2003), con LCSP supletoria. Procedimiento abierto no sujeto a regulación armonizada para el otorgamiento de la concesión de uso privativo del espacio público para 5 estaciones de recarga doble (10 puntos de carga totales). · El pliego prioriza dos ubicaciones concretas que actualmente tienen un cargador instalado SIN SERVICIO (Calle Norte y Padre Ribero, identificadas en el PPT con enlaces de Google Maps). El concesionario debe sustituir o actualizar esa infraestructura a la tipología demandada por el pliego (rápida + semirrápida). Las otras tres ubicaciones se distribuyen prioritariamente entre Zona Barrio del Arenal, Zona Centro (Calle Valverde y alrededores) y Avenida de la Constitución. · Cada estación debe tener 2 puntos de recarga independientes y autosuficientes, capaces de funcionar simultáneamente a plena carga. Cada punto debe disponer de capacidad para servicio rápido y semirrápido — el concesionario decide si incorpora sistemas ultrarrápidos como mejora. · Plazo: 10 años desde la formalización del contrato. NO procede prórroga (a diferencia de otros pliegos del lote). El plazo se considera adecuado para garantizar la viabilidad y rentabilidad de la explotación. · Canon mínimo: 300 €/estación/año (= 1.500 €/año total para las 5 estaciones, = 15.000 € durante los 10 años). Mejorable al alza por estación. La oferta económica se valora con fórmula proporcional con offset: P = 20 × (10 + oferta) /"
+    },
+    {
+      "slug": "17723848",
+      "titulo": "Licitación para la adjudicación de la concesión administrativa del uso privativo para la instalación, uso, mantenimiento y explotación de red de puntos de recarga de vehículos eléctricos en el aparcamiento La Conchada y en el núcleo de Escuer.&#xD;",
+      "organo": "Alcaldía del Ayuntamiento de Biescas",
+      "confianza": 90,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: Σ pesos = 90 ≠ 100 (econ 55 + tec 35)",
+        "Flag pendiente: Σ criterios renderizables = 90 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "Flag pendiente: 2 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 7,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 2,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Mayor canon a abonar a la entidad por encima del mínimo del pliego (173,25 €/plaza/mes en plazas de carga rápida y 148,5",
+            "puntos_max": 25
+          },
+          {
+            "descripcion": "Porcentaje de canon variable sobre los importes abonados (impuestos incluidos) por los usuarios. Cuanto mayor el % ofert",
+            "puntos_max": 25
+          },
+          {
+            "descripcion": "Plazo de ejecución de la instalación: la oferta con menor plazo obtiene la máxima puntuación (cronograma de obras y pues",
+            "puntos_max": 20
+          },
+          {
+            "descripcion": "Proyecto de implantación: número de cargadores, eficiencia, características técnicas y estéticas (integración con el ent",
+            "puntos_max": 15
+          },
+          {
+            "descripcion": "Origen 100 % renovable de la energía suministrada en la red de recarga, acreditado mediante certificado oficial de garan",
+            "puntos_max": 5
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión administrativa para uso privativo de bienes de dominio público bajo la LCSP, agrupada en DOS LOTES independientes a los que el licitador puede ofertar por separado o conjuntamente: Lote 1 Aparcamiento La Conchada en Biescas (presupuesto 169.140 €) y Lote 2 núcleo rural de Escuer (presupuesto 31.185 €). Total de 7 puntos de carga distribuidos en 2 ubicaciones físicas. · El Lote 1 Conchada exige 3 cargadores que reparten 6 puntos de carga (2 rápidos DC ≥ 50 kW + 4 semirrápidos AC 22 kW), respetando la capacidad máxima del acceso eléctrico de 150 kW indicado en el Anexo II del PPT. El Lote 2 Escuer exige 1 cargador con 1 punto de carga rápida DC. · El canon mínimo se calcula por plaza y mes según tipología: 173,25 €/plaza/mes para cargadores rápidos (DC) y 148,50 €/plaza/mes para cargadores semirrápidos (AC). Para los 7 puntos exigidos da un canon total mínimo de 13.365 €/año (3 plazas rápidas × 173,25 × 12 + 4 plazas semirrápidas × 148,50 × 12). El canon ofertado al alza se valora con 25 puntos. · El régimen de retribución es MIXTO: el canon mínimo (parte fija) coexiste con un canon variable opcional sobre los importes abonados por los usuarios. El licitador puede ofertar un porcentaje (% sobre facturación) que añade hasta 25 puntos adicionales en la valoración. Es uno de los pocos pliegos del lote que combina las dos figuras de retribución. · Suma de criterios = 90 puntos (NO llega al 100 esperado). El pliego declara: canon fijo 25 + canon variable % usuarios 25 + pr"
+    },
+    {
+      "slug": "17739483",
+      "titulo": "Impulso de la movilidad sostenible mediante concesión demanial en dominio público, para la instalación, mantenimiento y explotación de infraestructuras para puntos de recarga de vehículos eléctricos en Cangas del Narcea: Plan de Sostenibilidad Turística en Destino Cangas del Narcea (Plan de Transformación, Recuperación y Resiliencia Financiado por la Unión Europea-Next Generation EU)",
+      "organo": "Alcaldía del Ayuntamiento de Cangas del Narcea",
+      "confianza": 92,
+      "motivos_complejidad": [],
+      "lecciones": [],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "AC",
+        "num_cargadores_minimo": 4,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 2,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.057,50 €/año). Fórmula proporcional P = 60 × (OF/OM): el licitad",
+            "puntos_max": 60
+          },
+          {
+            "descripcion": "Compromiso de instalar un punto adicional de carga rápida (50–100 kW DC, doble) en una tercera ubicación a acordar con e",
+            "puntos_max": 40
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial regulada por el RBEL (RD 1372/1986) y la LPAP (Ley 33/2003), con LCSP supletoria. Procedimiento abierto de concurrencia con un único sobre electrónico que contiene tanto la documentación administrativa como la oferta económica y la propuesta de mejora. · El contrato es atípico dentro del lote: TODA la valoración es automática por fórmulas (Sobre B). NO hay criterios de juicio de valor — la decisión es 100 % económica/cuantitativa: 60 puntos al canon ofertado al alza y 40 puntos al compromiso de instalar un punto de carga rápida adicional. · Concesión enmarcada en el Plan de Sostenibilidad Turística en Destino (PSTD) Cangas del Narcea, financiado por fondos Next Generation EU del PRTR (Componente 14, Plan de modernización del sector turístico). Etiqueta climática 40 % en ámbito de intervención 048 (calidad del aire y reducción del ruido) y 100 % medioambiental. · El pliego define DOS ubicaciones obligatorias con punto de suministro ya solicitado a E-REDES: Calle de la Esperanza s/n (44 kW, 2 tomas, 802,50 €/año por 25 m² × 32,10 €/m²/año, suelo categoría 2ª) y Calle Uría 17 (44 kW, 2 tomas, 1.255 €/año por 25 m² × 50,20 €/m²/año, suelo categoría 1ª). Canon mínimo total 2.057,50 €/año (mejorable al alza), exento de IVA. · Especificación técnica: cada estación de recarga semirápida AC 44 kW con 2 tomas Mennekes Tipo 2 (modo 3) y capacidad de cargar dos vehículos simultáneamente. Ocupación de 25 m² por estación (2 plazas + accesos + instalaciones anexas). Si la"
+    },
+    {
       "slug": "17776623",
       "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de las infraestructuras de una red de puntos de recarga pública en bienes de dominio público en Haro",
       "organo": "Junta del Gobierno Local del Ayuntamiento de Haro",
@@ -240,6 +375,60 @@
       "notas_pliego_resumen": "Multi-municipio: la concesión cubre 6 ayuntamientos mancomunados — Alicante, El Campello, Mutxamel, San Juan de Alicante, San Vicente del Raspeig y Agost — con 34 ubicaciones mínimas distribuidas entre ellos. · Concesión SIN canon: gratuita conforme art. 93.4 LPAP. La contraprestación al dominio público es la inversión que realiza el adjudicatario; la rentabilidad viene de la venta de energía al usuario final. · Asunción de infraestructura existente: 22 puntos de recarga ya instalados (8 en superficie + 14 en parking subterráneo) en San Vicente, San Juan, Mutxamel y El Campello deben pasar a gestión y mantenimiento del adjudicatario sin contraprestación adicional, además de los 34 nuevos del pliego. · Cargadores DC modo 4 con conector CCS Combo2 obligatorio en al menos una toma. Capacidad de carga simultánea de 2 vehículos por cargador, ≥50 kW/punto de carga. · Garantía de origen 100% renovable obligatoria durante toda la concesión. · NO se admiten variantes ni mejoras fuera de los criterios cuantificables del Anexo de criterios de valoración. · Mancomunidad y Ayuntamientos pueden modificar la ubicación definitiva por razones de interés público; la ubicación final está sometida a la aprobación de cada Ayuntamiento afectado. · Plazo de la concesión: 10 años desde la concesión de la licencia de obras, dentro de los cuales se incluyen los 4 meses de plazo máximo de construcción. Prorrogable 2 años más por decisión expresa del órgano (no procede prórroga tácita) — duración total "
     },
     {
+      "slug": "17957238",
+      "titulo": "Concesión demanial para la instalación, mantenimiento y explotación de una infraestructura de estaciones de recarga pública para vehículos eléctricos en bienes de dominio y uso público local",
+      "organo": "Alcaldía del Ayuntamiento de Castalla",
+      "confianza": 82,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: 7 ubicaciones con coords aproximadas (centroide municipio)",
+        "Flag pendiente: Peso atípico para \"mas_puntos_de_carga\": 70 pts (promedio 24.0, ratio 2.92)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_variable_pct",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 0,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 8,
+        "ubicaciones_existentes": 8,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica: porcentaje sobre la facturación bruta anual del concesionario (% al alza sobre el mínimo de 5 %). Fórm",
+            "puntos_max": 70
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial regulada por la Ley 33/2003 LPAP, el RBEL (RD 1372/1986) y la LCSP (procedimiento abierto). Procedimiento ABIERTO con varios criterios de valoración para una red de 8 estaciones de recarga existentes en Castalla (Alicante). · El contrato es atípico dentro del lote: las 8 ubicaciones son TODAS existentes y los cargadores ya están instalados (CIRCUTOR RAPTION 50 en 2 ubicaciones, CIRCUTOR URBAN T 22 en 1, Ingeteam fusión fs3mw-n2n22 en 5). El concesionario asume su gestión sin construir desde cero, pero debe ejecutar los TRASLADOS y CAMBIOS DE PUNTO DE SUMINISTRO indicados en la tabla del PPT cláusula 4.1. · Régimen de retribución VARIABLE puro: el canon es el 5 % de la facturación bruta anual del concesionario por la explotación de la actividad. NO hay canon fijo mínimo. El licitador oferta al alza ese porcentaje. La fórmula de puntuación es P = 70 × (OM/OF) donde OF es la oferta del licitador y OM la oferta más baja — atención: la fórmula está invertida y premia al MENOR % ofertado, comportamiento atípico que merece contraste con la propia mesa. · Devengo TRIMESTRAL: el concesionario presenta documentación acreditativa de su facturación dentro de los 5 primeros días del mes siguiente al vencimiento de cada trimestre. La concesión no está sujeta al IVA pero sí a los demás tributos municipales (IAE, licencias, etc.). · Estructura de criterios = 100 puntos: oferta económica 70 puntos (% sobre facturación) + calidad técnica 30 puntos (proyecto de instalación 20"
+    },
+    {
+      "slug": "17957503",
+      "titulo": "Constituye el objeto del contrato la Concesión demanial para el mantenimiento y explotación de infraestructura de estaciones de recarga pública para vehículos eléctricos ubicadas en plaza&#xD;\nde abastos y en plaza la rosaleda",
+      "organo": "Junta de Gobierno del Ayuntamiento de Olvera",
+      "confianza": 78,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Flag pendiente: 2 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "AC",
+        "num_cargadores_minimo": 0,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 2,
+        "ubicaciones_existentes": 2,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (880 €/año). Fórmula proporcional P = (CP/CM) × 100: el licitador c",
+            "puntos_max": 100
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial regulada por la Ley 7/1999 de Bienes de las Entidades Locales de Andalucía y el Decreto 18/2006, no por la LCSP (que se aplica supletoriamente). Procedimiento abierto simplificado del artículo 159 LCSP, sin construcción de obras nuevas. · El objeto de la concesión es exclusivamente el mantenimiento y explotación de DOS estaciones de recarga ya instaladas: una en Plaza La Rosaleda (cargador AC 22 kW de 2 tomas) y otra en Plaza de Abastos (cargador AC 30 kW de 2 tomas, hornacina preparada hasta 60 kW). El concesionario NO construye nada nuevo, solo asume las dos existentes. · Único criterio de adjudicación: canon al alza sobre el mínimo de 880 €/año. La oferta más alta obtiene los 100 puntos y el resto se puntúa proporcionalmente con la fórmula P = (CP/CM) × 100. No hay criterios técnicos ni juicio de valor: la decisión es 100 % económica. · Plazo: 10 años desde la formalización (no desde la licencia de obra, porque ya están instaladas). Posibilidad de prórrogas de 2 años por mutuo acuerdo hasta un máximo total de 20 años. La solicitud de prórroga debe hacerse 2 meses antes del vencimiento. · Canon de 880 €/año pagadero por trimestres vencidos mediante domiciliación bancaria. El concesionario asume además el suministro eléctrico, los tributos municipales (IAE, licencias, etc.) y todos los costes de mantenimiento, reposición y limpieza. · Garantía definitiva: 4 % del valor del dominio público (calculado sobre los 20 años máximos de concesión) = 1.760 €. No se "
+    },
+    {
       "slug": "18309278",
       "titulo": "Concesion administrativa sobre las infraestructuras de estaciones de recarga publica para vehiculos electricos en bienes de dominio y uso publico local (viario) en el T.M. de Breña Baja.",
       "organo": "Alcaldía del Ayuntamiento de Breña Baja",
@@ -279,6 +468,71 @@
       "notas_pliego_resumen": "Concesión administrativa SOBRE infraestructuras de recarga ya instaladas: el adjudicatario asume la gestión, mantenimiento y explotación de 5 cargadores Ingeteam Fusion Street FS3MW-N2N2 EXISTENTES (10 puntos de carga totales: cada cargador tiene 2 mangueras — CCS modo 4 DC + Tipo 2 modo 3 AC). NO hay cargadores nuevos exigidos por el pliego · Tecnología mixta AC+DC por cargador: cada equipo Ingeteam permite carga simultánea de 2 vehículos con balanceo dinámico de potencia entre el conector CCS modo 4 (hasta 44 kW DC) y la toma Mennekes Tipo 2 modo 3 AC · Plazo de concesión: 10 años (2025-2034). El plazo de ejecución incluye una observación de 'salvaguardar el equilibrio económico'. No se prevé prórroga explícita. · Régimen económico — canon FIJO anual mínimo: 4.000 €/año (presupuesto base de licitación). Valor estimado del contrato a 10 años: 40.000 €. El licitador oferta al alza sobre el mínimo. · Tarifa MÁXIMA al usuario regulada: 0,40 €/kWh servido al vehículo (impuestos canarios incluidos). Solo se puede actualizar a petición de la adjudicataria si varían peajes regulados o impuestos. La adjudicataria sí puede ofrecer tarifas especiales/promociones por debajo del máximo, pero no por encima. · Potencia mínima a contratar por la adjudicataria: 44 kW por punto. La concesionaria puede invertir para aumentar la potencia contratada — los derechos de extensión, si los hubiera, corren por su cuenta y quedan a beneficio del Ayuntamiento. · Comunicaciones: los cargadores Ingeteam "
     },
     {
+      "slug": "18421621",
+      "titulo": "Concesión demanial administrativa que habilite el uso privativo de diferentes espacios públicos de la ciudad de Segorbe para la instalación, explotación, mantenimiento y gestión de puntos de recarga de vehículos eléctricos, en el marco del impulso a la movilidad sostenible y la transición energética, de acuerdo con los pliegos.",
+      "organo": "Alcaldía del Ayuntamiento de Segorbe",
+      "confianza": 97,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "Flag pendiente: 3 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 9,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 5,
+        "ubicaciones_existentes": 1,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLca × 35 / MOca: la me",
+            "puntos_max": 35
+          },
+          {
+            "descripcion": "Compromiso de instalar un punto de recarga semi-rápido adicional (≥ 12 kW, doble) en el parking municipal de la calle Ma",
+            "puntos_max": 5
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial otorgada bajo la Ley 9/2017 LCSP, con escala de puntuación bruta de 50 puntos: 10 puntos a la memoria de gestión (juicio de valor) + 35 al canon ofertado al alza + 5 a la mejora del punto en parking municipal. Los pesos top-level del schema están normalizados a base 100 (técnico 20 % / económico 80 %) para alinear el dashboard con los benchmarks del sector. · El pliego separa expresamente Sobre A (administrativa + memoria de gestión, juicio de valor) y Sobre B (proposición económica + mejora parking municipal). La memoria de gestión debe alcanzar mínimo 5 puntos sobre 10 para pasar al Sobre B; las propuestas que no lleguen quedan excluidas y la licitación puede declararse desierta si ninguna alcanza ese umbral. · El canon mínimo total anual asciende a 2.954,36 €, calculado como el 9 % del valor del suelo de cada uno de los 5 espacios públicos por la superficie de 22 m² cada uno. El valor del suelo varía por ubicación (Avd. Fray Luis Amigó es la más cara con 1.009,80 €/año; el Polígono Industrial es la más barata con 212,20 €/año). Sobre el canon adjudicado se aplica un incremento progresivo del 1 % cada año natural. · Se concesionan 5 espacios físicos en el casco urbano de Segorbe: 1 estación rápida 55 kW ya existente que el concesionario asume sin reemplazar (Avd. Fray Luis Amigó), 1 estación semirápida 22 kW que sustituye a la antigua de Plaza Agua Limpia, 2 estaciones nuevas semirápidas (Cantar de Mio Cid + Polígono Industrial) y 1 estación super-rápida "
+    },
+    {
+      "slug": "18449184",
+      "titulo": "Concesión demanial de la instalación, mantenimiento y explotación de infraestructuras de estaciones de recarga para vehículos eléctricos.",
+      "organo": "Alcaldía del Ayuntamiento de Alhaurín el Grande",
+      "confianza": 97,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Flag pendiente: 7 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "AC",
+        "num_cargadores_minimo": 7,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 7,
+        "ubicaciones_existentes": 0,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.634,38 €/año). Cada 1 % de incremento sobre el mínimo otorga 2 p",
+            "puntos_max": 40
+          },
+          {
+            "descripcion": "Compromiso de instalar 1 cargador de carga rápida (al menos 50 kW de potencia de salida) entre los 7 puntos del pliego.",
+            "puntos_max": 10
+          },
+          {
+            "descripcion": "Compromiso de instalar un punto de recarga doble interior tipo 2 de 22 kW en la nave de los Servicios Operativos Municip",
+            "puntos_max": 10
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial otorgada bajo la Ley 9/2017 de Contratos del Sector Público, con un plazo total máximo de 12 años (10 + 1 + 1 prórrogas anuales). El canon de la concesión no está sujeto a IVA por aplicación del artículo 7.9 de la Ley 37/1992 del IVA. · El plazo de presentación de ofertas se amplió a 40 días naturales desde la publicación (frente a los 30 habituales) para que los licitadores pudiesen estudiar las ubicaciones y solicitar puntos de suministro a la distribuidora eléctrica E-Distribución de Redes Digitales, S.A.U. · El pliego no fija direcciones concretas: el licitador propone las 7 ubicaciones en la Memoria del Sobre 2, valorándose la coherencia con zonas públicas municipales, vías principales, zonas comerciales y zonas residenciales con escaso aparcamiento privado. La concesión cubre Alhaurín el Grande y la pedanía Villa del Guadalhorce. · Régimen de carencia del canon: durante los primeros 8 meses desde el Acta de inicio el concesionario no devenga canon. Si se completa el Acta de puesta en servicio antes, el plazo de carencia se suspende. La actualización anual del canon va por el IPC. · Garantía adicional de las obras: el concesionario aportará un aval o fianza del 30 % del presupuesto de ejecución material de las obras previstas, independiente de la garantía definitiva del 4 % sobre el canon total de los 10 años. · Diligencia rectificativa de error en la cláusula 11 del PCAP (24-11-2025): aclara la composición de los Sobres 1, 2 y 3 y el contenido del Ane"
+    },
+    {
       "slug": "19129858",
       "titulo": "Concesión de dominio público para el uso privativo de la vía pública para la instalación, mantenimiento y explotación de una infraestructura de estaciones de recarga pública para vehículos eléctricos en espacios urbanos del municipio de Alcorcón",
       "organo": "Junta de Gobierno del Ayuntamiento de Alcorcón",
@@ -287,8 +541,8 @@
       "lecciones": [
         "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
         "Flag pendiente: 14 ubicaciones con coords aproximadas (centroide municipio)",
-        "Flag pendiente: Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)",
-        "Flag pendiente: Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 15.3, ratio 0.26)"
+        "Flag pendiente: Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)",
+        "Flag pendiente: Peso atípico para \"mas_puntos_de_carga\": 4 pts (promedio 21.4, ratio 0.19)"
       ],
       "decisiones_aplicadas": {
         "tipo_retribucion": "canon_fijo",
@@ -337,6 +591,34 @@
       "notas_pliego_resumen": "Solvencia económica muy baja (volumen de negocios ≥ 3.561,60 €/año) — barrera de entrada mínima accesible a cualquier CPO. Típico de municipio pequeño. · Solvencia técnica poco exigente: importe ejecutado ≥ 1.662,08 € en trabajos similares en los últimos 3 años. · Cláusula de rescate: el Ayuntamiento puede rescatar la concesión a partir del 5º año por interés público sobrevenido. Las inversiones se consideran amortizadas a 5 años — no indemnizables tras ese plazo si se rescata. · Tipo de poste a elección del licitador: Tipo 1 AC 22 kW (2 tomas) o Tipo 2 DC 100 kW (CCS+CHAdeMO, 2 tomas). El pliego no fija mix por ubicación. · Régimen tarifario: tarifas finales al usuario libres (sin intervención municipal). Solo se puntúa el descuento a residentes empadronados / propietarios y empresas locales."
     },
     {
+      "slug": "19429639",
+      "titulo": "Concesión demanial administrativa que habilite el uso privativo de diferentes espacios públicos de la ciudad de Segorbe para la instalación, explotación, mantenimiento y gestión de puntos de recarga de vehículos eléctricos.",
+      "organo": "Pleno del Ayuntamiento de Segorbe",
+      "confianza": 87,
+      "motivos_complejidad": [],
+      "lecciones": [
+        "Hay ubicaciones existentes (es_existente:true) que el adjudicatario asume sin reemplazar — NO suman al num_cargadores_minimo.",
+        "Cargadores mixtos AC+DC en una misma ubicación — usar potencia_ac_kw + potencia_dc_kw split, no potencia_por_cargador_kw.",
+        "Flag pendiente: Σ criterios renderizables = 50 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
+        "Flag pendiente: 3 ubicaciones con coords aproximadas (centroide municipio)"
+      ],
+      "decisiones_aplicadas": {
+        "tipo_retribucion": "canon_fijo",
+        "tecnologia_requerida": "mixto",
+        "num_cargadores_minimo": 9,
+        "potencia_minima_por_cargador_kw": 22,
+        "ubicaciones_total": 5,
+        "ubicaciones_existentes": 1,
+        "mejoras_puntuables": [
+          {
+            "descripcion": "Oferta económica al alza sobre el canon mínimo anual (2.954,36 €/año). Fórmula proporcional VO = OLca × 40 / MOca: la me",
+            "puntos_max": 40
+          }
+        ]
+      },
+      "notas_pliego_resumen": "Concesión demanial administrativa relanzada por el Pleno del Ayuntamiento de Segorbe mediante PROCEDIMIENTO NEGOCIADO SIN PUBLICIDAD (artículo 168.a.1 LCSP) tras la declaración de desierta del expediente abierto previo (PLACSP 18421621, expediente 2025/4105Y). Las condiciones iniciales del pliego se mantienen sin modificación sustancial — mismo objeto, mismas 5 ubicaciones, mismo canon mínimo y misma estructura de criterios. · El órgano de contratación pasa de Alcaldía a Pleno del Ayuntamiento, dado el valor estimado del contrato (1.853.078,02 € — superior al umbral de la Disposición Adicional Segunda de la LCSP). El Pleno aprobó el expediente y los pliegos delegando en la Alcaldía las sucesivas actuaciones de tramitación. · Se cursaron tres invitaciones a empresas del sector para participar en el procedimiento negociado: Enermy S.L., Etecnic Movilidad Eléctrica SRL e Iberdrola Clientes S.A.U. Únicamente Enermy S.L. compareció en el procedimiento, presentando su oferta dentro del plazo de presentación (cierre 13-3-2026). · Estructura de criterios simplificada respecto del expediente abierto previo: oferta económica 40 puntos (al alza sobre canon mínimo) + memoria de gestión 10 puntos (juicio de valor). El criterio puntuable previo de 'Instalación de un punto de recarga en el parking municipal' (5 pts) se transforma en aspecto sujeto a NEGOCIACIÓN: el órgano puede negociar con el licitador la aceptación de esa mejora durante la fase negociadora. · Misma escala bruta de 50 punt"
+    },
+    {
       "slug": "6604680",
       "titulo": "La presente concesión tiene por objeto el uso privativo de espacios en el dominio público viario para la instalación y explotación de puntos de recarga de vehículos eléctricos en el término municipal de Outeiro de Rei.\nEl número máximo de puntos de recarga que serán objeto de concesión será de 15, cuyas dimensiones se corresponderán con las de una plaza de aparcamiento y el espacio adyacente para la colocación del cargador y la acometida a la red de suministro",
       "organo": "Junta de Gobierno del Ayuntamiento de Outeiro de Rei",
@@ -344,7 +626,7 @@
       "motivos_complejidad": [],
       "lecciones": [
         "Flag pendiente: Σ criterios renderizables = 25 pts (≠ 100) — revisar PCAP por criterios omitidos o marcar flag_criterios_incompletos:true",
-        "Flag pendiente: Peso atípico para \"mejora_canon\": 10 pts (promedio 43.4, ratio 0.23)"
+        "Flag pendiente: Peso atípico para \"mejora_canon\": 10 pts (promedio 47.2, ratio 0.21)"
       ],
       "decisiones_aplicadas": {
         "tipo_retribucion": "canon_fijo",
